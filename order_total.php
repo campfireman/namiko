@@ -75,115 +75,117 @@ if (isset($_POST['csv'])) {
 			$statement2 = $pdo->prepare("SELECT order_total.*, order_total_items.*, products.productName, users.first_name, users.last_name FROM order_total LEFT JOIN order_total_items ON order_total.tid = order_total_items.tid LEFT JOIN products ON order_total_items.pid = products.pid LEFT JOIN users ON order_total.issued_by = users.uid WHERE order_total.producer = '$pro_id' ORDER BY order_total.ordered_at DESC");
 			$result2 = $statement2->execute();
 
-			while ($row2 = $statement2->fetch()) {
-				if ($tid != $row2['tid']) {
-					$breakCount ++;
-					if ($breakCount == 5) {
-						break;
-					}
+			if ($statement2->rowCount() > 0) {
+				while ($row2 = $statement2->fetch()) {
+					if ($tid != $row2['tid']) {
+						$breakCount ++;
+						if ($breakCount == 5) {
+							break;
+						}
 
-					if (!$newTable) {
-						echo '<tr>';
-						echo '<td></td><td></td><td></td><td></td>';
-						echo '<td class="emph">'. $currency.sprintf("%01.2f", $grandtotal) .'</td>';
-						echo '</tr>';
-						echo '</table><br>';
-						echo '<div class="right">';
-								if ($delivered == 0) {
-									echo '<form class="functions inline">';
+						if (!$newTable) {
+							echo '<tr>';
+							echo '<td></td><td></td><td></td><td></td>';
+							echo '<td class="emph">'. $currency.sprintf("%01.2f", $grandtotal) .'</td>';
+							echo '</tr>';
+							echo '</table><br>';
+							echo '<div class="right">';
+									if ($delivered == 0) {
+										echo '<form class="functions inline">';
+										echo '<input type="hidden" name="tid" value="'. $tid .'">';
+										echo '<input type="hidden" name="delivered" value="1">';
+										echo '<button type="submit" name="delivered" class="clean-btn blue">geliefert <i class="fa fa-truck" aria-hidden="true"></i></button>';
+										echo '</form>';
+									}
+									if ($paid == 0) {
+										echo '<form class="functions inline">';
+										echo '<input type="hidden" name="tid" value="'. $tid .'">';
+										echo '<input type="hidden" name="paid" value="1">';
+										echo '<button type="submit" name="paid" class="clean-btn blue leftSpace">bezahlt <i class="fa fa-money" aria-hidden="true"></i></button>';
+										echo '</form>';
+									}
+							echo '<form action="'. $_SERVER['PHP_SELF'] .'" method="post" class="inline">';
 									echo '<input type="hidden" name="tid" value="'. $tid .'">';
-									echo '<input type="hidden" name="delivered" value="1">';
-									echo '<button type="submit" name="delivered" class="clean-btn blue">geliefert <i class="fa fa-truck" aria-hidden="true"></i></button>';
-									echo '</form>';
-								}
-								if ($paid == 0) {
-									echo '<form class="functions inline">';
-									echo '<input type="hidden" name="tid" value="'. $tid .'">';
-									echo '<input type="hidden" name="paid" value="1">';
-									echo '<button type="submit" name="paid" class="clean-btn blue leftSpace">bezahlt <i class="fa fa-money" aria-hidden="true"></i></button>';
-									echo '</form>';
-								}
-						echo '<form action="'. $_SERVER['REQUEST_URI'] .'" method="post" class="inline">';
-								echo '<input type="hidden" name="tid" value="'. $tid .'">';
-								echo '<button type="submit" name="csv" class="clean-btn green leftSpace">CSV <i class="fa fa-table" aria-hidden="true"></i></button>';
-						echo '</form>';
-						echo '</div><br>';
-						echo '</div>';
+									echo '<button type="submit" name="csv" class="clean-btn green leftSpace">CSV <i class="fa fa-table" aria-hidden="true"></i></button>';
+							echo '</form>';
+							echo '</div><br>';
+							echo '</div>';
 
-						$grandtotal = 0;
+							$grandtotal = 0;
+						}
+
+						if ($count == 2) {
+							$count = 0;
+							echo '</div><br>';
+						}
+
+						$newTable = false;
+						$tid = $row2['tid'];
+						$count++;
+						$delivered = $row2['delivered'];
+						$paid = $row2['paid'];
+						$date = $date = substr($row2['ordered_at'], 8, 2) .'.'. substr($row2['ordered_at'], 5, 2) .'.'. substr($row2['ordered_at'], 0, 4);
+						if ($count == 1) {
+							echo '<div class="row">';
+						}
+
+						echo '<div class="col-sm-6 spacer3 order">';
+						echo '<span>ID #'. $tid .'</span>';
+						echo '<span class="right subtitle3">'. $row2['first_name'] .' '. $row2['last_name'] .' am '. $date .'</span><br>';
+						echo '<table class="orderTable" style="min-width: 430px;"> 
+								<tr style="text-align: left;">
+									<th>Artikel</th>
+									<th>Preis Gebinde</th>
+									<th>Größe KG/L</th>
+									<th>Menge</th>
+									<th>&#931;</th>
+								</tr>';
 					}
 
-					if ($count == 2) {
-						$count = 0;
-						echo '</div><br>';
-					}
+					$total = $row2['total'];
+					$quantityContainer = $row2['quantityContainer'];
+					$price = ($total / $quantityContainer);
+					$grandtotal += $total;
 
-					$newTable = false;
-					$tid = $row2['tid'];
-					$count++;
-					$delivered = $row2['delivered'];
-					$paid = $row2['paid'];
-					$date = $date = substr($row2['ordered_at'], 8, 2) .'.'. substr($row2['ordered_at'], 5, 2) .'.'. substr($row2['ordered_at'], 0, 4);
-					if ($count == 1) {
-						echo '<div class="row">';
-					}
+					echo '<tr>';
+					echo '<td>'. $row2['productName'] .'</td>';
+					echo '<td>'. $currency . sprintf('%01.2f', $price) .'</td>';
+					echo '<td>'. $row2['container'] .'</td>';
+					echo '<td>'. $quantityContainer .'</td>';
+					echo '<td>'. $currency . sprintf('%01.2f', $total) . '</td>';
+					echo '</tr>';
 
-					echo '<div class="col-sm-6 spacer3 order">';
-					echo '<span>ID #'. $tid .'</span>';
-					echo '<span class="right subtitle3">'. $row2['first_name'] .' '. $row2['last_name'] .' am '. $date .'</span><br>';
-					echo '<table class="orderTable" style="min-width: 430px;"> 
-							<tr style="text-align: left;">
-								<th>Artikel</th>
-								<th>Preis Gebinde</th>
-								<th>Größe KG/L</th>
-								<th>Menge</th>
-								<th>&#931;</th>
-							</tr>';
+
 				}
 
-				$total = $row2['total'];
-				$quantityContainer = $row2['quantityContainer'];
-				$price = ($total / $quantityContainer);
-				$grandtotal += $total;
-
 				echo '<tr>';
-				echo '<td>'. $row2['productName'] .'</td>';
-				echo '<td>'. $currency . sprintf('%01.2f', $price) .'</td>';
-				echo '<td>'. $row2['container'] .'</td>';
-				echo '<td>'. $quantityContainer .'</td>';
-				echo '<td>'. $currency . sprintf('%01.2f', $total) . '</td>';
+				echo '<td></td><td></td><td></td><td></td>';
+				echo '<td class="emph">'. $currency.sprintf("%01.2f", $grandtotal) .'</td>';
 				echo '</tr>';
-
-
+				echo '</table><br>';
+				echo '<div class="right">';
+						if ($delivered == 0) {
+							echo '<form class="functions inline">';
+							echo '<input type="hidden" name="tid" value="'. $tid .'">';
+							echo '<input type="hidden" name="delivered" value="1">';
+							echo '<button type="submit" name="delivered" class="clean-btn blue">geliefert <i class="fa fa-truck" aria-hidden="true"></i></button>';
+							echo '</form>';
+						}
+						if ($paid == 0) {
+							echo '<form class="functions inline">';
+							echo '<input type="hidden" name="tid" value="'. $tid .'">';
+							echo '<input type="hidden" name="paid" value="1">';
+							echo '<button type="submit" name="paid" class="clean-btn blue leftSpace">bezahlt <i class="fa fa-money" aria-hidden="true"></i></button>';
+							echo '</form>';
+						}
+				echo '<form action="'. $_SERVER['PHP_SELF'] .'" method="post" class="inline">';
+						echo '<input type="hidden" name="tid" value="'. $tid .'">';
+						echo '<button type="submit" name="csv" class="clean-btn green leftSpace">CSV <i class="fa fa-table" aria-hidden="true"></i></button>';
+				echo '</form>';
+				echo '</div><br>';
+				echo '</div>';
+				echo '</div><br>';
 			}
-
-			echo '<tr>';
-			echo '<td></td><td></td><td></td><td></td>';
-			echo '<td class="emph">'. $currency.sprintf("%01.2f", $grandtotal) .'</td>';
-			echo '</tr>';
-			echo '</table><br>';
-			echo '<div class="right">';
-					if ($delivered == 0) {
-						echo '<form class="functions inline">';
-						echo '<input type="hidden" name="tid" value="'. $tid .'">';
-						echo '<input type="hidden" name="delivered" value="1">';
-						echo '<button type="submit" name="delivered" class="clean-btn blue">geliefert <i class="fa fa-truck" aria-hidden="true"></i></button>';
-						echo '</form>';
-					}
-					if ($paid == 0) {
-						echo '<form class="functions inline">';
-						echo '<input type="hidden" name="tid" value="'. $tid .'">';
-						echo '<input type="hidden" name="paid" value="1">';
-						echo '<button type="submit" name="paid" class="clean-btn blue leftSpace">bezahlt <i class="fa fa-money" aria-hidden="true"></i></button>';
-						echo '</form>';
-					}
-			echo '<form action="'. $_SERVER['REQUEST_URI'] .'" method="post" class="inline">';
-					echo '<input type="hidden" name="tid" value="'. $tid .'">';
-					echo '<button type="submit" name="csv" class="clean-btn green leftSpace">CSV <i class="fa fa-table" aria-hidden="true"></i></button>';
-			echo '</form>';
-			echo '</div><br>';
-			echo '</div>';
-			echo '</div><br>';
 		}
 		?>
 	</div>

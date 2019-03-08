@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 require_once("inc/config.inc.php");
@@ -14,58 +15,101 @@ include("templates/admin-nav.inc.php");
 ?>
 
 <div>
-	<div class="center spacer">
-		<form class="form" action="handing-out.php" method="post">
-			<input type="text" name="searchID" placeholder="Scan-input here" autofocus>
-		</form>
-	</div>
 	<div class="sizer spacer">
 		<span class="subtitle2">Offene Bestellungen</span><br><br>
-		<table style="width: 100%;">
+		<table style="width: 100%;" class="table panel panel-default">
 			<tr>
 				<th>Name</th>
+				<th>Bestellnr.</th>
+				<th>Abgeh.</th>
 				<th>Artikel</th>
 				<th>Menge</th>
 				<th>bestellt am</th>
+				<th></th>
 			</tr>
 			<?php
-			$statement = $pdo->prepare("SELECT orders.uid, orders.created_at, order_items.*, users.first_name, users.last_name, products.productName FROM order_items LEFT JOIN orders ON order_items.oid = orders.oid LEFT JOIN users ON orders.uid = users.uid LEFT JOIN products ON order_items.pid = products.pid WHERE orders.delivered = 0");
+			$statement = $pdo->prepare("SELECT order_items.oi_id, orders.uid, orders.oid, orders.created_at, order_items.*, users.first_name, users.last_name, products.productName FROM order_items LEFT JOIN orders ON order_items.oid = orders.oid LEFT JOIN users ON orders.uid = users.uid LEFT JOIN products ON order_items.pid = products.pid WHERE orders.delivered = 0");
 			$result = $statement->execute();
-			$uid = "";
-			$count = 0;
 
-			while ($row = $statement->fetch()) {
-				$switch = true;
-				if ($count == 1) {
-					echo "</tr>";
+			$statement = $pdo->prepare("SELECT orders.* FROM orders WHERE delivered = 0 ORDER BY created_at");
+			$result = $statement->execute();
+			$orders = $statement->fetchAll();
+
+			if ($result) {
+				foreach ($orders as $order) {
+					$oid = $order['oid'];
+					$created_at = new DateTime($order['created_at']);
+					$uid = $order['uid'];
+					$first = true;
+
+					$statement = $pdo->prepare("SELECT order_items.*, users.first_name, users.last_name, products.productName FROM order_items LEFT JOIN users ON '$uid' = users.uid LEFT JOIN products ON order_items.pid = products.pid WHERE oid = '$oid'");
+					$result = $statement->execute();
+
+					if ($result) {
+						while ($row = $statement->fetch()) {
+							echo "<tr>";
+
+							if ($first) {
+								$first = false;
+								echo "<td>". $row['first_name'] ." ". $row['last_name'] ."</td>";
+								echo "<td>". $oid ."</td>";
+								echo '<td><button oid="'. $oid .'" class="mark-delivered red"><i class="fa fa-times" aria-hidden="true"></i></button></td>';
+							} else {
+								echo "<td></td><td></td><td></td>";
+							}
+							echo "<td>". $row['productName'] ."</td>";
+							echo "<td>". $row['quantity'] ."</td>";
+							echo "<td>". $created_at->format('d.m.Y H:i:s') . "</td>";
+							echo '<td><button oi_id="'. $row['oi_id'] .'" oid="'. $oid .'" class="remove-order red"><i class="fa fa-trash" aria-hidden="true"></i></button>';
+							echo "</tr>";
+						}
+					} else {
+						print_r($statement->errorInfo());
+					}
 				}
-
-				$count = 1;
-
-				if ($uid != $row['uid']) {
-					$uid = $row['uid'];
-					$switch = false;
-
-					echo "<tr>";
-					echo "<td>". $row['first_name'] ." ". $row['last_name'] ."</td>";
-				}
-
-				if ($switch) {
-					echo "<td></td>";
-				}
-
-				echo "<td>". $row['productName'] ."</td>";
-				echo "<td>". $row['quantity'] ."</td>";
-				echo "<td>". $row['created_at']. "</td>";
-
+			} else {
+				print_r($statement->errorInfo());
 			}
-
-			echo "</tr>";
 			?>
 		</table>
 	</div>
 </div>
 
+<script type="text/javascript">
+	$('document').ready(function () {
+		$('.remove-order').on("click", function(e) {
+			$(this).prop("disabled", true);
+			e.preventDefault();
+
+			var oi_id = $(this).attr("oi_id");
+			var oid = $(this).attr("oid");
+		    $(this).closest('tr').fadeOut();
+		    $.getJSON( "session_process.php", {"remove-order":1, "oid": oid, "oi_id" : oi_id}).done(function(data){ 
+		    	if (data.error == 1) alert(data.text);
+		    });
+		})
+
+		$(".mark-delivered").on("click", function(e){ 
+		$(this).prop("disabled", true);
+		var oid = $(this).attr('oid');
+		var ref = $(this);
+
+		e.preventDefault();
+		$.ajax({
+			type: "POST",
+			url: 'session_process.php',
+			dataType:"json",
+			data: {"oid": oid, "mark-delivered" : 1} // serializes the form's elements.
+		}).done(function(data){
+			if (data.error == 1) {
+				alert(data.text);
+			} else {
+				ref.removeClass("mark-delivered").removeClass('red').addClass('green').html('<i class="fa fa-check" aria-hidden="true"></i>');
+			}
+		});
+	});
+	})
+</script>
 <?php
 include("templates/footer.inc.php")
 ?>

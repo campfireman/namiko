@@ -41,15 +41,15 @@ if(isset($_POST['submit'])) {
 	}
 
 	// allow only legitimate characters for the first name
-	if (!preg_match("/^[a-zA-Z\x7f-\xff]*$/",$_SESSION['first_name'])) {
-		$_SESSION['errormsg'] = 'Bitte einen gültigen first_namen eingeben.</div></div>';
+	if (!preg_match("/^[a-zA-Z-\x7f-\xff]*$/",$_SESSION['first_name'])) {
+		$_SESSION['errormsg'] = 'Bitte einen gültigen Vornamen eingeben.</div></div>';
 		$_SESSION['error'] = true;
 		header("location: register.php");
 	}
 
 	// allow only legitimate characters for the last name
-	if (!preg_match("/^[a-zA-Z\x7f-\xff]*$/",$_SESSION['last_name'])) {
-		$_SESSION['errormsg'] = 'Bitte einen gültigen last_namen eingeben.</div></div>';
+	if (!preg_match("/^[a-zA-Z-\x7f-\xff]*$/",$_SESSION['last_name'])) {
+		$_SESSION['errormsg'] = 'Bitte einen gültigen Nachnahmen eingeben.</div></div>';
 		$_SESSION['error'] = true;
 		header("location: register.php");
 	}
@@ -60,6 +60,12 @@ if(isset($_POST['submit'])) {
 		$_SESSION['error'] = true;
 		header("location: register.php");
 	} 
+
+	if (!preg_match("/^[0-9]{5}$/",$_SESSION['postal_code'])) {
+		$_SESSION['errormsg'] = 'Bitte einen gültige PLZ eingeben.</div></div>';
+		$_SESSION['error'] = true;
+		header("location: register.php");
+	}
 
 	// check for password
 	if(strlen($_SESSION['password']) == 0) {
@@ -78,6 +84,12 @@ if(isset($_POST['submit'])) {
 	// use PHPIBAN library to check iban for machine format and valid iso format
 	if(!verify_iban($_SESSION['iban'],$machine_format_only=true)) {
 		$_SESSION['errormsg'] = 'Dies ist eine ungültige IBAN</div></div>';
+		$_SESSION['error'] = true;
+		header("location: register.php");
+	}
+
+	if (!preg_match("/^[A-Z]{6,6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3,3}){0,1}?$/i", $_SESSION['bic'])) {
+		$_SESSION['errormsg'] = 'Bitte einen gültige BIC eingeben.</div></div>';
 		$_SESSION['error'] = true;
 		header("location: register.php");
 	}
@@ -180,7 +192,7 @@ if(isset($_POST['submit'])) {
 				</tr>
 				<tr>
 					<td><span style="font-weight: bold;">Gläubiger-ID</span></td>
-					<td>DE72ZZZZ00002540599</td>
+					<td>'. $creditorId .'</td>
 				</tr>
 				<tr>
 					<td><span style="font-weight: bold;">Mandatsreferenz</span></td>
@@ -269,6 +281,10 @@ if(isset($_POST['submit'])) {
 		<form action="loan.php" method="post">
 			<label>
 				<input type="checkbox"  name="satzungUndOrdnung" value="1" required>Ich erkenne die <a target="_blank" href="media/satzung.pdf">Satzung</a> und <a target="_blank" href="media/geschaeftsordnung.pdf">Ordnungen</a> des Vereins an.
+			</label>
+
+			<label>
+				<input type="checkbox"  name="data" value="1" required>Ich bin damit einverstanden, dass entsprechend der <a href="<?php echo getSiteUrl().'data.php'; ?>" target="_blank">Datenschutzerklärung</a> personenbezogene Daten erhoben und verarbeitet werden.
 			</label>
 			
 			<div class="info">

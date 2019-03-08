@@ -216,29 +216,31 @@ if (isset($_POST['sepa'])) {
 		
 			##################### Send Validation Mail with PDFs attached #####################
 
-			$mail = new PHPMailer(true);                              // Passing `true` enables exceptions
+			$mail = new PHPMailer(true);
 			try {
 			    //Server settings
-			    $mail->SMTPDebug = 0;                                 // Enable verbose debug output
-			    $mail->isSMTP();                                      // Set mailer to use SMTP
-			    $mail->Host = $smtp_host;  // Specify main and backup SMTP servers
-			    $mail->SMTPAuth = true;                               // Enable SMTP authentication
-			    $mail->Username = $smtp_username;                 // SMTP username
-			    $mail->Password = $smtp_password;                           // SMTP password
-			    $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-			    $mail->Port = 587;                                    // TCP port to connect to
+			    $mail->SMTPDebug = 0;
+			    $mail->isSMTP();
+			    $mail->Host = $smtp_host;
+			    $mail->SMTPAuth = true;
+			    $mail->Username = $smtp_username;
+			    $mail->Password = $smtp_password;
+			    $mail->SMTPSecure = 'tls';
+			    $mail->Port = 587;
+			    $mail->CharSet = 'UTF-8';
+				$mail->Encoding = 'base64';
 
 			    //Recipients
 			    $mail->setFrom('noreply@namiko.org', 'namiko e.V. Hannover');
-			    $mail->addAddress($email, $first_name.$last_name);     // Add a recipient
+			    $mail->addAddress($email, $first_name.$last_name);
 			    $mail->addReplyTo('noreply@namiko.org', 'NoReply');
 
 			    //Attachments
-			    $mail->addAttachment('applications/'.$memberName);         // Add attachments
-			    $mail->addAttachment('mandates/'.$mandateName);    // Optional name
+			    $mail->addAttachment('applications/'.$memberName);
+			    $mail->addAttachment('mandates/'.$mandateName);
 
 			    //Content
-			    $mail->isHTML(true);                                  // Set email format to HTML
+			    $mail->isHTML(true);
 			    $mail->Subject = 'Deine Mitgliedschaft bei namiko Hannover e.V.';
 			    $mail->Body    = '<h1>Willkommen '. $first_name .'!</h1>
 			    					<p>Um deine Anmeldung abzuschliessen, logge Dich ein und gib folgenden Code ein:<br><br><span style="font-weight: 600; font-size: 30px;">'. $verify_code .'</span><br><br>

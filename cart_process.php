@@ -38,7 +38,7 @@ if(isset($_POST["pid"]))
 if(isset($_POST["load_cart"]) && $_POST["load_cart"]==1)
 {
 
-    if(isset($_SESSION["products"]) && count($_SESSION["products"]) > 0){ //if we have session variable
+    if (isset($_SESSION["products"]) && count($_SESSION["products"]) > 0) { //if we have session variable
         $cart_box = '<div class="center">
                         <table class="cartTable">
                             <tr>

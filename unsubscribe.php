@@ -45,11 +45,11 @@ if (isset($_GET['created_at'])) {
 	if ($result) {
 		$_SESSION['error'] = true;
 		$_SESSION['errormsg'] = 'Newsletter erfolgreich deabonniert.</div></div>';
-		header('location:'. htmlspecialchars($_SERVER['REQUEST_URI']));
+		header('location:'. htmlspecialchars($_SERVER['PHP_SELF']));
 	} else {
 		$_SESSION['error'] = true;
 		$_SESSION['errormsg'] = 'Newsletter ist bereits deabonniert.</div></div>';
-		header('location:'. htmlspecialchars($_SERVER['REQUEST_URI']));
+		header('location:'. htmlspecialchars($_SERVER['PHP_SELF']));
 	}
 }
 
@@ -59,26 +59,28 @@ if (isset($_POST['unsubscribe'])) {
 	if (empty($email)) {
 		$_SESSION['error'] = true;
 		$_SESSION['errormsg'] = 'Du musst alle Pflichtfelder ausfüllen.</div></div>';
-		header('location:'. htmlspecialchars($_SERVER['REQUEST_URI']));
+		header('location:'. htmlspecialchars($_SERVER['PHP_SELF']));
 	}
 
 	if(!filter_var($_SESSION['email'], FILTER_VALIDATE_EMAIL)) {
 		$_SESSION['errormsg'] = 'Bitte eine gültige E-Mail-Adresse eingeben</div></div>';
 		$_SESSION['error'] = true;
-		header('location:'. htmlspecialchars($_SERVER['REQUEST_URI']));
+		header('location:'. htmlspecialchars($_SERVER['PHP_SELF']));
 	} 
 
 	$mail = new PHPMailer(true);                              // Passing `true` enables exceptions
 	try {
-	    //Server settings
-	    $mail->SMTPDebug = 0;                                 // Enable verbose debug output
-	    $mail->isSMTP();                                      // Set mailer to use SMTP
-	    $mail->Host = $smtp_host;  // Specify main and backup SMTP servers
-	    $mail->SMTPAuth = true;                               // Enable SMTP authentication
-	    $mail->Username = $smtp_username;                 // SMTP username
-	    $mail->Password = $smtp_password;                           // SMTP password
-	    $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-	    $mail->Port = 587;                                    // TCP port to connect to
+	   //Server settings
+	    $mail->SMTPDebug = 0;
+	    $mail->isSMTP();
+	    $mail->Host = $smtp_host;
+	    $mail->SMTPAuth = true;
+	    $mail->Username = $smtp_username;
+	    $mail->Password = $smtp_password;
+	    $mail->SMTPSecure = 'tls';
+	    $mail->Port = 587;
+	    $mail->CharSet = 'UTF-8';
+		$mail->Encoding = 'base64';
 
 	    $statement = $pdo->prepare("SELECT * FROM newsletter_recipients WHERE email = :email");
 		$result = $statement->execute(array('email' => $email));
@@ -106,18 +108,18 @@ if (isset($_POST['unsubscribe'])) {
 				$_SESSION['errormsg'] = 'Falls du den Newsletter abonniert hast, oder Mitglied bist, hast du nun eine Email erhalten.
 				</div></div>';
 				$_SESSION['error'] = true;
-				header('location:'. htmlspecialchars($_SERVER['REQUEST_URI']));
+				header('location:'. htmlspecialchars($_SERVER['PHP_SELF']));
 			}
 
 		}
 
 		$mail->setFrom('noreply@namiko.org', 'namiko e.V. Hannover');
-	    $mail->addAddress($email, $first_name);     // Add a recipient
+	    $mail->addAddress($email, $first_name);
 	    $mail->addReplyTo('kontakt@namiko.org');
 
 	    //Content
-	    $mail->isHTML(true);                                  // Set email format to HTML
-	    $mail->Subject = utf8_decode('Newsletter Deabonnieren');
+	    $mail->isHTML(true);
+	    $mail->Subject = 'Newsletter Deabonnieren';
 	    $mail->Body    = '<h1>Moin '. $first_name .'!</h1>
 	    					<p>Um deine Abmeldung vom Newsletter abzuschliessen, besuche folgende Adresse:<br><br><span style="font-weight: 600; font-size: 30px;"><a href="'. getSiteUrl() .'unsubscribe.php'. $params .'">Deabonnieren</a></span><br><br>
 	    					Wir freuen uns sehr mit Dir zusammenzuarbeiten.<br><br><span style="font-style: italic">Dein namiko Hannover e.V. Team</span><br><br><br><br><br><br>
@@ -131,11 +133,11 @@ if (isset($_POST['unsubscribe'])) {
 	    
 	    $_SESSION['errormsg'] = 'Falls du den Newsletter abonniert hast, oder Mitglied bist, hast du nun eine Email erhalten.</div></div>';
 		$_SESSION['error'] = true;
-		header('location:'. htmlspecialchars($_SERVER['REQUEST_URI']));
+		header('location:'. htmlspecialchars($_SERVER['PHP_SELF']));
 	} catch (Exception $e) {
 	    $_SESSION['errormsg'] = 'Die Bestätigungsmail konnte nicht verschickt werden. Versuche es noch einmal oder wende Dich an kontakt@namiko.org</div></div>';
 		$_SESSION['error'] = true;
-		header('location:'. htmlspecialchars($_SERVER['REQUEST_URI']));
+		header('location:'. htmlspecialchars($_SERVER['PHP_SELF']));
 	}
 			
 }
@@ -152,7 +154,7 @@ if (isset($_POST['unsubscribe'])) {
 			<i class="fa fa-info-circle" aria-hidden="true"></i> Um den Newsletter abzubestellen, einfach deine Email eingeben. Du erhälst dann eine Email mit dem Deaktivierungslink.
 			<br>
 			</span><br>
-		<form action="<?php htmlspecialchars($_SERVER['REQUEST_URI']) ?>" method="post">
+		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
 			<input type="email" name="email" placeholder="E-Mail" required><br><br>
 			<button type="submit" name="unsubscribe" class="login-btn">Abschicken <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
 		</form>

@@ -109,3 +109,13 @@ function clean($inhalt='') { //makes sure there's no executable code
     $inhalt = htmlentities($inhalt, ENT_QUOTES, "UTF-8");
     return($inhalt);
 }
+
+function notify ($msg) {
+	$_SESSION['notification'] = true;
+	$_SESSION['notificationmsg'] = $msg;
+	header('Location: '. $_SERVER['PHP_SELF']);
+}
+
+function res ($code, $text) {
+	die(json_encode(array('error' => $code, 'text' => $text)));
+}

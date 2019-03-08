@@ -4,6 +4,7 @@
 session_start();
 require_once("inc/config.inc.php");
 require_once("inc/functions.inc.php");
+ini_set('display_errors', 1);
 
 //Überprüfe, dass der User eingeloggt ist
 //Der Aufruf von check_user() muss in alle internen Seiten eingebaut sein
@@ -14,6 +15,14 @@ include("templates/header.inc.php");
 include("templates/nav.inc.php");
 include("templates/admin-nav.inc.php");
 
+
+function echo_select ($array, $exclusion) {
+	foreach ($array as $item) {
+		if ($item['cid'] != $exclusion) {
+			echo '<option value="'. $item['cid'] .'">'. htmlspecialchars($item['category_name']) .'</option>';
+		}
+	}
+}
 
 if(isset($_POST['product'])) {
 
@@ -28,38 +37,29 @@ if(isset($_POST['product'])) {
 	$producer = $_POST['producer'];
 	
 	if(empty($productName) || empty($productDesc) || empty($price_KG_L) || empty($category) || empty($container) || empty($origin) || empty($producer)) {
-		$_SESSION['notification'] = true;
-		$_SESSION['notificationmsg'] = 'Bitte alle Felder ausfüllen.';
-		header("Location: " . $_SERVER['REQUEST_URI']);
-		$error = true;
+		notify('Bitte alle Felder ausfüllen.');
 	}
 
 	if ($category == 0 || $producer == 0) {
-		$_SESSION['notification'] = true;
-		$_SESSION['notificationmsg'] = 'Bitte eine Auswahl treffen.';
-		header("Location: " . $_SERVER['REQUEST_URI']);
-		$error = true;
+		notify('Bitte eine Auswahl treffen.');
 	}
-	
-	if(!$error) {	
-		
-		
-		$statement = $pdo->prepare("INSERT INTO products (productName, productDesc, price_KG_L, category, container, priceContainer, origin, producer) VALUES (:productName, :productDesc, :price_KG_L, :category, :container, :priceContainer, :origin, :producer)");
-		$result = $statement->execute(array('productName' => $productName, 'productDesc' => $productDesc, 'price_KG_L' => $price_KG_L, 'category' => $category, 'container' => $container, 'priceContainer' => $priceContainer, 'origin' => $origin, 'producer' => $producer));
 
-		print_r($statement->errorInfo());
-		print_r($priceContainer);
-		
-		if($result) {		
-			$_SESSION['notification'] = true;
-			$_SESSION['notificationmsg'] = 'Das Produkt wurde erfolgreich hinzugefügt.';
-			header("Location: " . $_SERVER['REQUEST_URI']);
+	$statement = $pdo->prepare("INSERT INTO products (productName, productDesc, price_KG_L, category, container, priceContainer, origin, producer) VALUES (:productName, :productDesc, :price_KG_L, :category, :container, :priceContainer, :origin, :producer)");
+	$result = $statement->execute(array('productName' => $productName, 'productDesc' => $productDesc, 'price_KG_L' => $price_KG_L, 'category' => $category, 'container' => $container, 'priceContainer' => $priceContainer, 'origin' => $origin, 'producer' => $producer));
+	
+	if($result) {
+		$pid = $pdo->lastInsertId();
+		$statement = $pdo->prepare("INSERT INTO inventory_items (pid, quantity_KG_L, last_edited_by) VALUES (:pid, :quantity_KG_L, :last_edited_by)");
+		$result = $statement->execute(array('pid' => $pid, 'quantity_KG_L' => 0, 'last_edited_by' => $user['uid']));
+
+		if ($result) {
+			notify('Das Produkt wurde erfolgreich hinzugefügt.');
 		} else {
-			$_SESSION['notification'] = true;
-			$_SESSION['notificationmsg'] = 'Beim Abspeichern ist leider ein Fehler aufgetreten.';
-			header("Location: " . $_SERVER['REQUEST_URI']);
+			notify('Beim Abspeichern ist leider ein Fehler aufgetreten. '. json_encode($statement->errorInfo()));
 		}
-	} 
+	} else {
+		notify('Beim Abspeichern ist leider ein Fehler aufgetreten. '. json_encode($statement->errorInfo()));
+	}
 }
 
 if(isset($_POST['addCat'])) {
@@ -68,25 +68,18 @@ if(isset($_POST['addCat'])) {
 	$error2 = false;
 
 	if (empty($category_name) || empty($categoryIMG)) {
-		$_SESSION['notification'] = true;
-		$_SESSION['notificationmsg'] = 'Bitte alle Felder ausfüllen.';
-		$error2 = true;
+		notify('Bitte alle Felder ausfüllen.');
 	}
 
-	if (!$error2) {
-		$statement = $pdo->prepare("INSERT INTO categories (category_name, categoryIMG) VALUES (:category_name, :categoryIMG)");
-		$result = $statement->execute(array('category_name' => $category_name, 'categoryIMG' => $categoryIMG));
+	$statement = $pdo->prepare("INSERT INTO categories (category_name, categoryIMG) VALUES (:category_name, :categoryIMG)");
+	$result = $statement->execute(array('category_name' => $category_name, 'categoryIMG' => $categoryIMG));
 
-		if ($result) {
-			$_SESSION['notification'] = true;
-			$_SESSION['notificationmsg'] = 'Kategorie erfolgreich gespeichert.';
-			header("Location: " . $_SERVER['REQUEST_URI']);
-		} else {
-			$_SESSION['notification'] = true;
-			$_SESSION['notificationmsg'] = 'Es gab einen Fehler.';
-			header("Location: " . $_SERVER['REQUEST_URI']);
-		}
+	if ($result) {
+		notify('Kategorie erfolgreich gespeichert.');
+	} else {
+		notify('Es gab einen Fehler.');
 	}
+	
 }
 
 /* Credit for this code fully goes to W3S: https://www.w3schools.com/php/php_file_upload.asp */
@@ -148,61 +141,31 @@ if(isset($_POST["upload"])) {
     }
 }
 
-if (isset($_POST['addProducer'])) {
-	$producerName = $_POST['producerName'];
-
-	$statement3 = $pdo->prepare("SELECT producerName FROM producers WHERE producerName = :producerName");
-	$result3 = $statement3->execute(array('producerName' => $producerName));
-	$name = $statement3->fetch();
-
-	if ($name !== false) {
-		$_SESSION['notification'] = true;
-		$_SESSION['notificationmsg'] = 'Der Herstellername ist bereits vergeben.';
-	} else {
-		$statement3 = $pdo->prepare("INSERT INTO producers (producerName) VALUES (:producerName)");
-		$result3 = $statement3->execute(array('producerName' => $producerName));
-
-		if ($result3) {
-			$_SESSION['notification'] = true;
-			$_SESSION['notificationmsg'] = 'Hersteller bzw. Lieferant wurde erfolgreich gespeichert.';
-			header("Location: " . $_SERVER['REQUEST_URI']);
-		} else {
-			$_SESSION['notification'] = true;
-			$_SESSION['notificationmsg'] = 'Es gab einen Fehler.';
-			header("Location: " . $_SERVER['REQUEST_URI']);
-		}
-	}
-}
-
 if (isset($_POST['save'])) {
 	$pid = $_POST['pid'];
 	$productName = $_POST['productName'];
 	$productDesc = $_POST['productDesc'];
+	$category = $_POST['category'];
 	$price_KG_L = $_POST['price_KG_L'];
 	$container = $_POST['container'];
 	$origin = $_POST['origin'];
 	$producer = $_POST['producer'];
 
-	$statement = $pdo->prepare("UPDATE products SET productName = '$productName', productDesc = '$productDesc', price_KG_L = '$price_KG_L', container = '$container', origin = '$origin', producer = '$producer'  WHERE pid = '$pid'");
+	$statement = $pdo->prepare("UPDATE products SET productName = '$productName', productDesc = '$productDesc', category='$category', price_KG_L = '$price_KG_L', container = '$container', origin = '$origin', producer = '$producer'  WHERE pid = '$pid'");
 	$result = $statement->execute();
 
 	if ($result) {
-		$_SESSION['notification'] = true;
-		$_SESSION['notificationmsg'] = 'Artikel erfolgreich aktualisiert.';
-		header("Location: " . $_SERVER['REQUEST_URI']);
+		notify('Artikel erfolgreich aktualisiert.');
 	}
 
 	if (!$result) {
-		$_SESSION['notification'] = true;
-		$_SESSION['notificationmsg'] = 'Es gab einen Fehler.';
-		header("Location: " . $_SERVER['REQUEST_URI']);
+		notify('Es gab einen Fehler.');
 	}
 }
 ?>
 
 <div class="sizer spacer">			
 	<div class="row">
-		
 		<div class="col-sm-6">
 			<div><span class="subtitle2">Produkt hinzufügen</span></div>
 			<form class="form" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">	
@@ -260,13 +223,6 @@ if (isset($_POST['save'])) {
 			
 				<button class="clean-btn green" name="product" type="submit">Hinzufügen <i class="fa fa-plus" aria-hidden="true"></i></button>
 			</form><br><br>
-			<div>
-				<div class="spacer2"><span class="subtitle2">Hersteller/Lieferant hinzufügen</span></div>
-				<form class="form" action="<?php htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
-					<input type="text" name="producerName" placeholder="Name des Lieferanten" required><br><br>
-					<button type="submit" name="addProducer" class="clean-btn green">Hinzufügen <i class="fa fa-plus" aria-hidden="true"></i></button>
-				</form>
-			</div><br><br>
 		</div>
 
 		<div class="col-sm-6">
@@ -304,6 +260,7 @@ if (isset($_POST['save'])) {
 			<th>#</th>
 			<th>Produktname</th>
 			<th>Produktbeschreibung</th>
+			<th>Kategorie</th>
 			<th>Preis KG/L (€)</th>
 			<th>Gebinde (KG)</th>
 			<th>Herkunft</th>
@@ -322,7 +279,15 @@ if (isset($_POST['save'])) {
 
 		}
 
-		$statement = $pdo->prepare("SELECT products.*, producers.pro_id, producers.producerName FROM products LEFT JOIN producers ON products.producer = producers.pro_id ORDER BY products.pid");
+		$statement = $pdo->prepare("SELECT * FROM categories ORDER BY cid");
+	    $result = $statement->execute();
+	    $categories = array();
+	    while($row = $statement->fetch()) {
+	    	$categories[] = array('cid' => $row['cid'], 'category_name' => $row['category_name']);
+
+	    }
+
+		$statement = $pdo->prepare("SELECT products.*, producers.pro_id, producers.producerName, categories.category_name FROM products LEFT JOIN producers ON products.producer = producers.pro_id LEFT JOIN categories ON categories.cid = products.category ORDER BY products.pid");
 		$result = $statement->execute();
 
 		//print_r($arr = $statement->errorInfo());
@@ -331,8 +296,12 @@ if (isset($_POST['save'])) {
 			echo '<td>'. $row['pid']. '<input value="'. $row['pid'] .'" type="hidden" name="pid"></td>';
 			echo '<td><input class="empty" type="text" name="productName" value="'. $row['productName'] .'"></td>';
 			echo '<td><input class="empty" type="text" name="productDesc" value="'. $row['productDesc'] .'"></td>';
+			echo '<td><select type="number" id="category" min="1" maxlength="10" name="category" required>';
+			echo '<option value="'. $row['category'] .'">'. $row['category_name'] .'</option>';
+					    echo_select($categories, $row['category']);
+			echo '</select></td>';
 			echo '<td><input class="empty" type="number" name="price_KG_L" step="0.01" value="'. $row['price_KG_L'] .'"></td>';
-			echo '<td><input class="empty" type="number" name="container" value="'. $row['container'] .'"></td>';
+			echo '<td><input class="empty" type="number" name="container" step="0.1" value="'. $row['container'] .'"></td>';
 			echo '<td><input class="empty" type="text" name="origin" value="'. $row['origin'] .'"></td>';
 			echo '<td><select class="empty" type="text" name="producer"><option value="'. $row['pro_id'] .'">'. $row['producerName'] .'</option>'. $select .'</select></td>';
 			echo '<td><button class="empty" type="submit" name="save"><i class="fa fa-floppy-o" aria-hidden="true"></i></button></td>';

@@ -21,7 +21,7 @@ include("templates/nav.inc.php");
 
 if (isset($_POST['pay'])) {
 	if ($user['rights'] > 1) {
-		if ($_POST['agree1'] == true && $_POST['agree2'] == true) {
+		if ($_POST['agree1'] == true) {
 			 		
 			 $uid = $user['uid'];
 			 $verify_code = $user['verify_code'];
@@ -97,27 +97,29 @@ if (isset($_POST['pay'])) {
 
 				$pdf->Output(dirname(__FILE__).'/qr/'. $qrObject. '.pdf', 'F');
 
-			$mail = new PHPMailer(true);                              // Passing `true` enables exceptions
+			$mail = new PHPMailer(true);
 				try {
 				    //Server settings
-				    $mail->SMTPDebug = 0;                                 // Enable verbose debug output
-				    $mail->isSMTP();                                      // Set mailer to use SMTP
-				    $mail->Host = $smtp_host;  // Specify main and backup SMTP servers
-				    $mail->SMTPAuth = true;                               // Enable SMTP authentication
-				    $mail->Username = $smtp_username;                 // SMTP username
-				    $mail->Password = $smtp_password;                           // SMTP password
-				    $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-				    $mail->Port = 587;                                    // TCP port to connect to
+				    $mail->SMTPDebug = 0;
+				    $mail->isSMTP();
+				    $mail->Host = $smtp_host;
+				    $mail->SMTPAuth = true;
+				    $mail->Username = $smtp_username;
+				    $mail->Password = $smtp_password;
+				    $mail->SMTPSecure = 'tls';
+				    $mail->Port = 587;
+				    $mail->CharSet = 'UTF-8';
+				    $mail->Encoding = 'base64';
 
 				    //Recipients
 				    $mail->setFrom('noreply@namiko.org', 'namiko e.V. Hannover');
-				    $mail->addAddress($email, $first_name.' '.$last_name);     // Add a recipient
+				    $mail->addAddress($email, $first_name.' '.$last_name);
 				    $mail->addReplyTo('noreply@namiko.org', 'NoReply');
 
-				    $mail->addAttachment('qr/'. $qrObject. '.pdf');         // Add attachments
-				   
+				    $mail->addAttachment('qr/'. $qrObject. '.pdf');
+
 				    //Content
-				    $mail->isHTML(true);                                  // Set email format to HTML
+				    $mail->isHTML(true);
 				    $mail->Subject = 'Deine Bestellung beim namiko Hannover e.V.';
 				    $mail->Body    = '<h1>Moin, '. htmlspecialchars($first_name) .'!</h1>
 				    					<p>Hiermit, bestätigen wir, dass Deine Bestellung bei uns eingangen ist. Zur Übersicht noch einmal eine Aufstellung der Artikel:<br><br>
@@ -125,7 +127,7 @@ if (isset($_POST['pay'])) {
 				    					<br><br>
 				    					Um deine Bestellung abzuholen, musst Du den QR Code im Anhang vorzeigen.
 				    					<br><br>
-				    					Wir freuen uns sehr mit Dir zusammenzuarbeiten. Alternativ kannst Du Dich auch bei einloggen und unter <a href="m.namiko.org/my-orders.php">"Meine Bestellungen"</a> Deine Bestellung und den QR Code einsehen.<br><br><span style="font-style: italic">Dein namiko Hannover e.V. Team</span><br><br><br><br><br><br>
+				    					Wir freuen uns sehr mit Dir zusammenzuarbeiten. Alternativ kannst Du Dich auch bei uns einloggen und unter <a href="m.namiko.org/my-orders.php">"Meine Bestellungen"</a> Deine Bestellung und den QR Code einsehen.<br><br><span style="font-style: italic">Dein namiko Hannover e.V. Team</span><br><br><br><br><br><br>
 				    					Bei Rückfragen einfach an kontakt@namiko.org schreiben.</p>';
 				    $mail->AltBody = 'Moin, '. $first_name .'!
 				    					iermit, bestätigen wir, dass Deine Bestellung bei uns eingangen ist. Zur Übersicht noch einmal eine Aufstellung der Artikel:'. 
@@ -133,7 +135,7 @@ if (isset($_POST['pay'])) {
 				    					<br><br>
 				    					Um deine Bestellung abzuholen, musst Du den QR Code im Anhang vorzeigen. 
 				    					<br><br>
-				    					Wir freuen uns sehr mit Dir zusammenzuarbeiten. Alternativ kannst Du Dich auch bei namiko.org einloggen und unter m.namiko.org/my-orders.php Deine Bestellung und den QR Code einsehen. Dein namiko Hannover e.V. Team
+				    					Wir freuen uns sehr mit Dir zusammenzuarbeiten. Alternativ kannst Du Dich auch bei uns namiko.org einloggen und unter m.namiko.org/my-orders.php Deine Bestellung und den QR Code einsehen. Dein namiko Hannover e.V. Team
 				    					Bei Rueckfragen einfach an kontakt@namiko.org schreiben.';
 
 				    $mail->send();

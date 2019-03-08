@@ -15,7 +15,7 @@ include("templates/nav.inc.php");
 
 <?php 
 
-$statement = $pdo->prepare("SELECT * FROM categories WHERE cid > 0");
+$statement = $pdo->prepare("SELECT * FROM categories WHERE cid > 1");
 $result = $statement->execute();
 
 while ($row = $statement->fetch()) {

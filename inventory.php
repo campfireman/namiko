@@ -58,7 +58,7 @@ if (isset($_POST['update'])) {
 	$result = $statement->execute();
 
 	if ($result) {
-		header("Location: " . $_SERVER['REQUEST_URI']);
+		header("Location: " . $_SERVER['PHP_SELF']);
 	}
 
 	if (!$result) {
@@ -70,7 +70,7 @@ if (isset($_POST['update'])) {
 
 <div class="sizer spacer">
 	<span class="subtitle2">Inventar</span><br><br>
-	<form class="form" method="post" action="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']) ?>">
+	<form class="form" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">
 		<select name="timeframe">
 			<option value="0">Alle</option>
 			<optgroup label="Zeitpunkte">
@@ -176,7 +176,7 @@ if (isset($_POST['update'])) {
 					echo '<input type="hidden" name="ii_id" value="'. $row['ii_id'] .'" required>';
 					echo '<td>'. $row['productName'] . $warn .'</td>';
 					echo '<td>'. $pid .'</td>';
-					echo '<td><input class="stock" type="number" name="quantity_KG_L" value="'. $quantity_KG_L .'" required></td>';
+					echo '<td><input class="stock" type="number" name="quantity_KG_L" step="0.05" value="'. $quantity_KG_L .'" required></td>';
 					echo '<td>'. $quantityOrderedOut .'</td>';
 					echo '<td>'. $realStockOut .'</td>';
 					echo '<td>'. $quantityDeliveryOut .'</td>';
@@ -225,12 +225,12 @@ if (isset($_POST['update'])) {
 			if ($result) {
 			$_SESSION['notification'] = true;
 			$_SESSION['notificationmsg'] = 'Produkt wurde erfolgreich aktualisiert.';
-			header('location: '. $_SERVER['REQUEST_URI']);
+			header('location: '. $_SERVER['PHP_SELF']);
 			
 			} else {
 				$_SESSION['notification'] = true;
 				$_SESSION['notificationmsg'] = 'Das Produkt konnte nicht aktualisiert werden.';
-				header('location: '. $_SERVER['REQUEST_URI']);
+				header('location: '. $_SERVER['PHP_SELF']);
 			}
 
 		// product not in the table -> insert
@@ -241,12 +241,12 @@ if (isset($_POST['update'])) {
 			if ($result) {
 			$_SESSION['notification'] = true;
 			$_SESSION['notificationmsg'] = 'Produkt wurde dem Inventar erfolgreich hinzugefügt.';
-			header('location: '. $_SERVER['REQUEST_URI']);
+			header('location: '. $_SERVER['PHP_SELF']);
 
 			} else {
 				$_SESSION['notification'] = true;
 				$_SESSION['notificationmsg'] = 'Das Produkt konnte nicht dem Inventar hinzugefügt werden';
-				header('location: '. $_SERVER['REQUEST_URI']);
+				header('location: '. $_SERVER['PHP_SELF']);
 			}
 		}
 
@@ -324,13 +324,13 @@ if (isset($_POST['update'])) {
 	        } else {
 	        	$_SESSION['notification'] = true;
 				$_SESSION['notificationmsg'] = 'Es ist ein Fehler aufgetreten.';
-				header('location: '. $_SERVER['REQUEST_URI']);
+				header('location: '. $_SERVER['PHP_SELF']);
 	        }
 
     	} else {
     		$_SESSION['notification'] = true;
 			$_SESSION['notificationmsg'] = 'Es gibt keine Produkte im Warenkorb';
-			header('location: '. $_SERVER['REQUEST_URI']);
+			header('location: '. $_SERVER['PHP_SELF']);
     	}
 	}
 
@@ -368,7 +368,6 @@ if (isset($_POST['update'])) {
 				$statement2 = $pdo->prepare("SELECT productName, container, priceContainer FROM products WHERE pid = '$pid'");
 				$result2 = $statement2->execute();
 				$productData = $statement2->fetch();
-
 
 				$priceContainer = $productData['priceContainer'];
 				$quantityContainer = ceil(($deficit / $productData['container']));

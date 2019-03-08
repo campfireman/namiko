@@ -38,9 +38,9 @@ if (isset($_POST['member'])) {
 	<div class="form-container register">
 		<div class="info">
 			<span>
-			<i class="fa fa-info-circle" aria-hidden="true"></i> Bei jedem Einkauf geht der Verein in Vorleistung. Außerdem bestellen wir häufig Großgebinde, deswegen benötigen wir von unseren Mitgliedern ein Darlehn, um die notwendige Liquidität zu gewährleisten. Versuche die ungefähre Summe Deiner monatlichen Bestellungen abzuschätzen.
+			<i class="fa fa-info-circle" aria-hidden="true"></i> Bei jedem Einkauf geht der Verein in Vorleistung. Außerdem bestellen wir häufig Großgebinde, deswegen benötigen wir von unseren Mitgliedern ein Darlehen, um die notwendige Liquidität zu gewährleisten. Versuche die ungefähre Summe Deiner monatlichen Bestellungen abzuschätzen.
 			<br>
-			Der Darlehn wird spätestens 3 Monate nach dem Austritt zurückgezahlt. Nach Erhalt des Darlehns ist Dein Beitritt abgeschlossen. Der Darlehn, sowie alle anderen Posten werden per Lastschrift abgebucht.
+			Der Darlehen wird spätestens 3 Monate nach dem Austritt zurückgezahlt. Nach Erhalt des Darlehns ist Dein Beitritt abgeschlossen. Der Darlehen, sowie alle anderen Posten werden per Lastschrift abgebucht.
 			</span>
 		</div>
 		
@@ -64,7 +64,7 @@ if (isset($_POST['member'])) {
 			</div><br>
 			<div>
 				<label>
-					<input type="checkbox"  name="agreeLoan" value="1" required>Ich erkläre mich bereit, den Mitgliedsdarlehn von <span id="loan"></span>€ zu entrichten.
+					<input type="checkbox"  name="agreeLoan" value="1" required>Ich erkläre mich bereit, das Mitgliedsdarlehen von <span id="loan"></span>€ zu entrichten.
 				</label>
 			</div>
 			<button type="submit" name="loaned" class="register-btn">Weiter <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></button>

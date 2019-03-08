@@ -15,8 +15,8 @@ if ($user['rights'] == 1) {
 				<div class="box center-vertical">
 					<div><h1>Hallo <span class="emph">'. htmlspecialchars($user['first_name']). '!</span></h1></div>
 					<div class="subtitle"><br>
-					Herzlich Willkommen bei der Nahrungsmittel Kooperative! Wir freuen uns sehr, Dich in unserem Verein zu begrüßen :) <br>
-					Du kannst bereits den Katalog einsehen, aber es dauert noch ein wenig, bis wir Dich für Bestellungen freischalten. Wenn Du freigschaltet bist, erhältst du eine E-Mail.
+					Herzlich Willkommen bei der Nahrungsmittel-Kooperative! Wir freuen uns sehr, Dich in unserem Verein zu begrüßen :) <br>
+					Du kannst bereits den Katalog einsehen, aber es dauert noch ein wenig, bis wir Dich für Bestellungen freischalten. Wenn Du freigeschaltet bist, erhältst du eine E-Mail.
 					<br><br> Dein, <br>namiko e.V. Team</div>
 				</div>
 			</div>';
@@ -26,8 +26,8 @@ if ($user['rights'] == 1) {
 
 if ($user['notification'] == 1) {
 	$uid = $user['uid'];
-	$stmnt = $pdo->prepare("UPDATE users SET notification = 0 WHERE uid = $uid");
-	$resulter = $stmnt->execute();
+	$statement2 = $pdo->prepare("UPDATE users SET notification = 0 WHERE uid = $uid");
+	$resulter = $statement2->execute();
 	
 	$statement = $pdo->prepare("SELECT * FROM notification");
 	$result = $statement->execute();
@@ -45,7 +45,7 @@ if ($user['notification'] == 1) {
 	
 	
 }
-
+/*
 $curr = date('Y-m-d H:i:s');
 $statement = $pdo->prepare("SELECT start FROM events WHERE type = 1 AND start > '$curr' ORDER BY start ASC");
 $result = $statement->execute();
@@ -68,9 +68,9 @@ $result = $statement->fetchAll();
 		$output = 'Die nächste Ausgabe ist am '. $nextSession->format('d.m.Y') .' um '. $nextSession->format('H:i') .' und Du kannst noch bis zum '. $last->format('d.m.Y H:i') .' für diesen Termin bestellen.';
 	}
 }
+*/
 
-
-include("templates/nav.inc.php");
+include("templates/main-nav.inc.php");
 ?>
 <!-- Full Calendar Library -->
 <link rel="stylesheet" href="util/fullcalendar/fullcalendar.css"/>
@@ -79,6 +79,10 @@ include("templates/nav.inc.php");
 <script src='util/fullcalendar/locale/de.js'></script>
 <script src='util/fullcalendar/gcal.min.js'></script>
 
+<div id="notification3" class="notificationClosed">
+	<div><a href="javascript:void(0)" title="Close" class="closebtn" onclick="closeNotification(3)">&times;</a></div>
+		<div id="producer_popup"></div>
+</div>
 
 <div id="cartContent" class="cart">
 	<div><a href="javascript:void(0)" id="close2" title="Close" class="closebtn" onclick="open_close_Cart()">&times;</a></div>
@@ -88,22 +92,8 @@ include("templates/nav.inc.php");
 </div>
 
 <div class="sizer">
-
-
-
-
-<a class="shoppingCart" id="shoppingCart" onclick="open_close_Cart()"><i class="fa fa-shopping-cart" aria-hidden="true"></i>
-<span id="cartCount"><?php 
-if(isset($_SESSION["products"])){
-    echo count($_SESSION["products"]); 
-}else{
-    echo '0'; 
-}
-?></span>
-</a>
-
 <div class="row">
-	<div class="col-md-5 spacer4">
+	<div class="col-md-5 spacer5">
 		<div class="greet">
 		<h1><span id="greeter"></span></h1>
 		<span class="subtitle">Willkommen zurück, <span class="emph"><?php echo htmlspecialchars($user['first_name']); ?></span>! Was möchtest Du bestellen?</span><br><br>
@@ -111,7 +101,7 @@ if(isset($_SESSION["products"])){
 		<br>
 		</div>
 	</div>
-	<div class="col-md-7 spacer4" style="min-height: 500px">
+	<div class="col-md-7 spacer5" style="min-height: 500px">
 		<div id="calendar" class="calendar"></div>
 	</div>
 </div>
@@ -148,7 +138,7 @@ $('#calendar').fullCalendar(
 </div>
 
 <?php
-$statement = $pdo->prepare("SELECT * FROM categories WHERE cid > 0");
+$statement = $pdo->prepare("SELECT * FROM categories WHERE cid > 1 ORDER BY FIELD(cid, 3, 6, 7, 4, 5)");
 $result = $statement->execute();
 
 while ($row = $statement->fetch()) {
@@ -173,31 +163,63 @@ while ($row = $statement->fetch()) {
 		  	</div>';
 	
 
-		$stmnt = $pdo->prepare("SELECT products.*, producers.producerName FROM products LEFT JOIN producers ON products.producer = producers.pro_id WHERE category = '$selector'");
-		$result2 = $stmnt->execute();
+		$statement2 = $pdo->prepare("SELECT products.*, producers.producerName, producers.pro_id, inventory_items.quantity_KG_L FROM products LEFT JOIN producers ON products.producer = producers.pro_id LEFT JOIN inventory_items ON inventory_items.pid = products.pid WHERE category = '$selector'");
+		$result2 = $statement2->execute();
+		
 		$count = 0;
-		while ($row = $stmnt->fetch()) {
-			$count++;
-			if ($count == 5) { $count = 1; }
-			if ($count == 1) {
-			echo '<div class="row">'; }
-			echo '<div class="col-sm-3 item"><form class="order-item">';
-			echo '<span class="data">'. htmlspecialchars($row['origin']) .' | '. htmlspecialchars($row['producerName']) .'</span>';
-			echo '<h2 class="name">'. htmlspecialchars($row['productName']) .'</h2>';
-			echo '<div>'. $row['productDesc'] .'<br><span class="emph">Preis: '. $row['price_KG_L'] .'€/KG</span></div>';
-			if ($user['rights'] > 1) {
-			echo '<div class="price">
-				  <label>Menge:
-				  <span><input class="quantity" type="number" name="quantity" min="0" required> KG</label><input type="hidden" name="pid" value="'. $row['pid'] .'"</span>';
-			echo '<button class="addCart green" type="submit" name="addCart"><i class="fa fa-cart-plus" aria-hidden="true"></i></button></div>';
+		if ($statement2->rowCount() > 0) {
+				while ($row = $statement2->fetch()) {
+					$pid = $row['pid'];
+					$statement3 = $pdo->prepare("SELECT order_items.quantity, orders.delivered FROM order_items LEFT JOIN orders ON order_items.oid = orders.oid WHERE (order_items.pid = '$pid') AND (orders.delivered = 0)");
+					$result3 = $statement3->execute();
+
+					$quantityOrdered = 0;
+					$quantity_KG_L = $row['quantity_KG_L'];
+
+					while ($row2 = $statement3->fetch()) {
+						$quantityOrdered += $row2['quantity'];
+					}
+
+					$realStock = ($quantity_KG_L - $quantityOrdered);
+
+					// colored output based on amount
+					if ($realStock < 0) {
+						$realStockOut = '<span class="red">'. $realStock .'KG</span>';
+					} else if ($realStock > 0) {
+						$realStockOut = '<span class="green">'. $realStock .'KG</span>';
+					} else {
+						$realStockOut = '<span>'. $realStock .'</span>';
+					}
+
+					$count++;
+					if ($count == 5) { $count = 1; }
+					if ($count == 1) {
+					echo '<div class="row">'; }
+					echo '<div class="col-sm-3 item"><form class="order-item">';
+					echo '<span class="data">'. htmlspecialchars($row['origin']) .' | 
+							<a class="producer_info" data-code="'. $row['pro_id'] .'">'. htmlspecialchars($row['producerName']) .'</a></span>';
+					echo '<h2 class="name">'. htmlspecialchars($row['productName']) .'</h2>';
+					echo '<div>'. $row['productDesc'] .'<br><span class="emph">Preis: '. $row['price_KG_L'] .'€/KG</span></div>';
+					echo '<div><span class="italic">auf Lager: </span>'. $realStockOut .'</div>';
+					echo '<div><span class="italic">Gebindegröße: </span>' .$row['container']. 'KG</div>';
+					if ($user['rights'] > 1) {
+					echo '<div class="price">
+						  <label>Menge:
+						  <span><input class="quantity" type="number" name="quantity" min="0" step="0.5" required> KG</label><input type="hidden" name="pid" value="'. $row['pid'] .'"</span>';
+					echo '<button class="addCart green" type="submit" name="addCart"><i class="fa fa-cart-plus" aria-hidden="true"></i></button></div>';
+					}
+					echo '</form></div>';
+					if ($count == 4) {
+					echo '</div>'; }
+				}
+			if ($count < 4) {
+				echo '</div>';
 			}
-			echo '</form></div>';
-			if ($count == 4) {
-			echo '</div>'; }
+		} else {
+			echo '<div class="row">';
+			echo '<div class="center spacer3">Aktuell nichts im Sortiment.</div>';
+			echo '</div>';
 		}
-	if ($count < 4) {
-		echo '</div>';
-	}
 }
 ?>
 
@@ -282,6 +304,16 @@ $("#cartContent").on('click', 'a.remove-item', function(e) {
 $( "#shoppingCart").on('click', function(e) { //when user clicks on cart box
     e.preventDefault(); 
     $("#shopping-cart-results").load( "cart_process.php", {"load_cart":"1"}); //Make ajax request using jQuery Load() & update results
+});
+
+$(".producer_info").on('click', function(e) {
+     e.preventDefault(); 
+	    var pro_id = $(this).attr("data-code");
+	    $.getJSON( "producer_info.php", {"pro_id":pro_id}).done(function(data){ 
+	    	$('body').addClass('noscroll');
+	    	$('#notification3').css('height', '100%');
+	    	$('#producer_popup').html(data);
+	    });
 });
 
 

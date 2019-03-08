@@ -56,9 +56,8 @@ $_SESSION['errortxt'] = '<script>document.body.className += "noscroll"</script>
 				<input placeholder="IBAN"  value="<?php echo htmlspecialchars($_SESSION['iban']) ?>"type="text" id="inputIBAN" size="40" maxlength="34" name="iban" required>
 			</div>
 
-			<div class="inline generate">
-				<input placeholder="BIC" value="<?php echo htmlspecialchars($_SESSION['bic']) ?>" type="text" id="inputBIC" size="40" maxlength="11" name="bic" required>
-				<a href="javascript:void(0)" onclick="bicGenerator()"><span style="font-size: 11px">Generieren </span><i class="fa fa-cogs" aria-hidden="true"></i></a>
+			<div class="">
+				<input placeholder="BIC" value="<?php echo htmlspecialchars($_SESSION['bic']) ?>" type="text" size="40" maxlength="15" name="bic" required>
 			</div>
 
 			<div class="">
@@ -77,21 +76,6 @@ $_SESSION['errortxt'] = '<script>document.body.className += "noscroll"</script>
 
 
 <script>
-// Connect to openiban api to generate BIC from IBAN
-function bicGenerator () {
-	var input = document.getElementById('inputIBAN').value;
-	var url = "https://openiban.com/validate/" + input + "?getBIC=true";
-	
-	$.getJSON(url, function(data){
-		
-		
-		if (data.valid) {
-		document.getElementById('inputBIC').value = data.bankData.bic;
-		} else {
-			alert('Es gab einen Fehler. Möglicherweise ist Deine IBAN falsch, dein Konto stammt nicht aus einem der folgenden Länder (Belgien, Deutschland, Niederlande, Luxemburg & Schweiz) oder unser Servicepartner openiban.com funktioniert momentan nicht. Bitte IBAN prüfen und BIC manuell eingeben.');
-		}
-		});
-}
 
 // function for closing errors 
 function close_error () {

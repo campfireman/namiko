@@ -40,22 +40,24 @@ if(isset($_POST["subject"])) {
 		$mail = new PHPMailer(true);
 		try {
 		    //Server settings
-		    $mail->SMTPDebug = 0;                                 // Enable verbose debug output
-		    $mail->isSMTP();                                      // Set mailer to use SMTP
-		    $mail->Host = $smtp_host;  // Specify main and backup SMTP servers
-		    $mail->SMTPAuth = true;                               // Enable SMTP authentication
-		    $mail->Username = $smtp_username;                 // SMTP username
-		    $mail->Password = $smtp_password;                           // SMTP password
-		    $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-		    $mail->Port = 587;                                    // TCP port to connect to
+		    $mail->SMTPDebug = 0;
+		    $mail->isSMTP();
+		    $mail->Host = $smtp_host;
+		    $mail->SMTPAuth = true;
+		    $mail->Username = $smtp_username;
+		    $mail->Password = $smtp_password;
+		    $mail->SMTPSecure = 'tls';
+		    $mail->Port = 587;
+		    $mail->CharSet = 'UTF-8';
+			$mail->Encoding = 'base64';
 
 		    //Recipients
 		    $mail->setFrom('noreply@namiko.org', 'namiko e.V. Hannover');
-		    $mail->addAddress('kontakt@namiko.org');     // Add a recipient
+		    $mail->addAddress('kontakt@namiko.org');
 		    $mail->addReplyTo($email, $name);
 
 		    //Content
-		    $mail->isHTML(true);                                  // Set email format to HTML
+		    $mail->isHTML(true);
 		    $mail->Subject = '[FORMULAR] ' . $subject;
 		    $mail->Body    = 'Absender: ' . $name . '<br>Email: ' . $email .'<br>Betreff: '. $subject .'<br><br>'. $text;
 		    $mail->AltBody = 'Absender: ' . $name . 'Email: ' . $email .'Betreff: '. $subject .''. $text;

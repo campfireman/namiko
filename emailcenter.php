@@ -24,11 +24,11 @@ if (isset($_POST['create-template'])) {
 	if ($result) {
 		$_SESSION['notification'] = true;
 		$_SESSION['notificationmsg'] = 'Die Vorlage wurde erfolgreich gespeichert.';
-		header('Location: '. $_SERVER['REQUEST_URI']);
+		header('Location: '. $_SERVER['PHP_SELF']);
 	} else {
 		$_SESSION['notification'] = true;
 		$_SESSION['notificationmsg'] = 'Die Vorlage konnte nicht gespeichert werden.';
-		header('Location: '. $_SERVER['REQUEST_URI']);
+		header('Location: '. $_SERVER['PHP_SELF']);
 	}
 }
 
@@ -46,13 +46,13 @@ if (isset($_POST['add-recipient'])) {
 	if ($result) {
 		$_SESSION['notification'] = true;
 		$_SESSION['notificationmsg'] = 'Der Empfänger wurde erfolgreich hinzugefügt.';
-		header('Location: '. $_SERVER['REQUEST_URI']);
+		header('Location: '. $_SERVER['PHP_SELF']);
 	}
 
 	if (!$result) {
 		$_SESSION['notification'] = true;
 		$_SESSION['notificationmsg'] = 'Es gab einen Fehler!';
-		header('Location: '. $_SERVER['REQUEST_URI']);
+		header('Location: '. $_SERVER['PHP_SELF']);
 	}
 }
 
@@ -65,13 +65,13 @@ if (isset($_POST['remove-recipient'])) {
 	if ($result) {
 		$_SESSION['notification'] = true;
 		$_SESSION['notificationmsg'] = 'Der Empfänger wurde erfolgreich gelöscht.';
-		header('Location: '. $_SERVER['REQUEST_URI']);
+		header('Location: '. $_SERVER['PHP_SELF']);
 	}
 
 	if (!$result) {
 		$_SESSION['notification'] = true;
 		$_SESSION['notificationmsg'] = 'Es gab einen Fehler!';
-		header('Location: '. $_SERVER['REQUEST_URI']);
+		header('Location: '. $_SERVER['PHP_SELF']);
 	}
 }
 ?>
@@ -93,8 +93,8 @@ if (isset($_POST['remove-recipient'])) {
 			<span class="subtitle2">Vorlage erstellen</span>
 			<form class="form" action="<?php htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
 				<input type="text" name="name" placeholder="Name der Vorlage">
-				<textarea name="template" placeholder="Inhalt (HTML erlaubt)" rows="8"></textarea><br><br>
-				<button class="clean-btn blue" name="create-template">Vorlage speichern <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+				<input type="hidden" name="template"><div id="template-text" class="summernote"></div><br>
+				<button class="clean-btn blue" id="create-template" name="create-template">Vorlage speichern <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
 			</form><br><br>
 
 			<span class="subtitle2">Vorlage einfügen</span>
@@ -122,17 +122,17 @@ if (isset($_POST['remove-recipient'])) {
 			<span class="subtitle2">Rundmail verschicken</span><br><br>
 			<form class="form send-mail">
 				<div><input id="subject" type="text" name="subject" placeholder="Betreff"></div><br>
-				<div><label for="text">Moin, (Vorname)!</label><br><textarea id="text" name="text" placeholder="E-Mailtext" rows="12" style="max-width: 600px;"></textarea></div><br>
+				<div><label for="text">Moin, (Vorname)!</label><br><input type="hidden" name="text"><div id="mailtext" class="summernote"></div><br></div>
 				<label><input type="checkbox" name="members" value="members" style="min-width: 20px" checked>Mitglieder</label><br>
 				<label><input type="checkbox" name="others" value="others" style="min-width: 20px">Newsletter Empfänger</label><br><br>
-				<button type="submit" name="send-mail" class="clean-btn green">E-Mails senden <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+				<button type="submit" id="send-mail" name="send-mail" class="clean-btn green">E-Mails senden <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
 			</form>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-sm-5 spacer">
 			<span class="subtitle2">Empfänger hinzufügen</span><br><br>
-			<form class="form" method="post" type="<?php echo htmlspecialchars($_SERVER['REQUEST_URI']) ?>">
+			<form class="form" method="post" type="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">
 				<input type="text" name="first_name" placeholder="Vorname" required><br>
 				<input type="text" name="last_name" placeholder="Nachname (optional)">
 				<input type="email" name="email" placeholder="E-Mail" required=""><br><br>
@@ -143,6 +143,7 @@ if (isset($_POST['remove-recipient'])) {
 			<span class="subtitle2">Newsletter Empfänger</span><br><br>
 			<table class="max">
 				<tr>
+					<th>#</th>
 					<th>Name</th>
 					<th>E-Mail</th>
 					<th></th>
@@ -150,13 +151,15 @@ if (isset($_POST['remove-recipient'])) {
 			<?php
 			$statement = $pdo->prepare("SELECT rid, first_name, last_name, email FROM newsletter_recipients WHERE verified = 1 ORDER BY rid");
 			$result = $statement->execute();
+			$count = 1;
 
 			while ($row = $statement->fetch()) {
 				$name = $row['first_name']. ' ' .$row['last_name'];
 				$email = $row['email'];
 
 				echo '<tr>';
-				echo 	'<form method="post" action="'. htmlspecialchars($_SERVER['REQUEST_URI']) .'">';
+				echo 	'<form method="post" action="'. htmlspecialchars($_SERVER['PHP_SELF']) .'">';
+				echo 		'<td class="emph">'.$count++.'</td>';
 				echo 		'<td>';
 				echo 			'<input type="hidden" value="'. $row['rid'] .'" name="rid">'. htmlspecialchars($name);
 				echo 		'</td>';
@@ -178,7 +181,26 @@ if (isset($_POST['remove-recipient'])) {
 <?php 
 include("templates/footer.inc.php");
 ?>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-lite.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-lite.js"></script>
 
+<script>
+	$('document').ready(function(){
+      $('.summernote').summernote({
+        placeholder: '',
+        tabsize: 2,
+        height: 200
+      });
+      $('#send-mail').on('click', function(){
+      	var text = $('#mailtext').summernote('code');
+      	$('input[name="text"]').val(text);
+      });
+      $('#create-template').on('click', function(){
+      	var template = $('#template-text').summernote('code');
+      	$('input[name="template"]').val(template);
+      });
+  	})
+</script>
 <script type="text/javascript">
 	$('.paste-template').submit(function(e){
 		var temp_id = $(this).serialize();
@@ -188,7 +210,7 @@ include("templates/footer.inc.php");
 			type: 'POST',
 			data: temp_id
 		}).done(function(data) {
-			$('#text').val(data);
+			$('#mailtext').summernote('code', data);
 		})
 		
 		e.preventDefault();

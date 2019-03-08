@@ -4,10 +4,10 @@ require_once("inc/config.inc.php");
 require_once("inc/functions.inc.php");
 //ini_set('display_errors', 1);
 
-if (is_checked_in()) {
-	$user = check_user();
-}
+//Überprüfe, dass der User eingeloggt ist
+//Der Aufruf von check_user() muss in alle internen Seiten eingebaut sein
 
+$user = check_user();
 include("templates/header.inc.php");
 include("templates/nav.inc.php");
 ?>
@@ -21,7 +21,7 @@ include("templates/nav.inc.php");
 	<p>&nbsp;<br>
 	namiko Hannover e.V.<br>
 	<br>
-	Hahnenstraße 13<br>
+	Windthorstr. 13<br>
 	30167 Hannover<br>
 	Deutschland</p>
 	<h3>Kontakt:</h3>

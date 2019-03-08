@@ -32,8 +32,8 @@ if (isset($_SESSION["products"]) && count($_SESSION["products"]) > 0 ) {
    $cart_box .= '<tr><td></td><td></td><td></td><td class="emph">'.$currency.sprintf("%01.2f",$total).' </td></table></div>
                   <div class="box pad">
                   <form action="pay.php" method="post">
-                  <label><input type="checkbox" name="agree1"> Ich bin damit einverstanden, dass ein Betrag von '.$currency.sprintf("%01.2f",$total).' von meinem Konto abgebucht wird, entsprechend der Bedingungen des vereinbarten Lastschriftmandates.</label><br>
-                  <label><input type="checkbox" name="agree2" required> Ich nehme zur Kenntnis, dass </label><br><br>
+                  <label><input type="checkbox" name="agree1" required> Ich bin damit einverstanden, dass ein Betrag von '.$currency.sprintf("%01.2f",$total).' von meinem Konto abgebucht wird, entsprechend der Bedingungen des vereinbarten Lastschriftmandates.</label><br>
+                  <br>
                   <div class="center"><button class="clean-btn green" type="submit" name="pay" required>abschicken <i class="fa fa-paper-plane" aria-hidden="true"></i></button></div>
                   </form>
                   </div>';

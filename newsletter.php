@@ -34,27 +34,27 @@ if (isset($_POST['newsletter'])) {
 	if (empty($first_name) || empty($email)) {
 		$_SESSION['error'] = true;
 		$_SESSION['errormsg'] = 'Du musst alle Pflichtfelder ausfüllen.</div></div>';
-		header('location:'. htmlspecialchars($_SERVER['REQUEST_URI']));
+		header('location:'. htmlspecialchars($_SERVER['PHP_SELF']));
 	}
 
 	// allow only legitimate characters for the first name
 	if (!preg_match("/^[a-zA-Z\x7f-\xff]*$/", $first_name)) {
 		$_SESSION['errormsg'] = 'Bitte einen gültigen Vornamen eingeben.</div></div>';
 		$_SESSION['error'] = true;
-		header('location:'. htmlspecialchars($_SERVER['REQUEST_URI']));
+		header('location:'. htmlspecialchars($_SERVER['PHP_SELF']));
 	}
 
 	// allow only legitimate characters for the last name
 	if (!preg_match("/^[a-zA-Z\x7f-\xff]*$/", $last_name)) {
 		$_SESSION['errormsg'] = 'Bitte einen gültigen Nachnamen eingeben.</div></div>';
 		$_SESSION['error'] = true;
-		header('location:'. htmlspecialchars($_SERVER['REQUEST_URI']));
+		header('location:'. htmlspecialchars($_SERVER['PHP_SELF']));
 	}
 
 	if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 		$_SESSION['errormsg'] = 'Bitte eine gültige E-Mail-Adresse eingeben</div></div>';
 		$_SESSION['error'] = true;
-		header('location:'. htmlspecialchars($_SERVER['REQUEST_URI']));
+		header('location:'. htmlspecialchars($_SERVER['PHP_SELF']));
 	} 
 
 	$statement = $pdo->prepare("SELECT * FROM newsletter_recipients WHERE email = :email");
@@ -64,7 +64,7 @@ if (isset($_POST['newsletter'])) {
 	if($user !== false) {
 		$_SESSION['errormsg'] = 'Diese E-Mail-Adresse ist bereits vergeben</div></div>';
 		$_SESSION['error'] = true;
-		header("location:". htmlspecialchars($_SERVER['REQUEST_URI']));
+		header("location:". htmlspecialchars($_SERVER['PHP_SELF']));
 	}
 
 	$statement = $pdo->prepare("SELECT * FROM users WHERE email = :email");
@@ -74,7 +74,7 @@ if (isset($_POST['newsletter'])) {
 	if($user !== false) {
 		$_SESSION['errormsg'] = 'Diese E-Mail-Adresse ist bereits vergeben</div></div>';
 		$_SESSION['error'] = true;
-		header("location:". htmlspecialchars($_SERVER['REQUEST_URI']));
+		header("location:". htmlspecialchars($_SERVER['PHP_SELF']));
 	}	
 
 	if (!$_SESSION['error']) {
@@ -92,25 +92,27 @@ if (isset($_POST['newsletter'])) {
 
 					$id = '?rid='. $row['rid'] .'&created_at='. urlencode($row['created_at']);
 
-					$mail = new PHPMailer(true);                              // Passing `true` enables exceptions
+					$mail = new PHPMailer(true);
 					try {
 					    //Server settings
-					    $mail->SMTPDebug = 0;                                 // Enable verbose debug output
-					    $mail->isSMTP();                                      // Set mailer to use SMTP
-					    $mail->Host = $smtp_host;  // Specify main and backup SMTP servers
-					    $mail->SMTPAuth = true;                               // Enable SMTP authentication
-					    $mail->Username = $smtp_username;                 // SMTP username
-					    $mail->Password = $smtp_password;                           // SMTP password
-					    $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-					    $mail->Port = 587;                                    // TCP port to connect to
+					    $mail->SMTPDebug = 0;
+					    $mail->isSMTP();
+					    $mail->Host = $smtp_host;
+					    $mail->SMTPAuth = true;
+					    $mail->Username = $smtp_username;
+					    $mail->Password = $smtp_password;
+					    $mail->SMTPSecure = 'tls';
+					    $mail->Port = 587;
+					    $mail->CharSet = 'UTF-8';
+						$mail->Encoding = 'base64';
 
 					    //Recipients
 					    $mail->setFrom('noreply@namiko.org', 'namiko e.V. Hannover');
-					    $mail->addAddress($email, $first_name);     // Add a recipient
+					    $mail->addAddress($email, $first_name);
 					    $mail->addReplyTo('kontakt@namiko.org');
 
 					    //Content
-					    $mail->isHTML(true);                                  // Set email format to HTML
+					    $mail->isHTML(true);
 					    $mail->Subject = utf8_decode('Newsletter Bestätigung');
 					    $mail->Body    = '<h1>Moin '. $first_name .'!</h1>
 					    					<p>Um deine Anmeldung für den Newsletter abzuschliessen, besuche folgende Adresse:<br><br><span style="font-weight: 600; font-size: 30px;"><a href="'. getSiteUrl() .'verify_newsletter.php'. $id .'">Bestätigen</a></span><br><br>
@@ -125,11 +127,11 @@ if (isset($_POST['newsletter'])) {
 					    
 					    $_SESSION['errormsg'] = 'Die Bestätigungsmail wurde erfolgreich verschickt. Überprüfe dein Postfach.</div></div>';
 						$_SESSION['error'] = true;
-						header('location:'. htmlspecialchars($_SERVER['REQUEST_URI']));
+						header('location:'. htmlspecialchars($_SERVER['PHP_SELF']));
 					} catch (Exception $e) {
 					    $_SESSION['errormsg'] = 'Die Bestätigungsmail konnte nicht verschickt werden. Versuche es noch einmal oder wende Dich an kontakt@namiko.org</div></div>';
 						$_SESSION['error'] = true;
-						header('location:'. htmlspecialchars($_SERVER['REQUEST_URI']));
+						header('location:'. htmlspecialchars($_SERVER['PHP_SELF']));
 					}
 				}
 			}
@@ -149,7 +151,7 @@ if (isset($_POST['newsletter'])) {
 			<i class="fa fa-info-circle" aria-hidden="true"></i> Damit Du den Newsletter erhalten kannst, musst Du nach Absenden des Formulars auf den Bestätigungslink in Deinem Postfach clicken.
 			<br>
 			</span><br>
-		<form action="<?php htmlspecialchars($_SERVER['REQUEST_URI']) ?>" method="post">
+		<form action="<?php htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
 			<input type="text" name="first_name" placeholder="Vorname" required>
 			<input type="text" name="last_name" placeholder="Nachname (optional)">
 			<input type="email" name="email" placeholder="E-Mail" required><br><br>

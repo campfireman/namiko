@@ -145,75 +145,59 @@ if (isset($_POST['deliveryProof'])) {
 <?php
 $uid = $user['uid'];
 $count = 0;
-$newTable = 0;
-$oid;
 
 //Query joins orders and order_items & retrieves productName and price via pid
-$statement = $pdo->prepare("SELECT orders.*, order_items.pid, products.productName,  products.price_KG_L, order_items.quantity, order_items.total FROM orders LEFT JOIN order_items ON orders.oid = order_items.oid LEFT JOIN products ON order_items.pid = products.pid WHERE uid = '$uid' ORDER BY orders.created_at DESC");
-$result = $statement->execute(array('uid' => $uid));
+$statement = $pdo->prepare("SELECT orders.* FROM orders WHERE uid = '$uid' ORDER BY orders.created_at DESC");
+$result = $statement->execute();
 //print_r($arr = $statement->errorInfo());
 
 while ($row = $statement->fetch()) {
+	$count++;
+	$oid = $row['oid'];
+	$date = new DateTime($row['created_at']);
 
-
-	if ($oid != $row['oid']) {
-		$newTable++;
-		$count++;
-
-		if ($newTable == 2) {
-			echo '<tr><td></td><td></td><td></td><td class="emph">'. $currency.sprintf("%01.2f",$grandtotal) .'</td></table>';
-			if ($delivered == 0) {
-				echo '<button type="submit" name="generateQR" class="clean-btn blue">Ausgabe QR <i class="fa fa-qrcode" aria-hidden="true"></i></button></form><br><br>';
-			} else {
-				echo '</form>';
-				echo '<form action="'. htmlspecialchars($_SERVER['REQUEST_URI']) .'" method="post">';
-				echo '<input type="hidden" name="oid" value="'. $oid .'">';
-				echo '<button type="submit" name="deliveryProof" class="clean-btn green">Bestätigung <i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>';
-				echo '</form><br><br>';
-			}
-			echo '</div>';
-		$newTable = 1;
-		}
-
-		if ($count == 3) {
-			echo '</div>';
-			$count = 1;
-		}
-		
-		if ($count == 1) {
-			echo '<div class="row">';
-		}
-
-		$oid = $row['oid'];
-		$date = $row['created_at'];
-
-		echo '<div class="col-md-6">';
-		echo '<div class="subtitle2 inline"><span>Bestellung #'. $oid .'</span></div>';
-		echo '<form class="qr">';
-		echo '<input type="hidden" value="'. $oid . '" name="oid">';
-		echo '<input type="hidden" value="'. $user['verify_code'] .'" name="verify_code">';
-		echo '<div class="subtitle3 inline" style="float: right"><span>'. $date .'</span></div><br><br>';
-		echo '<table class="max"><tr style="text-align: left;"><th>Artikel</th><th>Preis KG/L</th><th>Menge</th><th>&#931;</th></tr>';
-		
-		$grandtotal = 0;
+	if ($count == 1) {
+			echo '<div class="row spacer3">';
 	}
-	
-	$pid = $row['pid'];
-	$productName = $row['productName'];
-	$price_KG_L = $row['price_KG_L'];
-	$quantity = $row['quantity'];
-	$delivered = $row['delivered'];
-	$total = $row['total'];
-	$total = ($quantity * $price_KG_L);
-	$grandtotal += $total;
-	
-	
 
-	echo '<tr>';
-	echo '<td>'. $productName .'</td>';
-	echo '<td>'. $currency. sprintf("%01.2f", $price_KG_L) .'</td>';
-	echo '<td>'. $quantity .'</td><td>'.$currency. sprintf("%01.2f", $total). '</td>';
-	echo '</tr>';
+	echo '<div class="col-md-6">';
+	echo '<div class="subtitle2 inline"><span>Bestellung #'. $oid .'</span></div>';
+	echo '<div class="subtitle3 inline" style="float: right"><span>'. $date->format("d.m.Y H:i:s") .'</span></div><br><br>';
+	echo '<table class="max"><tr style="text-align: left;"><th>Artikel</th><th>Preis KG/L</th><th>Menge</th><th>&#931;</th></tr>';
+	
+	$grandtotal = 0;
+
+	$statement2 = $pdo->prepare("SELECT order_items.pid, products.productName,  products.price_KG_L, order_items.quantity, order_items.total FROM order_items LEFT JOIN products ON order_items.pid = products.pid WHERE order_items.oid = '$oid'");
+	$result2 = $statement2->execute();
+
+	while ($row2 = $statement2->fetch()) {
+		$pid = $row2['pid'];
+		$productName = $row2['productName'];
+		$price_KG_L = $row2['price_KG_L'];
+		$quantity = $row2['quantity'];
+		$delivered = $row2['delivered'];
+		$total = $row2['total'];
+		$total = ($quantity * $price_KG_L);
+		$grandtotal += $total;
+
+		echo '<tr>';
+		echo '<td>'. $productName .'</td>';
+		echo '<td>'. $currency. sprintf("%01.2f", $price_KG_L) .'</td>';
+		echo '<td>'. $quantity .'</td><td>'.$currency. sprintf("%01.2f", $total). '</td>';
+		echo '</tr>';
+	}
+
+	echo '<tr><td></td><td></td><td></td><td class="emph">'. $currency.sprintf("%01.2f",$grandtotal) .'</td></table>';
+	if ($row['delivered'] == 0) {
+		echo '<button class="picked-up clean-btn red" oid="'. $row['oid'] .'">nicht abgeholt <i class="fa fa-times" aria-hidden="true"></i></button><br><br>';
+	} else {
+		echo '<button class="clean-btn green">abgeholt <i class="fa fa-check" aria-hidden="true"></i></button><br><br>';
+	}
+	echo '</div>';
+	if ($count == 2) {
+		echo '</div>';
+		$count = 0;
+	}
 		
 }	
 
@@ -221,19 +205,6 @@ if ($count == 1) { //closes .row if number of orders is uneven
 		echo '</div>';
 }
 
-if ($newTable == 1) {  //closes table if number of orders is uneven
-	echo '<tr><td></td><td></td><td></td><td class="emph">'. $currency.sprintf("%01.2f",$grandtotal) .'</td></table>';
-	if ($delivered == 0) {
-		echo '<button type="submit" name="generateQR" class="clean-btn blue">Ausgabe QR <i class="fa fa-qrcode" aria-hidden="true"></i></button></form><br><br>';
-	} else {
-		echo '</form>';
-		echo '<form action="'. htmlspecialchars($_SERVER['REQUEST_URI']) .'" method="post">';
-		echo '<input type="hidden" name="oid" value="'. $oid .'">';
-		echo '<button type="submit" name="deliveryProof" class="clean-btn green">Bestätigung <i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>';
-		echo '</form><br><br>';
-	}
-	echo '</div>';
-}
 ?>
 
 </div>
@@ -245,24 +216,23 @@ include("templates/footer.inc.php")
 ?>
 <script type="text/javascript">
 	
-	$(".qr").submit(function(e){ 
-		var form_data = $(this).serialize();
-		
-		$.ajax({
-           type: "POST",
-           url: 'qr_handle.php',
-           dataType:"json",
-           data: form_data // serializes the form's elements.
-           }).done(function(data){
-               document.body.className += "noscroll";
-               var x = document.getElementById('notification2');
-				x.style.height = '100%';
+	$(".picked-up").on("click", function(e){ 
+		$(this).prop("disabled", true);
+		var oid = $(this).attr('oid');
+		var ref = $(this);
 
-				var y = document.getElementById("qrCode");
-				y.innerHTML = '';
-				y.innerHTML = data;
-           
-         });
 		e.preventDefault();
+		$.ajax({
+			type: "POST",
+			url: 'session_process.php',
+			dataType:"json",
+			data: {"oid": oid, "mark-delivered" : 1} // serializes the form's elements.
+		}).done(function(data){
+			if (data.error == 1) {
+				alert(data.text);
+			} else {
+				ref.removeClass("picked-up").removeClass('red').addClass('green').html('abgeholt <i class="fa fa-check" aria-hidden="true"></i>');
+			}
+		});
 	});
 </script>
