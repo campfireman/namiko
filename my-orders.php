@@ -147,7 +147,7 @@ $uid = $user['uid'];
 $count = 0;
 
 //Query joins orders and order_items & retrieves productName and price via pid
-$statement = $pdo->prepare("SELECT orders.* FROM orders WHERE uid = '$uid' ORDER BY orders.created_at DESC");
+$statement = $pdo->prepare("SELECT orders.* FROM orders WHERE uid = '$uid' ORDER BY orders.oid DESC");
 $result = $statement->execute();
 //print_r($arr = $statement->errorInfo());
 

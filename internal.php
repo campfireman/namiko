@@ -70,8 +70,10 @@ $result = $statement->fetchAll();
 }
 */
 
+
 include("templates/main-nav.inc.php");
 ?>
+
 <!-- Full Calendar Library -->
 <link rel="stylesheet" href="util/fullcalendar/fullcalendar.css"/>
 <script src="js/moment.min.js"></script>
@@ -195,7 +197,8 @@ while ($row = $statement->fetch()) {
 					if ($count == 5) { $count = 1; }
 					if ($count == 1) {
 					echo '<div class="row">'; }
-					echo '<div class="col-sm-3 item"><form class="order-item">';
+					echo '<div class="col-sm-3 item">
+						<form class="order-item">';
 					echo '<span class="data">'. htmlspecialchars($row['origin']) .' | 
 							<a class="producer_info" data-code="'. $row['pro_id'] .'">'. htmlspecialchars($row['producerName']) .'</a></span>';
 					echo '<h2 class="name">'. htmlspecialchars($row['productName']) .'</h2>';
@@ -205,7 +208,9 @@ while ($row = $statement->fetch()) {
 					if ($user['rights'] > 1) {
 					echo '<div class="price">
 						  <label>Menge:
-						  <span><input class="quantity" type="number" name="quantity" min="0" step="0.5" required> KG</label><input type="hidden" name="pid" value="'. $row['pid'] .'"</span>';
+						  <span><input class="quantity" type="number" name="quantity" min="0" step="0.5" required> KG</label>
+						  <input type="hidden" name="pid" value="'. $row['pid'] .'"</span>
+						  ';
 					echo '<button class="addCart green" type="submit" name="addCart"><i class="fa fa-cart-plus" aria-hidden="true"></i></button></div>';
 					}
 					echo '</form></div>';

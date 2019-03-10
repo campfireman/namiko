@@ -32,6 +32,18 @@ if (isset($_GET['remove-order'])) {
 if (isset($_POST['mark-delivered'])) {
 	$oid = $_POST['oid'];
 
+	$statement = $pdo->prepare("SELECT delivered FROM orders WHERE oid = '$oid'");
+	$result = $statement->execute();
+
+	if (!$result) {
+		res(1, "Es gab einen Fehler");
+	} else {
+		$row = $statement->fetch();
+		if ($row['delivered'] == 1) {
+			res(1, "Bereits markiert.");
+		}
+	}
+
 	$statement = $pdo->prepare("UPDATE orders SET delivered = 1 WHERE oid = '$oid'");
 	$result = $statement->execute();
 

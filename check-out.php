@@ -11,38 +11,30 @@ $user = check_user();
 include("templates/header.inc.php");
 include("templates/nav.inc.php");
 
-if (isset($_SESSION["products"]) && count($_SESSION["products"]) > 0 ) {
-    $cart_box       = '<h3 class="header spacer">Deine Bestellung</h3>
-                       <div class="center pad">
-                       <table class="cartTable"><tr><th>Artikel</th><th>Preis KG/L</th><th>Menge</th><th>&#931;</th></tr>';
+?>
+<div id="cartContent" class="sizer center-text">
+  <h3 class="header spacer">Deine Bestellung</h3>
+  <div id="shopping-cart-results" class="pad">
+  </div>
+</div>
+<script type="text/javascript">
+    $("#shopping-cart-results").load( "cart_process.php", {"load_cart":"1", "pay": 1}); //Make ajax request using jQuery Load() & update results
 
-    foreach($_SESSION["products"] as $product){ //Print each item, quantity and price.
-        $productName = $product["productName"]; 
-        $price_KG_L = $product["price_KG_L"];
-        $pid = $product["pid"];
-        $quantity = $product["quantity"];
-        
-        $cart_box       .=  '<tr><td>'. $productName .'</td><td>'. $currency. sprintf("%01.2f", ($price_KG_L)) .'</td><td>'. $quantity .'</td><td>'.$currency. sprintf("%01.2f", ($price_KG_L * $quantity)). '</td><td><a href="#" class="remove-item" data-code="'. $pid. '"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td></tr>';
-        
-        $subtotal       = ($price_KG_L * $quantity); //Multiply item quantity * price
-        $total          = ($total + $subtotal); //Add up to total price
-    }
-    
-    //Total
-   $cart_box .= '<tr><td></td><td></td><td></td><td class="emph">'.$currency.sprintf("%01.2f",$total).' </td></table></div>
-                  <div class="box pad">
-                  <form action="pay.php" method="post">
-                  <label><input type="checkbox" name="agree1" required> Ich bin damit einverstanden, dass ein Betrag von '.$currency.sprintf("%01.2f",$total).' von meinem Konto abgebucht wird, entsprechend der Bedingungen des vereinbarten Lastschriftmandates.</label><br>
-                  <br>
-                  <div class="center"><button class="clean-btn green" type="submit" name="pay" required>abschicken <i class="fa fa-paper-plane" aria-hidden="true"></i></button></div>
-                  </form>
-                  </div>';
-    
-    echo $cart_box;
-}else{
-    echo "Dein Warenkorb ist leer!";
-}
-
-
+    $("#cartContent").on('click', 'a.remove-item', function(e) {
+     e.preventDefault(); 
+      var pid = $(this).attr("data-code"); //get product code
+      var item_total = $(this).closest('tr').find('[name=item_total]').val(); // get value of item
+      var total = $(this).closest('table').find('[name=total]'); // get element of order total
+      var total_val = total.val(); // get value of order total
+      $(this).closest('tr').fadeOut(); // fade out the table row containing the item
+      $.getJSON( "cart_process.php", {"remove_code":pid}).done(function(data){ 
+          total_val = total_val - item_total; // subtract deleted product from order total_val
+          total.val(total_val); // save new total in hidden input field
+          total.closest('tr').find('#total').html('').html(total_val.toFixed(2)); // delete old total & insert new total
+          $("#cartCount").html(data.items); //update Item count in cart-info
+      });
+});
+</script>
+<?php
 include("templates/footer.inc.php")
 ?>
