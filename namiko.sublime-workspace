@@ -520,24 +520,6 @@
 	"buffers":
 	[
 		{
-			"contents": "SELECT orders.*, order_items.* sum(order_items.total) as sum FROM orders LEFT JOIN order_items ON orders.oid = order_items.oid WHERE orders.delivered = 1 AND order_items pid =",
-			"settings":
-			{
-				"buffer_size": 175,
-				"line_ending": "Windows",
-				"name": "SELECT orders.*, order_items.* sum(order_items.tot"
-			}
-		},
-		{
-			"contents": "ALTER TABLE `namiko`.`order_items` \nDROP COLUMN `delivered`;\n\nALTER TABLE `namiko`.`products` \nCHANGE COLUMN `container` `container` DECIMAL(7,2) NULL DEFAULT NULL ;",
-			"settings":
-			{
-				"buffer_size": 165,
-				"line_ending": "Windows",
-				"name": "ALTER TABLE `namiko`.`order_items`"
-			}
-		},
-		{
 			"contents": "1.3 zwiebeln\n0.5 roote beete\ntoleranz einplanen\n7,5 zwiebeln",
 			"settings":
 			{
@@ -547,32 +529,12 @@
 			}
 		},
 		{
-			"contents": "<?php \nini_set('display_errors', 1);\nsession_start();\nrequire_once(\"inc/config.inc.php\");\nrequire_once(\"inc/functions.inc.php\");\nrequire_once('util/tcpdf/tcpdf_barcodes_2d.php');\n\nrequire('util/phpmailer/Exception.php');\nrequire('util/phpmailer/PHPMailer.php');\nrequire('util/phpmailer/SMTP.php');\n\nuse PHPMailer\\PHPMailer\\PHPMailer;\nuse PHPMailer\\PHPMailer\\Exception;\n\n//Überprüfe, dass der User eingeloggt ist\n//Der Aufruf von check_user() muss in alle internen Seiten eingebaut sein\n$user = check_user();\n\ninclude(\"templates/header.inc.php\");\ninclude(\"templates/nav.inc.php\");\n\nif (isset($_POST['pay'])) {\n\tif ($user['rights'] > 1) {\n\t\tif ($_POST['agree1'] == true) {\n\t\t\t \t\t\n\t\t\t $uid = $user['uid'];\n\n\t\t\t $mailtxt = '<h3>Deine Bestellung</h3>';\n\t         $grandtotal = 0;\n\n\t\t\tforeach($_SESSION[\"products\"] as $pro_id => $producer){\n\t\t\t\t$statement = $pdo->prepare(\"INSERT INTO orders (uid) VALUES ($uid)\");\n\t\t\t\t$result1 = $statement->execute();\n\n\t\t\t\t$statement = \"SELECT oid FROM orders WHERE uid = '$uid' AND created_at = (SELECT MAX(created_at) FROM orders)\";\n\t\t\t\t$oid = $pdo->query($statement)->fetchAll(PDO::FETCH_COLUMN);\n\n\t\t\t\t$statement = $pdo->prepare(\"SELECT producerName FROM producers WHERE pro_id = '$pro_id'\");\n\t\t\t\t$statement->execute();\n\t\t\t\t$row = $statement->fetch();\n\t\t\t\t\n\n\t\t\t\t$mailtext .= '\n\n\t\t\t\t<table>\n\t\t\t\t\t<tr style=\"text-align: left;\">\n\t\t\t\t\t<th>Artikel</th><th>Preis KG/L</th>\n\t\t\t\t\t<th>Menge</th>\n\t\t\t\t\t<th>&#931;</th>\n\t\t\t\t</tr>';\n\t\t\t\tforeach ($producer as $product) {\n\t            \n\t            $price_KG_L = $product[\"price_KG_L\"];\n\t            $pid = $product[\"pid\"];\n\t            $quantity = $product[\"quantity\"];\n\t            $productName = $product['productName'];\n\t            $total = ($price_KG_L * $quantity);\n\t            $grandtotal += $total;\n\n\t\t\t\t$statement = $pdo->prepare(\"INSERT INTO order_items (pid, oid, quantity, total) VALUES (:pid, :oid, :quantity, :total)\");\n\t\t\t\t$result2 = $statement->execute(array('pid' => $pid, 'oid' => $oid[0], 'quantity' => $quantity, 'total' => $total));\n\t\t\t\t$mailtxt .= '<tr><td>'. htmlspecialchars($productName) .'</td><td>'. $currency. sprintf(\"%01.2f\", ($price_KG_L)) .'</td><td>'. $quantity .'</td><td>'.$currency. sprintf(\"%01.2f\", ($total)). '</td></tr>';\n\t\t\t\t}\n\n\t\t\t\t$mailtxt .= '\n\t\t\t\t\t<tr>\n\t\t\t\t\t\t<td></td>\n\t\t\t\t\t\t<td></td>\n\t\t\t\t\t\t<td></td>\n\t\t\t\t\t\t<td style=\"font-weight: 600\">'.$currency.sprintf(\"%01.2f\",$grandtotal).' </td>\n\t\t\t\t\t</tr>\n\t\t\t\t</table>';\n\t\t\t}\n\n\t\t\t$email = $user['email'];\n\t\t\t$first_name = $user['first_name'];\n\t\t\t$last_name = $user['last_name'];\n\n\t\t\t$mail = new PHPMailer(true);\n\t\t\ttry {\n\t\t\t    //Server settings\n\t\t\t    $mail->SMTPDebug = 0;\n\t\t\t    $mail->isSMTP();\n\t\t\t    $mail->Host = $smtp_host;\n\t\t\t    $mail->SMTPAuth = true;\n\t\t\t    $mail->Username = $smtp_username;\n\t\t\t    $mail->Password = $smtp_password;\n\t\t\t    $mail->SMTPSecure = 'tls';\n\t\t\t    $mail->Port = 587;\n\t\t\t    $mail->CharSet = 'UTF-8';\n\t\t\t    $mail->Encoding = 'base64';\n\n\t\t\t    //Recipients\n\t\t\t    $mail->setFrom('kontakt@namiko.org', 'namiko e.V. Hannover');\n\t\t\t    $mail->addAddress($email, $first_name.' '.$last_name);\n\t\t\t    $mail->addReplyTo('kontakt@namiko.org', 'namiko e.V. Hannover');\n\n\t\t\t    //Content\n\t\t\t    $mail->isHTML(true);\n\t\t\t    $mail->Subject = 'Deine Bestellung beim namiko Hannover e.V.';\n\t\t\t    $mail->Body    = '<h1>Moin, '. htmlspecialchars($first_name) .'!</h1>\n\t\t\t    \t\t\t\t\t<p>Hiermit, bestätigen wir, dass Deine Bestellung bei uns eingangen ist. Zur Übersicht noch einmal eine Aufstellung der Artikel:<br><br>\n\t\t\t    \t\t\t\t\t'. $mailtxt .'\n\t\t\t    \t\t\t\t\t<br><br>\n\t\t\t    \t\t\t\t\tDenk daran, Deine Bestellung als abgeholt zu markieren unter <a href=\"https://m.namiko.org/my-orders.php\">Meine Bestellungen</a>.\n\t\t\t    \t\t\t\t\t<br><br>\n\t\t\t    \t\t\t\t\tWir freuen uns sehr mit Dir zusammenzuarbeiten. Alternativ kannst Du Dich auch bei uns einloggen und unter <a href=\"m.namiko.org/my-orders.php\">\"Meine Bestellungen\"</a> Deine Bestellung und den QR Code einsehen.<br><br><span style=\"font-style: italic\">Dein namiko Hannover e.V. Team</span><br><br><br><br><br><br>\n\t\t\t    \t\t\t\t\tBei Rückfragen einfach an kontakt@namiko.org schreiben.</p>';\n\t\t\t    $mail->AltBody = 'Moin, '. $first_name .'!\n\t\t\t    \t\t\t\t\tiermit, bestätigen wir, dass Deine Bestellung bei uns eingangen ist. Zur Übersicht noch einmal eine Aufstellung der Artikel:'. \n\t\t\t    \t\t\t\t\t$mailtxt .'\n\t\t\t    \t\t\t\t\t<br><br>\n\t\t\t    \t\t\t\t\tDenk daran, Deine Bestellung als abgeholt zu markieren unter Meine Bestellungen.\n\t\t\t    \t\t\t\t\t<br><br>\n\t\t\t    \t\t\t\t\tWir freuen uns sehr mit Dir zusammenzuarbeiten. Alternativ kannst Du Dich auch bei uns namiko.org einloggen und unter m.namiko.org/my-orders.php Deine Bestellung und den QR Code einsehen. Dein namiko Hannover e.V. Team\n\t\t\t    \t\t\t\t\tBei Rueckfragen einfach an kontakt@namiko.org schreiben.';\n\n\t\t\t    $mail->send();\n\t\t\t    $result3 = true;\n\t\t\t} catch (Exception $e) {\n\t\t\t    $result3 = false;\n\t\t\t}\n\n\t\t\tif ($result1 && $result2 && $result3) {\n\t\t\t\tunset($_SESSION['products']);\n\t\t\t\t$_SESSION['notification'] = true;\n\t\t\t\t$_SESSION['notificationmsg'] = 'Deine Bestellung wurde erfolgreich abgeschickt. Die Eingangsbestätigung hast du per E-Mail erhalten. Alternativ einfach direkt zu <a href=\"my-orders.php\">deinen Bestellungen</a>.';\n\t\t\t\theader('location: internal.php');\n\t\t\t}\n\n\t\t\tif (!$result1 || !$result2 || !$result3) {\n\t\t\t\tunset($_SESSION['products']);\n\t\t\t\t$_SESSION['notification'] = true;\n\t\t\t\t$_SESSION['notificationmsg'] = 'Es gab einen Fehler beim Absenden Deiner Bestellung. Überprüfe, ob die Bestellung trotzdem unter <a href=\"my-orders.php\">deinen Bestellungen</a> angezeigt wird.';\n\t\t\t\theader('location: internal.php');\n\t\t\t}\n\t\t}\n\t} else {\n\t\t$_SESSION['notification'] = true;\n\t\t$_SESSION['notificationmsg'] = 'Du bist leider noch nicht freigeschaltet für Bestellungen.';\n\t\theader('location: internal.php');\n\t}\n}\n\n?>",
-			"file": "pay.php",
-			"file_size": 5661,
-			"file_write_time": 131965461639249590,
+			"contents": "Moin Leute,\nauf Basecamp findest du einen Aufruf für eine Umfrage, auf Basis dessen wir Förderanträge schreiben wollen. Hier der Link zum Basecamppost:\nhttps://3.basecamp.com/3680781/circles/11095448\n\n\nAußerdem würden wir gerne ein Interview durchführen, wie es auch in der Anfangszeit des Platzes gemacht wurde. Wir wollen weiter am Konzept des Platzes forschen und es weiterentwickeln. Es ist sehr wichtig zu erfahren, vor welchen Herausforderungen die einzelnen Projekte stehen und wo sie sich hinentwickeln wollen. Die Erkenntnisse sollen auch in ein mögliches PP-Buch einfließen.\n\n\nEs wäre großartig, wenn einer von Euch dafür Zeit finden würdest. Eine Rückmeldung ob und an welchen Terminen es passt wäre perfekt. Ich habe mir die nächsten Wochen ziemlich frei gehalten.\n\n\nAm Besten ließe sich ein Treffen einrichten, wenn Ihr im Rahmen Deines Projektes eh auf dem Platz bist.\n\n\n\nLiebe Grüße,\nTure",
 			"settings":
 			{
-				"buffer_size": 5787,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "internal.php",
-			"settings":
-			{
-				"buffer_size": 12523,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "session_process.php",
-			"settings":
-			{
-				"buffer_size": 1868,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
+				"buffer_size": 903,
+				"line_ending": "Windows",
+				"name": "Moin Leute,"
 			}
 		},
 		{
@@ -580,58 +542,15 @@
 			"settings":
 			{
 				"buffer_size": 582,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "member.php",
+			"settings":
+			{
+				"buffer_size": 12455,
 				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "$statement = $pdo->prepare(\"\n\t\t\tSELECT orders.oid, users.uid, users.first_name, users.last_name, users.email, users.account_holder, users.IBAN, users.BIC, mandates.mid, mandates.created_at \n\t\t\tFROM orders LEFT JOIN users ON orders.uid = users.uid \n\t\t\tLEFT JOIN mandates ON users.uid = mandates.uid \n\t\t\tWHERE (orders.paid = 0)\". $_SESSION['timeToggle'] .\"\");\n\t\t$result = $statement->execute();",
-			"settings":
-			{
-				"buffer_size": 392,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "cart_process.php",
-			"settings":
-			{
-				"buffer_size": 5525,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "css/style.css",
-			"settings":
-			{
-				"buffer_size": 14255,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "inc/SepaXML.inc.php",
-			"settings":
-			{
-				"buffer_size": 8125,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "sepa.php",
-			"settings":
-			{
-				"buffer_size": 19351,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "inc/DOMValidator.inc.php",
-			"settings":
-			{
-				"buffer_size": 2424,
 				"line_ending": "Windows"
 			}
 		}
@@ -648,6 +567,18 @@
 		"selected_items":
 		[
 			[
+				"git:push",
+				"Git: Push"
+			],
+			[
+				"git:com",
+				"Git: Commit"
+			],
+			[
+				"git:add",
+				"Git: Add All"
+			],
+			[
 				"packe",
 				"Package Control: Remove Package"
 			],
@@ -662,10 +593,6 @@
 			[
 				"inst",
 				"Package Control: Install Package"
-			],
-			[
-				"git:add",
-				"Git: Add All"
 			],
 			[
 				"git:c",
@@ -747,18 +674,31 @@
 	},
 	"expanded_folders":
 	[
-		"/C/MAMP/htdocs/namiko"
+		"/home/ture/projects/htdocs/namiko"
 	],
 	"file_history":
 	[
+		"/C/Workspace/test.csv",
+		"/C/Workspace/Studium/18-19SS/DatenstrukturenUndAlgorithmen/TestAlgorithm.java",
+		"/C/Workspace/Studium/18-19WS/PR1/übungen/Pascal.java",
+		"/C/MAMP/htdocs/namiko/my-orders.php",
+		"/C/MAMP/htdocs/namiko/internal.php",
+		"/C/MAMP/htdocs/namiko/pay.php",
+		"/C/MAMP/htdocs/namiko/cart_process.php",
+		"/C/MAMP/htdocs/wmh/emailcenter.php",
+		"/C/MAMP/htdocs/wmh/templates/admin-nav.inc.php",
+		"/C/MAMP/htdocs/namiko/templates/main-nav.inc.php",
+		"/C/MAMP/htdocs/namiko/inc/DOMValidator.inc.php",
+		"/C/MAMP/htdocs/namiko/sepa.php",
+		"/C/MAMP/htdocs/namiko/inc/SepaXML.inc.php",
+		"/C/MAMP/htdocs/namiko/css/style.css",
+		"/C/MAMP/htdocs/namiko/inc/config.inc.php",
+		"/C/MAMP/htdocs/namiko/session_process.php",
 		"/C/MAMP/htdocs/namiko/check-out.php",
 		"/C/Users/Ture/AppData/Local/Temp/fz3temp-2/pay.php",
-		"/C/MAMP/htdocs/namiko/session_process.php",
 		"/C/MAMP/htdocs/namiko/dev.sql",
 		"/C/MAMP/htdocs/namiko/session.php",
-		"/C/MAMP/htdocs/namiko/my-orders.php",
 		"/C/Users/Ture/AppData/Local/Temp/fz3temp-2/config.inc.php",
-		"/C/MAMP/htdocs/namiko/inc/config.inc.php",
 		"/C/Users/Ture/AppData/Local/Temp/fz3temp-2/index.html",
 		"/C/Users/Ture/AppData/Local/Temp/fz3temp-2/index 2.html",
 		"/C/MAMP/htdocs/namiko/inc/functions.inc.php",
@@ -771,15 +711,12 @@
 		"/C/MAMP/htdocs/wmh/members.php",
 		"/C/MAMP/htdocs/namiko/test.php",
 		"/C/MAMP/htdocs/namiko/members.php",
-		"/C/MAMP/htdocs/namiko/internal.php",
 		"/C/MAMP/htdocs/namiko/inventory.php",
 		"/C/MAMP/htdocs/namiko/emailcenter.php",
 		"/C/Users/Ture/AppData/Local/Temp/fz3temp-2/session.php",
 		"/C/MAMP/htdocs/namiko/del_event.php",
 		"/C/MAMP/htdocs/namiko/order_total.php",
 		"/C/MAMP/htdocs/namiko/catalogue.php",
-		"/C/MAMP/htdocs/namiko/sepa.php",
-		"/C/MAMP/htdocs/namiko/pay.php",
 		"/C/Users/Ture/AppData/Local/Temp/SID195D20190131T135040.xml",
 		"/C/Users/Ture/AppData/Local/Temp/SID194D20190131T133934.xml",
 		"/C/MAMP/htdocs/namiko/sepa/SID189D20190131T131827.xml",
@@ -809,7 +746,6 @@
 		"/C/MAMP/htdocs/namiko/unsubscribe.php",
 		"/C/MAMP/htdocs/namiko/change_password.php",
 		"/C/MAMP/htdocs/namiko/change_email.php",
-		"/C/MAMP/htdocs/namiko/css/style.css",
 		"/C/Workspace/FossilHunter/pygamezero/config.py",
 		"/C/MAMP/htdocs/namiko/js/functions.js",
 		"/C/Users/Ture/AppData/Roaming/Sublime Text 3/Packages/User/Adaptive.sublime-theme",
@@ -823,7 +759,6 @@
 		"/C/MAMP/htdocs/namiko/contact_process.php",
 		"/C/MAMP/htdocs/namiko/contact.php",
 		"/C/MAMP/htdocs/namiko/check.php",
-		"/C/MAMP/htdocs/namiko/cart_process.php",
 		"/C/MAMP/htdocs/namiko/register.php",
 		"/C/MAMP/htdocs/namiko/email_process.php",
 		"/C/MAMP/htdocs/namiko/sql.sql",
@@ -833,7 +768,6 @@
 		"/C/MAMP/htdocs/namiko/sepa/SID176D20181030T091919.xml",
 		"/C/MAMP/htdocs/namiko/sepa/SID177D20181030T092605.xml",
 		"/C/MAMP/htdocs/namiko/templates/nav.inc.php",
-		"/C/MAMP/htdocs/namiko/templates/main-nav.inc.php",
 		"/C/Users/Ture/Downloads/SID3D20181030T172823.xml",
 		"/C/MAMP/htdocs/namiko/member.php",
 		"/C/MAMP/htdocs/namiko/util/php-iban/php-iban.php",
@@ -871,18 +805,11 @@
 		"/C/Users/Ture/AppData/Local/Temp/SID145D20181027T121809.xml",
 		"/C/Users/Ture/AppData/Local/Temp/SID144D20181027T121503.xml",
 		"/C/Users/Ture/AppData/Local/Temp/SID142D20181027T115309.xml",
-		"/C/Users/Ture/AppData/Local/Temp/SID140D20181027T164838.xml",
-		"/C/Users/Ture/AppData/Local/Temp/SID1001D20181027T135953.xml",
-		"/C/Users/Ture/AppData/Local/Temp/SID1001D20181027T141535.xml",
-		"/C/Users/Ture/AppData/Local/Temp/SID1001D20181027T142915.xml",
-		"/C/MAMP/htdocs/namiko/sepa/SID128D20180605T152947.xml",
-		"/C/Users/Ture/AppData/Local/Temp/SID1001D20181027T141424.xml",
-		"/C/Users/Ture/AppData/Local/Temp/SID1001D20181027T134847.xml",
-		"/C/Users/Ture/AppData/Local/Temp/SID1001D20181027T134813.xml"
+		"/C/Users/Ture/AppData/Local/Temp/SID140D20181027T164838.xml"
 	],
 	"find":
 	{
-		"height": 28.0
+		"height": 24.0
 	},
 	"find_in_files":
 	{
@@ -897,6 +824,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"cartcount",
+			"']\n",
 			"center",
 			"products.p",
 			"$product",
@@ -945,67 +874,11 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 3,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 175,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								175,
-								0
-							]
-						],
-						"settings":
-						{
-							"auto_name": "SELECT orders.*, order_items.* sum(order_items.tot",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 165,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								165,
-								165
-							]
-						],
-						"settings":
-						{
-							"auto_name": "ALTER TABLE `namiko`.`order_items`",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
 					"semi_transient": false,
 					"settings":
 					{
@@ -1029,99 +902,39 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "pay.php",
+					"buffer": 1,
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5787,
+						"buffer_size": 903,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								908,
-								908
+								0,
+								903
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 228.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "internal.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 12523,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								11869,
-								11869
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false,
-							"word_separators": "./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}`~?"
-						},
-						"translation.x": 0.0,
-						"translation.y": 6402.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "session_process.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1868,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								992,
-								992
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"auto_name": "Moin Leute,",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 2,
 					"file": "inc/config.inc.php",
 					"semi_transient": false,
 					"settings":
@@ -1133,8 +946,8 @@
 						"selection":
 						[
 							[
-								316,
-								316
+								582,
+								582
 							]
 						],
 						"settings":
@@ -1145,166 +958,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 7,
+					"buffer": 3,
+					"file": "member.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 392,
+						"buffer_size": 12455,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								32,
-								356
-							]
-						],
-						"settings":
-						{
-							"SL.26.region_keys":
-							[
-							],
-							"SL.55.region_keys":
-							[
-							],
-							"apply_syntax_touched": true,
-							"syntax": "Packages/PHP/PHP.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 9,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 8,
-					"file": "cart_process.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5525,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4595,
-								4595
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 551.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "css/style.css",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 14255,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1285,
-								1291
-							]
-						],
-						"settings":
-						{
-							"SL.27.region_keys":
-							[
-							],
-							"SL.52.region_keys":
-							[
-							],
-							"apply_syntax_touched": true,
-							"syntax": "Packages/CSS/CSS.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1197.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "inc/SepaXML.inc.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 8125,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								548,
-								548
-							]
-						],
-						"settings":
-						{
-							"SL.28.region_keys":
-							[
-							],
-							"SL.53.region_keys":
-							[
-							],
-							"apply_syntax_touched": true,
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
-					"type": "text"
-				},
-				{
-					"buffer": 11,
-					"file": "sepa.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 19351,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
+								8278,
+								8278
 							]
 						],
 						"settings":
@@ -1313,40 +984,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 3850.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
-					"type": "text"
-				},
-				{
-					"buffer": 12,
-					"file": "inc/DOMValidator.inc.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2424,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 12,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
@@ -1354,7 +995,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 28.0
+		"height": 24.0
 	},
 	"input":
 	{
@@ -1369,18 +1010,11 @@
 				0,
 				1,
 				1
-			],
-			[
-				1,
-				0,
-				2,
-				1
 			]
 		],
 		"cols":
 		[
 			0.0,
-			0.515562179626,
 			1.0
 		],
 		"rows":
@@ -1406,7 +1040,7 @@
 	"project": "namiko.sublime-project",
 	"replace":
 	{
-		"height": 52.0
+		"height": 44.0
 	},
 	"save_all_on_build": true,
 	"select_file":

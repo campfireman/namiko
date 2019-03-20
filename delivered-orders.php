@@ -46,7 +46,7 @@ while ($row = $statement->fetch()) {
 	$result2 = $statement2->execute();
 
 	while ($row2 = $statement2->fetch()) {
-		$pid = $row2['pid'];
+		$pid = $row2['pid'];git
 		$productName = $row2['productName'];
 		$price_KG_L = $row2['price_KG_L'];
 		$quantity = $row2['quantity'];

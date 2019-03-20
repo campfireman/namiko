@@ -121,10 +121,10 @@ if (isset($_POST['remove-recipient'])) {
 		<div class="col-sm-7">
 			<span class="subtitle2">Rundmail verschicken</span><br><br>
 			<form class="form send-mail">
-				<div><input id="subject" type="text" name="subject" placeholder="Betreff"></div><br>
+				<div><input id="subject" type="text" name="subject" placeholder="Betreff" required></div><br>
 				<div><label for="text">Moin, (Vorname)!</label><br><input type="hidden" name="text"><div id="mailtext" class="summernote"></div><br></div>
 				<label><input type="checkbox" name="members" value="members" style="min-width: 20px" checked>Mitglieder</label><br>
-				<label><input type="checkbox" name="others" value="others" style="min-width: 20px">Newsletter Empfänger</label><br><br>
+				<label><input type="checkbox" name="supporters" value="others" style="min-width: 20px">Newsletter Empfänger</label><br><br>
 				<button type="submit" id="send-mail" name="send-mail" class="clean-btn green">E-Mails senden <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
 			</form>
 		</div>

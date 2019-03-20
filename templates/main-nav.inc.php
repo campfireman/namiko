@@ -6,6 +6,14 @@ if (is_checked_in()) {
 				header("location: verify.php");
 	}
 }
+
+function cartCount () {
+    $total_items = 0;
+    foreach($_SESSION['products'] as $producer) {
+        $total_items += count($producer); //count total items
+    }
+    return $total_items;
+}
 ?>
 
 <header>
@@ -54,7 +62,7 @@ if (is_checked_in()) {
 						echo '<a class="shoppingCart" id="shoppingCart" onclick="open_close_Cart()"><i class="fa fa-shopping-cart" aria-hidden="true"></i>
 							<span id="cartCount">';
 								if(isset($_SESSION["products"])){
-								    echo count($_SESSION["products"]); 
+								    echo cartCount(); 
 								}else{
 								    echo '0'; 
 								}

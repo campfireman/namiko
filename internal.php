@@ -292,18 +292,24 @@ $(".order-item").submit(function(e){ //user clicks form submit button
 });
 
 $("#cartContent").on('click', 'a.remove-item', function(e) {
-     e.preventDefault(); 
-	    var pid = $(this).attr("data-code"); //get product code
-	    var item_total = $(this).closest('tr').find('[name=item_total]').val(); // get value of item
-	    var total = $(this).closest('table').find('[name=total]'); // get element of order total
-	    var total_val = total.val(); // get value of order total
-	    $(this).closest('tr').fadeOut(); // fade out the table row containing the item
-	    $.getJSON( "cart_process.php", {"remove_code":pid}).done(function(data){ 
-	        total_val = total_val - item_total; // subtract deleted product from order total_val
-	        total.val(total_val); // save new total in hidden input field
-	        total.closest('tr').find('#total').html('').html(total_val.toFixed(2)); // delete old total & insert new total
-	        $("#cartCount").html(data.items); //update Item count in cart-info
-	    });
+	e.preventDefault(); 
+	var pid = $(this).attr("data-code"); //get product code
+	var item_total = $(this).closest('tr').find('[name=item_total]').val(); // get value of item
+	var grandtotal = $('#grandtotal_val').val();
+	var total = $(this).closest('table').find('[name=total]'); // get element of order total
+	var total_val = total.val(); // get value of order total
+
+	$(this).closest('tr').fadeOut(); // fade out the table row containing the item
+	$.getJSON("cart_process.php", {"remove_code":pid}).done(function(data){ 
+	    total_val = total_val - item_total; // subtract deleted product from order total_val
+	    grandtotal = grandtotal - item_total;
+	    // save new total in hidden input field
+	    total.val(total_val); 
+	    $('#grandtotal_val').val(grandtotal);
+	    $('#grandtotal').html("ges. "+ grandtotal.toFixed(2)+"€");
+	    total.closest('tr').find('#total').html('').html(total_val.toFixed(2)); // delete old total & insert new total
+	    $("#cartCount").html(data.items); //update Item count in cart-info
+	});
 });
 
 $( "#shoppingCart").on('click', function(e) { //when user clicks on cart box

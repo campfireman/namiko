@@ -71,8 +71,8 @@ if (isset($_POST["load_cart"]) && $_POST["load_cart"] == 1) {
                                 </tr>';
                 $subtotal = ($price_KG_L * $quantity);
                 $total = ($total + $subtotal);
-                $grandtotal += $total;
             }
+            $grandtotal += $total;
             $cart_box .= '  <tr>
                             <td></td><td></td><td></td>
                             <td class="emph">
@@ -97,31 +97,34 @@ if (isset($_POST["load_cart"]) && $_POST["load_cart"] == 1) {
         } else {
             $cart_box .= '  
             <br>
-            <div>
-            <div class="emph">ges. '.$currency.sprintf("%01.2f",$grandtotal).'</div>
+            <input id="grandtotal_val" type="hidden" name="grandtotal" value="'. $grandtotal .'">
+            <div id="grandtotal" class="emph">ges. '.sprintf("%01.2f",$grandtotal). $currency.'
+            </div>
                 <a href="check-out.php" title="Zur Kasse gehen">
                     <button class="clean-btn green">Zur Kasse <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></button>
                 </a>
             </div>';
         }
             die($cart_box); //exit and output content
-    }else{
+    } else {
         die("Dein Warenkorb ist leer."); //we have empty cart
     }
 }
 
 ################# remove item from shopping cart ################
-if(isset($_GET["remove_code"]) && isset($_SESSION["products"]))
-{
-    $pid   = filter_var($_GET["remove_code"], FILTER_SANITIZE_STRING); //get the product code to remove
+if (isset($_GET["remove_code"]) && isset($_SESSION["products"])) {
+    $pid  = filter_var($_GET["remove_code"], FILTER_SANITIZE_STRING); //get the product code to remove
 
-    if(isset($_SESSION["products"][$pid]))
-    {
-        unset($_SESSION["products"][$pid]);
+    foreach ($_SESSION["products"] as $pro_id => $producer) {
+        if (isset($producer[$pid])) {
+            unset($_SESSION["products"][$pro_id][$pid]);
+            if (count($_SESSION['products'][$pro_id]) == 0) {
+                unset($_SESSION["products"][$pro_id]);
+            }
+        }   
     }
-    
-    $total_items = count($_SESSION["products"]);
-    die(json_encode(array('items'=>$total_items)));
+    die(json_encode(array('items'=> cartCount())));
+    //die(json_encode($_SESSION['products']));
 
 }
 ?>
