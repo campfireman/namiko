@@ -339,69 +339,70 @@ if (isset($_POST['update'])) {
 	$result = $statement->execute();
 
 	$recommendationsOut = '';
+	if ($statement->rowCount() > 0) {
+		while ($row = $statement->fetch()) {
+			$pro_id = $row['pro_id'];
+			$grandtotal = 0;
+			$producerName = $row['producerName'];
 
-	while ($row = $statement->fetch()) {
-		$pro_id = $row['pro_id'];
-		$grandtotal = 0;
-		$producerName = $row['producerName'];
-		$category = $recommendations[$pro_id]; // checking array for the specific producer
+			if (array_key_exists($pro_id, $recommendations)) { // if producer in array
+				$category = $recommendations[$pro_id];
 
-		if ($category) { // if producer in array
-		
-			// preparing individual tables for output
-			$recommendationsOut .= '<span class="subtitle3 spacer">'. $producerName .'</span>
-									<form class="order-total">
-									<table class="table panel panel-default" style="min-width: 620px">
-									<tr>
-									<th>Produktname</th>
-									<th>Produkt ID</th>
-									<th>Defizit KG/L</th>
-									<th>Gebinde KG/L</th>
-									<th>empf. Menge</th>
-									<th>Preis Gebinde</th>
-									<th>&#931;</th>
-									</tr>';
-			// iterating the recommendations array for this specific producer
-			foreach ($category as $product) {
-				$pid = $product['pid'];
-				$deficit = ($product['deficit'] * (-1));
-				$statement2 = $pdo->prepare("SELECT productName, container, priceContainer FROM products WHERE pid = '$pid'");
-				$result2 = $statement2->execute();
-				$productData = $statement2->fetch();
-
-				$priceContainer = $productData['priceContainer'];
-				$quantityContainer = ceil(($deficit / $productData['container']));
-				if ($quantityContainer == 0) { $quantityContainer = 1; }
-				$total = ($priceContainer * $quantityContainer); // calculating price
-				$grandtotal += $total; // calculating total price
-
-				// adding item to table
-				$recommendationsOut .= '<tr>
-										<td>'. $productData['productName'] .'</td>
-										<td><input type="hidden" name="pid" value="'. $pid .'">'. $pid .'</td>
-										<td>'. $product['deficit'] .'</td>
-										<td>'. $productData['container'] .'</td>
-										<td><input class="width100" type="number" name="quantityContainer" value="'. $quantityContainer . '"></td>
-										<td>'. $currency.sprintf("%01.2f", $priceContainer) .'</td>
-										<td>'. $currency.sprintf("%01.2f", $total) .'</td>
+				// preparing individual tables for output
+				$recommendationsOut .= '<span class="subtitle3 spacer">'. $producerName .'</span>
+										<form class="order-total">
+										<table class="table panel panel-default" style="min-width: 620px">
+										<tr>
+										<th>Produktname</th>
+										<th>Produkt ID</th>
+										<th>Defizit KG/L</th>
+										<th>Gebinde KG/L</th>
+										<th>empf. Menge</th>
+										<th>Preis Gebinde</th>
+										<th>&#931;</th>
 										</tr>';
-			}
+				// iterating the recommendations array for this specific producer
+				foreach ($category as $product) {
+					$pid = $product['pid'];
+					$deficit = ($product['deficit'] * (-1));
+					$statement2 = $pdo->prepare("SELECT productName, container, priceContainer FROM products WHERE pid = '$pid'");
+					$result2 = $statement2->execute();
+					$productData = $statement2->fetch();
 
-			// closing table
-			$recommendationsOut .= '<tr>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td><span class="emph">'.$currency.sprintf("%01.2f", $grandtotal). '</span></td>
-									</tr>
-									</table>
-									<button type="submit" name="orderRecommendation" class="right clean-btn blue">Hinzufügen <i class="fa fa-plus" aria-hidden="true"></i></button><br>
-									</form>
-									<br><br>';
-		} 
+					$priceContainer = $productData['priceContainer'];
+					$quantityContainer = ceil(($deficit / $productData['container']));
+					if ($quantityContainer == 0) { $quantityContainer = 1; }
+					$total = ($priceContainer * $quantityContainer); // calculating price
+					$grandtotal += $total; // calculating total price
+
+					// adding item to table
+					$recommendationsOut .= '<tr>
+											<td>'. $productData['productName'] .'</td>
+											<td><input type="hidden" name="pid" value="'. $pid .'">'. $pid .'</td>
+											<td>'. $product['deficit'] .'</td>
+											<td>'. $productData['container'] .'</td>
+											<td><input class="width100" type="number" name="quantityContainer" value="'. $quantityContainer . '"></td>
+											<td>'. $currency.sprintf("%01.2f", $priceContainer) .'</td>
+											<td>'. $currency.sprintf("%01.2f", $total) .'</td>
+											</tr>';
+				}
+
+				// closing table
+				$recommendationsOut .= '<tr>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td><span class="emph">'.$currency.sprintf("%01.2f", $grandtotal). '</span></td>
+										</tr>
+										</table>
+										<button type="submit" name="orderRecommendation" class="right clean-btn blue">Hinzufügen <i class="fa fa-plus" aria-hidden="true"></i></button><br>
+										</form>
+										<br><br>';
+			} 
+		}
 	}
 	?>
 	<form class="form" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">

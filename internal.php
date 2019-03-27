@@ -99,7 +99,7 @@ include("templates/main-nav.inc.php");
 		<div class="greet">
 		<h1><span id="greeter"></span></h1>
 		<span class="subtitle">Willkommen zurück, <span class="emph"><?php echo htmlspecialchars($user['first_name']); ?></span>! Was möchtest Du bestellen?</span><br><br>
-		<?php echo $output ?>
+		<?php #echo $output ?>
 		<br>
 		</div>
 	</div>

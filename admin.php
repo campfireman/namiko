@@ -271,7 +271,7 @@ if (isset($_POST['save'])) {
 
 		$statement = $pdo->prepare("SELECT * FROM producers ORDER BY pro_id");
 		$result = $statement->execute();
-
+		$select = "";
 		$select;
 		while ($row = $statement->fetch()) {
 

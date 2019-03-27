@@ -128,7 +128,7 @@ if (isset($_POST['sepa'])) {
 			// Dokumenteninformationen
 			$pdf->SetCreator(PDF_CREATOR);
 			$pdf->SetAuthor('admin');
-			$pdf->SetTitle('Mitglied Nr. '. $uid[0] .'_'. $_SESSION['first_name'] .' '. $name);
+			$pdf->SetTitle('Mitglied Nr. '. $uid[0] .'_'. $last_name .' ' . $last_name);
 			$pdf->SetSubject('Mitgliedschaft');
 			 
 			 
@@ -161,7 +161,7 @@ if (isset($_POST['sepa'])) {
 			 
 			//Ausgabe der PDF
 			 
-			$memberName = $uid[0] .'_'. $_SESSION['first_name'] .'_'. $_SESSION['last_name'] .'_'. $verify_code  .'.pdf';
+			$memberName = $uid[0] .'_'. $first_name .'_'. $last_name .'_'. $verify_code  .'.pdf';
 
 			 
 			//Variante 2: PDF im Verzeichnis abspeichern:

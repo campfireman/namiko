@@ -71,7 +71,7 @@ echo $menu;
 </div>
 
 <?php
-if ($_SESSION['notification']) {
+if (isset($_SESSION['notification'])) {
 	echo '<script>document.body.className += "noscroll"</script>
 			<div id="notification1" class="notification">
 				<div><a id="close" href="javascript:void(0)" title="Schließen" class="closebtn" onclick="closeNotification(1)">&times;</a></div>
