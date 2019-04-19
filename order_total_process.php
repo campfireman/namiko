@@ -2,6 +2,23 @@
 session_start(); //start session
 //ini_set('display_errors', 1);
 require_once("inc/config.inc.php"); //include config file
+require_once('inc/functions.inc.php');
+require_once('inc/Cart.inc.php');
+ini_set('display_errors', 1);
+
+
+function insertOrder($item) {
+    global $orders;
+    $uid = $item['uid'];
+    $pro_id = $item['producer'];
+    $pid = $item['pid'];
+
+    if (array_key_exists($pid, $orders[$uid][$pro_id])) {
+       $orders[$uid][$pro_id][$pid]['quantity'] += $item['quantity'];
+    } else {
+        $orders[$uid][$pro_id][$pid] = $item;
+    }
+}
 
 ############# add products to session #########################
 if(isset($_POST["pid"])) {
@@ -41,6 +58,7 @@ if(isset($_POST["load_cart"]) && $_POST["load_cart"] == 1) {
 
     if(isset($_SESSION["total"]) && count($_SESSION["total"]) > 0) { //if we have session variable
        $count = 0;
+       $cart_box = "";
         foreach ($_SESSION['total'] as $pro_id => $order_item) {
 
             $statement = $pdo->prepare("SELECT producerName FROM producers WHERE pro_id = '$pro_id'");
@@ -150,12 +168,19 @@ if(isset($_GET["remove_pid"]) && isset($_SESSION["total"]))
 
 if (isset($_POST['delivered'])) {
     $tid = $_POST['tid'];
+    $orders = [];
+    try {
+        
+        $db->lock(["order_total", "order_total_items", "inventory_items", "preorders", "preorder_items", "orders", "order_items", "products"], "WRITE");
+        $pdo->beginTransaction();
 
-    $statement = $pdo->prepare("SELECT delivered FROM order_total WHERE tid = '$tid'");
-    $result = $statement->execute();
-    $result = $statement->fetch();
+        $statement = $pdo->prepare("SELECT delivered FROM order_total WHERE tid = '$tid'");
+        $result = $statement->execute();
+        $result = $statement->fetch();
 
-    if ($result['delivered'] == 0) {
+        if ($result['delivered'] == 1) {
+            res(1, "Bereits, als bezahl markiert");
+        }
 
         $statement = $pdo->prepare("UPDATE order_total SET delivered = 1 WHERE tid = '$tid'");
         $result = $statement->execute();
@@ -171,16 +196,71 @@ if (isset($_POST['delivered'])) {
 
             $statement2 = $pdo->prepare("UPDATE inventory_items SET quantity_KG_L = (quantity_KG_L + '$totalQuantity') WHERE pid = '$pid'");
             $result2 = $statement2->execute();
+
+            if (!$result2) {
+                throw new Exception(json_encode($statement2->errorInfo()));
+            }
+
+            $sum = 0;
+
+            $statement2 = $pdo->prepare("
+                SELECT preorder_items.*, preorders.uid, products.producer, products.price_KG_L, products.productName 
+                FROM preorder_items 
+                LEFT JOIN preorders 
+                ON preorders.oid = preorder_items.oid 
+                LEFT JOIN products
+                ON preorder_items.pid = products.pid
+                WHERE preorder_items.transferred = 0 
+                AND preorder_items.pid = '$pid'
+                ORDER BY preorders.created_at ASC");
+            //$statement2->bindParam(':pid', $pid);
+            $result2 = $statement2->execute();
+
+            if (!$result2) {
+                throw new Exception(json_encode($statement2->errorInfo()));
+            }
+            echo $pid;
+            while ($preorder = $statement2->fetch()) {
+                $quantity = $preorder['quantity'];
+                $uid = $preorder['uid'];
+                $oi_id = $preorder['oi_id'];
+                $pro_id = $preorder['producer'];
+                $pid = $preorder['pid'];
+                $curSum = $sum + $quantity;
+
+                if ($curSum <= $totalQuantity) {
+                    $sum += $quantity;
+                    insertOrder($preorder);
+                    $db->markTransferred($oi_id);
+
+                    if ($curSum == $totalQuantity) {
+                        break;
+                    }
+                } else {
+                    $preorder['quantity'] = $totalQuantity - $sum;
+                    $db->updatePreorderItem($oi_id, $curSum - $totalQuantity);
+                    insertOrder($preorder);
+                    break;
+                }
+            }
+        }
+print_r($orders);
+        foreach ($orders as $uid => $order) {
+            $cart = new Cart();
+            $user = $db->getUser($uid);
+            $cart->process($uid, $order);
+            print_r($user);
+            $cart->mail($user, $smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity);
         }
 
-        if ($result) {
-            die(json_encode(1));
-        } else {
-            die(json_encode(0));
-        }
+        $pdo->commit();
+        $db->unlock();
+        res(0, "Erfolgreich");
 
-    } else {
-        die(json_encode(2));
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        res(1, $e->getMessage());
+        //error(json_encode($e->getMessage()), 'order-total.php');
     }
 }
 

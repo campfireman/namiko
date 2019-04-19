@@ -175,7 +175,7 @@ if (isset($_POST['sepa'])) {
 			// Dokumenteninformationen
 			$pdf->SetCreator(PDF_CREATOR);
 			$pdf->SetAuthor('admin');
-			$pdf->SetTitle('Mandat Nr.'. $mid[0] .'_'. $_SESSION['first_name'] .' '. $name);
+			$pdf->SetTitle('Mandat Nr.'. $mid[0] .'_'. $first_name .' '. $last_name);
 			$pdf->SetSubject('Mitgliedsantrag');
 			 
 			 

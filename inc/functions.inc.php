@@ -97,11 +97,25 @@ function getSiteURL() {
 /**
  * Outputs an error message and stops the further exectution of the script.
  */
-function error($error_msg) {
-	include("templates/header.inc.php");
-	include("templates/error.inc.php");
-	include("templates/footer.inc.php");
-	exit();
+function error($error_msg, $location=null, $hide = false) {
+	global $error_log;
+	global $debug;
+
+	if (!$debug) {
+		$hide = true;
+	}
+
+	$date = new DateTime();
+	$user = check_user();
+
+	$log = sprintf("%s | uid:%s | msg: %s\n" ,$date->format("Y/m/d H:i:s"), $user['uid'], $error_msg ."\n");
+	error_log($log, 3, $error_log);
+
+	if ($hide) {
+		$error_msg = "Ein Fehler ist aufgetreten";
+	}
+	notify($error_msg, $location);
+	
 }
 
 function clean($inhalt='') { //makes sure there's no executable code 
@@ -110,12 +124,34 @@ function clean($inhalt='') { //makes sure there's no executable code
     return($inhalt);
 }
 
-function notify ($msg) {
+function notify($msg, $location=null) {
+	$location = isset($location) ? $location : $_SERVER['PHP_SELF'];
 	$_SESSION['notification'] = true;
 	$_SESSION['notificationmsg'] = $msg;
-	header('Location: '. $_SERVER['PHP_SELF']);
+	header('Location: '. $location);
 }
 
-function res ($code, $text) {
+function res($code, $text) {
 	die(json_encode(array('error' => $code, 'text' => $text)));
 }
+
+function maskString($string, $start) {
+	return substr_replace($string, str_repeat("X", strlen($string)-$start), $start);
+}
+
+function cartCount () {
+    $total_items = 0;
+    if (!empty($_SESSION['orders'])) {
+        foreach($_SESSION['orders'] as $orders) {
+            $total_items += count($orders); //count total items
+        }
+    }
+
+    if (!empty($_SESSION['preorders'])) {
+        foreach($_SESSION['preorders'] as $preorders) {
+            $total_items += count($preorders); //count total items
+        }
+    }
+    return $total_items;
+}
+?>

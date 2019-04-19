@@ -6,14 +6,7 @@ if (is_checked_in()) {
 				header("location: verify.php");
 	}
 }
-
-function cartCount () {
-    $total_items = 0;
-    foreach($_SESSION['products'] as $producer) {
-        $total_items += count($producer); //count total items
-    }
-    return $total_items;
-}
+require_once('inc/functions.inc.php');
 ?>
 
 <header>
@@ -61,7 +54,7 @@ function cartCount () {
 						echo '<li>';
 						echo '<a class="shoppingCart" id="shoppingCart" onclick="open_close_Cart()"><i class="fa fa-shopping-cart" aria-hidden="true"></i>
 							<span id="cartCount">';
-								if(isset($_SESSION["products"])){
+								if(isset($_SESSION['orders']) || isset($_SESSION['preorders'])){
 								    echo cartCount(); 
 								}else{
 								    echo '0'; 
@@ -86,15 +79,8 @@ echo $menu;
 ?>
 </div>
 
-<div id="cartContent" class="cart text-center">
-	<div><a href="javascript:void(0)" id="close2" title="Close" class="closebtn" onclick="open_close_Cart()">&times;</a></div>
-	<h3 class="header spacer">Deine Bestellung</h3>
-	<div id="shopping-cart-results" class="pad">
-	</div>
-</div>
-
 <?php
-if (isset($_SESSION['notification'])) {
+if (isset($_SESSION['notification']) && $_SESSION['notification']) {
 	echo '<script>document.body.className += "noscroll"</script>
 			<div id="notification1" class="notification">
 				<div><a id="close" href="javascript:void(0)" title="Schließen" class="closebtn" onclick="closeNotification(1)">&times;</a></div>

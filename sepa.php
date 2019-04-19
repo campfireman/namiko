@@ -2,13 +2,7 @@
 session_start();
 require_once("inc/config.inc.php");
 require_once("inc/functions.inc.php");
-require_once("inc/SepaXML.inc.php");
-require('util/phpmailer/Exception.php');
-require('util/phpmailer/PHPMailer.php');
-require('util/phpmailer/SMTP.php');
-
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+require_once("inc/SEPAprocedure.inc.php");
 
 //Überprüfe, dass der User eingeloggt ist
 //Der Aufruf von check_user() muss in alle internen Seiten eingebaut sein
@@ -51,33 +45,15 @@ while ($row = $statement->fetch()) {
 }*/
 
 
-if(isset($_POST['memberPay'])) {
+if (isset($_POST['memberPay'])) {
 	$creator = $user['uid'];
-	$sepa = new SepaXML;
-	$sepa->collectionDt = $_POST['date'];
-
-	$statement = $pdo->prepare("INSERT INTO sepaDocs (creator) VALUES (:creator)");
-	$result = $statement->execute(array('creator' => $creator));
-
-	if ($result) {
-		$statement = $pdo->prepare("SELECT sid FROM sepaDocs WHERE created_at = (SELECT MAX(created_at) FROM sepaDocs)");
-		$result = $statement->execute();
-		$sepaDoc = $statement->fetch();
-
-		$sid = $sepaDoc['sid'];
-		$date = date('Ymd');
-		$time = date('His');
-		$sepa->msgID = $myBIC . 'SID' . $sid .'-'. $date . $time;
-		$sepa->creDtTm = date('Y-m-d') . 'T' . date('H:i:s');
-		$sepa->InitgPty = $user['first_name']. ' ' .$user['last_name'];
-		$sepa->pymntID = 'SID'. $sid .'D'. $date .'T'. $time;
-		$sepa->filename = dirname(__FILE__).'/sepa/'. $sepa->pymntID .'.xml';
-		$sepa->myEntity = $myEntity;
-		$sepa->myIBAN = $myIBAN;
-		$sepa->myBIC = $myBIC;
-		$sepa->creditorId = $creditorId;
-
-		$sepa->createHdr();
+	$mails = [];
+	$collectionDt = $_POST['date'];
+	$transactions = [];
+	
+	try {
+		$pdo->beginTransaction();
+		$sepa = new SEPAprocedure($pdo, $creator, $collectionDt, $myEntity, $myIBAN, $myBIC, $creditorId, $user['first_name']. ' ' .$user['last_name']);
 
 		$statement = $pdo->prepare("
 			SELECT users.*, mandates.mid, mandates.created_at AS cd FROM users 
@@ -88,109 +64,29 @@ if(isset($_POST['memberPay'])) {
 			OR (DATEDIFF(NOW(), 
 			(SELECT MAX(created_at) FROM contributions WHERE uid = users.uid LIMIT 1) ) >= 87))");
 		$result = $statement->execute();
-		
-		if ($result) {
-			$numberTx = 0;
-			$totalTx = 0;
 
-			while ($row = $statement->fetch()) {
-				$numberTx++;
-				$uid = $row['uid'];
-				$first_name = $row['first_name'];
-				$last_name = $row['last_name'];
-				$email = $row['email'];
-				$sepa->account_holder = $row['account_holder'];
-				$sepa->IBAN = $row['IBAN'];
-				$sepa->BIC = $row['BIC'];
-				$sepa->mid = $row['mid'];
-				$sepa->signed = substr($row['cd'], 0, 10);
-				$sepa->InstdAmt = (3 * $row['contribution']);
-				$sepa->RmtInf = 'Mitgliedsbeitrag für 3 Monate';
-				$totalTx += $sepa->InstdAmt;
-				
-				$statement2 = $pdo->prepare("INSERT INTO payments (uid, reference, amount) VALUES (:uid, :reference, :amount)");
-				$result2 = $statement2->execute(array('uid' => $uid, 'reference' => $sid, 'amount' => $sepa->InstdAmt));
-
-				$statement3 = $pdo->prepare("SELECT pay_id FROM payments WHERE uid = '$uid' AND reference = '$sid'");
-				$result3 = $statement3->execute();
-				$pay_id = $statement3->fetch();
-
-				$sepa->txID = 'ID'. $pay_id['pay_id'] .'D'. $date .'T'. $time;
-
-				
-				$statement2 = $pdo->prepare("INSERT INTO contributions (uid, pay_id) VALUES (:uid, :pay_id)");
-				$result2 = $statement2->execute(array('uid' => $uid, 'pay_id' => $pay_id['pay_id']));
-
-				$mail = new PHPMailer(true);
-				try {
-				    //Server settings
-				    $mail->SMTPDebug = 0;
-				    $mail->isSMTP();
-				    $mail->Host = $smtp_host;
-				    $mail->SMTPAuth = true;
-				    $mail->Username = $smtp_username;
-				    $mail->Password = $smtp_password;
-				    $mail->SMTPSecure = 'tls';
-				    $mail->Port = 587;
-				    $mail->CharSet = 'UTF-8';
-					$mail->Encoding = 'base64';
-
-				    //Recipients
-				    $mail->setFrom('noreply@namiko.org', 'namiko e.V. Hannover');
-				    $mail->addAddress($email, $first_name.' '.$last_name);
-				    $mail->addReplyTo('noreply@namiko.org', 'NoReply');
-
-				    //Content
-				    $mail->isHTML(true);
-				    $mail->Subject = 'Einzug des Mitgliedsbeitrages';
-				    $mail->Body    = '<h1>Moin, '. htmlspecialchars($first_name) .'!</h1>
-				    	<p>Den Mitgliedsbeitrag für dieses Qurtal von EUR '. sprintf("%01.2f", ($sepa->InstdAmt)) .' ziehen wir mit der SEPA-Lastschrift zum Mandat mit der Referenznummer '. $mid .' zu der Gläubiger-Identifikationsnummer '. $creditorId .' von Deinem Konto IBAN '. $sepa->IBAN .' bei BIC '. $sepa->BIC .' zum Fälligkeitstag '. $sepa->collectionDt .' ein.
-				    	<br><br><span style="font-style: italic">Dein namiko Hannover e.V. Team</span><br><br><br><br><br><br>
-				    					Bei Rückfragen einfach an kontakt@namiko.org schreiben.</p>';
-				    $mail->AltBody = 'Moin, '. htmlspecialchars($first_name) .'!
-				    	Den Mitgliedsbeitrag für dieses Qurtal von EUR '. sprintf("%01.2f", ($sepa->InstdAmt)) .' ziehen wir mit der SEPA-Lastschrift zum Mandat mit der Referenznummer '. $mid .' zu der Gläubiger-Identifikationsnummer '. $creditorId .' von Deinem Konto IBAN '. $sepa->IBAN .' bei BIC '. $sepa->BIC .' zum Fälligkeitstag '. $sepa->collectionDt .' ein.
-				    	Dein namiko Hannover e.V. Team
-				    					Bei Rückfragen einfach an kontakt@namiko.org schreiben.';
-
-				    $mail->send();
-				    $result3 = true;
-				} catch (Exception $e) {
-				    $result3 = false;
-				}
-
-				$sepa->appendDbtr();
-
-			}
-
-			$sepa->numberTx = $numberTx;
-			$sepa->totalTx = $totalTx;
-
-			$statement = $pdo->prepare("UPDATE sepaDocs SET PmtInfId = '$sepa->pymntID' WHERE sid = '$sid'");
-			$result = $statement->execute();
-
-			if ($sepa->createdoc()) {
-				$statement = $pdo->prepare("UPDATE sepaDocs SET PmtInfId = '$sepa->pymntID' WHERE sid = '$sid'");
-				$result = $statement->execute();
-
-
-				header('Content-type: "text/xml"; charset="utf8";');
-				header('Content-Transfer-Encoding: Binary');
-				header('Content-disposition: attachment; filename="'. $sepa->pymntID .'.xml"');
-				while (ob_get_level()) {
-				    ob_end_clean();
-				}
-				readfile($sepa->filename);
-				exit();
-			} else {
-				notify('Es konnte kein gültiges XML Dokument erstellt werden.'. $sepa->errorDetails);
-			}
-
-		} else {
-			notify('Es konnte kein XML Dokument erstellt werden.');
+		while ($row = $statement->fetch()) {
+			$uid = $row['uid'];
+			$transactions[$uid]['first_name'] = $row['first_name'];
+			$transactions[$uid]['last_name'] = $row['last_name'];
+			$transactions[$uid]['email'] = $row['email'];
+			$transactions[$uid]['account_holder'] = $row['account_holder'];
+			$transactions[$uid]['IBAN'] = $row['IBAN'];
+			$transactions[$uid]['BIC'] = $row['BIC'];
+			$transactions[$uid]['mid'] = $row['mid'];
+			$transactions[$uid]['signed'] = substr($row['cd'], 0, 10);
+			$transactions[$uid]['instdAmt'] = (3 * $row['contribution']);
+			$transactions[$uid]['rmtInf'] = 'Mitgliedsbeitrag für 3 Monate';
 		}
 
-	} else {
-		notify('Es konnte kein Datenbankeintrag für das Dokument erstellt werden.');
+		$sepa->insertTx($transactions, "contributions");
+		$sepa->create();
+		$sepa->notify($smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity);
+		$pdo->commit();
+		$sepa->startDownload();
+	} catch (Exception $e) {
+		$pdo->rollBack();
+		error($e->getMessage());
 	}
 
 }
@@ -199,176 +95,71 @@ if(isset($_POST['memberPay'])) {
 
 if(isset($_POST['orderPay'])) {
 	$creator = $user['uid'];
-	$statement = $pdo->prepare("
-		SELECT orders.oid, users.uid, users.first_name, users.last_name, users.email, users.account_holder, users.IBAN, users.BIC
-		FROM orders LEFT JOIN users ON orders.uid = users.uid 
-		WHERE (orders.paid = 0)". $_SESSION['timeToggle'] ."");
-	$result = $statement->execute();
-	$payments = [];
+	$mails = [];
+	$collectionDt = $_POST['date'];
+	$transactions = [];
+	$uid = -1;
 
-	if ($result && $statement->rowCount() > 0) {
-		while($row = $statement->fetch()) {
-			$payments[$row['uid']][] = $row['oid'];
-		}
-	} else {
-		notify("Keine offenen Zahlungen gefunden.");
-	}
+	try {
+		$pdo->beginTransaction();
+		$sepa = new SEPAprocedure($pdo, $creator, $collectionDt, $myEntity, $myIBAN, $myBIC, $creditorId, $user['first_name']. ' ' .$user['last_name']);
 
-	$sepa = new SepaXML;
-	$sepa->collectionDt = $_POST['date'];
-
-	$statement = $pdo->prepare("INSERT INTO sepaDocs (creator) VALUES (:creator)");
-	$result = $statement->execute(array('creator' => $creator));
-
-	if ($result) {
-		$statement = $pdo->prepare("SELECT sid FROM sepaDocs WHERE created_at = (SELECT MAX(created_at) FROM sepaDocs)");
+		$statement = $pdo->prepare("
+			SELECT orders.oid, users.*, mandates.mid, mandates.created_at AS cd, SUM(order_items.total) AS total
+			FROM orders 
+			LEFT JOIN users ON orders.uid = users.uid 
+			LEFT JOIN order_items ON orders.oid = order_items.oid 
+			LEFT JOIN mandates ON users.uid = mandates.uid
+			WHERE (orders.paid = 0) ". $_SESSION['timeToggle'] ."
+			GROUP BY orders.oid
+			ORDER BY users.uid, orders.oid ASC");
 		$result = $statement->execute();
-		$sepaDoc = $statement->fetch();
 
-		$sid = $sepaDoc['sid'];
-		$date = date('Ymd');
-		$time = date('His');
-		$sepa->msgID = $myBIC . 'SID' . $sid .'-'. $date . $time;
-		$sepa->creDtTm = date('Y-m-d') . 'T' . date('H:i:s');
-		$sepa->InitgPty = $user['first_name']. ' ' .$user['last_name'];
-		$sepa->pymntID = 'SID'. $sid .'D'. $date .'T'. $time;
-		$sepa->filename = dirname(__FILE__).'/sepa/'. $sepa->pymntID .'.xml';
-		$sepa->myEntity = $myEntity;
-		$sepa->myIBAN = $myIBAN;
-		$sepa->myBIC = $myBIC;
-		$sepa->creditorId = $creditorId;
+		if ($result && $statement->rowCount() > 0) {
+			while($row = $statement->fetch()) {
+				$oid = $row['oid'];
+				if ($row['uid'] != $uid) {
+					$uid = $row['uid'];
+					$transactions[$uid]['first_name'] = $row['first_name'];
+					$transactions[$uid]['last_name'] = $row['last_name'];
+					$transactions[$uid]['email'] = $row['email'];
+					$transactions[$uid]['account_holder'] = $row['account_holder'];
+					$transactions[$uid]['IBAN'] = $row['IBAN'];
+					$transactions[$uid]['BIC'] = $row['BIC'];
+					$transactions[$uid]['mid'] = $row['mid'];
+					$transactions[$uid]['signed'] = substr($row['cd'], 0, 10);
+					$transactions[$uid]['instdAmt'] = $row['total'];
+					$transactions[$uid]['rmtInf'] = "Bestellung Nr. " . $oid;
 
-		// insert header data into xml file
-		$sepa->createHdr();
-
-		$numberTx = 0;
-		$totalTx = 0;
-
-		foreach ($payments as $uid => $order) {
-			$txSum = 0;
-			$RmtInfString = "Bestellung Nr. ";
-			$count = 1;
-
-			foreach ($order as $oid) {
-				if ($count == 1) {
-					$RmtInfString .= $oid;
 				} else {
-					$RmtInfString .= " + ". $oid;
-				}
-				$count++;
-				$statement = $pdo->prepare("SELECT total FROM order_items WHERE oid = '$oid'");
-				$result = $statement->execute();
+					$transactions[$uid]['instdAmt'] += $row['total'];
+					$transactions[$uid]['rmtInf'] .= " + " . $row['oid'];
 
-				if ($result) {
-					while ($row = $statement->fetch()) {
-						$txSum += $row['total'];
+					if (strlen($transactions[$uid]['rmtInf']) > 140) {
+						$transactions[$uid]['rmtInf'] = substr($transactions[$uid]['rmtInf'], 0, 139);
 					}
-
-					$statement2 = $pdo->prepare("UPDATE orders SET paid = 1 WHERE (oid='$oid')". $_SESSION['timeToggle'] ."");
-					$result2 = $statement2->execute();
 				}
+				$statement2 = $pdo->prepare("UPDATE orders SET paid = 1 WHERE oid= '$oid'");
+				$result2 = $statement2->execute();
 
+				if (!$result2) {
+					throw new Exception(json_encode($statement2->errorInfo()));
+					
+				}
 			}
-
-			if (strlen($RmtInfString) > 140) {
-				$RmtInfString = substr($RmtInfString, 0, 139);
-			}
-
-			$statement = $pdo->prepare("
-				SELECT users.uid, users.first_name, users.last_name, users.email, users.account_holder, users.IBAN, users.BIC, mandates.mid, mandates.created_at FROM users
-				LEFT JOIN mandates ON users.uid = mandates.uid 
-				WHERE users.uid = '$uid'");
-			$result = $statement->execute();
-			$row = $statement->fetch();
-			print_r($row);
-
-			$numberTx++;
-			$first_name = $row['first_name'];
-			$last_name = $row['last_name'];
-			$email = $row['email'];
-			$sepa->account_holder = $row['account_holder'];
-			$sepa->IBAN = $row['IBAN'];
-			$sepa->BIC = $row['BIC'];
-			$sepa->mid = $row['mid'];
-			$sepa->signed = substr($row['created_at'], 0, 10);
-			$sepa->RmtInf = $RmtInfString;
-
-			$totalTx += $txSum;
-			$sepa->InstdAmt = $txSum;
-			
-			$statement3 = $pdo->prepare("INSERT INTO payments (uid, reference, amount) VALUES (:uid, :reference, :amount)");
-			$result3 = $statement3->execute(array('uid' => $uid, 'reference' => $sid, 'amount' => $txSum));
-
-			$statement3 = $pdo->prepare("SELECT pay_id FROM payments WHERE uid = '$uid' AND reference = '$sid'");
-			$result3 = $statement3->execute();
-			$pay_id = $statement3->fetch();
-
-			$sepa->txID = 'ID'. $pay_id['pay_id'] .'D'. $date .'T'. $time;
-
-			$mail = new PHPMailer(true);
-			try {
-			    //Server settings
-			    $mail->SMTPDebug = 0;
-			    $mail->isSMTP();
-			    $mail->Host = $smtp_host;
-			    $mail->SMTPAuth = true;
-			    $mail->Username = $smtp_username;
-			    $mail->Password = $smtp_password;
-			    $mail->SMTPSecure = 'tls';
-			    $mail->Port = 587;
-			    $mail->CharSet = 'UTF-8';
-				$mail->Encoding = 'base64';
-
-			    //Recipients
-			    $mail->setFrom('noreply@namiko.org', 'namiko e.V. Hannover');
-			    $mail->addAddress($email, $first_name.' '.$last_name);
-			    $mail->addReplyTo('noreply@namiko.org', 'NoReply');
-
-			    //Content
-			    $mail->isHTML(true);
-			    $mail->Subject = 'Bestellung Nr. '. $oid .'';
-			    $mail->Body    = '<h1>Moin, '. htmlspecialchars($first_name) .'!</h1>
-			    	<p>Wir ziehen die Bezahlung für die '. $RmtInfString .' ein. <br>
-			    	Die Summe von EUR '. sprintf("%01.2f", ($txSum)) .' ziehen wir mit der SEPA-Lastschrift zum Mandat mit der Referenznummer '. $mid .' zu der Gläubiger-Identifikationsnummer '. $creditorId .' von Deinem Konto IBAN '. $sepa->IBAN .' bei BIC '. $sepa->BIC .' zum Fälligkeitstag '. $sepa->collectionDt .' ein.
-			    	<br><br><span style="font-style: italic">Dein namiko Hannover e.V. Team</span><br><br><br><br><br><br>
-			    					Bei Rückfragen einfach an kontakt@namiko.org schreiben.</p>';
-			    $mail->AltBody = 'Moin, '. htmlspecialchars($first_name) .'!
-			    	Wir ziehen die Bezahlung für die '. $RmtInfString .' ein. 
-			    	Die Summe von EUR '. sprintf("%01.2f", ($txSum)) .' ziehen wir mit der SEPA-Lastschrift zum Mandat mit der Referenznummer '. $mid .' zu der Gläubiger-Identifikationsnummer '. $creditorId .' von Deinem Konto IBAN '. $sepa->IBAN .' bei BIC '. $sepa->BIC .' zum Fälligkeitstag '. $sepa->collectionDt .' ein.
-			    	Dein namiko Hannover e.V. Team
-			    					Bei Rückfragen einfach an kontakt@namiko.org schreiben.';
-
-			    $mail->send();
-			    $result3 = true;
-			} catch (Exception $e) {
-			    $result3 = false;
-			}
-
-			$sepa->appendDbtr();
-		}
-		$sepa->numberTx = $numberTx;
-		$sepa->totalTx = $totalTx;
-		
-		if ($sepa->createdoc()) {
-			$statement = $pdo->prepare("UPDATE sepaDocs SET PmtInfId = '$sepa->pymntID' WHERE sid = '$sid'");
-			$result = $statement->execute();
-
-
-			header('Content-type: "text/xml"; charset="utf8";');
-			header('Content-Transfer-Encoding: Binary');
-			header('Content-disposition: attachment; filename="'. $sepa->pymntID .'.xml"');
-			while (ob_get_level()) {
-			    ob_end_clean();
-			}
-			readfile($sepa->filename);
-			exit();
 		} else {
-			notify('Es konnte kein gültiges XML Dokument erstellt werden.'. json_encode($sepa->errorDetails));
+			notify("Keine offenen Zahlungen gefunden.");
 		}
-	} else {
-		notify('Es konnte kein Datenbankeintrag für das Dokument erstellt werden.');
-	}
 
+		$sepa->insertTx($transactions);
+		$sepa->create();
+		$sepa->notify($smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity);
+		$pdo->commit();
+		$sepa->startDownload();
+	} catch (Exception $e) {
+		$pdo->rollBack();
+		error($e->getMessage());
+	}
 }
 
 ?>

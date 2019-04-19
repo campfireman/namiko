@@ -2,6 +2,7 @@
 session_start();
 require_once("inc/config.inc.php");
 require_once("inc/functions.inc.php");
+
 //ini_set('display_errors', 1);
 
 //Überprüfe, dass der User eingeloggt ist
@@ -84,9 +85,10 @@ if (isset($_POST['update'])) {
 			<tr>
 				<th>Produktname</th><th>Produkt ID</th>
 				<th class="width100">Lagermenge</th>
-				<th class="width100">angekündigt</th>
+				<th class="width100">bestellt</th>
 				<th class="width100">&#916;</th>
 				<th class="width100">Nachschub</th>
+				<th class="width100">vorbest.</th>
 				<th class="width100">&#931;</th>
 				<th>zuletzt editiert</th>
 				<th></th>
@@ -150,9 +152,13 @@ if (isset($_POST['update'])) {
 					$quantityDeliveryOut = $quantityDelivery;
 				}
 
+				// preorders
+				$preorders = $db->getPreorders($pid);
+				$preordersOut = '<span class="inline emph blue">'. $preorders .'</span>';
+
 				// calculate actual deficit with pending stock refills and saving items with negative deficit
 				// colored output based on amount
-				$sum = ($realStock + $quantityDelivery);
+				$sum = ($realStock + $quantityDelivery - $preorders);
 				if ($sum < 0) {
 					$recommendations[$producer][] = array('pid' => $pid, 'deficit' => $sum);
  					$sumOut = '<span class="red">'. $sum .'</span>';
@@ -180,6 +186,7 @@ if (isset($_POST['update'])) {
 					echo '<td>'. $quantityOrderedOut .'</td>';
 					echo '<td>'. $realStockOut .'</td>';
 					echo '<td>'. $quantityDeliveryOut .'</td>';
+					echo '<td>'. $preordersOut . '</td>';
 					echo '<td class="emph">'. $sumOut .'</td>';
 					echo '<td>'. $row['first_name'] .' '. $row['last_name'] . '</td>';
 					echo '<td><button type="submit" name="update" class="empty"><i class="fa fa-refresh" aria-hidden="true"></i></button></td>';

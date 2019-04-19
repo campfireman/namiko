@@ -4,7 +4,6 @@
 session_start();
 require_once("inc/config.inc.php");
 require_once("inc/functions.inc.php");
-ini_set('display_errors', 1);
 
 //Überprüfe, dass der User eingeloggt ist
 //Der Aufruf von check_user() muss in alle internen Seiten eingebaut sein
@@ -148,10 +147,11 @@ if (isset($_POST['save'])) {
 	$category = $_POST['category'];
 	$price_KG_L = $_POST['price_KG_L'];
 	$container = $_POST['container'];
+	$priceContainer = $_POST['priceContainer'];
 	$origin = $_POST['origin'];
 	$producer = $_POST['producer'];
 
-	$statement = $pdo->prepare("UPDATE products SET productName = '$productName', productDesc = '$productDesc', category='$category', price_KG_L = '$price_KG_L', container = '$container', origin = '$origin', producer = '$producer'  WHERE pid = '$pid'");
+	$statement = $pdo->prepare("UPDATE products SET productName = '$productName', productDesc = '$productDesc', category='$category', price_KG_L = '$price_KG_L', container = '$container', priceContainer = '$priceContainer', origin = '$origin', producer = '$producer'  WHERE pid = '$pid'");
 	$result = $statement->execute();
 
 	if ($result) {
@@ -263,6 +263,7 @@ if (isset($_POST['save'])) {
 			<th>Kategorie</th>
 			<th>Preis KG/L (€)</th>
 			<th>Gebinde (KG)</th>
+			<th>Preis Gebind.</th>
 			<th>Herkunft</th>
 			<th>Hersteller</th>
 			<th></th>
@@ -302,6 +303,7 @@ if (isset($_POST['save'])) {
 			echo '</select></td>';
 			echo '<td><input class="empty" type="number" name="price_KG_L" step="0.01" value="'. $row['price_KG_L'] .'"></td>';
 			echo '<td><input class="empty" type="number" name="container" step="0.1" value="'. $row['container'] .'"></td>';
+			echo '<td><input class="empty" type="number" name="priceContainer" step="0.01" value="'. $row['priceContainer'] .'"></td>';
 			echo '<td><input class="empty" type="text" name="origin" value="'. $row['origin'] .'"></td>';
 			echo '<td><select class="empty" type="text" name="producer"><option value="'. $row['pro_id'] .'">'. $row['producerName'] .'</option>'. $select .'</select></td>';
 			echo '<td><button class="empty" type="submit" name="save"><i class="fa fa-floppy-o" aria-hidden="true"></i></button></td>';

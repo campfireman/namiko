@@ -2,6 +2,7 @@
 session_start();
 require_once("inc/config.inc.php");
 require_once("inc/functions.inc.php");
+require_once("inc/Cart.inc.php");
 //ini_set('display_errors', 1);
 
 $user = check_user();
@@ -86,11 +87,13 @@ include("templates/main-nav.inc.php");
 		<div id="producer_popup"></div>
 </div>
 
-<div id="cartContent" class="cart">
+<pre>
+	<?php print_r($_SESSION); ?>
+</pre>
+
+<div id="cartContent" class="cart text-center">
 	<div><a href="javascript:void(0)" id="close2" title="Close" class="closebtn" onclick="open_close_Cart()">&times;</a></div>
-	<h3 class="header spacer">Deine Bestellung</h3>
-	<div id="shopping-cart-results" class="pad">
-	</div>
+	<div id="shopping-cart-results" class="pad spacer3"></div>
 </div>
 
 <div class="sizer">
@@ -140,6 +143,7 @@ $('#calendar').fullCalendar(
 </div>
 
 <?php
+
 $statement = $pdo->prepare("SELECT * FROM categories WHERE cid > 1 ORDER BY FIELD(cid, 3, 6, 7, 4, 5)");
 $result = $statement->execute();
 
@@ -182,15 +186,16 @@ while ($row = $statement->fetch()) {
 						$quantityOrdered += $row2['quantity'];
 					}
 
-					$realStock = ($quantity_KG_L - $quantityOrdered);
+					$stock = $db->getStock($pid);
+					$preorders = '<span class="blue">'. $db->getPreorders($pid) .'</span>';
 
 					// colored output based on amount
-					if ($realStock < 0) {
-						$realStockOut = '<span class="red">'. $realStock .'KG</span>';
-					} else if ($realStock > 0) {
-						$realStockOut = '<span class="green">'. $realStock .'KG</span>';
+					if ($stock < 0) {
+						$stockOut = '<span class="red">'. $stock .'KG</span>';
+					} else if ($stock > 0) {
+						$stockOut = '<span class="green">'. $stock .'KG</span>';
 					} else {
-						$realStockOut = '<span>'. $realStock .'</span>';
+						$stockOut = '<span>'. $stock .'</span>';
 					}
 
 					$count++;
@@ -203,7 +208,8 @@ while ($row = $statement->fetch()) {
 							<a class="producer_info" data-code="'. $row['pro_id'] .'">'. htmlspecialchars($row['producerName']) .'</a></span>';
 					echo '<h2 class="name">'. htmlspecialchars($row['productName']) .'</h2>';
 					echo '<div>'. $row['productDesc'] .'<br><span class="emph">Preis: '. $row['price_KG_L'] .'€/KG</span></div>';
-					echo '<div><span class="italic">auf Lager: </span>'. $realStockOut .'</div>';
+					echo '<div><span class="italic">auf Lager: </span>'. $stockOut .'</div>';
+					echo '<div><span class="italic">vorbestellt: </span>'. $preorders .'</div>';
 					echo '<div><span class="italic">Gebindegröße: </span>' .$row['container']. 'KG</div>';
 					if ($user['rights'] > 1) {
 					echo '<div class="price">
@@ -273,6 +279,7 @@ function open_close_Cart () {
 }
 </script>
 
+<script type="text/javascript" src="js/cart.js"></script>
 <script>
 //shopping cart functionality
 $(".order-item").submit(function(e){ //user clicks form submit button
@@ -291,32 +298,6 @@ $(".order-item").submit(function(e){ //user clicks form submit button
     e.preventDefault();
 });
 
-$("#cartContent").on('click', 'a.remove-item', function(e) {
-	e.preventDefault(); 
-	var pid = $(this).attr("data-code"); //get product code
-	var item_total = $(this).closest('tr').find('[name=item_total]').val(); // get value of item
-	var grandtotal = $('#grandtotal_val').val();
-	var total = $(this).closest('table').find('[name=total]'); // get element of order total
-	var total_val = total.val(); // get value of order total
-
-	$(this).closest('tr').fadeOut(); // fade out the table row containing the item
-	$.getJSON("cart_process.php", {"remove_code":pid}).done(function(data){ 
-	    total_val = total_val - item_total; // subtract deleted product from order total_val
-	    grandtotal = grandtotal - item_total;
-	    // save new total in hidden input field
-	    total.val(total_val); 
-	    $('#grandtotal_val').val(grandtotal);
-	    $('#grandtotal').html("ges. "+ grandtotal.toFixed(2)+"€");
-	    total.closest('tr').find('#total').html('').html(total_val.toFixed(2)); // delete old total & insert new total
-	    $("#cartCount").html(data.items); //update Item count in cart-info
-	});
-});
-
-$( "#shoppingCart").on('click', function(e) { //when user clicks on cart box
-    e.preventDefault(); 
-    $("#shopping-cart-results").load( "cart_process.php", {"load_cart":"1"}); //Make ajax request using jQuery Load() & update results
-});
-
 $(".producer_info").on('click', function(e) {
      e.preventDefault(); 
 	    var pro_id = $(this).attr("data-code");
@@ -326,8 +307,6 @@ $(".producer_info").on('click', function(e) {
 	    	$('#producer_popup').html(data);
 	    });
 });
-
-
 </script>
 
 <?php 

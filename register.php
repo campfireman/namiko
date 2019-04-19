@@ -38,8 +38,8 @@ $BIC = isset($_SESSION['bic']) ? $_SESSION['bic'] : "";
 <div id="reg" class="reg-container center-vertical">
 	<div class="form-container register">
 		<form action="member.php" method="post">
-
-			<div class="">
+			<div><span>Bereits registriert? </span><a href="login.php">zum Login</a></div>
+			<div class="spacer3">
 				<input id="inputFirstName" placeholder="Vorname" value="<?php echo htmlspecialchars($first_name) ?>" type="text" size="40" maxlength="150" name="first_name" required autofocus>
 				<input id="inputLastName" placeholder="Nachname" value="<?php echo htmlspecialchars($last_name) ?>" type="text" size="40" maxlength="150" name="last_name" required>
 			</div>

@@ -21,9 +21,7 @@ if (isset($_POST['event_type'])) {
 	$result = $statement->execute(array('name' => $name, 'color' => $color));
 
 	if ($result) {
-		$_SESSION['notification'] = true;
-		$_SESSION['notificationmsg'] = 'Die Terminart wurde erfolgreich gespeichert.';
-		header("location:". htmlspecialchars($_SERVER['PHP_SELF']));
+		notify('Die Terminart wurde erfolgreich gespeichert.');
 	} else {
 		$_SESSION['notification'] = true;
 		$_SESSION['notificationmsg'] = 'Die Terminart konnte nicht gespeichert werden.';

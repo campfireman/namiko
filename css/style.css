@@ -60,7 +60,7 @@ a:hover {
  */
 
 .sizer {
-	max-width: 1100px;
+	max-width: 1400px;
 	margin-left: auto;
 	margin-right: auto;
 	padding: 0 20px 0 20px;
@@ -159,7 +159,7 @@ a:hover {
 }
 
 .box {
-	max-width: 500px;
+	max-width: 520px;
 	padding-left: 20px;
 	padding-right: 20px;
 	margin-left: auto;
@@ -787,6 +787,7 @@ a:hover.title {
 }
 
 .cart {
+	overflow-y: scroll;
     height: 0;
 	width: 100%; 
     position: fixed; 
@@ -795,7 +796,6 @@ a:hover.title {
     left: 0;
     background-color: white; 
     overflow-x: hidden; 
-	overflow-y:hidden;
     transition: 0.3s; 
 	text-align: center;
 }
@@ -902,7 +902,7 @@ a:hover.title {
 }
 
 .limiter {
-	max-width: 1100px;
+	max-width: 1400px;
 	margin-left: auto;
 	margin-right: auto;
 	padding: 0 15px 0 15px;

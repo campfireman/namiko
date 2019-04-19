@@ -50,7 +50,6 @@ while ($row = $statement->fetch()) {
 		$productName = $row2['productName'];
 		$price_KG_L = $row2['price_KG_L'];
 		$quantity = $row2['quantity'];
-		$delivered = $row2['delivered'];
 		$total = $row2['total'];
 		$total = ($quantity * $price_KG_L);
 		$grandtotal += $total;

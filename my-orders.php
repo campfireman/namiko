@@ -2,7 +2,6 @@
 session_start();
 require_once("inc/config.inc.php");
 require_once("inc/functions.inc.php");
-require_once('util/tcpdf/tcpdf.php');
 
 //Überprüfe, dass der User eingeloggt ist
 //Der Aufruf von check_user() muss in alle internen Seiten eingebaut sein
@@ -10,133 +9,8 @@ $user = check_user();
 
 include("templates/header.inc.php");
 include("templates/nav.inc.php");
-
-if (isset($_POST['deliveryProof'])) {
-	$oid = $_POST['oid'];
-
-	$pdfOut = '<h1>Bestellung #'. $oid .'</h1>';
-
-	$statement = $pdo->prepare("SELECT delivery_proof.witness, delivery_proof.created_at, delivery_proof.signature, orders.oid, users.first_name, users.last_name FROM delivery_proof LEFT JOIN orders ON delivery_proof.oid = orders.oid LEFT JOIN users ON orders.uid = users.uid WHERE delivery_proof.oid = '$oid'");
-	$result = $statement->execute();
-
-	while ($row = $statement->fetch()) {
-		$witness = $row['witness'];
-		$date = substr($row['created_at'], 8, 2) .'.'. substr($row['created_at'], 5, 2) .'.'. substr($row['created_at'], 0, 4);
-		$signature = $row['signature'];
-		$first_name = $row['first_name'];
-		$last_name = $row['last_name'];
-		$imgdata = base64_decode(substr($signature, 22));
-		$grandtotal = 0;
-
-		$statement2 = $pdo->prepare("SELECT order_items.*, products.productName FROM order_items LEFT JOIN products ON order_items.pid = products.pid WHERE oid = '$oid'");
-		$result2 = $statement2->execute();
-
-		$pdfOut .='<div class="center">
-		 		<table style="">
-		 		<tr style="font-weight: bold;"><th>Artikel ID</th><th>Artikelname</th><th>Preis pro KG/L</th><th>Bestellmenge</th><th>Summe</th></tr>';
-
-		while ($row2 = $statement2->fetch()) {
-			$total = $row2['total'];
-			$quantity = $row2['quantity'];
-			$price = ($total / $quantity);
-			$grandtotal += $total;
-
-			$pdfOut .= '<tr><td>'. $row2['pid'] .'</td>
-			<td>'. $row2['productName'] .'</td>
-			<td>'. $currency.sprintf("%01.2f",$price) .'</td>
-			<td>'. $quantity .'</td>
-			<td>'. $currency.sprintf("%01.2f",$total) .'</td></tr>';
-		}
-
-		$pdfOut .= '	<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td style="font-weight: bold;">'. $currency.sprintf("%01.2f", $grandtotal) .'</td>
-						</tr>
-					</table>
-					</div><br><br>
-					<span style="font-weight: bold;">Hiermit erkläre ich, dass die oben genannten Artikel in aller Vollständigkeit und frei von Mängeln ausgehändigt wurden.</span><br><br><br><br>';
-
-		$pdfOut2 .= '<br><br><br><br><br><br><br><br><br>
-					<table cellpadding="5" cellspacing="0" style="width: 80%;" >
-					<tr>
-					<td><hr>'. htmlentities($user['first_name']) .' '. htmlentities($user['last_name']) .'</td>
-					</tr>
-					</table>
-					<br><br>
-					<br><br>
-					<table cellpadding="5" cellspacing="0" style="width: 60%;">
-						<tr>
-						<td><span style="font-size:1.3em">'. $date .'</span><br><hr>Datum</td>
-						<td><span style="font-size:1.3em">'. $place .'</span><br><hr>Ort</td>
-						</tr>
-					</table>
-					<br><br>';
-
-		
-		 
-		// Erstellung des PDF Dokuments
-		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-		 
-		// Dokumenteninformationen
-		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('admin');
-		$pdf->SetTitle('Bestellung #'. $oid);
-		$pdf->SetSubject('Bestellung');
-		 
-		 
-		// Header und Footer Informationen
-		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
-		 
-		// Auswahl des Font
-		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-		 
-		// Auswahl der MArgins
-		$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-		$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-		 
-		// Automatisches Autobreak der Seiten
-		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-		 
-		// Image Scale 
-		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-		 
-		// Schriftart
-		$pdf->SetFont('helvetica', '', 10);
-		 
-		// Neue Seite
-		$pdf->AddPage();
-
-		// Fügt den HTML Code in das PDF Dokument ein
-		$pdf->writeHTML($pdfOut, true, false, true, false, '');
-		$img = file_get_contents(TEMPIMGLOC);
-		// The '@' character is used to indicate that follows an image data stream and not an image file name
-		$pdf->Image('@'.$imgdata, 20);
-		$pdf->writeHTML($pdfOut2, true, false, true, false, '');
-
-		while (ob_get_level()) {
-			    ob_end_clean();
-			}
-		$pdf->Output('order#'. $oid .'.pdf', 'I');
-		
-
-	}
-}
+include("templates/orders-nav.inc.php");
 ?>
-
-<div id="notification2" class="notificationClosed">
-	<div><a href="javascript:void(0)" title="Close" class="closebtn" onclick="closeNotification(2)">&times;</a></div>
-	<div class="box center-vertical">
-		<div class="subtitle center">
-			<span id="qrCode"></span>
-		</div>
-	</div>
-</div>
-
 
 <h3 class="header">Bestellungen</h3>
 <div class="sizer spacer">
@@ -175,7 +49,6 @@ while ($row = $statement->fetch()) {
 		$productName = $row2['productName'];
 		$price_KG_L = $row2['price_KG_L'];
 		$quantity = $row2['quantity'];
-		$delivered = $row2['delivered'];
 		$total = $row2['total'];
 		$total = ($quantity * $price_KG_L);
 		$grandtotal += $total;
@@ -209,8 +82,6 @@ if ($count == 1) { //closes .row if number of orders is uneven
 
 </div>
 </div>
-
-<script type="text/javascript" src="js/qrcode.js"></script>
 <?php 
 include("templates/footer.inc.php")
 ?>

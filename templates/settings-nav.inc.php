@@ -9,20 +9,4 @@
   	</div>
 </div>
 
-
-
-<script type="text/javascript">
-	//marks the current navigation item, that has been selected
-	(function markNav ()  {
-		var path = window.location.pathname;
-		path = path.slice(0, path.indexOf('.'));
-		
-		while (path.indexOf('/') != -1) {
-			path = path.slice(path.indexOf('/') + 1);
-		}
-
-		var selector = document.getElementById(path);
-		selector.className += 'select';
-		
-	})();
-</script>
+<script type="text/javascript" src="js/nav.js"></script>

@@ -4,6 +4,7 @@ session_start();
 require_once("inc/config.inc.php");
 require_once("inc/functions.inc.php");
 
+
 //Überprüfe, dass der User eingeloggt ist
 //Der Aufruf von check_user() muss in alle internen Seiten eingebaut sein
 $user = check_user();
@@ -91,14 +92,14 @@ if (isset($_POST['csv'])) {
 							echo '</table><br>';
 							echo '<div class="right">';
 									if ($delivered == 0) {
-										echo '<form class="functions inline">';
+										echo '<form class="delivered inline">';
 										echo '<input type="hidden" name="tid" value="'. $tid .'">';
 										echo '<input type="hidden" name="delivered" value="1">';
 										echo '<button type="submit" name="delivered" class="clean-btn blue">geliefert <i class="fa fa-truck" aria-hidden="true"></i></button>';
 										echo '</form>';
 									}
 									if ($paid == 0) {
-										echo '<form class="functions inline">';
+										echo '<form class="paid inline">';
 										echo '<input type="hidden" name="tid" value="'. $tid .'">';
 										echo '<input type="hidden" name="paid" value="1">';
 										echo '<button type="submit" name="paid" class="clean-btn blue leftSpace">bezahlt <i class="fa fa-money" aria-hidden="true"></i></button>';
@@ -165,7 +166,7 @@ if (isset($_POST['csv'])) {
 				echo '</table><br>';
 				echo '<div class="right">';
 						if ($delivered == 0) {
-							echo '<form class="functions inline">';
+							echo '<form class="delivered inline">';
 							echo '<input type="hidden" name="tid" value="'. $tid .'">';
 							echo '<input type="hidden" name="delivered" value="1">';
 							echo '<button type="submit" name="delivered" class="clean-btn blue">geliefert <i class="fa fa-truck" aria-hidden="true"></i></button>';
@@ -196,7 +197,7 @@ include("templates/footer.inc.php")
 ?>
 
 <script type="text/javascript">
-	$('.functions').submit(function(e) {
+	$('.delivered').submit(function(e) {
 		e.preventDefault();
 		var form_data = $(this).serialize();
 		var btn_txt = $(this).find('button[type=submit]');
@@ -207,22 +208,10 @@ include("templates/footer.inc.php")
 			type: 'POST',
 			url: 'order_total_process.php'
 		}).done(function(data) {
-
-			if (data == 1) {
-
-				if (btn_txt.attr('name') == 'delivered') {
-					btn_txt.removeClass('blue').addClass('green').html('geliefert <i class="fa fa-check" aria-hidden="true">');
-				}
-
-				if (btn_txt.attr('name') == 'paid') {
-					btn_txt.removeClass('blue').addClass('green').html('bezahlt <i class="fa fa-check" aria-hidden="true">');
-				}
-			} else if (data == 0) {
-				alert('fehler');
-			} else if (data == 2) {
-				alert('Die Bestellung wurde bereits als geliefert markiert.');
-			} else if (data == 3) {
-				alert('Die Bestellung wurde bereits als bezahlt markiert.');
+			if (data.error == 0) {
+				btn_txt.removeClass('blue').addClass('green').html('geliefert <i class="fa fa-check" aria-hidden="true">');
+			} else if (data.error == 1) {
+				alert(data.text);
 			}
 		})
 	});
