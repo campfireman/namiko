@@ -33,14 +33,15 @@ class Mail {
 	/**
 	 * send mail to given recipient
 	 * @param  string $email
-	 * @param  string $entity  [description]
-	 * @param  string $subject [description]
-	 * @param  string $text    [description]
+	 * @param  string $entity
+	 * @param  string $subject
+	 * @param  string $text
 	 * @param  bool   $convert strip HTML tags from given text?
+	 * @param  string $attachment full path to given attachment
 	 * @return void
 	 * @throws [<Exception>] when error with sending occurrs
 	 */
-	public function send($email, $recipient, $subject, $text, $convert) {
+	public function send($email, $recipient, $subject, $text, $convert=true, $attachment = null) {
 		global $mail_footer;
 		$stripped_text = ($convert ? strip_tags($text) : $text);
 
@@ -57,6 +58,10 @@ class Mail {
 		$mail->Port = 587;
 		$mail->CharSet = 'UTF-8';
 		$mail->Encoding = 'base64';
+
+		if (!empty($attachment)) {
+			$mail->addAttachment($attachment);
+		}
 
 		//Recipients
 		$mail->setFrom($this->from, $this->fromEntity);

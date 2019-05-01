@@ -22,6 +22,8 @@ if (isset($_POST['toggleTimeframe'])) {
 	} else {
 		$_SESSION['timeToggle'] = " AND (orders.created_at < '". $_SESSION['timeframe'] ."')";
 	}
+} else {
+	$_SESSION['timeToggle'] = "";
 }
 /*
 $curr = date('Y-m-d H:i:s');
@@ -115,7 +117,11 @@ if(isset($_POST['orderPay'])) {
 			ORDER BY users.uid, orders.oid ASC");
 		$result = $statement->execute();
 
-		if ($result && $statement->rowCount() > 0) {
+		if (!$result) {
+			throw new Exception('Fehler');
+		}
+
+		if ($statement->rowCount() > 0) {
 			while($row = $statement->fetch()) {
 				$oid = $row['oid'];
 				if ($row['uid'] != $uid) {
@@ -238,6 +244,7 @@ if(isset($_POST['orderPay'])) {
 				<?php
 				$statement = $pdo->prepare("SELECT users.contribution FROM contributions LEFT JOIN users ON contributions.uid = users.uid");
 				$result = $statement->execute();
+				$sum = 0;
 
 				while ($row = $statement->fetch()) {
 					$sum += $row['contribution']*3;

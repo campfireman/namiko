@@ -87,10 +87,6 @@ include("templates/main-nav.inc.php");
 		<div id="producer_popup"></div>
 </div>
 
-<pre>
-	<?php print_r($_SESSION); ?>
-</pre>
-
 <div id="cartContent" class="cart text-center">
 	<div><a href="javascript:void(0)" id="close2" title="Close" class="closebtn" onclick="open_close_Cart()">&times;</a></div>
 	<div id="shopping-cart-results" class="pad spacer3"></div>

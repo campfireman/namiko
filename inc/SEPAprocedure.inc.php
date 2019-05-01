@@ -166,14 +166,21 @@ class SEPAprocedure {
 	 * @return void
 	 */
 	public function startDownload() {
-		header('Location: '. $location);
-		header('Content-type: "text/xml"; charset="utf8";');
-		header('Content-Transfer-Encoding: Binary');
-		header('Content-disposition: attachment; filename="'. $this->xml->pymntID .'.xml"');
+		$file = $this->xml->pymntID .'.xml';
+		$path = dirname(dirname(__FILE__)) . '/sepa/' . $file;
+
+		header('Content-Description: File Transfer');
+		header('Content-Type: "text/xml"; charset="utf8";');
+		header('Content-disposition: attachment; filename="'. $file .'"');
+		header('Content-Transfer-Encoding: binary');
+		header('Expires: 0');
+		header('Cache-Control: must-revalidate');
+		header('Pragma: public');
+		header('Content-Length: ' . filesize($file));
 		while (ob_get_level()) {
 		    ob_end_clean();
 		}
-		readfile($this->xml->filename);
+		readfile($path);
 		exit();
 	}
 }

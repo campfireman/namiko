@@ -6,15 +6,19 @@ require_once('inc/functions.inc.php');
 require_once('inc/Cart.inc.php');
 ini_set('display_errors', 1);
 
-
+$orders = [];
 function insertOrder($item) {
     global $orders;
     $uid = $item['uid'];
     $pro_id = $item['producer'];
     $pid = $item['pid'];
 
-    if (array_key_exists($pid, $orders[$uid][$pro_id])) {
-       $orders[$uid][$pro_id][$pid]['quantity'] += $item['quantity'];
+    if (array_key_exists($uid, $orders)) {
+        if (array_key_exists($pid, $orders[$uid][$pro_id])) {
+           $orders[$uid][$pro_id][$pid]['quantity'] += $item['quantity'];
+        } else {
+            $orders[$uid][$pro_id][$pid] = $item;
+        }
     } else {
         $orders[$uid][$pro_id][$pid] = $item;
     }
@@ -148,13 +152,11 @@ if(isset($_POST["load_cart"]) && $_POST["load_cart"] == 1) {
 }
 
 ################# remove item from shopping cart ################
-if(isset($_GET["remove_pid"]) && isset($_SESSION["total"]))
-{
+if(isset($_GET["remove_pid"]) && isset($_SESSION["total"])) {
     $pid   = filter_var($_GET["remove_pid"], FILTER_SANITIZE_STRING); //get the product code to remove
     $pro_id   = filter_var($_GET["pro_id"], FILTER_SANITIZE_STRING); //get the product code to remove
 
-    if(isset($_SESSION["total"][$pro_id][$pid]))
-    {
+    if(isset($_SESSION["total"][$pro_id][$pid])) {
         unset($_SESSION["total"][$pro_id][$pid]);
 
         if (count($_SESSION["total"][$pro_id]) == 0) {
@@ -168,7 +170,6 @@ if(isset($_GET["remove_pid"]) && isset($_SESSION["total"]))
 
 if (isset($_POST['delivered'])) {
     $tid = $_POST['tid'];
-    $orders = [];
     try {
         
         $db->lock(["order_total", "order_total_items", "inventory_items", "preorders", "preorder_items", "orders", "order_items", "products"], "WRITE");
@@ -213,13 +214,13 @@ if (isset($_POST['delivered'])) {
                 WHERE preorder_items.transferred = 0 
                 AND preorder_items.pid = '$pid'
                 ORDER BY preorders.created_at ASC");
-            //$statement2->bindParam(':pid', $pid);
+
             $result2 = $statement2->execute();
 
             if (!$result2) {
                 throw new Exception(json_encode($statement2->errorInfo()));
             }
-            echo $pid;
+
             while ($preorder = $statement2->fetch()) {
                 $quantity = $preorder['quantity'];
                 $uid = $preorder['uid'];
@@ -244,12 +245,11 @@ if (isset($_POST['delivered'])) {
                 }
             }
         }
-print_r($orders);
+
         foreach ($orders as $uid => $order) {
             $cart = new Cart();
             $user = $db->getUser($uid);
             $cart->process($uid, $order);
-            print_r($user);
             $cart->mail($user, $smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity);
         }
 
@@ -259,8 +259,8 @@ print_r($orders);
 
     } catch (Exception $e) {
         $pdo->rollBack();
+        logErr($e->getMessage());
         res(1, $e->getMessage());
-        //error(json_encode($e->getMessage()), 'order-total.php');
     }
 }
 
@@ -277,12 +277,12 @@ if (isset($_POST['paid'])) {
         $result = $statement->execute();
 
         if ($result) {
-            die(json_encode(1));
+            res(0, "Erfolgreich.");
         } else {
-            die(json_encode(0));
+            res(1, "Fehler");
         }
     } else {
-        die(json_encode(3));
+        res(1, "Bereits als bezahlt markiert.");
     }
 }
 ?>

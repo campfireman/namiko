@@ -88,14 +88,18 @@ if (isset($_POST['update'])) {
 				<th class="width100">bestellt</th>
 				<th class="width100">&#916;</th>
 				<th class="width100">Nachschub</th>
-				<th class="width100">vorbest.</th>
+				<th>vorbest.</th>
 				<th class="width100">&#931;</th>
 				<th>zuletzt editiert</th>
 				<th></th>
 			</tr>
 			<?php
 			// Fill Inventory table with inventory db with join to product data
-			$statement = $pdo->prepare("SELECT inventory_items.*, products.productName, products.producer, users.first_name, users.last_name FROM inventory_items LEFT JOIN products ON inventory_items.pid = products.pid LEFT JOIN users ON inventory_items.last_edited_by = users.uid ORDER BY productName");
+			$statement = $pdo->prepare("
+				SELECT inventory_items.*, products.productName, products.producer, products.container, users.first_name, users.last_name 
+				FROM inventory_items LEFT JOIN products ON inventory_items.pid = products.pid 
+				LEFT JOIN users ON inventory_items.last_edited_by = users.uid 
+				ORDER BY productName");
 			$result = $statement->execute();
 
 			
@@ -154,7 +158,7 @@ if (isset($_POST['update'])) {
 
 				// preorders
 				$preorders = $db->getPreorders($pid);
-				$preordersOut = '<span class="inline emph blue">'. $preorders .'</span>';
+				$preordersOut = '<span class="inline emph blue">'. $preorders .' / '. $row['container'] .'</span>';
 
 				// calculate actual deficit with pending stock refills and saving items with negative deficit
 				// colored output based on amount

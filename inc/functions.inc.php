@@ -98,25 +98,29 @@ function getSiteURL() {
  * Outputs an error message and stops the further exectution of the script.
  */
 function error($error_msg, $location=null, $hide = false) {
-	global $error_log;
 	global $debug;
 
 	if (!$debug) {
 		$hide = true;
 	}
 
+	if ($hide) {
+		$error_msg = "Ein Fehler ist aufgetreten";
+	}
+	logErr($error_msg);
+	notify($error_msg, $location);
+	
+}
+
+function logErr($error_msg) {
+	global $error_log;
+
 	$date = new DateTime();
 	$user = check_user();
 
 	$log = sprintf("%s | uid:%s | msg: %s\n" ,$date->format("Y/m/d H:i:s"), $user['uid'], $error_msg ."\n");
 	error_log($log, 3, $error_log);
-
-	if ($hide) {
-		$error_msg = "Ein Fehler ist aufgetreten";
-	}
-	notify($error_msg, $location);
-	
-}
+} 
 
 function clean($inhalt='') { //makes sure there's no executable code 
     $inhalt = trim($inhalt);

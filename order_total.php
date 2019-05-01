@@ -1,5 +1,4 @@
 <?php
-header('Content-Type: text/html; charset=UTF-8');
 session_start();
 require_once("inc/config.inc.php");
 require_once("inc/functions.inc.php");
@@ -173,7 +172,7 @@ if (isset($_POST['csv'])) {
 							echo '</form>';
 						}
 						if ($paid == 0) {
-							echo '<form class="functions inline">';
+							echo '<form class="paid inline">';
 							echo '<input type="hidden" name="tid" value="'. $tid .'">';
 							echo '<input type="hidden" name="paid" value="1">';
 							echo '<button type="submit" name="paid" class="clean-btn blue leftSpace">bezahlt <i class="fa fa-money" aria-hidden="true"></i></button>';
@@ -192,15 +191,12 @@ if (isset($_POST['csv'])) {
 	</div>
 </div>
 
-<?php 
-include("templates/footer.inc.php")
-?>
-
 <script type="text/javascript">
 	$('.delivered').submit(function(e) {
 		e.preventDefault();
 		var form_data = $(this).serialize();
 		var btn_txt = $(this).find('button[type=submit]');
+		btn_txt.html('...');
 
 		$.ajax({
 			data: form_data,
@@ -215,4 +211,28 @@ include("templates/footer.inc.php")
 			}
 		})
 	});
+
+	$('.paid').submit(function(e) {
+		e.preventDefault();
+		var form_data = $(this).serialize();
+		var btn_txt = $(this).find('button[type=submit]');
+		btn_txt.html('...');
+
+		$.ajax({
+			data: form_data,
+			dataType: 'json',
+			type: 'POST',
+			url: 'order_total_process.php'
+		}).done(function(data) {
+			if (data.error == 0) {
+				btn_txt.removeClass('blue').addClass('green').html('bezahlt <i class="fa fa-check" aria-hidden="true">');
+			} else if (data.error == 1) {
+				alert(data.text);
+			}
+		})
+	});
 </script>
+
+<?php 
+include("templates/footer.inc.php")
+?>
