@@ -55,7 +55,7 @@ $BIC = isset($_SESSION['bic']) ? $_SESSION['bic'] : "";
 
 			<div class="">
 				<input id="inputStreet" placeholder="Straße" value="<?php echo htmlspecialchars($street) ?>" type="text" size="40" maxlength="80" name="street" required>
-				<input id="inputNumber" placeholder="Nr." value="<?php echo htmlspecialchars($street_number) ?>" type="number" size="40" maxlength="3" name="street_number" required>
+				<input id="inputNumber" placeholder="Nr." value="<?php echo htmlspecialchars($street_number) ?>" type="text" size="40" maxlength="3" name="street_number" required>
 			</div>
 
 			<div class="">

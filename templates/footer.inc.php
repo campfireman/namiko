@@ -1,8 +1,6 @@
-<?php 
-
-?> 
-
-
+<?php
+include('templates/back-up-button.php');
+?>
 
   	<footer>
     

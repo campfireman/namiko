@@ -60,10 +60,12 @@ a:hover {
  */
 
 .sizer {
-	max-width: 1400px;
-	margin-left: auto;
-	margin-right: auto;
+	
 	padding: 0 20px 0 20px;
+}
+
+.sizer2 {
+	margin: 50px 20px 0 300px;
 }
 
 .spacer {
@@ -256,6 +258,10 @@ a:hover {
 
 .italic {
 	font-style: italic;
+}
+
+.white {
+	color: white;
 }
 
 
@@ -704,6 +710,76 @@ a:hover.title {
     display: block;
 }
 
+.sidebar {
+	position: fixed;
+	top: 50px;
+	width: 250px;
+	height: 100%;
+	z-index: 1;
+	display: block;
+	background-color: #3b444b;
+	overflow-x: hidden;
+	color: white;
+	padding: 20px 15px 20px 15px;
+}
+
+.search {
+	background-color: transparent;
+	border: 1.5px solid white;
+	padding: 6px;
+	border-top: 0px;
+	border-left: 0px;
+	border-right: 0px;
+	width: 80%;
+	margin-bottom: 10px;
+}
+
+.search-btn {
+	margin-left: 5px;
+}
+
+.search-btn:hover {
+	color: #00c700;
+}
+
+.padder {
+	padding: 0 20px 0 20px;
+}
+
+.adjust {
+	margin: -50px 0 0 0;
+}
+
+#back-up {
+    visibility: hidden; 
+	height: 25px;
+	width: 25px;
+    position: fixed; 
+    bottom: 20px; 
+    right: 20px; 
+    z-index: 2; 
+    border: none; 
+    outline: none; 
+    background-color: transparent; 
+    cursor: pointer; 
+    border-radius: 10px; 
+	transition: visibility 0s linear 0.5s, opacity 0.3s linear;
+	-webkit-transition: visibility 0s linear 0.5s, opacity 0.3s linear;
+}
+
+
+#back-up #arrow {
+	transition: 0.3s;
+}
+
+#back-up:hover #arrow {
+	fill: #00a1e9;
+	transition: 0.3s;
+}
+
+.separator {
+	margin: 2px 150px 8px 0;
+}
  
 /*
  *  Catalogue
@@ -902,9 +978,6 @@ a:hover.title {
 }
 
 .limiter {
-	max-width: 1400px;
-	margin-left: auto;
-	margin-right: auto;
 	padding: 0 15px 0 15px;
 }
 
@@ -1000,81 +1073,6 @@ a:hover.title {
     margin: 10px 0 5px 0;
 	
 }
- 
-/*
- * Mobile Optimization 
- */
- 
-@media (max-width: 375px) {
-	.log, .left-nav, .shoppingCart {
-		font-size: 30px;
-	}
-
-	.title {
-		height: 34px;
-		width: auto;
-		margin-top: 8px;
-	}
-	
-	#nav {
-		line-height: 1.6;
-	}
-
-	.item {
-		margin: 50px 0 70px 0;
-	}
-
-	.catHeader {
-		margin-left: 0px; 
-		margin-right: 0px;
-	}
-}
-
-@media (max-width: 470px) {
-	.order {
-		overflow-x: scroll;
-	}
-}
-
-
-
-@media (max-width: 787px) {
-	.mobileMenu {
-		visibility: visible;
-	}
-	
-	#left-nav {
-		visibility: hidden;
-	}
-
-	.limiter {
-		padding: 0 10px 0 10px;
-	}
-
-	#log {
-		display: none;
-	}
-
-}
-
-@media (max-width: 860px) {
-	.full {
-		overflow-x: scroll;
-	}
-}
-
-@media (max-width: 970px) {
-	.first {
-		display: none;
-	}
-}
-
-@media (max-width: 680px) {
-	.second {
-		display: none;
-	}
-}
-
 
 /*
  * Footer 
@@ -1094,3 +1092,131 @@ a:hover.title {
 	margin-left: 2.5vh;
 }
 
+
+/*
+ * Mobile Optimization 
+ */
+
+
+@media (max-width: 1070px) {
+	.first {
+		display: none;
+	}
+}
+
+@media (max-width: 860px) {
+	.full {
+		overflow-x: scroll;
+	}
+}
+
+@media (max-width: 900px) {
+	.mobileMenu {
+		visibility: visible;
+	}
+	
+	#left-nav {
+		visibility: hidden;
+	}
+
+	#log {
+		display: none;
+	}
+
+	.limiter {
+		padding: 0 10px 0 10px;
+	}
+
+	.sidebar {
+		width: 200px;
+	}
+
+	.sizer2 {
+		margin: 50px 20px 0 220px;
+	}
+
+	.sizer3 {
+		padding: 0 20px 0 20px;
+	}
+
+}
+
+@media (max-width: 750px) {
+	.second {
+		display: none;
+	}
+}
+
+@media (max-width: 510px) {
+	.sidebar {
+		position: static;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 1;
+		display: block;
+		background-color: white;
+		overflow-x: hidden;
+		color: #0e1111;
+		padding: 0 20px 0 20px;
+		margin-top: 20px;
+	}
+
+	.search {
+		border-bottom: 1.5px solid #0e1111;
+	}
+
+	.sizer2 {
+		margin: 50px 20px 0 20px;
+	}
+
+	.white {
+		color: #0e1111;
+	}
+}
+
+@media (max-width: 470px) {
+	.order {
+		overflow-x: scroll;
+	}
+}
+
+@media (max-width: 390px) {
+	.log, .left-nav, .shoppingCart {
+		font-size: 30px;
+	}
+
+	#cartCount {
+		font-size: 11px;
+		width: 16px;
+		height: 16px;
+		border-radius: 8px;
+	}
+
+	.title {
+		height: 34px;
+		width: auto;
+		margin-top: 8px;
+	}
+	
+	.left-nav {
+		line-height: 1.6;
+	}
+
+	.item {
+		margin: 50px 0 70px 0;
+	}
+
+	.catHeader {
+		margin-left: 0px; 
+		margin-right: 0px;
+	}
+
+	.reserve-container {
+		padding: 20px;
+	}
+
+	.selectionWell {
+		padding: 10px 0 10px 0;
+	}
+}

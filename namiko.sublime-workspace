@@ -523,7 +523,7 @@
 			"file": "inc/Mail.inc.php",
 			"settings":
 			{
-				"buffer_size": 2934,
+				"buffer_size": 2815,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -550,25 +550,16 @@
 			"file": "order_total_process.php",
 			"settings":
 			{
-				"buffer_size": 10681,
+				"buffer_size": 10820,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "/home/ture/Downloads/bills.sql",
+			"file": "inventory.php",
 			"settings":
 			{
-				"buffer_size": 74897,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "order_total.php",
-			"settings":
-			{
-				"buffer_size": 7461,
+				"buffer_size": 19522,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -577,81 +568,72 @@
 			"file": "templates/footer.inc.php",
 			"settings":
 			{
-				"buffer_size": 1186,
-				"encoding": "UTF-8",
+				"buffer_size": 1188,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "Searching 795 files for \"startDownload\"\n\n/home/ture/projects/htdocs/namiko/members.php:\n  132  \t\t$sepa->notify($smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity);\n  133  \t\t$pdo->commit();\n  134: \t\t$sepa->startDownload();\n  135  \t} catch (Exception $e) {\n  136  \t\t$pdo->rollBack();\n\n/home/ture/projects/htdocs/namiko/sepa.php:\n   84  \t\t$sepa->notify($smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity);\n   85  \t\t$pdo->commit();\n   86: \t\t$sepa->startDownload();\n   87  \t} catch (Exception $e) {\n   88  \t\t$pdo->rollBack();\n   ..\n  156  \t\t$sepa->notify($smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity);\n  157  \t\t$pdo->commit();\n  158: \t\t$sepa->startDownload();\n  159  \t} catch (Exception $e) {\n  160  \t\t$pdo->rollBack();\n\n/home/ture/projects/htdocs/namiko/inc/SEPAprocedure.inc.php:\n  166  \t * @return void\n  167  \t */\n  168: \tpublic function startDownload($location) {\n  169  \t\theader('Location: '. $location);\n  170  \t\theader('Content-type: \"text/xml\"; charset=\"utf8\";');\n\n4 matches across 3 files\n",
+			"file": "/home/ture/projects/htdocs/wordpress/wp-config.php",
 			"settings":
 			{
-				"buffer_size": 1039,
-				"line_ending": "Unix",
-				"name": "Find Results",
-				"scratch": true
-			}
-		},
-		{
-			"file": "sepa.php",
-			"settings":
-			{
-				"buffer_size": 11329,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "inc/SEPAprocedure.inc.php",
-			"settings":
-			{
-				"buffer_size": 5967,
+				"buffer_size": 3854,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "inc/functions.inc.php",
+			"contents": "body {\n    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url(\"http://localhost/htdocs/wordpress/wp-content/uploads/2019/05/wincraft.jpg\");\n    background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url(\"http://localhost/htdocs/wordpress/wp-content/uploads/2019/05/wincraft.jpg\");\n    background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url(\"http://localhost/htdocs/wordpress/wp-content/uploads/2019/05/wincraft.jpg\");\n    background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url(\"http://localhost/htdocs/wordpress/wp-content/uploads/2019/05/wincraft.jpg\");\n    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.1)), to(rgba(0, 0, 0, 0.1))), url(\"http://localhost/htdocs/wordpress/wp-content/uploads/2019/05/wincraft.jpg\");\n    background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url(\"http://localhost/htdocs/wordpress/wp-content/uploads/2019/05/wincraft.jpg\");\n}\n",
 			"settings":
 			{
-				"buffer_size": 4486,
+				"buffer_size": 1071,
+				"line_ending": "Unix",
+				"name": "body {"
+			}
+		},
+		{
+			"contents": "Um die schlechten Anlaufeigenschaften des H-Darrieus Rotors auszugleichen, werden unterschiedliche Ansätze verfolgt:\nEine Pitchregelung, die den Stellwinkel jedes einzelnen Rotorblattes verändert, kann zu besseren Ergebnissen führen. Dies wird derzeit in einer studentischen Arbeit untersucht.\nEbenso ist eine Kombination mit einem Savonius-Rotor möglich, wie in dem linken Bild zu sehen. Dieser funktioniert als Widerstandsläufer und erzeugt bei kleineren Windgeschwindigkeiten bereits ein ausreichend großes Moment.\nAuch eine Verdrehung des Rotors zu einer Helix-Form bringt verbesserte Eigenschaften beim Anlauf. Das mittlere Bild zeigt  einen entsprechenden Aufbau. Vereinfacht kann dieser Effekt auch durch einen mehrstöckigen Aufbau des Rotors mit geraden Blattelementen, wie im rechten Bild dargestellt, erreicht werden. n",
+			"settings":
+			{
+				"buffer_size": 829,
+				"line_ending": "Unix",
+				"name": "Um die schlechten Anlaufeigenschaften des H-Darrie"
+			}
+		},
+		{
+			"contents": "public class LocCompare implements Comparator<Loc> {\n\t@Override\n\tpublic int compare(Loc a, Loc b) {\n\t\tif (a.getX() < b.getX() || (getX() == other.x && a.getY() < b.getY()))\n\t}\n}",
+			"settings":
+			{
+				"buffer_size": 177,
+				"line_ending": "Unix",
+				"name": "public class LocCompare implements Comparator<Loc>"
+			}
+		},
+		{
+			"contents": "7.1 a)::\nSELECT first_name, last_name, phone_number, (SELECT last_name FROM employees WHERE employee_id = manager_id) AS manager \nFROM employees \nWHERE phone_number (LIKE \"650%\" OR \"515%\");\n\n7.1 b)::\nSELECT first_name, last_name FROM employees WHERE first_name LIKE \"A%\" AND (SUBSTR(last_name, 1, 1) >= \"F\" OR SUBSTR(last_name, 1, 1) <= \"S\");\n\n71. c)::\nSELECT first_name, last_name",
+			"file": "/home/ture/Studium/18-19SS/Datenbanksysteme1/ue07.sql",
+			"file_size": 0,
+			"file_write_time": 132018762073358842,
+			"settings":
+			{
+				"buffer_size": 381,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "register.php",
+			"settings":
+			{
+				"buffer_size": 4409,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "agree.php",
+			"file": "js/qrcode.min.js",
 			"settings":
 			{
-				"buffer_size": 9847,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "members.php",
-			"settings":
-			{
-				"buffer_size": 13119,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "templates/admin-nav.inc.php",
-			"settings":
-			{
-				"buffer_size": 854,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "templates/nav.inc.php",
-			"settings":
-			{
-				"buffer_size": 3306,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
+				"buffer_size": 19927,
+				"line_ending": "Unix"
 			}
 		},
 		{
@@ -678,6 +660,14 @@
 			[
 				"git:push",
 				"Git: Push"
+			],
+			[
+				"git:co",
+				"Git: Commit"
+			],
+			[
+				"git:add",
+				"Git: Add All"
 			],
 			[
 				"git:commi",
@@ -718,10 +708,6 @@
 			[
 				"git:com",
 				"Git: Commit"
-			],
-			[
-				"git:add",
-				"Git: Add All"
 			],
 			[
 				"packe",
@@ -813,6 +799,18 @@
 	],
 	"file_history":
 	[
+		"/home/ture/Downloads/SID6D20190503T101701.xml",
+		"/home/ture/Studium/18-19SS/Programmieren2/plenum.java",
+		"/home/ture/projects/htdocs/namiko/order_total.php",
+		"/home/ture/Backup/namiko/order_total.php",
+		"/home/ture/Downloads/bills.sql",
+		"/home/ture/projects/htdocs/namiko/templates/footer.inc.php",
+		"/home/ture/projects/htdocs/namiko/sepa.php",
+		"/home/ture/projects/htdocs/namiko/inc/SEPAprocedure.inc.php",
+		"/home/ture/projects/htdocs/namiko/agree.php",
+		"/home/ture/projects/htdocs/namiko/templates/nav.inc.php",
+		"/home/ture/projects/htdocs/namiko/templates/admin-nav.inc.php",
+		"/home/ture/projects/htdocs/namiko/members.php",
 		"/tmp/mozilla_ture0/SID103D20190429T120732.xml",
 		"/home/ture/projects/htdocs/namiko/sepa/SID91D20190429T112459.xml",
 		"/home/ture/Downloads/SID97D20190429T115618.xml",
@@ -821,15 +819,12 @@
 		"/home/ture/Downloads/SID100D20190429T120158.xml",
 		"/tmp/mozilla_ture0/SID101D20190429T120238.xml",
 		"/home/ture/projects/htdocs/namiko/inc/functions.inc.php",
-		"/home/ture/projects/htdocs/namiko/inc/SEPAprocedure.inc.php",
 		"/home/ture/SID18D20190428T133319.xml",
 		"/home/ture/SID17D20190428T133301.xml",
 		"/home/ture/Downloads/usr_web289_1.sql",
 		"/home/ture/Backup/wmh/2019-04-29/usr_web289_1.sql",
 		"/home/ture/projects/htdocs/namiko/order_total_process.php",
-		"/home/ture/projects/htdocs/namiko/templates/admin-nav.inc.php",
 		"/home/ture/projects/htdocs/namiko/pay.php",
-		"/home/ture/projects/htdocs/namiko/order_total.php",
 		"/home/ture/projects/htdocs/namiko/css/style.css",
 		"/home/ture/projects/htdocs/namiko/inventory.php",
 		"/home/ture/projects/htdocs/namiko/inc/DBOperations.inc.php",
@@ -850,8 +845,6 @@
 		"/home/ture/projects/htdocs/namiko/check-out.php",
 		"/home/ture/projects/htdocs/namiko/inc/errors.inc.txt",
 		"/home/ture/projects/htdocs/namiko/inc/SepaXML.inc.php",
-		"/home/ture/projects/htdocs/namiko/sepa.php",
-		"/home/ture/projects/htdocs/namiko/members.php",
 		"/home/ture/projects/htdocs/namiko/inc/Mail.inc.php",
 		"/home/ture/projects/htdocs/namiko/delivered-orders.php",
 		"/home/ture/projects/htdocs/namiko/settings/admin-nav.inc.php",
@@ -877,7 +870,6 @@
 		"/home/ture/projects/dice.py",
 		"/home/ture/projects/ue03.py",
 		"/home/ture/projects/htdocs/namiko/inc/createSEPA.inc.php",
-		"/home/ture/projects/htdocs/namiko/agree.php",
 		"/home/ture/projects/htdocs/namiko/sepa/SID5D20190330T190051.xml",
 		"/home/ture/projects/htdocs/namiko/admin.php",
 		"/home/ture/projects/htdocs/namiko/sepa/SID4D20190330T185607.xml",
@@ -885,7 +877,6 @@
 		"/home/ture/Studium/18-19SS/Datenbanksysteme1/ue01.txt",
 		"/home/ture/projects/htdocs/namiko/calendar.php",
 		"/home/ture/.config/i3blocks/battery.py",
-		"/home/ture/projects/htdocs/namiko/templates/nav.inc.php",
 		"/home/ture/.config/i3blocks/config",
 		"/tmp/mozilla_ture0/Loc-1.java",
 		"/home/ture/Studium/18-19SS/Programmieren2/Datum.java",
@@ -935,12 +926,7 @@
 		"/C/Users/Ture/AppData/Local/Temp/SID195D20190131T135040.xml",
 		"/C/Users/Ture/AppData/Local/Temp/SID194D20190131T133934.xml",
 		"/C/MAMP/htdocs/namiko/sepa/SID189D20190131T131827.xml",
-		"/C/MAMP/htdocs/namiko/sepa/SID190D20190131T132221.xml",
-		"/C/MAMP/htdocs/namiko/sepa/SID191D20190131T132622.xml",
-		"/C/Users/Ture/AppData/Local/Temp/SID192D20190131T132939.xml",
-		"/C/Users/Ture/AppData/Local/Temp/SID193D20190131T133605.xml",
-		"/C/MAMP/htdocs/namiko/sepa/SID179D20190131T125305.xml",
-		"/C/MAMP/htdocs/namiko/sepa/SID180D20190131T125654.xml"
+		"/C/MAMP/htdocs/namiko/sepa/SID190D20190131T132221.xml"
 	],
 	"find":
 	{
@@ -962,6 +948,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"streetnumber",
+			"the-image.png",
+			"functions ",
 			"startDownload",
 			"`namiko`.",
 			"$_SESSION['preorders']",
@@ -1086,10 +1075,7 @@
 			"add_p",
 			"addProducer",
 			"documentation",
-			"bold",
-			"stmnt",
-			"$recommendations",
-			"deficit"
+			"bold"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1111,7 +1097,7 @@
 	"groups":
 	[
 		{
-			"selected": 9,
+			"selected": 12,
 			"sheets":
 			[
 				{
@@ -1120,7 +1106,7 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2934,
+						"buffer_size": 2815,
 						"regions":
 						{
 						},
@@ -1137,10 +1123,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 152.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
@@ -1168,7 +1154,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 12,
 					"type": "text"
 				},
 				{
@@ -1194,10 +1180,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1336.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 15,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
@@ -1206,15 +1192,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 10681,
+						"buffer_size": 10820,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								7636,
-								7636
+								10672,
+								10672
 							]
 						],
 						"settings":
@@ -1224,57 +1210,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 22690.0,
+						"translation.y": 3049.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 12,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
 					"buffer": 4,
-					"file": "/home/ture/Downloads/bills.sql",
+					"file": "inventory.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 74897,
+						"buffer_size": 19522,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SQL/SQL.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 19139.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 13,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "order_total.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 7461,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5,
-								5
+								2630,
+								2630
 							]
 						],
 						"settings":
@@ -1283,27 +1239,27 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3496.0,
+						"translation.y": 1357.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 14,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 5,
 					"file": "templates/footer.inc.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1186,
+						"buffer_size": 1188,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								452,
-								452
+								1188,
+								1188
 							]
 						],
 						"settings":
@@ -1314,7 +1270,35 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/home/ture/projects/htdocs/wordpress/wp-config.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3854,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3504,
+								3504
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1079.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
@@ -1322,167 +1306,53 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1039,
+						"buffer_size": 1071,
 						"regions":
 						{
-							"match":
-							{
-								"flags": 112,
-								"regions":
-								[
-									[
-										218,
-										231
-									],
-									[
-										470,
-										483
-									],
-									[
-										683,
-										696
-									],
-									[
-										882,
-										895
-									]
-								],
-								"scope": ""
-							}
 						},
 						"selection":
 						[
 							[
 								0,
-								0
+								1071
 							]
 						],
 						"settings":
 						{
-							"detect_indentation": false,
-							"line_numbers": false,
-							"output_tag": 1,
-							"result_base_dir": "",
-							"result_file_regex": "^([^ \t].*):$",
-							"result_line_regex": "^ +([0-9]+):",
-							"scroll_past_end": true,
-							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+							"auto_name": "body {",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
 					"buffer": 8,
-					"file": "sepa.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 11329,
+						"buffer_size": 829,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								9441,
-								9441
+								829,
+								829
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 5620.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "inc/SEPAprocedure.inc.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5967,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5967,
-								5967
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 2854.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "inc/functions.inc.php",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 4486,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1168.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 11,
-					"file": "agree.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 9847,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"auto_name": "Um die schlechten Anlaufeigenschaften des H-Darrie",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1492,20 +1362,76 @@
 					"type": "text"
 				},
 				{
-					"buffer": 12,
-					"file": "members.php",
+					"buffer": 9,
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 13119,
+						"buffer_size": 177,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								4125,
-								4125
+								124,
+								124
+							]
+						],
+						"settings":
+						{
+							"auto_name": "public class LocCompare implements Comparator<Loc>",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "/home/ture/Studium/18-19SS/Datenbanksysteme1/ue07.sql",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 381,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								381,
+								381
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/SQL/SQL.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "register.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4409,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2887,
+								2887
 							]
 						],
 						"settings":
@@ -1514,19 +1440,19 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1080.0,
+						"translation.y": 857.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 13,
-					"file": "templates/admin-nav.inc.php",
-					"semi_transient": false,
+					"buffer": 12,
+					"file": "js/qrcode.min.js",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 854,
+						"buffer_size": 19927,
 						"regions":
 						{
 						},
@@ -1539,43 +1465,13 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
-					"type": "text"
-				},
-				{
-					"buffer": 14,
-					"file": "templates/nav.inc.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3306,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3127,
-								3127
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1516.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]
@@ -1585,7 +1481,7 @@
 			"sheets":
 			[
 				{
-					"buffer": 15,
+					"buffer": 13,
 					"file": "inc/config.inc.php",
 					"semi_transient": false,
 					"settings":
@@ -1609,7 +1505,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 13,
 					"type": "text"
 				}
 			]
