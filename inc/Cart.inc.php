@@ -98,7 +98,8 @@ class Cart {
 			<div class="center">
 			<table class="cartTable">
 				<tr style="text-align: left;">
-					<th>Artikel</th><th>Preis KG/L</th>
+					<th>Artikel</th><th>Preis/Einheit</th>
+					<th>Einheiten</th>
 					<th>Menge</th>
 					<th>&#931;</th>
 				</tr>';
@@ -109,8 +110,11 @@ class Cart {
 				$pid = $product["pid"];
 				$quantity = $product["quantity"];
 				$productName = $product['productName'];
+				$unit_size = $product['unit_size'];
+				$unit_tag = $product['unit_tag'];
 				$item_total = ($price_KG_L * $quantity);
 				$total += $item_total;
+				$amount = $quantity * $unit_size;
 
 				// delete function wanted?
 				if ($functions) {
@@ -125,8 +129,9 @@ class Cart {
 				$html .= '
 				<tr>
 					<td>'. htmlspecialchars($productName) .'</td>
-					<td>'. sprintf("%01.2f %s", $price_KG_L, $currency) .'</td>
+					<td>'. sprintf("%01.2f %s", $price_KG_L, $currency) . "/" . $unit_size. $unit_tag .'</td>
 					<td>'. $quantity .'</td>
+					<td>'. $amount . $unit_tag.'</td>
 					<td>'. sprintf("%01.2f %s", $item_total, $currency). '</td>
 					'. $buttons .'
 				</tr>';
@@ -139,6 +144,7 @@ class Cart {
 			$html .= '
 				<tr>
 					<td></td>	
+					<td></td>
 					<td></td>
 					<td></td>
 					<td class="total" style="font-weight: 600">'

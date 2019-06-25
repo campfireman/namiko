@@ -4,6 +4,54 @@
 		"selected_items":
 		[
 			[
+				"unit",
+				"unit_tag"
+			],
+			[
+				"unit_",
+				"unit_size"
+			],
+			[
+				"Einheiten",
+				"Einheitenkürzel"
+			],
+			[
+				"uni",
+				"unit_tag"
+			],
+			[
+				"_",
+				"_POST"
+			],
+			[
+				"catalo",
+				"catalogue"
+			],
+			[
+				"json",
+				"json_encode"
+			],
+			[
+				"n",
+				"n"
+			],
+			[
+				"cate",
+				"category"
+			],
+			[
+				"utf",
+				"utf8_encode"
+			],
+			[
+				"josn",
+				"json_last_error"
+			],
+			[
+				"stat",
+				"statement"
+			],
+			[
 				"preor",
 				"preorder"
 			],
@@ -26,10 +74,6 @@
 			[
 				"json_",
 				"json_encode"
-			],
-			[
-				"stat",
-				"statement2"
 			],
 			[
 				"preorder",
@@ -90,10 +134,6 @@
 			[
 				"require",
 				"require_once"
-			],
-			[
-				"_",
-				"_SESSION"
 			],
 			[
 				"mail",
@@ -178,10 +218,6 @@
 			[
 				"realt",
 				"realStockOut"
-			],
-			[
-				"cate",
-				"category"
 			],
 			[
 				"contri",
@@ -336,10 +372,6 @@
 				"overflow-x\tproperty"
 			],
 			[
-				"utf",
-				"utf8_decode"
-			],
-			[
 				"col",
 				"col-sm-6"
 			],
@@ -394,10 +426,6 @@
 			[
 				"newsl",
 				"newsletter_recipients"
-			],
-			[
-				"json",
-				"json_encode"
 			],
 			[
 				"email",
@@ -486,161 +514,61 @@
 			[
 				"min",
 				"min-width"
-			],
-			[
-				"order",
-				"order_total_items"
-			],
-			[
-				"order_total",
-				"order_total_items"
-			],
-			[
-				"statem",
-				"statement2"
-			],
-			[
-				"order_",
-				"order_total"
-			],
-			[
-				"quanti",
-				"quantityContainer"
-			],
-			[
-				"opt",
-				"optgroup"
-			],
-			[
-				"pro",
-				"productName"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "inc/Mail.inc.php",
+			"contents": "ALTER TABLE `namiko`.`products` \nADD COLUMN `unit_size` DECIMAL(10,2) UNSIGNED NULL DEFAULT 1 AFTER `price_KG_L`,\nADD COLUMN `unit_tag` VARCHAR(10) NULL DEFAULT 'KG' AFTER `unit_size`;\n\nCHANGE COLUMN `unit_size` `unit_size` DECIMAL(10,2) UNSIGNED NULL DEFAULT 1 ,\nCHANGE COLUMN `unit_tag` `unit_tag` VARCHAR(10) NULL DEFAULT 'KG' ;\n",
 			"settings":
 			{
-				"buffer_size": 2815,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/ture/config.inc.php",
-			"settings":
-			{
-				"buffer_size": 873,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "internal.php",
-			"settings":
-			{
-				"buffer_size": 11507,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "order_total_process.php",
-			"settings":
-			{
-				"buffer_size": 10820,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "inventory.php",
-			"settings":
-			{
-				"buffer_size": 19522,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "templates/footer.inc.php",
-			"settings":
-			{
-				"buffer_size": 1188,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/home/ture/projects/htdocs/wordpress/wp-config.php",
-			"settings":
-			{
-				"buffer_size": 3854,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "body {\n    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url(\"http://localhost/htdocs/wordpress/wp-content/uploads/2019/05/wincraft.jpg\");\n    background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url(\"http://localhost/htdocs/wordpress/wp-content/uploads/2019/05/wincraft.jpg\");\n    background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url(\"http://localhost/htdocs/wordpress/wp-content/uploads/2019/05/wincraft.jpg\");\n    background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url(\"http://localhost/htdocs/wordpress/wp-content/uploads/2019/05/wincraft.jpg\");\n    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.1)), to(rgba(0, 0, 0, 0.1))), url(\"http://localhost/htdocs/wordpress/wp-content/uploads/2019/05/wincraft.jpg\");\n    background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url(\"http://localhost/htdocs/wordpress/wp-content/uploads/2019/05/wincraft.jpg\");\n}\n",
-			"settings":
-			{
-				"buffer_size": 1071,
+				"buffer_size": 332,
 				"line_ending": "Unix",
-				"name": "body {"
+				"name": "ALTER TABLE `namiko`.`products`"
 			}
 		},
 		{
-			"contents": "Um die schlechten Anlaufeigenschaften des H-Darrieus Rotors auszugleichen, werden unterschiedliche Ansätze verfolgt:\nEine Pitchregelung, die den Stellwinkel jedes einzelnen Rotorblattes verändert, kann zu besseren Ergebnissen führen. Dies wird derzeit in einer studentischen Arbeit untersucht.\nEbenso ist eine Kombination mit einem Savonius-Rotor möglich, wie in dem linken Bild zu sehen. Dieser funktioniert als Widerstandsläufer und erzeugt bei kleineren Windgeschwindigkeiten bereits ein ausreichend großes Moment.\nAuch eine Verdrehung des Rotors zu einer Helix-Form bringt verbesserte Eigenschaften beim Anlauf. Das mittlere Bild zeigt  einen entsprechenden Aufbau. Vereinfacht kann dieser Effekt auch durch einen mehrstöckigen Aufbau des Rotors mit geraden Blattelementen, wie im rechten Bild dargestellt, erreicht werden. n",
+			"file": "catalogue_handler.php",
 			"settings":
 			{
-				"buffer_size": 829,
-				"line_ending": "Unix",
-				"name": "Um die schlechten Anlaufeigenschaften des H-Darrie"
-			}
-		},
-		{
-			"contents": "public class LocCompare implements Comparator<Loc> {\n\t@Override\n\tpublic int compare(Loc a, Loc b) {\n\t\tif (a.getX() < b.getX() || (getX() == other.x && a.getY() < b.getY()))\n\t}\n}",
-			"settings":
-			{
-				"buffer_size": 177,
-				"line_ending": "Unix",
-				"name": "public class LocCompare implements Comparator<Loc>"
-			}
-		},
-		{
-			"contents": "7.1 a)::\nSELECT first_name, last_name, phone_number, (SELECT last_name FROM employees WHERE employee_id = manager_id) AS manager \nFROM employees \nWHERE phone_number (LIKE \"650%\" OR \"515%\");\n\n7.1 b)::\nSELECT first_name, last_name FROM employees WHERE first_name LIKE \"A%\" AND (SUBSTR(last_name, 1, 1) >= \"F\" OR SUBSTR(last_name, 1, 1) <= \"S\");\n\n71. c)::\nSELECT first_name, last_name",
-			"file": "/home/ture/Studium/18-19SS/Datenbanksysteme1/ue07.sql",
-			"file_size": 0,
-			"file_write_time": 132018762073358842,
-			"settings":
-			{
-				"buffer_size": 381,
+				"buffer_size": 5543,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "register.php",
+			"file": "admin.php",
 			"settings":
 			{
-				"buffer_size": 4409,
+				"buffer_size": 14013,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "js/qrcode.min.js",
+			"file": "inc/Cart.inc.php",
 			"settings":
 			{
-				"buffer_size": 19927,
+				"buffer_size": 6767,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "inc/config.inc.php",
+			"file": "cart_process.php",
 			"settings":
 			{
-				"buffer_size": 857,
+				"buffer_size": 3452,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "css/style.css",
+			"settings":
+			{
+				"buffer_size": 15953,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -662,6 +590,22 @@
 				"Git: Push"
 			],
 			[
+				"git:c",
+				"Git: Commit"
+			],
+			[
+				"git:ad",
+				"Git: Add All"
+			],
+			[
+				"git:a",
+				"Git: Add All"
+			],
+			[
+				"git",
+				"Git: Commit"
+			],
+			[
 				"git:co",
 				"Git: Commit"
 			],
@@ -674,16 +618,8 @@
 				"Git: Commit"
 			],
 			[
-				"git:ad",
-				"Git: Add All"
-			],
-			[
 				"install",
 				"Package Control: Install Package"
-			],
-			[
-				"git",
-				"Git: Commit"
 			],
 			[
 				"git:",
@@ -720,10 +656,6 @@
 			[
 				"package contr",
 				"Package Control: Install Package"
-			],
-			[
-				"git:c",
-				"Git: Commit"
 			],
 			[
 				"packageres",
@@ -799,12 +731,29 @@
 	],
 	"file_history":
 	[
+		"/home/ture/projects/htdocs/namiko/templates/back-up-button.php",
+		"/home/ture/Backup/namiko/sepa.php",
+		"/home/ture/projects/htdocs/namiko/templates/footer.inc.php",
+		"/home/ture/projects/htdocs/namiko/css/style.css",
+		"/home/ture/projects/htdocs/namiko/internal.php",
+		"/home/ture/projects/htdocs/namiko/templates/sidebar.inc.php",
+		"/home/ture/projects/htdocs/namiko/catalogue_handler.php",
+		"/home/ture/projects/CapitalUnion/CapitalUnion.aux",
+		"/home/ture/projects/htdocs/namiko/inc/Mail.inc.php",
+		"/home/ture/config.inc.php",
+		"/home/ture/projects/htdocs/namiko/inc/config.inc.php",
+		"/home/ture/projects/htdocs/namiko/calendar_handler.php",
+		"/home/ture/projects/htdocs/namiko/inc/Cart.inc.php",
+		"/home/ture/projects/htdocs/namiko/order_total_process.php",
+		"/home/ture/projects/htdocs/namiko/inventory.php",
+		"/home/ture/projects/htdocs/namiko/register.php",
+		"/home/ture/Studium/18-19SS/Datenbanksysteme1/ue07.sql",
+		"/home/ture/projects/htdocs/wordpress/wp-config.php",
 		"/home/ture/Downloads/SID6D20190503T101701.xml",
 		"/home/ture/Studium/18-19SS/Programmieren2/plenum.java",
 		"/home/ture/projects/htdocs/namiko/order_total.php",
 		"/home/ture/Backup/namiko/order_total.php",
 		"/home/ture/Downloads/bills.sql",
-		"/home/ture/projects/htdocs/namiko/templates/footer.inc.php",
 		"/home/ture/projects/htdocs/namiko/sepa.php",
 		"/home/ture/projects/htdocs/namiko/inc/SEPAprocedure.inc.php",
 		"/home/ture/projects/htdocs/namiko/agree.php",
@@ -823,18 +772,12 @@
 		"/home/ture/SID17D20190428T133301.xml",
 		"/home/ture/Downloads/usr_web289_1.sql",
 		"/home/ture/Backup/wmh/2019-04-29/usr_web289_1.sql",
-		"/home/ture/projects/htdocs/namiko/order_total_process.php",
 		"/home/ture/projects/htdocs/namiko/pay.php",
-		"/home/ture/projects/htdocs/namiko/css/style.css",
-		"/home/ture/projects/htdocs/namiko/inventory.php",
 		"/home/ture/projects/htdocs/namiko/inc/DBOperations.inc.php",
-		"/home/ture/projects/htdocs/namiko/inc/Cart.inc.php",
-		"/home/ture/projects/htdocs/namiko/inc/config.inc.php",
 		"/home/ture/projects/htdocs/namiko/session_process.php",
 		"/home/ture/projects/htdocs/namiko/test.php",
 		"/home/ture/projects/htdocs/namiko/inc/IntegrityException.inc.php",
 		"/home/ture/projects/htdocs/namiko/js/cart.js",
-		"/home/ture/projects/htdocs/namiko/internal.php",
 		"/home/ture/projects/htdocs/namiko/templates/orders-nav.inc.php",
 		"/home/ture/projects/htdocs/namiko/cart_process.php",
 		"/home/ture/projects/htdocs/namiko/my-preorders.php",
@@ -845,16 +788,13 @@
 		"/home/ture/projects/htdocs/namiko/check-out.php",
 		"/home/ture/projects/htdocs/namiko/inc/errors.inc.txt",
 		"/home/ture/projects/htdocs/namiko/inc/SepaXML.inc.php",
-		"/home/ture/projects/htdocs/namiko/inc/Mail.inc.php",
 		"/home/ture/projects/htdocs/namiko/delivered-orders.php",
 		"/home/ture/projects/htdocs/namiko/settings/admin-nav.inc.php",
 		"/home/ture/Downloads/SID2D20190322T102750.xml",
 		"/home/ture/Downloads/SID4D20190403T093842.xml",
 		"/home/ture/projects/htdocs/namiko/sepa/SID89D20190406T135848.xml",
-		"/home/ture/config.inc.php",
 		"/home/ture/projects/htdocs/namiko/sepa/SID54D20190402T191122.xml",
 		"/home/ture/Studium/18-19SS/Programmieren2/test.java",
-		"/home/ture/projects/htdocs/namiko/register.php",
 		"/home/ture/projects/htdocs/namiko/sepa/SID59D20190402T195635.xml",
 		"/home/ture/projects/htdocs/namiko/sepa/SID51D20190402T184641.xml",
 		"/home/ture/projects/htdocs/namiko/sepa/SID52D20190402T184942.xml",
@@ -918,19 +858,11 @@
 		"/C/MAMP/htdocs/namiko/test.php",
 		"/C/MAMP/htdocs/namiko/members.php",
 		"/C/MAMP/htdocs/namiko/inventory.php",
-		"/C/MAMP/htdocs/namiko/emailcenter.php",
-		"/C/Users/Ture/AppData/Local/Temp/fz3temp-2/session.php",
-		"/C/MAMP/htdocs/namiko/del_event.php",
-		"/C/MAMP/htdocs/namiko/order_total.php",
-		"/C/MAMP/htdocs/namiko/catalogue.php",
-		"/C/Users/Ture/AppData/Local/Temp/SID195D20190131T135040.xml",
-		"/C/Users/Ture/AppData/Local/Temp/SID194D20190131T133934.xml",
-		"/C/MAMP/htdocs/namiko/sepa/SID189D20190131T131827.xml",
-		"/C/MAMP/htdocs/namiko/sepa/SID190D20190131T132221.xml"
+		"/C/MAMP/htdocs/namiko/emailcenter.php"
 	],
 	"find":
 	{
-		"height": 24.0
+		"height": 39.0
 	},
 	"find_in_files":
 	{
@@ -948,6 +880,12 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"separator",
+			"first",
+			"catalogue",
+			"$result .=",
+			"echo",
+			"//shopping cart functionality",
 			"streetnumber",
 			"the-image.png",
 			"functions ",
@@ -1069,13 +1007,7 @@
 			"PHP_SELF",
 			"debitorSum",
 			"`namiko`.",
-			"Dokumentation",
-			"iid",
-			"documentation",
-			"add_p",
-			"addProducer",
-			"documentation",
-			"bold"
+			"Dokumentation"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1097,262 +1029,29 @@
 	"groups":
 	[
 		{
-			"selected": 12,
+			"selected": 2,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "inc/Mail.inc.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2815,
+						"buffer_size": 332,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1099,
-								1099
+								185,
+								185
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 152.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/home/ture/config.inc.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 873,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								870,
-								870
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 12,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "internal.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 11507,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3664,
-								3664
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "order_total_process.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 10820,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								10672,
-								10672
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 3049.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 10,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "inventory.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 19522,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2630,
-								2630
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1357.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 9,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "templates/footer.inc.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1188,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1188,
-								1188
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "/home/ture/projects/htdocs/wordpress/wp-config.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3854,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3504,
-								3504
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 1079.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1071,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								1071
-							]
-						],
-						"settings":
-						{
-							"auto_name": "body {",
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 829,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								829,
-								829
-							]
-						],
-						"settings":
-						{
-							"auto_name": "Um die schlechten Anlaufeigenschaften des H-Darrie",
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"auto_name": "ALTER TABLE `namiko`.`products`",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1362,53 +1061,114 @@
 					"type": "text"
 				},
 				{
-					"buffer": 9,
+					"buffer": 1,
+					"file": "catalogue_handler.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 177,
+						"buffer_size": 5543,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								124,
-								124
+								1285,
+								1285
 							]
 						],
 						"settings":
 						{
-							"auto_name": "public class LocCompare implements Comparator<Loc>",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 90.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 10,
-					"file": "/home/ture/Studium/18-19SS/Datenbanksysteme1/ue07.sql",
+					"buffer": 2,
+					"file": "admin.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 381,
+						"buffer_size": 14013,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								381,
-								381
+								979,
+								979
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/SQL/SQL.sublime-syntax"
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 225.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "inc/Cart.inc.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6767,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3636,
+								3636
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 720.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "cart_process.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3452,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								972,
+								972
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1418,94 +1178,32 @@
 					"type": "text"
 				},
 				{
-					"buffer": 11,
-					"file": "register.php",
+					"buffer": 5,
+					"file": "css/style.css",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4409,
+						"buffer_size": 15953,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2887,
-								2887
+								11118,
+								11118
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"syntax": "Packages/CSS/CSS.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 857.0,
+						"translation.y": 12094.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 12,
-					"file": "js/qrcode.min.js",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 19927,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 0,
-			"sheets":
-			[
-				{
-					"buffer": 13,
-					"file": "inc/config.inc.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 857,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								857,
-								857
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 13,
+					"stack_index": 3,
 					"type": "text"
 				}
 			]
@@ -1528,18 +1226,11 @@
 				0,
 				1,
 				1
-			],
-			[
-				1,
-				0,
-				2,
-				1
 			]
 		],
 		"cols":
 		[
 			0.0,
-			0.931880108992,
 			1.0
 		],
 		"rows":

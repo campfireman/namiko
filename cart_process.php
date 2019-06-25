@@ -13,7 +13,7 @@ if (isset($_POST["pid"])) {
     }
 
     try {
-        $statement = $pdo->prepare("SELECT productName, price_KG_L, producer FROM products WHERE pid=:pid");
+        $statement = $pdo->prepare("SELECT products.* FROM products WHERE pid=:pid");
         $statement->bindParam(':pid', $new_item['pid']);
         $result = $statement->execute();
 
@@ -25,6 +25,8 @@ if (isset($_POST["pid"])) {
         $new_item["productName"] = $row['productName'];
         $new_item["price_KG_L"] = $row['price_KG_L'];
         $new_item['pro_id'] = $row['producer'];
+        $new_item['unit_size'] = $row['unit_size'];
+        $new_item['unit_tag'] = $row['unit_tag'];
         $cart = new Cart();
         $cart->insert($new_item);
     } catch (Exception $e) {

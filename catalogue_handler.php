@@ -29,21 +29,21 @@ function createItem($row) {
 			</span>
 			<h2 class="name">'. htmlspecialchars($row['productName']) .'</h2>
 			<div>'. $row['productDesc'] .'<br>
-			<span class="emph">Preis: '. $row['price_KG_L'] .'€/KG</span>
+			<span class="emph">Preis: '. $row['price_KG_L'] .'€/'. $row['unit_size'] . $row['unit_tag']. '</span>
 			</div>
 			<div>
 			<span class="italic">auf Lager: </span>'. $stockOut .'</div>
 			<div>
 			<span class="italic">vorbestellt: </span>'. $preorders .'</div>
 			<div>
-			<span class="italic">Gebindegröße: </span>' .$row['container']. 'KG</div>';
+			<span class="italic">Gebindegröße: </span>' .$row['container']*$row['unit_size'] . $row['unit_tag'] .' ('. $row['container']*1 .' Einheiten)</div>';
 
 	if ($user['rights'] > 1) {
 		$result .= '
 		<div class="price">
 			<label>Menge:
 			<span>
-				<input class="quantity" type="number" name="quantity" min="0" step="0.5" required> KG</label>
+				<input class="quantity" type="number" name="quantity" min="1" step="1" value="1" required></label><span> x '. $row['unit_size'] .$row['unit_tag'] .'
 				<input type="hidden" name="pid" value="'. $row['pid'] .'">
 			</span>
 			<button class="addCart green" type="submit" name="addCart"><i class="fa fa-cart-plus" aria-hidden="true"></i></button>

@@ -29,6 +29,8 @@ if(isset($_POST['product'])) {
 	$productName = trim($_POST['productName']);
 	$productDesc = trim($_POST['productDesc']);
 	$price_KG_L = $_POST['price_KG_L'];
+	$unit_size = $_POST['unit_size'];
+	$unit_tag = $_POST['unit_tag'];
 	$category = $_POST['category'];
 	$container = $_POST['container'];
 	$priceContainer = $_POST['priceContainer'];
@@ -43,8 +45,8 @@ if(isset($_POST['product'])) {
 		notify('Bitte eine Auswahl treffen.');
 	}
 
-	$statement = $pdo->prepare("INSERT INTO products (productName, productDesc, price_KG_L, category, container, priceContainer, origin, producer) VALUES (:productName, :productDesc, :price_KG_L, :category, :container, :priceContainer, :origin, :producer)");
-	$result = $statement->execute(array('productName' => $productName, 'productDesc' => $productDesc, 'price_KG_L' => $price_KG_L, 'category' => $category, 'container' => $container, 'priceContainer' => $priceContainer, 'origin' => $origin, 'producer' => $producer));
+	$statement = $pdo->prepare("INSERT INTO products (productName, productDesc, price_KG_L, unit_size, unit_tag, category, container, priceContainer, origin, producer) VALUES (:productName, :productDesc, :price_KG_L, :unit_size, :unit_tag, :category, :container, :priceContainer, :origin, :producer)");
+	$result = $statement->execute(array('productName' => $productName, 'productDesc' => $productDesc, 'price_KG_L' => $price_KG_L, 'unit_size' => $unit_size, 'unit_tag' => $unit_tag, 'category' => $category, 'container' => $container, 'priceContainer' => $priceContainer, 'origin' => $origin, 'producer' => $producer));
 	
 	if($result) {
 		$pid = $pdo->lastInsertId();
@@ -146,12 +148,14 @@ if (isset($_POST['save'])) {
 	$productDesc = $_POST['productDesc'];
 	$category = $_POST['category'];
 	$price_KG_L = $_POST['price_KG_L'];
+	$unit_size = $_POST['unit_size'];
+	$unit_tag = $_POST['unit_tag'];
 	$container = $_POST['container'];
 	$priceContainer = $_POST['priceContainer'];
 	$origin = $_POST['origin'];
 	$producer = $_POST['producer'];
 
-	$statement = $pdo->prepare("UPDATE products SET productName = '$productName', productDesc = '$productDesc', category='$category', price_KG_L = '$price_KG_L', container = '$container', priceContainer = '$priceContainer', origin = '$origin', producer = '$producer'  WHERE pid = '$pid'");
+	$statement = $pdo->prepare("UPDATE products SET productName = '$productName', productDesc = '$productDesc', category='$category', price_KG_L = '$price_KG_L', unit_size='$unit_size', unit_tag = '$unit_tag', container = '$container', priceContainer = '$priceContainer', origin = '$origin', producer = '$producer'  WHERE pid = '$pid'");
 	$result = $statement->execute();
 
 	if ($result) {
@@ -178,7 +182,15 @@ if (isset($_POST['save'])) {
 				</div>
 				
 				<div>
-					<input placeholder="Preis pro KG/L (€)" type="number" id="price_KG_L" min="0" step="0.01" name="price_KG_L" required>
+					<input placeholder="Preis pro Einheit (€)" type="number" id="price_KG_L" min="0" step="0.01" name="price_KG_L" required>
+				</div>
+
+				<div>
+					<input placeholder="Größe der Einheit" type="number" min="0" step="0.01" name="unit_size" required>
+				</div>
+
+				<div>
+					<input placeholder="Einheitenkürzel" type="text" name="unit_tag" required>
 				</div>
 				
 				<div>
@@ -196,7 +208,7 @@ if (isset($_POST['save'])) {
 				</div>
 
 				<div>
-					<input placeholder="Gebinde in KG/L" type="number" id="container" min="0" name="container">
+					<input placeholder="Anzahl Einheiten Gebinde" type="number" id="container" min="0" name="container">
 				</div>
 
 				<div>
@@ -261,8 +273,10 @@ if (isset($_POST['save'])) {
 			<th>Produktname</th>
 			<th>Produktbeschreibung</th>
 			<th>Kategorie</th>
-			<th>Preis KG/L (€)</th>
-			<th>Gebinde (KG)</th>
+			<th>Preis KG/Einheit</th>
+			<th>Einheitengröße</th>
+			<th>Einheitenkürzel</th>
+			<th>Gebinde (Einheiten)</th>
 			<th>Preis Gebind.</th>
 			<th>Herkunft</th>
 			<th>Hersteller</th>
@@ -302,6 +316,8 @@ if (isset($_POST['save'])) {
 					    echo_select($categories, $row['category']);
 			echo '</select></td>';
 			echo '<td><input class="empty" type="number" name="price_KG_L" step="0.01" value="'. $row['price_KG_L'] .'"></td>';
+			echo '<td><input class="empty" type="number" name="unit_size" step="0.01" value="'. $row['unit_size'] .'"></td>';
+			echo '<td><input class="empty" type="text" name="unit_tag" value="'. $row['unit_tag'] .'"></td>';
 			echo '<td><input class="empty" type="number" name="container" step="0.1" value="'. $row['container'] .'"></td>';
 			echo '<td><input class="empty" type="number" name="priceContainer" step="0.01" value="'. $row['priceContainer'] .'"></td>';
 			echo '<td><input class="empty" type="text" name="origin" value="'. $row['origin'] .'"></td>';
