@@ -12,6 +12,7 @@ function createItem($row) {
 	$result = "";
 	$pid = $row['pid'];
 	$stock = $db->getStock($pid);
+	$unit_size = $row['unit_size'] * 1;
 	$preorders = '<span class="blue">'. $db->getPreorders($pid) .'</span>';
 
 	// colored output based on amount
@@ -29,7 +30,7 @@ function createItem($row) {
 			</span>
 			<h2 class="name">'. htmlspecialchars($row['productName']) .'</h2>
 			<div>'. $row['productDesc'] .'<br>
-			<span class="emph">Preis: '. $row['price_KG_L'] .'€/'. $row['unit_size'] . $row['unit_tag']. '</span>
+			<span class="emph">Preis: '. $row['price_KG_L'] .'€/'. $unit_size . $row['unit_tag']. '</span>
 			</div>
 			<div>
 			<span class="italic">auf Lager: </span>'. $stockOut .'</div>
@@ -43,7 +44,7 @@ function createItem($row) {
 		<div class="price">
 			<label>Menge:
 			<span>
-				<input class="quantity" type="number" name="quantity" min="1" step="1" value="1" required></label><span> x '. $row['unit_size'] .$row['unit_tag'] .'
+				<input class="quantity" type="number" name="quantity" min="1" step="1" value="1" required></label><span> x '. $unit_size .$row['unit_tag'] .'
 				<input type="hidden" name="pid" value="'. $row['pid'] .'">
 			</span>
 			<button class="addCart green" type="submit" name="addCart"><i class="fa fa-cart-plus" aria-hidden="true"></i></button>

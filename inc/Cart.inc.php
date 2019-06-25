@@ -27,6 +27,70 @@ class Cart {
 		}
 	}
 
+	public static function createTable($list, $currency, $functions=false, $type='order') {
+		$total = 0;
+		$total_data = "";
+		$html = '
+		<div class="center">
+		<table class="cartTable">
+			<tr style="text-align: left;">
+				<th>Artikel</th><th>Preis/Einheit</th>
+				<th>Einheiten</th>
+				<th>Menge</th>
+				<th>&#931;</th>
+			</tr>';
+
+		foreach ($list as $product) {
+			$buttons = '';
+			$price_KG_L = $product["price_KG_L"];
+			$pid = $product["pid"];
+			$quantity = $product["quantity"];
+			$productName = $product['productName'];
+			$unit_size = $product['unit_size']*1;
+			$unit_tag = $product['unit_tag'];
+			$item_total = ($price_KG_L * $quantity);
+			$total += $item_total;
+			$amount = $quantity * $unit_size;
+
+			// delete function wanted?
+			if ($functions) {
+				$buttons = '
+				<td>
+					<input type="hidden" name="item_total" value="'. $item_total .'">
+					<a href="#" class="remove-item" type="'. $type .'" data-code="'. $pid. '"><i class="fa fa-trash-o" aria-hidden="true"></i>
+					</a>
+				</td>';
+			}
+
+			$html .= '
+			<tr>
+				<td>'. htmlspecialchars($productName) .'</td>
+				<td>'. sprintf("%01.2f %s", $price_KG_L, $currency) . "/" . $unit_size. $unit_tag .'</td>
+				<td>'. $quantity .'</td>
+				<td>'. $amount . $unit_tag.'</td>
+				<td>'. sprintf("%01.2f %s", $item_total, $currency). '</td>
+				'. $buttons .'
+			</tr>';
+		}
+		if ($functions) {
+			$total_data = '<input type="hidden" name="total" value="'. $total .'">';
+		}
+		$html .= '
+			<tr>
+				<td></td>	
+				<td></td>
+				<td></td>
+				<td></td>
+				<td class="total" style="font-weight: 600; text-align: left;">'
+				. $total_data
+				. sprintf("%01.2f %s", $total, $currency).' </td>
+			</tr>
+		</table>
+		</div>';
+
+		return array('html' => $html, 'total' => $total);
+	}
+
 	private $db;
 	private $order_ids = "";
 	private $cart;
@@ -92,67 +156,14 @@ class Cart {
 
 		// sort by producer
 		foreach ($cart as $pro_id => $producer) {
-			$total = 0;
-			$html .= '
-			<h3>'. $this->db->getProducer($pro_id) .'</h3>
-			<div class="center">
-			<table class="cartTable">
-				<tr style="text-align: left;">
-					<th>Artikel</th><th>Preis/Einheit</th>
-					<th>Einheiten</th>
-					<th>Menge</th>
-					<th>&#931;</th>
-				</tr>';
-
+			$html.= '<h3>'. $this->db->getProducer($pro_id) .'</h3>';
+			$table = self::createTable($producer, $currency, $functions, $type);
 			// items from producer
-			foreach ($producer as $product) {
-				$price_KG_L = $product["price_KG_L"];
-				$pid = $product["pid"];
-				$quantity = $product["quantity"];
-				$productName = $product['productName'];
-				$unit_size = $product['unit_size'];
-				$unit_tag = $product['unit_tag'];
-				$item_total = ($price_KG_L * $quantity);
-				$total += $item_total;
-				$amount = $quantity * $unit_size;
+			$html .= $table['html'];
 
-				// delete function wanted?
-				if ($functions) {
-					$buttons = '
-					<td>
-						<input type="hidden" name="item_total" value="'. $item_total .'">
-						<a href="#" class="remove-item" type="'. $type .'" data-code="'. $pid. '"><i class="fa fa-trash-o" aria-hidden="true"></i>
-						</a>
-					</td>';
-				}
-
-				$html .= '
-				<tr>
-					<td>'. htmlspecialchars($productName) .'</td>
-					<td>'. sprintf("%01.2f %s", $price_KG_L, $currency) . "/" . $unit_size. $unit_tag .'</td>
-					<td>'. $quantity .'</td>
-					<td>'. $amount . $unit_tag.'</td>
-					<td>'. sprintf("%01.2f %s", $item_total, $currency). '</td>
-					'. $buttons .'
-				</tr>';
-			}
-
-			if ($functions) {
-				$total_data = '<input type="hidden" name="total" value="'. $total .'">';
-			}
-			$this->grandtotal += $total;
-			$html .= '
-				<tr>
-					<td></td>	
-					<td></td>
-					<td></td>
-					<td></td>
-					<td class="total" style="font-weight: 600">'
-					. $total_data
-					. sprintf("%01.2f %s", $total, $currency).' </td>
-				</tr>
-			</table>
-			</div>';
+			
+			$this->grandtotal += $table['total'];
+			
 
 		}
 		return $html;
