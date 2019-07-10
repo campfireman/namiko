@@ -141,6 +141,7 @@ if (isset($_POST['remove-recipient'])) {
 		</div>
 		<div class="col-sm-7 spacer">
 			<span class="subtitle2">Newsletter Empfänger</span><br><br>
+			<thead>
 			<table class="max">
 				<tr>
 					<th>#</th>
@@ -148,6 +149,7 @@ if (isset($_POST['remove-recipient'])) {
 					<th>E-Mail</th>
 					<th></th>
 				</tr>
+			</thead>
 			<?php
 			$statement = $pdo->prepare("SELECT rid, first_name, last_name, email FROM newsletter_recipients WHERE verified = 1 ORDER BY rid");
 			$result = $statement->execute();

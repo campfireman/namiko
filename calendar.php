@@ -94,13 +94,15 @@ if (isset($_POST['event'])) {
 		<span class="subtitle2">Termine</span><br><br>
 		<form class="order-total">
 			<table class="table panel panel-default" style="min-width: 620px">
-			<tr>
-				<th>Bezeichnung</th>
-				<th>Start</th>
-				<th>Ende</th>
-				<th>Erstellt von</th>
-				<th></th>
-			</tr>
+			<thead>
+				<tr>
+					<th>Bezeichnung</th>
+					<th>Start</th>
+					<th>Ende</th>
+					<th>Erstellt von</th>
+					<th></th>
+				</tr>
+			</thead>
 			<?php
 			$statement = $pdo->prepare("SELECT events.*, event_types.name, users.first_name, users.last_name FROM events LEFT JOIN event_types ON events.type = event_types.tyid LEFT JOIN users ON events.created_by = users.uid ORDER BY events.start");
 			$result = $statement->execute();

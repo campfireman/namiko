@@ -19,7 +19,11 @@ include("templates/admin-nav.inc.php");
 $count = 0;
 
 //Query joins orders and order_items & retrieves productName and price via pid
-$statement = $pdo->prepare("SELECT orders.*, users.first_name, users.last_name FROM orders LEFT JOIN users ON orders.uid = users.uid WHERE delivered = 1 ORDER BY orders.created_at DESC");
+$statement = $pdo->prepare("
+	SELECT orders.*, users.first_name, users.last_name FROM orders 
+	LEFT JOIN users ON orders.uid = users.uid 
+	LEFT JOIN order_items ON order_items.oid = orders.oid 
+	WHERE order_items.delivered = 1 ORDER BY orders.created_at DESC");
 $result = $statement->execute();
 //print_r($arr = $statement->errorInfo());
 

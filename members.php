@@ -78,10 +78,6 @@ if (isset($_POST['delete'])) {
 	$result = $statement->execute();
 	$statement = $pdo->prepare("DELETE FROM users WHERE users.uid = '$uid'");
 	$result = $statement->execute();
-	
-	
-	
-	print_r($statement->errorInfo());
 
 	if ($result) {
 		$_SESSION['notification'] = true;
@@ -214,16 +210,18 @@ if (isset($_POST['loanRecieved'])) {
 	<div class="spacer full">
 	<span class="subtitle2">Mitglieder verwalten</span><br><br>
 			<table class="table panel panel-default" style="min-width: 820px">
-			<tr>
-				<th>#</th>
-				<th>Vorname</th>
-				<th>Nachname</th>
-				<th>E-Mail</th>
-				<th>Rechte</th>
-				<th>Ort</th>
-				<th>Anschrift</th>
-				<th></th>
-			</tr>
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Vorname</th>
+					<th>Nachname</th>
+					<th>E-Mail</th>
+					<th>Rechte</th>
+					<th>Ort</th>
+					<th>Anschrift</th>
+					<th></th>
+				</tr>
+			</thead>
 			<?php 
 			$count = 1;
 			$statement = $pdo->prepare("SELECT * FROM users ORDER BY uid");

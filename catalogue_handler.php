@@ -183,10 +183,10 @@ if (isset($_POST['search'])) {
 		SELECT products.*, producers.*, categories.* FROM products 
 		LEFT JOIN producers ON products.producer = producers.pro_id
 		LEFT JOIN categories ON categories.cid = products.category 
-		WHERE ProductName LIKE :search_string 
+		WHERE (ProductName LIKE :search_string 
 			OR origin LIKE :search_string
 			OR producerName LIKE :search_string 
-			OR category_name LIKE :search_string");
+			OR category_name LIKE :search_string) AND cid > 1");
 	$statement->bindParam(':search_string', $search_string);
 	$result = $statement->execute();
 	$column = 1;

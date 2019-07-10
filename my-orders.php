@@ -16,7 +16,25 @@ $uid = $user['uid'];
 $count = 0;
 $orders = '';
 
-$statement = $pdo->prepare("SELECT orders.* FROM orders WHERE uid = '$uid' ORDER BY orders.oid DESC");
+$statement = $pdo->prepare("SELECT order_items.*, products.*, orders.* 
+	FROM order_items 
+	LEFT JOIN products ON order_items.pid = products.pid 
+	LEFT JOIN orders ON orders.oid = order_items.oid
+	WHERE delivered = 0 AND orders.uid = :uid");
+$statement->bindParam('uid', $uid);
+$result = $statement->execute();
+$not_picked_up = '';
+
+if ($result) {
+	if ($statement->rowCount() > 0) {
+		$table = Cart::createTable($statement->fetchAll(), $currency, true, 'my-orders');
+		$not_picked_up .= $table['html'];
+	} else {
+		$not_picked_up = '<span class="center">Alles abgeholt :)</span>';
+	}
+}
+
+$statement = $pdo->prepare("SELECT DISTINCT order_items.oid, orders.created_at FROM orders LEFT JOIN order_items ON order_items.oid = orders.oid WHERE uid = '$uid' ORDER BY orders.oid DESC");
 $result = $statement->execute();
 
 while ($row = $statement->fetch()) {
@@ -33,17 +51,17 @@ while ($row = $statement->fetch()) {
 	$orders .= '<div class="subtitle3 inline" style="float: right"><span>'. $date->format("d.m.Y H:i:s") .'</span></div><br><br>';
 	
 	$grandtotal = 0;
-	$statement2 = $pdo->prepare("SELECT order_items.pid, products.*, order_items.quantity, order_items.total FROM order_items LEFT JOIN products ON order_items.pid = products.pid WHERE order_items.oid = '$oid'");
+	$statement2 = $pdo->prepare("SELECT order_items.*, products.* FROM order_items LEFT JOIN products ON order_items.pid = products.pid WHERE order_items.oid = '$oid'");
 	$statement2->execute();
 	
-	$table = Cart::createTable($statement2->fetchAll(), $currency);
+	$table = Cart::createTable($statement2->fetchAll(), $currency, true, 'my-orders');
 	$orders .= $table['html'];
 
-	if ($row['delivered'] == 0) {
-		$orders .= '<button class="picked-up clean-btn red" oid="'. $row['oid'] .'">nicht abgeholt <i class="fa fa-times" aria-hidden="true"></i></button><br><br>';
-	} else {
-		$orders .= '<button class="clean-btn green">abgeholt <i class="fa fa-check" aria-hidden="true"></i></button><br><br>';
-	}
+	// if ($row['delivered'] == 0) {
+	// 	$orders .= '<button class="picked-up clean-btn red" oid="'. $row['oid'] .'">nicht abgeholt <i class="fa fa-times" aria-hidden="true"></i></button><br><br>';
+	// } else {
+	// 	$orders .= '<button class="clean-btn green">abgeholt <i class="fa fa-check" aria-hidden="true"></i></button><br><br>';
+	// }
 	$orders .= '</div>';
 	if ($count == 2) {
 		$orders .= '</div>';
@@ -57,6 +75,12 @@ if ($count == 1) { //closes .row if number of orders is uneven
 }
 
 ?>
+<h3 class="header">Nicht abgeholte Bestellungen</h3>
+<div class="sizer spacer">
+	<?php
+	echo $not_picked_up;
+	?>
+</div>
 
 <h3 class="header">Bestellungen</h3>
 <div class="sizer spacer">
@@ -73,9 +97,9 @@ include("templates/footer.inc.php")
 ?>
 <script type="text/javascript">
 	
-	$(".picked-up").on("click", function(e){ 
+	$(".mark-delivered").on("click", function(e){ 
 		$(this).prop("disabled", true);
-		var oid = $(this).attr('oid');
+		var oi_id = $(this).attr('oi_id');
 		var ref = $(this);
 
 		e.preventDefault();
@@ -83,12 +107,12 @@ include("templates/footer.inc.php")
 			type: "POST",
 			url: 'session_process.php',
 			dataType:"json",
-			data: {"oid": oid, "mark-delivered" : 1} // serializes the form's elements.
+			data: {"oi_id": oi_id, "mark-delivered" : 1} // serializes the form's elements.
 		}).done(function(data){
 			if (data.error == 1) {
 				alert(data.text);
 			} else {
-				ref.removeClass("picked-up").removeClass('red').addClass('green').html('abgeholt <i class="fa fa-check" aria-hidden="true"></i>');
+				ref.removeClass("picked-up").removeClass('red').addClass('green').html('<i class="fa fa-check" aria-hidden="true"></i>');
 			}
 		});
 	});

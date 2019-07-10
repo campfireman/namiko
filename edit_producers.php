@@ -65,13 +65,20 @@ if (isset($_POST['edit_producer'])) {
 
 
 <script>
+
+  function slashEscape(contents) {
+    return contents
+        .replace(/\\/g, '\\\\')
+        .replace(/"/g, '\\"')
+        .replace(/\n/g, '\\n');
+}
 	$('document').ready(function(){
       $('#summernote').summernote({
         placeholder: '',
         tabsize: 2,
         height: 200
       });
-      $('#summernote').summernote('code', doc);
+      $('#summernote').summernote('code', slashEscape(doc));
       $('#updateDoc').on('click', function(){
       	var description = $('#summernote').summernote('code');
       	$('input[name="description"]').val(description);

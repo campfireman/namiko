@@ -82,6 +82,7 @@ if (isset($_POST['update'])) {
 	</form><br>
 	<div class="full">
 		<table class="table panel panel-default" style="min-width: 620px">
+			<thead>
 			<tr>
 				<th>Produktname</th><th>Produkt ID</th>
 				<th class="width100">Lagermenge</th>
@@ -93,6 +94,7 @@ if (isset($_POST['update'])) {
 				<th>zuletzt editiert</th>
 				<th></th>
 			</tr>
+			</thead>
 			<?php
 			// Fill Inventory table with inventory db with join to product data
 			$statement = $pdo->prepare("
@@ -114,7 +116,7 @@ if (isset($_POST['update'])) {
 				$quantityDelivery = 0;
 
 				// checking for undelivered items to calculate deficit
-				$statement2 = $pdo->prepare("SELECT order_items.quantity, orders.delivered FROM order_items LEFT JOIN orders ON order_items.oid = orders.oid WHERE (order_items.pid = '$pid') AND (orders.delivered = 0)". $timeToggle ."");
+				$statement2 = $pdo->prepare("SELECT order_items.quantity, orders.delivered FROM order_items LEFT JOIN orders ON order_items.oid = orders.oid WHERE (order_items.pid = '$pid') AND (orders_items.delivered = 0)". $timeToggle ."");
 				$result2 = $statement2->execute();
 
 				while ($row2 = $statement2->fetch()) {
@@ -169,7 +171,6 @@ if (isset($_POST['update'])) {
 				} else if ($sum > 0) {
 					$sumOut = '<span class="green">'. $sum .'</span>';
 				} else {
-					$recommendations[$producer][] = array('pid' => $pid, 'deficit' => $sum);
 					$sumOut = '<span>'. $sum .'</span>';
 				}
 
@@ -362,26 +363,28 @@ if (isset($_POST['update'])) {
 				// preparing individual tables for output
 				$recommendationsOut .= '<span class="subtitle3 spacer">'. $producerName .'</span>
 										<form class="order-total">
-										<table class="table panel panel-default" style="min-width: 620px">
-										<tr>
-										<th>Produktname</th>
-										<th>Produkt ID</th>
-										<th>Defizit KG/L</th>
-										<th>Gebinde KG/L</th>
-										<th>empf. Menge</th>
-										<th>Preis Gebinde</th>
-										<th>&#931;</th>
-										</tr>';
+										<table class="table panel panel-default" style="max-width: 820px">
+											<thead>
+												<tr>
+												<th>Produktname</th>
+												<th>Produkt ID</th>
+												<th>Defizit Einheiten</th>
+												<th>Gebinde Einheiten</th>
+												<th>empf. Menge</th>
+												<th>Preis Gebinde</th>
+												<th>&#931;</th>
+												</tr>
+											</thead>';
 				// iterating the recommendations array for this specific producer
 				foreach ($category as $product) {
 					$pid = $product['pid'];
-					$deficit = ($product['deficit'] * (-1));
+					$deficit = ($product['deficit']);
 					$statement2 = $pdo->prepare("SELECT productName, container, priceContainer FROM products WHERE pid = '$pid'");
 					$result2 = $statement2->execute();
 					$productData = $statement2->fetch();
 
 					$priceContainer = $productData['priceContainer'];
-					$quantityContainer = ceil(($deficit / $productData['container']));
+					$quantityContainer = ceil(($deficit / $productData['container'])) * (-1);
 					if ($quantityContainer == 0) { $quantityContainer = 1; }
 					$total = ($priceContainer * $quantityContainer); // calculating price
 					$grandtotal += $total; // calculating total price
@@ -409,7 +412,7 @@ if (isset($_POST['update'])) {
 											<td><span class="emph">'.$currency.sprintf("%01.2f", $grandtotal). '</span></td>
 										</tr>
 										</table>
-										<button type="submit" name="orderRecommendation" class="right clean-btn blue">Hinzufügen <i class="fa fa-plus" aria-hidden="true"></i></button><br>
+										<button type="submit" name="orderRecommendation" class="left clean-btn blue">Hinzufügen <i class="fa fa-plus" aria-hidden="true"></i></button><br>
 										</form>
 										<br><br>';
 			} 

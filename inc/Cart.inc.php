@@ -34,7 +34,8 @@ class Cart {
 		<div class="center">
 		<table class="cartTable">
 			<tr style="text-align: left;">
-				<th>Artikel</th><th>Preis/Einheit</th>
+				<th>Artikel</th>
+				<th>Preis/Einheit</th>
 				<th>Einheiten</th>
 				<th>Menge</th>
 				<th>&#931;</th>
@@ -54,12 +55,26 @@ class Cart {
 
 			// delete function wanted?
 			if ($functions) {
-				$buttons = '
-				<td>
-					<input type="hidden" name="item_total" value="'. $item_total .'">
-					<a href="#" class="remove-item" type="'. $type .'" data-code="'. $pid. '"><i class="fa fa-trash-o" aria-hidden="true"></i>
-					</a>
-				</td>';
+				if ($type == 'my-orders') {
+					if ($product['delivered']) {
+						$buttons = '
+						<td>
+							<span class="green font-size18"><i class="fa fa-check" aria-hidden="true"></i></span>
+						</td>';
+					} else {
+						$buttons = '
+						<td>
+							<a href="#" class="mark-delivered red font-size18" oi_id="'. $product['oi_id'] . '"><i class="fa fa-times" aria-hidden="true"></i></a>
+						</td>';
+					}
+				} else {
+					$buttons = '
+					<td>
+						<input type="hidden" name="item_total" value="'. $item_total .'">
+						<a href="#" class="remove-item" type="'. $type .'" data-code="'. $pid. '"><i class="fa fa-trash-o" aria-hidden="true"></i>
+						</a>
+					</td>';
+				}
 			}
 
 			$html .= '

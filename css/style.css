@@ -264,6 +264,15 @@ a:hover {
 	color: white;
 }
 
+.no-display {
+	display: none;
+}
+
+.font-size18 {
+	font-size: 18px;
+
+}
+
 
 /*
  *  Login
@@ -911,8 +920,8 @@ a:hover.title {
     top: 0; 
     left: 0;
     background-color: white; 
-    overflow-x: hidden; 
-	overflow-y:hidden;
+    overflow-x: scroll; 
+	overflow-y: scroll;
     transition: 0.3s; 
 	text-align: center;
 }
@@ -925,8 +934,8 @@ a:hover.title {
     top: 0; 
     left: 0;
     background-color: white; 
-    overflow-x: hidden; 
-	overflow-y:hidden;
+    overflow-x: scroll; 
+	overflow-y: scroll;
     transition: 0.3s; 
 	text-align: center;
 }
@@ -1073,6 +1082,35 @@ a:hover.title {
     margin: 10px 0 5px 0;
 	
 }
+
+#save-btn {
+	position: fixed;
+	right: 10px;
+	top: 10px;
+	font-size: 40px;
+	font-weight: 600;
+	z-index: 100;
+}
+
+
+.table {
+	width: 100%;
+	max-width: 100%;
+	border-collapse: collapse;
+}
+
+.table input, .table select {
+	width: 100%;
+}
+
+.fixed-th {
+  top:0;
+  position:fixed;
+  width:auto;
+  display:none;
+  border:none;
+}
+
 
 /*
  * Footer 

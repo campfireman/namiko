@@ -275,16 +275,18 @@ if(isset($_POST['orderPay'])) {
 	<div class="spacer full">
 	<span class="subtitle2">Kontoinformationen</span><br><br>
 		<table class="table panel panel-default" style="min-width: 820px">
-		<tr>
-			<th>#</th>
-			<th>Vorname</th>
-			<th>Nachname</th>
-			<th>Kontoinhaber</th>
-			<th>IBAN</th>
-			<th>BIC</th>
-			<th>Darlehen</th>
-			<th>Beitrag</th>
-		</tr>
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Vorname</th>
+				<th>Nachname</th>
+				<th>Kontoinhaber</th>
+				<th>IBAN</th>
+				<th>BIC</th>
+				<th>Darlehen</th>
+				<th>Beitrag</th>
+			</tr>
+		</thead>
 		<?php 
 		$count = 1;
 		$statement = $pdo->prepare("SELECT * FROM users ORDER BY uid");

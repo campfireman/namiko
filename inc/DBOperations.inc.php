@@ -48,7 +48,7 @@ class DBOperations {
 	}
 
 	public function getTotalOrders($pid) {
-		$statement = $this->pdo->prepare("SELECT SUM(order_items.quantity) AS sum FROM order_items LEFT JOIN orders ON order_items.oid = orders.oid WHERE (order_items.pid = :pid) AND (orders.delivered = 0)");
+		$statement = $this->pdo->prepare("SELECT SUM(order_items.quantity) AS sum FROM order_items LEFT JOIN orders ON order_items.oid = orders.oid WHERE (order_items.pid = :pid) AND (order_items.delivered = 0)");
 		$statement->bindParam(':pid', $pid);
 		$result = $statement->execute();
 		

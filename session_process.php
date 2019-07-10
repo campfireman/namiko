@@ -40,10 +40,10 @@ if (isset($_GET['remove-order'])) {
 }
 
 if (isset($_POST['mark-delivered'])) {
-	$oid = $_POST['oid'];
+	$oi_id = $_POST['oi_id'];
 	try {
 		$pdo->beginTransaction();
-		$statement = $pdo->prepare("SELECT delivered FROM orders WHERE oid = '$oid'");
+		$statement = $pdo->prepare("SELECT delivered FROM order_items WHERE oi_id = '$oi_id'");
 		$result = $statement->execute();
 
 		if (!$result) {
@@ -55,11 +55,11 @@ if (isset($_POST['mark-delivered'])) {
 			}
 		}
 
-		$statement = $pdo->prepare("UPDATE orders SET delivered = 1 WHERE oid = '$oid'");
+		$statement = $pdo->prepare("UPDATE order_items SET delivered = 1 WHERE oi_id = '$oi_id'");
 		$result = $statement->execute();
 
 		if ($result) {
-			$statement = $pdo->prepare("SELECT * FROM order_items WHERE oid = '$oid'");
+			$statement = $pdo->prepare("SELECT * FROM order_items WHERE oi_id = '$oi_id'");
 			$result = $statement->execute();
 			if ($result) {
 				while ($row = $statement->fetch()) {

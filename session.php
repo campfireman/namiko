@@ -27,10 +27,10 @@ include("templates/admin-nav.inc.php");
 				<th></th>
 			</tr>
 			<?php
-			$statement = $pdo->prepare("SELECT order_items.oi_id, orders.uid, orders.oid, orders.created_at, order_items.*, users.first_name, users.last_name, products.productName FROM order_items LEFT JOIN orders ON order_items.oid = orders.oid LEFT JOIN users ON orders.uid = users.uid LEFT JOIN products ON order_items.pid = products.pid WHERE orders.delivered = 0");
+			$statement = $pdo->prepare("SELECT order_items.oi_id, orders.uid, orders.oid, orders.created_at, order_items.*, users.first_name, users.last_name, products.productName FROM order_items LEFT JOIN orders ON order_items.oid = orders.oid LEFT JOIN users ON orders.uid = users.uid LEFT JOIN products ON order_items.pid = products.pid WHERE order_items.delivered = 0");
 			$result = $statement->execute();
 
-			$statement = $pdo->prepare("SELECT orders.* FROM orders WHERE delivered = 0 ORDER BY created_at");
+			$statement = $pdo->prepare("SELECT orders.* FROM orders ORDER BY created_at");
 			$result = $statement->execute();
 			$orders = $statement->fetchAll();
 
@@ -41,7 +41,7 @@ include("templates/admin-nav.inc.php");
 					$uid = $order['uid'];
 					$first = true;
 
-					$statement = $pdo->prepare("SELECT order_items.*, users.first_name, users.last_name, products.productName FROM order_items LEFT JOIN users ON '$uid' = users.uid LEFT JOIN products ON order_items.pid = products.pid WHERE oid = '$oid'");
+					$statement = $pdo->prepare("SELECT order_items.*, users.first_name, users.last_name, products.productName FROM order_items LEFT JOIN users ON '$uid' = users.uid LEFT JOIN products ON order_items.pid = products.pid WHERE oid = '$oid' AND delivered = 0");
 					$result = $statement->execute();
 
 					if ($result) {
@@ -52,10 +52,11 @@ include("templates/admin-nav.inc.php");
 								$first = false;
 								echo "<td>". $row['first_name'] ." ". $row['last_name'] ."</td>";
 								echo "<td>". $oid ."</td>";
-								echo '<td><button oid="'. $oid .'" class="mark-delivered red"><i class="fa fa-times" aria-hidden="true"></i></button></td>';
+								
 							} else {
-								echo "<td></td><td></td><td></td>";
+								echo "<td></td><td></td>";
 							}
+							echo '<td><button oi_id="'. $row['oi_id'] .'" class="mark-delivered red"><i class="fa fa-times" aria-hidden="true"></i></button></td>';
 							echo "<td>". $row['productName'] ."</td>";
 							echo "<td>". $row['quantity'] ."</td>";
 							echo "<td>". $created_at->format('d.m.Y H:i:s') . "</td>";
@@ -90,7 +91,7 @@ include("templates/admin-nav.inc.php");
 
 		$(".mark-delivered").on("click", function(e){ 
 		$(this).prop("disabled", true);
-		var oid = $(this).attr('oid');
+		var oi_id = $(this).attr('oi_id');
 		var ref = $(this);
 
 		e.preventDefault();
@@ -98,12 +99,12 @@ include("templates/admin-nav.inc.php");
 			type: "POST",
 			url: 'session_process.php',
 			dataType:"json",
-			data: {"oid": oid, "mark-delivered" : 1} // serializes the form's elements.
+			data: {"oi_id": oi_id, "mark-delivered" : 1} // serializes the form's elements.
 		}).done(function(data){
 			if (data.error == 1) {
 				alert(data.text);
 			} else {
-				ref.removeClass("mark-delivered").removeClass('red').addClass('green').html('<i class="fa fa-check" aria-hidden="true"></i>');
+				ref.removeClass("picked-up").removeClass('red').addClass('green').html('<i class="fa fa-check" aria-hidden="true"></i>');
 			}
 		});
 	});
