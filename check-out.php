@@ -21,6 +21,8 @@ include("templates/nav.inc.php");
 <script type="text/javascript">
     $("#shopping-cart-results").load( "cart_process.php", {"load_cart":"1", "pay": 1}); //Make ajax request using jQuery Load() & update results
 </script>
+
+<pre><?php print_r($_SESSION) ?></pre>
 <?php
 include("templates/footer.inc.php")
 ?>

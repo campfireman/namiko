@@ -13,13 +13,14 @@ function createItem($row) {
 	$pid = $row['pid'];
 	$stock = $db->getStock($pid);
 	$unit_size = $row['unit_size'] * 1;
+	$unit_tag = $row['unit_tag'];
 	$preorders = '<span class="blue">'. $db->getPreorders($pid) .'</span>';
 
 	// colored output based on amount
 	if ($stock < 0) {
-		$stockOut = '<span class="red">'. $stock .'KG</span>';
+		$stockOut = '<span class="red">'. $stock . $unit_tag .'</span>';
 	} else if ($stock > 0) {
-		$stockOut = '<span class="green">'. $stock .'KG</span>';
+		$stockOut = '<span class="green">'. $stock . $unit_tag .'</span>';
 	} else {
 		$stockOut = '<span>'. $stock .'</span>';
 	}
@@ -30,21 +31,21 @@ function createItem($row) {
 			</span>
 			<h2 class="name">'. htmlspecialchars($row['productName']) .'</h2>
 			<div>'. $row['productDesc'] .'<br>
-			<span class="emph">Preis: '. $row['price_KG_L'] .'€/'. $unit_size . $row['unit_tag']. '</span>
+			<span class="emph">Preis: '. $row['price_KG_L'] .'€/'. $unit_size . $unit_tag. '</span>
 			</div>
 			<div>
 			<span class="italic">auf Lager: </span>'. $stockOut .'</div>
 			<div>
 			<span class="italic">vorbestellt: </span>'. $preorders .'</div>
 			<div>
-			<span class="italic">Gebindegröße: </span>' .$row['container']*$row['unit_size'] . $row['unit_tag'] .' ('. $row['container']*1 .' Einheiten)</div>';
+			<span class="italic">Gebindegröße: </span>' .$row['container']*$row['unit_size'] . $unit_tag .' ('. $row['container']*1 .' Einheiten)</div>';
 
 	if ($user['rights'] > 1) {
 		$result .= '
 		<div class="price">
 			<label>Menge:
 			<span>
-				<input class="quantity" type="number" name="quantity" min="1" step="1" value="1" required></label><span> x '. $unit_size .$row['unit_tag'] .'
+				<input class="quantity" type="number" name="quantity" min="1" step="1" value="1" required></label><span> x '. $unit_size .$unit_tag .'
 				<input type="hidden" name="pid" value="'. $row['pid'] .'">
 			</span>
 			<button class="addCart green" type="submit" name="addCart"><i class="fa fa-cart-plus" aria-hidden="true"></i></button>

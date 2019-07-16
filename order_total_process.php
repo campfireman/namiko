@@ -205,7 +205,7 @@ if (isset($_POST['delivered'])) {
             $sum = 0;
 
             $statement2 = $pdo->prepare("
-                SELECT preorder_items.*, preorders.uid, products.producer, products.price_KG_L, products.productName 
+                SELECT preorder_items.*, preorders.uid, products.*
                 FROM preorder_items 
                 LEFT JOIN preorders 
                 ON preorders.oid = preorder_items.oid 
@@ -250,7 +250,7 @@ if (isset($_POST['delivered'])) {
             $cart = new Cart();
             $user = $db->getUser($uid);
             $cart->process($uid, $order);
-            $cart->mail($user, $smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity);
+            $cart->mail($user, $smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity, false, false);
         }
 
         $pdo->commit();
@@ -283,6 +283,44 @@ if (isset($_POST['paid'])) {
         }
     } else {
         res(1, "Bereits als bezahlt markiert.");
+    }
+}
+
+if (isset($_GET['remove-order-total-item'])) {
+    $oti_id = $_GET['oti_id'];
+    $tid = $_GET['tid'];
+
+    try {
+        $pdo->beginTransaction();
+        $statement = $pdo->prepare("SELECT * FROM order_total_items WHERE tid = :tid");
+        $statement->bindParam('tid', $tid);
+        $result = $statement->execute();
+
+        if ($result) {
+            $count = $statement->rowCount();
+            
+            $statement = $pdo->prepare("DELETE FROM order_total_items WHERE oti_id = :oti_id");
+            $statement->bindParam('oti_id', $oti_id);
+            $result = $statement->execute();
+
+            if ($count == 1) {
+                $statement = $pdo->prepare("DELETE FROM order_total WHERE tid = :tid");
+                $statement->bindParam('tid', $tid);
+                $result = $statement->execute();
+            }
+
+            if ($result) {
+                $pdo->commit();
+                res(0, "Erfolgreich");
+            } else {
+                throw new Exception(json_encode($statement->errorInfo()));
+            }
+        } else {
+            throw new Exception(json_encode($statement->errorInfo()));
+        }
+    } catch (Execption $e) {
+        $pdo->rollBack();
+        res(1, $e->getMessage());
     }
 }
 ?>

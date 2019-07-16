@@ -112,7 +112,7 @@ include("templates/footer.inc.php")
 			if (data.error == 1) {
 				alert(data.text);
 			} else {
-				ref.removeClass("picked-up").removeClass('red').addClass('green').html('<i class="fa fa-check" aria-hidden="true"></i>');
+				ref.removeClass("picked-up").removeClass('red').addClass('green').html('<i class="fa fa-check-square-o" aria-hidden="true"></i>');
 			}
 		});
 	});

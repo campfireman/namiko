@@ -146,6 +146,8 @@ if (isset($_POST['csv'])) {
 					$quantityContainer = $row2['quantityContainer'];
 					$price = ($total / $quantityContainer);
 					$grandtotal += $total;
+					$tid = $row2['tid'];
+					$oti_id = $row2['oti_id'];
 
 					echo '<tr>';
 					echo '<td>'. $row2['productName'] .'</td>';
@@ -153,6 +155,9 @@ if (isset($_POST['csv'])) {
 					echo '<td>'. $row2['container'] .'</td>';
 					echo '<td>'. $quantityContainer .'</td>';
 					echo '<td>'. $currency . sprintf('%01.2f', $total) . '</td>';
+					if ($row2['delivered'] == 0) {
+						echo '<td><a href="#" class="remove-item" tid="'. $tid .'" oti_id="'. $oti_id .'"><i class="fa fa-trash-o" aria-hidden="true"></i></td>'; 
+					}
 					echo '</tr>';
 
 
@@ -192,6 +197,7 @@ if (isset($_POST['csv'])) {
 </div>
 
 <script type="text/javascript">
+$('document').ready(function () {
 	$('.delivered').submit(function(e) {
 		e.preventDefault();
 		var form_data = $(this).serialize();
@@ -231,6 +237,21 @@ if (isset($_POST['csv'])) {
 			}
 		})
 	});
+
+
+	$('.remove-item').on("click", function(e) {
+		$(this).prop("disabled", true);
+		e.preventDefault();
+
+		var oti_id = $(this).attr("oti_id");
+		var tid = $(this).attr("tid");
+		
+	    $(this).closest('tr').fadeOut();
+	    $.getJSON( "order_total_process.php", {"remove-order-total-item":1, "tid": tid, "oti_id" : oti_id}).done(function(data){ 
+	    	if (data.error == 1) alert(data.text);
+	    });
+	});
+})
 </script>
 
 <?php 

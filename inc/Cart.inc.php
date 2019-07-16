@@ -30,6 +30,7 @@ class Cart {
 	public static function createTable($list, $currency, $functions=false, $type='order') {
 		$total = 0;
 		$total_data = "";
+		$description = $type == 'my-orders' ? '<th>Abgeholt?</th>' : '<th></th>';
 		$html = '
 		<div class="center">
 		<table class="cartTable">
@@ -38,7 +39,8 @@ class Cart {
 				<th>Preis/Einheit</th>
 				<th>Einheiten</th>
 				<th>Menge</th>
-				<th>&#931;</th>
+				<th>&#931;</th>'.
+				$description .'
 			</tr>';
 
 		foreach ($list as $product) {
@@ -59,12 +61,12 @@ class Cart {
 					if ($product['delivered']) {
 						$buttons = '
 						<td>
-							<span class="green font-size18"><i class="fa fa-check" aria-hidden="true"></i></span>
+							<span class="green font-size18"><i class="fa fa-check-square-o" aria-hidden="true"></i></span>
 						</td>';
 					} else {
 						$buttons = '
 						<td>
-							<a href="#" class="mark-delivered red font-size18" oi_id="'. $product['oi_id'] . '"><i class="fa fa-times" aria-hidden="true"></i></a>
+							<a href="#" class="mark-delivered red font-size18" oi_id="'. $product['oi_id'] . '"><i class="fa fa-minus-square-o" aria-hidden="true"></i></a>
 						</td>';
 					}
 				} else {
@@ -141,6 +143,33 @@ class Cart {
 	}
 
 	public function update() {
+		foreach ($_SESSION['preorders'] as $pro_id => $producer) {
+			foreach ($producer as $pid => $item) {
+				if ($this->hasSurplus($item)) {
+					$stock = $this->db->getStock($pid);
+					$old_quantity = $item['quantity'];
+					$surplus = $stock - $old_quantityd;
+
+					if ($surplus >= 0) {
+						self::delete('preorders', $pid);
+						$quantity_to_order = $old_quantity;
+							
+					} else {
+						$quantity_to_order = $stock;
+						$_SESSION['preorders'][$pro_id][$pid]['quantity'] = abs($surplus);
+						
+					}
+
+					if (array_key_exists($pid, $_SESSION['orders'][$pro_id])) {
+						$_SESSION['orders'][$pro_id][$pid]['quantity'] += $quantity_to_order;
+					} else {
+						$_SESSION['orders'][$pro_id][$pid] = $item;
+						$_SESSION['orders'][$pro_id][$pid]['quantity'] = $quantity_to_order;
+					}
+				}
+			}
+		}
+
 		foreach ($_SESSION['orders'] as $pro_id => $producer) {
 			foreach ($producer as $pid => $item) {
 				if ($this->hasDeficit($item)) {
@@ -244,6 +273,15 @@ class Cart {
 				}
 			}
 		}
+
+		foreach ($_SESSION['preorders'] as $producer) {
+			foreach ($producer as $item) {
+				if ($this->hasSurplus($item)) {
+					$error = true;
+					$this->itemConflicts[] = $item['productName'];
+				}
+			}
+		}
 		return $error;
 	}
 
@@ -251,25 +289,42 @@ class Cart {
 		return $this->getDeficit($item) < 0;
 	}
 
+	private function hasSurplus($item) {
+		$deficit = $this->getDeficit($item);
+		return $deficit >= 0 || abs($deficit)  != $item['quantity'];
+	}
+
 	private function getDeficit($item) {
 		return $this->db->getStock($item['pid']) - $item['quantity'];
 	}
 
-	public function mail($user, $smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity) {
+	public function mail($user, $smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity, $standardSubject=true, $standardText=true) {
 
 		// mail info
 		$email = $user['email'];
 		$first_name = $user['first_name'];
 		$last_name = $user['last_name'];
-		$subject = empty($this->order_ids) ? 'Vorbestellung' : 'Bestellung Nr. '. $this->order_ids;
-		$text = '
-		<h1>Moin, '. htmlspecialchars($first_name) .'!</h1>
-		<p>Hiermit, bestätigen wir, dass Deine Bestellung bei uns eingangen ist. Zur Übersicht noch einmal eine Aufstellung der Artikel:
-		<br><br>
-		'. $this->table .'
-		<br><br>
-		Denk daran, Deine Bestellung als abgeholt zu markieren unter <a href="https://m.namiko.org/my-orders.php">Meine Bestellungen</a>.
-		</p>';
+
+		if ($standardSubject) {
+			$subject = empty($this->order_ids) ? 'Vorbestellung' : 'Bestellung Nr. '. $this->order_ids;
+		} else {
+			$subject = 'Deine Vorbestellung ist auf dem Weg! (Bestellung #' . $this->order_ids . ')';
+		}
+
+		$text = '<h1>Moin, '. htmlspecialchars($first_name) .'!</h1>';
+
+		if ($standardText) {
+			$text .= '
+			<p>Hiermit, bestätigen wir, dass Deine Bestellung bei uns eingangen ist. Zur Übersicht noch einmal eine Aufstellung der Artikel:';
+		} else {
+			$text .= '<p>Wir haben einen Teil (oder alle) Deiner Vorbestellungen nun in eine Bestellung umgewandelt. Im Folgenden siehst Du einer Aufstellung der Artikel, die für dich bestellt wurde:</p>';
+		}
+
+		$text .= '<br><br>
+			'. $this->table .'
+			<br><br>
+			Denk daran, Deine Bestellung als abgeholt zu markieren unter <a href="https://m.namiko.org/my-orders.php">Meine Bestellungen</a>.
+			</p>';
 
 		// send mail
 		$mail = new Mail($smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity);
