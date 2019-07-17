@@ -1,3 +1,6 @@
+# Version 1.3.2
+- Automaitscher Abfrage aktueller Version von API
+
 # Version 1.3.1
 - Neue Email Benachrichtigung bei Umwandlung von Vorbestellungen
 - Neuer Button unter meine Bestellungen

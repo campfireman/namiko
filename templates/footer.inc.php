@@ -6,7 +6,7 @@ include('templates/back-up-button.php');
     
     <div class="footer">
     	<span><a href="contact.php" class="green">Kontakt <i class="fa fa-envelope" aria-hidden="true"></i></a><a href="imprint.php" class="orange leftSpacer">Impressum <i class="fa fa-file" aria-hidden="true"></i></a><a href="data.php" class="blue leftSpacer">Datenschutz <i class="fa fa-database" aria-hidden="true"></i></a></span><br><br>
-    	<div><a href="https://gitlab.com/CampFireMan/namiko">Version 1.3.1</a></div>
+    	<div><a href="https://gitlab.com/CampFireMan/namiko">Version <span id="version"></span></a></div>
     </div>
       </footer>
 		<script src="js/bootstrap.min.js"></script>
@@ -76,7 +76,12 @@ include('templates/back-up-button.php');
 	      scrollTop: 0
 	   }, 2000);
 	 });
+
+	 $.getJSON('https://versions.ture.dev/api/namiko/version').done(function(data) {
+	 	$('#version').html(data);
+	 })
 	});
+
 	</script>
   </body>
 </html>

@@ -14,13 +14,14 @@ function createItem($row) {
 	$stock = $db->getStock($pid);
 	$unit_size = $row['unit_size'] * 1;
 	$unit_tag = $row['unit_tag'];
+	$units_in_stock = $stock * $unit_size;
 	$preorders = '<span class="blue">'. $db->getPreorders($pid) .'</span>';
 
 	// colored output based on amount
 	if ($stock < 0) {
-		$stockOut = '<span class="red">'. $stock . $unit_tag .'</span>';
+		$stockOut = '<span class="red">'. $units_in_stock . $unit_tag .'</span>';
 	} else if ($stock > 0) {
-		$stockOut = '<span class="green">'. $stock . $unit_tag .'</span>';
+		$stockOut = '<span class="green">'. $units_in_stock  . $unit_tag .'</span>';
 	} else {
 		$stockOut = '<span>'. $stock .'</span>';
 	}
