@@ -1,3 +1,10 @@
+# Version 1.3.4
+- Bugfixes
+- Automatische Versionsanzeige
+
+# Version 1.3.3
+- Lizenz
+
 # Version 1.3.2
 - Automaitscher Abfrage aktueller Version von API
 
