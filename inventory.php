@@ -85,8 +85,9 @@ if (isset($_POST['update'])) {
 			<thead>
 			<tr>
 				<th>Produktname</th><th>Produkt ID</th>
-				<th class="width100">Lagermenge</th>
-				<th class="width100">bestellt</th>
+				<th>Lagermenge umgerechnet</th>
+				<th class="width100">Lagermenge (E)</th>
+				<th class="width100">bestellt (E)</th>
 				<th class="width100">&#916;</th>
 				<th class="width100">Nachschub</th>
 				<th>vorbest.</th>
@@ -98,7 +99,7 @@ if (isset($_POST['update'])) {
 			<?php
 			// Fill Inventory table with inventory db with join to product data
 			$statement = $pdo->prepare("
-				SELECT inventory_items.*, products.productName, products.producer, products.container, users.first_name, users.last_name 
+				SELECT inventory_items.*, products.*, users.first_name, users.last_name 
 				FROM inventory_items LEFT JOIN products ON inventory_items.pid = products.pid 
 				LEFT JOIN users ON inventory_items.last_edited_by = users.uid 
 				ORDER BY productName");
@@ -111,17 +112,13 @@ if (isset($_POST['update'])) {
 			while ($row = $statement->fetch()) {
 				$pid = $row['pid'];
 				$quantity_KG_L = $row['quantity_KG_L'];
+				$unit_tag = $row['unit_tag'];
+				$unit_size = $row['unit_size'];
 				$producer = $row['producer'];
-				$quantityOrdered = 0;
+				$quantityOrdered = $db->getTotalOrders($pid);
 				$quantityDelivery = 0;
-
-				// checking for undelivered items to calculate deficit
-				$statement2 = $pdo->prepare("SELECT order_items.quantity, orders.delivered FROM order_items LEFT JOIN orders ON order_items.oid = orders.oid WHERE (order_items.pid = '$pid') AND (orders_items.delivered = 0)". $timeToggle ."");
-				$result2 = $statement2->execute();
-
-				while ($row2 = $statement2->fetch()) {
-					$quantityOrdered += $row2['quantity'];
-				}
+				$intventory_in_unit = $quantity_KG_L * $unit_size;
+				
 
 				// colored output based on amount
 				if ($quantityOrdered > 0) {
@@ -165,6 +162,7 @@ if (isset($_POST['update'])) {
 				// calculate actual deficit with pending stock refills and saving items with negative deficit
 				// colored output based on amount
 				$sum = ($realStock + $quantityDelivery - $preorders);
+
 				if ($sum < 0) {
 					$recommendations[$producer][] = array('pid' => $pid, 'deficit' => $sum);
  					$sumOut = '<span class="red">'. $sum .'</span>';
@@ -187,6 +185,7 @@ if (isset($_POST['update'])) {
 					echo '<input type="hidden" name="ii_id" value="'. $row['ii_id'] .'" required>';
 					echo '<td>'. $row['productName'] . $warn .'</td>';
 					echo '<td>'. $pid .'</td>';
+					echo '<td>'. $intventory_in_unit . $unit_tag .'</td>';
 					echo '<td><input class="stock" type="number" name="quantity_KG_L" step="0.05" value="'. $quantity_KG_L .'" required></td>';
 					echo '<td>'. $quantityOrderedOut .'</td>';
 					echo '<td>'. $realStockOut .'</td>';

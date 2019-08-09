@@ -15,14 +15,6 @@ include("templates/nav.inc.php");
 include("templates/admin-nav.inc.php");
 
 
-function echo_select ($array, $exclusion) {
-	foreach ($array as $item) {
-		if ($item['cid'] != $exclusion) {
-			echo '<option value="'. $item['cid'] .'">'. htmlspecialchars($item['category_name']) .'</option>';
-		}
-	}
-}
-
 if(isset($_POST['product'])) {
 
 	$error = false;
@@ -274,76 +266,66 @@ if(isset($_POST["upload"])) {
 
 	<div class="spacer full">
 		<span class="subtitle2">Katalog verwalten</span><br><br>
-		<table class="table panel panel-default">
-			<thead>
-				<tr>
-					<th>#</th>
-					<th>Produktname</th>
-					<th>Produktbeschreibung</th>
-					<th>Kategorie</th>
-					<th>Netto/E</th>
-					<th>MWST</th>
-					<th>Brutto/E</th>
-					<th>Einheitengr.</th>
-					<th>Einheitenkürzel</th>
-					<th>Gebinde (Einheiten)</th>
-					<th>Bruttop. Geb.</th>
-					<th>Herkunft</th>
-					<th>Hersteller</th>
-					<th></th>
-				</tr>
-			</thead>
-		<?php 
+		
+		<h4 class="white">Suchen <i class="fa fa-search" aria-hidden="true"></i></h4>
+		<div>
+			<form id="search-items">
+			<input class="inline search" type="text" name="search" placeholder="Hier schreiben">
+			<button class="empty search-btn inline" type="submit"><i class="fa fa-hand-o-right" aria-hidden="true"></i></button>
+			</form>
+		</div>
 
-		$statement = $pdo->prepare("SELECT * FROM producers ORDER BY pro_id");
-		$result = $statement->execute();
-		$select = "";
-		$select;
-		while ($row = $statement->fetch()) {
+		<h4 class="white">Filter <i class="fa fa-filter" aria-hidden="true"></i></h4>
+		<div class="indent row">
+			<form class="spacer2 filter">
+				<div class="indent spacer2 col-sm-6">
+					<span class="subtitle">Kategorien</span>
+					<div><label><input id="all" class="category" type="checkbox" name="category[]" value="0" id="all" checked> alle</label></div>
+					<hr class="separator">
+					<div>
+						<?php
+						$statement = $pdo->prepare("SELECT * FROM categories WHERE cid > 1 ORDER BY cid");
+						$result = $statement->execute();
 
-			$select .= '<option value="'. $row['pro_id'] .'">'. $row['producerName'] .'</option>';
+						if ($statement->rowCount() > 0) {
+							while ($row = $statement->fetch()) {
+								echo '<div><label><input type="checkbox" name="category[]" class="category other" value="'. $row['cid'] .'"> '. $row['category_name'] .'</label></div>';
+							}
+						} else {
+							echo 'Keine Kategorien gefunden.';
+						}
+						?>
+					</div>
+				</div>
+				<div class="indent spacer2 col-sm-6">
+					<span class="subtitle">Hersteller</span>
+					<div><label><input id="allprod" class="producer" type="checkbox" name="producer[]" value="0" id="all" checked> alle</label></div>
+					<hr class="separator">
+					<?php
+					$statement = $pdo->prepare("SELECT * FROM producers ORDER BY pro_id");
+					$result = $statement->execute();
 
-		}
+					if ($statement->rowCount() > 0) {
+						while ($row = $statement->fetch()) {
+							echo '<div><label><input type="checkbox" name="producer[]" class="otherprod" value="'. $row['pro_id'] .'" unchecked> '. $row['producerName'] .'</label></div>';
+						}
+					} else {
+						echo 'Keine Orte gefunden.';
+					}
+					?>
+				</div>
+				<br><button type="submit" name="filterSubmit" class="empty blue">Aktualisieren <i class="fa fa-repeat" aria-hidden="true"></i></button>
+			</form>
+		</div>
 
-		$statement = $pdo->prepare("SELECT * FROM categories ORDER BY cid");
-	    $result = $statement->execute();
-	    $categories = array();
-	    while($row = $statement->fetch()) {
-	    	$categories[] = array('cid' => $row['cid'], 'category_name' => $row['category_name']);
-
-	    }
-
-		$statement = $pdo->prepare("SELECT products.*, producers.pro_id, producers.producerName, categories.category_name FROM products LEFT JOIN producers ON products.producer = producers.pro_id LEFT JOIN categories ON categories.cid = products.category ORDER BY products.pid");
-		$result = $statement->execute();
-
-		//print_r($arr = $statement->errorInfo());
-		while($row = $statement->fetch()) {
-			echo '<tr class="product update"><form action="'. htmlspecialchars($_SERVER['PHP_SELF']) .'" method="post">';
-			echo '<td>'. $row['pid']. '<input value="'. $row['pid'] .'" type="hidden" name="pid"></td>';
-			echo '<td><input class="empty" type="text" name="productName" value="'. $row['productName'] .'"></td>';
-			echo '<td><input class="empty" type="text" name="productDesc" value="'. $row['productDesc'] .'"></td>';
-			echo '<td><select type="number" id="category" min="1" maxlength="10" name="category" required>';
-			echo '<option value="'. $row['category'] .'">'. $row['category_name'] .'</option>';
-					    echo_select($categories, $row['category']);
-			echo '</select></td>';
-			echo '<td><input class="empty netto" type="number" name="netto" step="0.01" value="'. $row['netto'] .'"></td>';
-			echo '<td><input class="empty tax" type="number" name="tax" step="0.01" value="'. $row['tax'] .'"></td>';
-			echo '<td><input class="empty" type="number" name="price_KG_L" step="0.01" value="'. $row['price_KG_L'] .'"></td>';
-			echo '<td><input class="empty" type="number" name="unit_size" step="0.01" value="'. $row['unit_size'] .'"></td>';
-			echo '<td><input class="empty" type="text" name="unit_tag" value="'. $row['unit_tag'] .'"></td>';
-			echo '<td><input class="empty container" type="number" name="container" step="0.1" value="'. $row['container'] .'"></td>';
-			echo '<td><input class="empty" type="number" name="priceContainer" step="0.01" value="'. $row['priceContainer'] .'"></td>';
-			echo '<td><input class="empty" type="text" name="origin" value="'. $row['origin'] .'"></td>';
-			echo '<td><select type="text" name="producer"><option value="'. $row['pro_id'] .'">'. $row['producerName'] .'</option>'. $select .'</select></td>';
-			echo '</tr>';
-			echo "</form></tr>";
-		}
-		?>
-		</table>
+		<div id="catalogue" class="spacer">
+			
+		</div>
 	</div>
 </div>
 
 <script type="text/javascript">
+$(document).ready(function() {
 	var updates = {};
 	var submit = false;
 
@@ -377,81 +359,122 @@ if(isset($_POST["upload"])) {
 		return Math.ceil(val * 100) / 100;
 	}
 
-	$('.netto').on('input', function() {
-		updatePrice($(this));
-		updateContainer($(this));
-	});
 
-	$('.tax').on('input', function() {
-		updatePrice($(this));
-		updateContainer($(this));
-	});
+	function loadCatalogue (form) {
+		var data = $(form).serialize();
+		console.log(data);
+		$.ajax({
+			url: 'admin_handler.php',
+			type: 'POST',
+			dataType: 'json',
+			data: data
+		}).done(function(data) {
+			console.log(data);
+			$('#catalogue').html(data.text);
+			removeLoader('#loadScreen');
+			
+			$('.netto').on('input', function() {
+				updatePrice($(this));
+				updateContainer($(this));
+			});
 
-	$('.container').on('input', function(){
-		updatePrice($(this));
-		updateContainer($(this));
-	});
+			$('.tax').on('input', function() {
+				updatePrice($(this));
+				updateContainer($(this));
+			});
 
-	$('.product').on('input', function(e) {
-		e.preventDefault();
-		//get select row and table
-		var row = $(this);
+			$('.container').on('input', function(){
+				updatePrice($(this));
+				updateContainer($(this));
+			});
 
-		//get data from hidden input fields
-		var pid = parseFloat(row.find('input[name="pid"]').val());
-		var productName = row.find('input[name="productName"]').val();
-		var productDesc = row.find('input[name="productDesc"]').val();
-		var category = row.find('select[name="category"]').val();
-		var price_KG_L = row.find('input[name="price_KG_L"]').val();
-		var unit_tag = row.find('input[name="unit_tag"]').val();
-		var unit_size = row.find('input[name="unit_size"]').val();
-		var container = row.find('input[name="container"]').val();
-		var priceContainer = row.find('input[name="priceContainer"]').val();
-		var origin = row.find('input[name="origin"]').val();
-		var producer = row.find('select[name="producer"]').val();
+			$('.product').on('input', function(e) {
+				e.preventDefault();
+				//get select row and table
+				var row = $(this);
 
-		var values = {
-			productName: productName, 
-			productDesc: productDesc, 
-			category: category, 
-			price_KG_L: price_KG_L, 
-			unit_tag: unit_tag, 
-			unit_size, unit_size, 
-			container: container, 
-			priceContainer: priceContainer, 
-			origin: origin, 
-			producer: producer};
-		
-		//save updated values to object
-		if (updates.hasOwnProperty(pid)) {
-			updates[pid] = values;
-		} else {
-			updates = Object.assign({[pid]: values}, updates)
-		}
+				//get data from hidden input fields
+				var pid = parseFloat(row.find('input[name="pid"]').val());
+				var productName = row.find('input[name="productName"]').val();
+				var productDesc = row.find('input[name="productDesc"]').val();
+				var category = row.find('select[name="category"]').val();
+				var price_KG_L = row.find('input[name="price_KG_L"]').val();
+				var unit_tag = row.find('input[name="unit_tag"]').val();
+				var unit_size = row.find('input[name="unit_size"]').val();
+				var container = row.find('input[name="container"]').val();
+				var priceContainer = row.find('input[name="priceContainer"]').val();
+				var origin = row.find('input[name="origin"]').val();
+				var producer = row.find('select[name="producer"]').val();
 
-		//display save button
-		if ($('#save-btn').hasClass('no-display')) {
-			$('#save-btn').removeClass('no-display');
-		}
-
-	});
-
-	$('#save-btn').on('click', function(e) {
-			e.preventDefault();
-			$.ajax({
-				url: "admin_handler.php",
-				type: "POST",
-				dataType: "JSON",
-				data: {"update-catalogue": 1, values: updates}
-			}).done(function(data) {
-				if (data.error == 1) {
-					alert(data.text);
+				var values = {
+					productName: productName, 
+					productDesc: productDesc, 
+					category: category, 
+					price_KG_L: price_KG_L, 
+					unit_tag: unit_tag, 
+					unit_size, unit_size, 
+					container: container, 
+					priceContainer: priceContainer, 
+					origin: origin, 
+					producer: producer};
+				
+				//save updated values to object
+				if (updates.hasOwnProperty(pid)) {
+					updates[pid] = values;
 				} else {
-					submit = true;
-					location.reload();
+					updates = Object.assign({[pid]: values}, updates)
 				}
-			})
-		});
+
+				//display save button
+				if ($('#save-btn').hasClass('no-display')) {
+					$('#save-btn').removeClass('no-display');
+				}
+
+			});
+
+			$('#save-btn').on('click', function(e) {
+				e.preventDefault();
+				$.ajax({
+					url: "admin_handler.php",
+					type: "POST",
+					dataType: "JSON",
+					data: {"update-catalogue": 1, values: updates}
+				}).done(function(data) {
+					if (data.error == 1) {
+						alert(data.text);
+					} else {
+						submit = true;
+						location.reload();
+					}
+				})
+			});
+		}); 
+	};
+	loadCatalogue('.filter');
+
+	$('.filter').submit(function(e) {
+		loader('#loadScreen');
+		loadCatalogue('.filter');
+		e.preventDefault();
+	});
+
+	$('#search-items').submit(function(e) {
+		loader('#loadScreen');
+		loadCatalogue('#search-items');
+		e.preventDefault();
+	});
+
+	function loader (tag) {
+		$(tag).addClass('loader');
+	}
+
+	function removeLoader (tag) {
+		$(tag).removeClass('loader');
+	}
+
+
+});
+
 </script>
 
 <?php 
