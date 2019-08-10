@@ -1,3 +1,6 @@
+# Version 1.3.7
+- Fehlender nettopreis
+
 # Version 1.3.6
 - Aktualisierung der Vorbestellungspreise nach Preisaenderung
 - Highlighting von Tabellenzeilen
