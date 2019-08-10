@@ -266,14 +266,6 @@ if(isset($_POST["upload"])) {
 
 	<div class="spacer full">
 		<span class="subtitle2">Katalog verwalten</span><br><br>
-		
-		<h4 class="white">Suchen <i class="fa fa-search" aria-hidden="true"></i></h4>
-		<div>
-			<form id="search-items">
-			<input class="inline search" type="text" name="search" placeholder="Hier schreiben">
-			<button class="empty search-btn inline" type="submit"><i class="fa fa-hand-o-right" aria-hidden="true"></i></button>
-			</form>
-		</div>
 
 		<h4 class="white">Filter <i class="fa fa-filter" aria-hidden="true"></i></h4>
 		<div class="indent row">
@@ -284,7 +276,7 @@ if(isset($_POST["upload"])) {
 					<hr class="separator">
 					<div>
 						<?php
-						$statement = $pdo->prepare("SELECT * FROM categories WHERE cid > 1 ORDER BY cid");
+						$statement = $pdo->prepare("SELECT * FROM categories ORDER BY cid");
 						$result = $statement->execute();
 
 						if ($statement->rowCount() > 0) {
@@ -318,8 +310,15 @@ if(isset($_POST["upload"])) {
 			</form>
 		</div>
 
-		<div id="catalogue" class="spacer">
-			
+		<div class="spacer">
+			<div class="center-vertical">
+				<div class="center">
+				<div id="loadScreen" class="loader"></div>
+				</div>
+			</div>
+			<div id="catalogue">
+				
+			</div>
 		</div>
 	</div>
 </div>
@@ -472,6 +471,30 @@ $(document).ready(function() {
 	function removeLoader (tag) {
 		$(tag).removeClass('loader');
 	}
+
+	$('#all').click(function() {
+		if($('#all').prop('checked')) {
+			$('.other').prop("checked", false);
+
+		}
+	});
+	$('.other').click(function() {
+		if(this.checked) {
+			$('#all').prop('checked', false);
+		}
+	});
+
+	$('#allprod').click(function() {
+		if($('#allprod').prop('checked')) {
+			$('.otherprod').prop("checked", false);
+
+		}
+	});
+	$('.otherprod').click(function() {
+		if(this.checked) {
+			$('#allprod').prop('checked', false);
+		}
+	});
 
 });
 
