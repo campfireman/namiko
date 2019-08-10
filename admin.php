@@ -371,6 +371,7 @@ $(document).ready(function() {
 		}).done(function(data) {
 			console.log(data);
 			$('#catalogue').html(data.text);
+			$("table").fixMe();
 			removeLoader('#loadScreen');
 			
 			$('.netto').on('input', function() {
@@ -471,7 +472,6 @@ $(document).ready(function() {
 	function removeLoader (tag) {
 		$(tag).removeClass('loader');
 	}
-
 
 });
 
