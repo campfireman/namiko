@@ -1,3 +1,10 @@
+# Version 1.3.6
+- Aktualisierung der Vorbestellungspreise nach Preisaenderung
+- Highlighting von Tabellenzeilen
+
+# Version 1.3.5
+- Ueberarbeitung der Katalogverwaltung: einfuehrung von Filtern
+
 # Version 1.3.4
 - Bugfixes
 - Automatische Versionsanzeige

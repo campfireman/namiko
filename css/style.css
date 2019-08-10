@@ -1103,6 +1103,10 @@ a:hover.title {
 	width: 100%;
 }
 
+.table tr:hover {
+      background-color: #ffff99;
+}
+
 .fixed-th {
   top:0;
   position:fixed;
