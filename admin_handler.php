@@ -32,9 +32,10 @@ if (isset($_POST['update-catalogue'])) {
 		$priceContainer = $product['priceContainer'];
 		$origin = $product['origin'];
 		$producer = $product['producer'];
+		$netto = $product['netto'];
 
-		$statement = $pdo->prepare("UPDATE products SET productName = :productName, productDesc = :productDesc, category=:category, price_KG_L = :price_KG_L, unit_size=:unit_size, unit_tag = :unit_tag, container = :container, priceContainer = :priceContainer, origin = :origin, producer = :producer  WHERE pid = :pid");
-		$result = $statement->execute(array('productName' => $productName, 'productDesc' => $productDesc, 'category' => $category, 'price_KG_L' => $price_KG_L, 'unit_size' => $unit_size, 'unit_tag' => $unit_tag, 'container' => $container, 'priceContainer' => $priceContainer, 'origin' => $origin, 'producer' => $producer, 'pid' => $pid));
+		$statement = $pdo->prepare("UPDATE products SET productName = :productName, productDesc = :productDesc, category=:category, netto = :netto, price_KG_L = :price_KG_L, unit_size=:unit_size, unit_tag = :unit_tag, container = :container, priceContainer = :priceContainer, origin = :origin, producer = :producer  WHERE pid = :pid");
+		$result = $statement->execute(array('productName' => $productName, 'productDesc' => $productDesc, 'category' => $category, 'netto' => $netto, 'price_KG_L' => $price_KG_L, 'unit_size' => $unit_size, 'unit_tag' => $unit_tag, 'container' => $container, 'priceContainer' => $priceContainer, 'origin' => $origin, 'producer' => $producer, 'pid' => $pid));
 
 		if ($result) {
 			$statement = $pdo->prepare("UPDATE preorder_items SET total = quantity * :price_KG_L WHERE pid = :pid");

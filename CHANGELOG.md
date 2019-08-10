@@ -1,6 +1,8 @@
 # Version 1.3.6
 - Aktualisierung der Vorbestellungspreise nach Preisaenderung
 - Highlighting von Tabellenzeilen
+- Abholung von Artikeln kann Inventar nicht in den negativen Bereich bringen
+- Inventar step size = 1
 
 # Version 1.3.5
 - Ueberarbeitung der Katalogverwaltung: einfuehrung von Filtern

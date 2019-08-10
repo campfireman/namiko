@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"price",
+				"price_KG_L"
+			],
+			[
 				"inv",
 				"intventory_in_unit"
 			],
@@ -58,10 +62,6 @@
 			[
 				"max",
 				"max-width\tproperty"
-			],
-			[
-				"price",
-				"priceContainer"
 			],
 			[
 				"uni",
@@ -520,19 +520,19 @@
 	"buffers":
 	[
 		{
-			"file": "check-out.php",
+			"file": "admin.php",
 			"settings":
 			{
-				"buffer_size": 725,
+				"buffer_size": 17524,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "js/cart.js",
+			"file": "inc/Cart.inc.php",
 			"settings":
 			{
-				"buffer_size": 1432,
+				"buffer_size": 9212,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -547,28 +547,64 @@
 			}
 		},
 		{
-			"file": "/home/ture/projects/ResourceHub/pictures/RH_UI_Diagramm.xml",
+			"file": "pay.php",
 			"settings":
 			{
-				"buffer_size": 8787,
+				"buffer_size": 1722,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "templates/footer.inc.php",
+			"settings":
+			{
+				"buffer_size": 2740,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "admin_handler.php",
+			"settings":
+			{
+				"buffer_size": 5952,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "ALTER TABLE `nextclouddb`.`oc_accounts` ROW_FORMAT=DYNAMIC;                 \n ALTER TABLE `nextclouddb`.`oc_activity` ROW_FORMAT=DYNAMIC;                 \n ALTER TABLE `nextclouddb`.`oc_activity_mq` ROW_FORMAT=DYNAMIC;              \n ALTER TABLE `nextclouddb`.`oc_addressbookchanges` ROW_FORMAT=DYNAMIC;       \n ALTER TABLE `nextclouddb`.`oc_addressbooks` ROW_FORMAT=DYNAMIC;             \n ALTER TABLE `nextclouddb`.`oc_appconfig` ROW_FORMAT=DYNAMIC;                \n ALTER TABLE `nextclouddb`.`oc_authtoken` ROW_FORMAT=DYNAMIC;                \n ALTER TABLE `nextclouddb`.`oc_bruteforce_attempts` ROW_FORMAT=DYNAMIC;      \n ALTER TABLE `nextclouddb`.`oc_calendar_invitations` ROW_FORMAT=DYNAMIC;     \n ALTER TABLE `nextclouddb`.`oc_calendar_resources` ROW_FORMAT=DYNAMIC;       \n ALTER TABLE `nextclouddb`.`oc_calendar_rooms` ROW_FORMAT=DYNAMIC;           \n ALTER TABLE `nextclouddb`.`oc_calendarchanges` ROW_FORMAT=DYNAMIC;          \n ALTER TABLE `nextclouddb`.`oc_calendarobjects` ROW_FORMAT=DYNAMIC;          \n ALTER TABLE `nextclouddb`.`oc_calendarobjects_props` ROW_FORMAT=DYNAMIC;    \n ALTER TABLE `nextclouddb`.`oc_calendars` ROW_FORMAT=DYNAMIC;                \n ALTER TABLE `nextclouddb`.`oc_calendarsubscriptions` ROW_FORMAT=DYNAMIC;    \n ALTER TABLE `nextclouddb`.`oc_cards` ROW_FORMAT=DYNAMIC;                    \n ALTER TABLE `nextclouddb`.`oc_cards_properties` ROW_FORMAT=DYNAMIC;         \n ALTER TABLE `nextclouddb`.`oc_collres_accesscache` ROW_FORMAT=DYNAMIC;      \n ALTER TABLE `nextclouddb`.`oc_collres_collections` ROW_FORMAT=DYNAMIC;      \n ALTER TABLE `nextclouddb`.`oc_collres_resources` ROW_FORMAT=DYNAMIC;        \n ALTER TABLE `nextclouddb`.`oc_comments` ROW_FORMAT=DYNAMIC;                 \n ALTER TABLE `nextclouddb`.`oc_comments_read_markers` ROW_FORMAT=DYNAMIC;    \n ALTER TABLE `nextclouddb`.`oc_credentials` ROW_FORMAT=DYNAMIC;              \n ALTER TABLE `nextclouddb`.`oc_dav_shares` ROW_FORMAT=DYNAMIC;               \n ALTER TABLE `nextclouddb`.`oc_directlink` ROW_FORMAT=DYNAMIC;               \n ALTER TABLE `nextclouddb`.`oc_federated_reshares` ROW_FORMAT=DYNAMIC;       \n ALTER TABLE `nextclouddb`.`oc_file_locks` ROW_FORMAT=DYNAMIC;               \n ALTER TABLE `nextclouddb`.`oc_filecache` ROW_FORMAT=DYNAMIC;                \n ALTER TABLE `nextclouddb`.`oc_files_trash` ROW_FORMAT=DYNAMIC;              \n ALTER TABLE `nextclouddb`.`oc_flow_checks` ROW_FORMAT=DYNAMIC;              \n ALTER TABLE `nextclouddb`.`oc_flow_operations` ROW_FORMAT=DYNAMIC;          \n ALTER TABLE `nextclouddb`.`oc_group_admin` ROW_FORMAT=DYNAMIC;              \n ALTER TABLE `nextclouddb`.`oc_group_user` ROW_FORMAT=DYNAMIC;               \n ALTER TABLE `nextclouddb`.`oc_groups` ROW_FORMAT=DYNAMIC;                   \n ALTER TABLE `nextclouddb`.`oc_jobs` ROW_FORMAT=DYNAMIC;                     \n ALTER TABLE `nextclouddb`.`oc_login_flow_v2` ROW_FORMAT=DYNAMIC;            \n ALTER TABLE `nextclouddb`.`oc_migrations` ROW_FORMAT=DYNAMIC;               \n ALTER TABLE `nextclouddb`.`oc_mimetypes` ROW_FORMAT=DYNAMIC;                \n ALTER TABLE `nextclouddb`.`oc_mounts` ROW_FORMAT=DYNAMIC;                   \n ALTER TABLE `nextclouddb`.`oc_notifications` ROW_FORMAT=DYNAMIC;            \n ALTER TABLE `nextclouddb`.`oc_notifications_pushtokens` ROW_FORMAT=DYNAMIC; \n ALTER TABLE `nextclouddb`.`oc_oauth2_access_tokens` ROW_FORMAT=DYNAMIC;     \n ALTER TABLE `nextclouddb`.`oc_oauth2_clients` ROW_FORMAT=DYNAMIC;           \n ALTER TABLE `nextclouddb`.`oc_preferences` ROW_FORMAT=DYNAMIC;              \n ALTER TABLE `nextclouddb`.`oc_privacy_admins` ROW_FORMAT=DYNAMIC;           \n ALTER TABLE `nextclouddb`.`oc_properties` ROW_FORMAT=DYNAMIC;               \n ALTER TABLE `nextclouddb`.`oc_schedulingobjects` ROW_FORMAT=DYNAMIC;        \n ALTER TABLE `nextclouddb`.`oc_share` ROW_FORMAT=DYNAMIC;                    \n ALTER TABLE `nextclouddb`.`oc_share_external` ROW_FORMAT=DYNAMIC;           \n ALTER TABLE `nextclouddb`.`oc_storages` ROW_FORMAT=DYNAMIC;                 \n ALTER TABLE `nextclouddb`.`oc_systemtag` ROW_FORMAT=DYNAMIC;                \n ALTER TABLE `nextclouddb`.`oc_systemtag_group` ROW_FORMAT=DYNAMIC;          \n ALTER TABLE `nextclouddb`.`oc_systemtag_object_mapping` ROW_FORMAT=DYNAMIC; \n ALTER TABLE `nextclouddb`.`oc_trusted_servers` ROW_FORMAT=DYNAMIC;          \n ALTER TABLE `nextclouddb`.`oc_twofactor_backupcodes` ROW_FORMAT=DYNAMIC;    \n ALTER TABLE `nextclouddb`.`oc_twofactor_providers` ROW_FORMAT=DYNAMIC;      \n ALTER TABLE `nextclouddb`.`oc_users` ROW_FORMAT=DYNAMIC;                    \n ALTER TABLE `nextclouddb`.`oc_vcategory` ROW_FORMAT=DYNAMIC;                \n ALTER TABLE `nextclouddb`.`oc_vcategory_to_object` ROW_FORMAT=DYNAMIC;      \n ALTER TABLE `nextclouddb`.`oc_whats_new` ROW_FORMAT=DYNAMIC;    ",
+			"file": "CHANGELOG.md",
 			"settings":
 			{
-				"buffer_size": 4744,
-				"line_ending": "Unix",
-				"name": "ALTER TABLE `nextclouddb`.`oc_accounts` ROW_FORMAT"
+				"buffer_size": 1463,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "css/style.css",
+			"settings":
+			{
+				"buffer_size": 16398,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "session_process.php",
+			"settings":
+			{
+				"buffer_size": 2427,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
 			}
 		},
 		{
 			"file": "inventory.php",
 			"settings":
 			{
-				"buffer_size": 19325,
+				"buffer_size": 19322,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -580,6 +616,15 @@
 				"buffer_size": 5742,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "internal.php",
+			"settings":
+			{
+				"buffer_size": 8762,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -594,6 +639,14 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"git com",
+				"Git: Quick Commit (repo)"
+			],
+			[
+				"git push",
+				"Git: Push"
+			],
 			[
 				"git pus",
 				"Git: Push"
@@ -613,10 +666,6 @@
 			[
 				"git pull",
 				"Git: Pull"
-			],
-			[
-				"git push",
-				"Git: Push"
 			],
 			[
 				"git co",
@@ -780,6 +829,11 @@
 	],
 	"file_history":
 	[
+		"/home/ture/projects/ResourceHub/pictures/RH_UI_Diagramm.xml",
+		"/home/ture/projects/htdocs/namiko/inc/DBOperations.inc.php",
+		"/home/ture/projects/htdocs/namiko/check-out.php",
+		"/home/ture/projects/htdocs/namiko/js/cart.js",
+		"/home/ture/projects/htdocs/namiko/inventory.php",
 		"/home/ture/projects/htdocs/namiko/calendar_handler.php",
 		"/home/ture/projects/htdocs/namiko/CHANGELOG.md",
 		"/home/ture/projects/htdocs/namiko/catalogue_handler.php",
@@ -795,11 +849,9 @@
 		"/home/ture/projects/data_analysis/fibonacci_graph.py",
 		"/home/ture/projects/htdocs/namiko/.gitignore",
 		"/home/ture/projects/mysql-backup/README.md",
-		"/home/ture/projects/htdocs/namiko/check-out.php",
 		"/home/ture/projects/htdocs/namiko/pay.php",
 		"/home/ture/projects/htdocs/namiko/my-orders.php",
 		"/home/ture/projects/htdocs/namiko/session.php",
-		"/home/ture/projects/htdocs/namiko/inventory.php",
 		"/home/ture/projects/htdocs/namiko/internal.php",
 		"/home/ture/projects/htdocs/namiko/producer_info.php",
 		"/home/ture/projects/htdocs/namiko/css/style.css",
@@ -811,7 +863,6 @@
 		"/home/ture/projects/htdocs/namiko/emailcenter.php",
 		"/home/ture/projects/htdocs/namiko/sepa.php",
 		"/home/ture/projects/htdocs/namiko/calendar.php",
-		"/home/ture/projects/htdocs/namiko/inc/DBOperations.inc.php",
 		"/home/ture/projects/htdocs/namiko/admin_handler.php",
 		"/home/ture/projects/htdocs/namiko/delivered-orders.php",
 		"/home/ture/projects/htdocs/namiko/handing-out.php",
@@ -850,7 +901,6 @@
 		"/home/ture/Backup/wmh/2019-04-29/usr_web289_1.sql",
 		"/home/ture/projects/htdocs/namiko/test.php",
 		"/home/ture/projects/htdocs/namiko/inc/IntegrityException.inc.php",
-		"/home/ture/projects/htdocs/namiko/js/cart.js",
 		"/home/ture/projects/htdocs/namiko/templates/orders-nav.inc.php",
 		"/home/ture/projects/htdocs/namiko/my-preorders.php",
 		"/home/ture/projects/htdocs/namiko/templates/settings-nav.inc.php",
@@ -906,8 +956,7 @@
 		"/C/MAMP/htdocs/namiko/inc/SepaXML.inc.php",
 		"/C/MAMP/htdocs/namiko/css/style.css",
 		"/C/MAMP/htdocs/namiko/inc/config.inc.php",
-		"/C/MAMP/htdocs/namiko/session_process.php",
-		"/C/MAMP/htdocs/namiko/check-out.php"
+		"/C/MAMP/htdocs/namiko/session_process.php"
 	],
 	"find":
 	{
@@ -929,6 +978,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"table",
+			"catalog",
+			"';",
+			"echo '",
 			"|",
 			"7.2",
 			"'])\n",
@@ -1052,11 +1105,7 @@
 			"filename",
 			"pymntID",
 			"pymnt",
-			"$time",
-			"$date",
-			"self::$doc",
-			"self::$xml",
-			"$sid"
+			"$time"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1083,59 +1132,60 @@
 			[
 				{
 					"buffer": 0,
-					"file": "check-out.php",
+					"file": "admin.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 725,
+						"buffer_size": 17524,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								725,
-								725
+								13006,
+								13006
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax"
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 5237.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "js/cart.js",
+					"file": "inc/Cart.inc.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1432,
+						"buffer_size": 9212,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1005,
-								1005
+								4121,
+								4121
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 2115.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -1151,8 +1201,8 @@
 						"selection":
 						[
 							[
-								1637,
-								1637
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1161,32 +1211,119 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 177.0,
+						"translation.y": 1125.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "/home/ture/projects/ResourceHub/pictures/RH_UI_Diagramm.xml",
+					"file": "pay.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8787,
+						"buffer_size": 1722,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								8787,
-								8787
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/XML/XML.sublime-syntax"
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "templates/footer.inc.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2740,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2710,
+								2710
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 825.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "admin_handler.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5952,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2010,
+								2010
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "CHANGELOG.md",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1463,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1463,
+								1463
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1196,48 +1333,49 @@
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 7,
+					"file": "css/style.css",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4744,
+						"buffer_size": 16398,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1324,
-								1324
+								14534,
+								14534
 							]
 						],
 						"settings":
 						{
-							"auto_name": "ALTER TABLE `nextclouddb`.`oc_accounts` ROW_FORMAT",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/CSS/CSS.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 15964.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "inventory.php",
+					"buffer": 8,
+					"file": "session_process.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 19325,
+						"buffer_size": 2427,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6399,
-								6399
+								1978,
+								1978
 							]
 						],
 						"settings":
@@ -1246,14 +1384,43 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 52.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "inventory.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 19322,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6478,
+								6478
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2295.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 10,
 					"file": "catalogue_handler.php",
 					"semi_transient": false,
 					"settings":
@@ -1265,8 +1432,8 @@
 						"selection":
 						[
 							[
-								672,
-								672
+								2040,
+								2040
 							]
 						],
 						"settings":
@@ -1275,10 +1442,39 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 143.0,
+						"translation.y": 450.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "internal.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8762,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5108,
+								5108
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1755.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
 					"type": "text"
 				}
 			]

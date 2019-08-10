@@ -361,14 +361,12 @@ $(document).ready(function() {
 
 	function loadCatalogue (form) {
 		var data = $(form).serialize();
-		console.log(data);
 		$.ajax({
 			url: 'admin_handler.php',
 			type: 'POST',
 			dataType: 'json',
 			data: data
 		}).done(function(data) {
-			console.log(data);
 			$('#catalogue').html(data.text);
 			$("table").fixMe();
 			removeLoader('#loadScreen');
@@ -398,6 +396,7 @@ $(document).ready(function() {
 				var productName = row.find('input[name="productName"]').val();
 				var productDesc = row.find('input[name="productDesc"]').val();
 				var category = row.find('select[name="category"]').val();
+				var netto = row.find('input[name="netto"]').val();
 				var price_KG_L = row.find('input[name="price_KG_L"]').val();
 				var unit_tag = row.find('input[name="unit_tag"]').val();
 				var unit_size = row.find('input[name="unit_size"]').val();
@@ -410,6 +409,7 @@ $(document).ready(function() {
 					productName: productName, 
 					productDesc: productDesc, 
 					category: category, 
+					netto: netto,
 					price_KG_L: price_KG_L, 
 					unit_tag: unit_tag, 
 					unit_size, unit_size, 
@@ -417,7 +417,7 @@ $(document).ready(function() {
 					priceContainer: priceContainer, 
 					origin: origin, 
 					producer: producer};
-				
+				console.log(values);
 				//save updated values to object
 				if (updates.hasOwnProperty(pid)) {
 					updates[pid] = values;
