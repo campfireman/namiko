@@ -37,10 +37,18 @@ if (isset($_POST['update-catalogue'])) {
 		$result = $statement->execute(array('productName' => $productName, 'productDesc' => $productDesc, 'category' => $category, 'price_KG_L' => $price_KG_L, 'unit_size' => $unit_size, 'unit_tag' => $unit_tag, 'container' => $container, 'priceContainer' => $priceContainer, 'origin' => $origin, 'producer' => $producer, 'pid' => $pid));
 
 		if ($result) {
-			continue;
+			$statement = $pdo->prepare("UPDATE preorder_items SET total = quantity * :price_KG_L WHERE pid = :pid");
+			$result = $statement->execute(array('price_KG_L' => $price_KG_L, 'pid' => $pid));
+
+			if ($result) {
+				continue;
+			} else {
+				res(1, json_encode($statement->errorInfo()));
+			}
 		} else {
 			res(1, json_encode($statement->errorInfo()));
 		}
+		
 	}
 
 	res(0, "Success");
@@ -105,7 +113,7 @@ if (isset($_POST['category']) && isset($_POST['producer'])) {
 		$categories[] = array('cid' => $row['cid'], 'category_name' => $row['category_name']);
 
 	}
-	
+
 	$statement = $pdo->prepare("
 		SELECT products.*, producers.pro_id, producers.producerName, categories.category_name 
 		FROM products 
