@@ -66,7 +66,7 @@ if (isset($_POST['mark-delivered'])) {
 					$quantity = $row['quantity'];
 					$pid = $row['pid'];
 
-					$statement2 = $pdo->prepare("UPDATE inventory_items SET quantity_KG_L = quantity_KG_L - '$quantity' WHERE pid = '$pid'");
+					$statement2 = $pdo->prepare("UPDATE inventory_items SET quantity_KG_L = CASE WHEN quantity_KG_L - '$quantity' >= 0 THEN quantity_KG_L - '$quantity' ELSE quantity_KG_L END WHERE pid = '$pid'");
 					$result2 = $statement2->execute();
 
 					if (!$result2) {

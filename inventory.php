@@ -186,7 +186,7 @@ if (isset($_POST['update'])) {
 					echo '<td>'. $row['productName'] . $warn .'</td>';
 					echo '<td>'. $pid .'</td>';
 					echo '<td>'. $intventory_in_unit . $unit_tag .'</td>';
-					echo '<td><input class="stock" type="number" name="quantity_KG_L" step="0.05" value="'. $quantity_KG_L .'" required></td>';
+					echo '<td><input class="stock" type="number" name="quantity_KG_L" step="1" value="'. $quantity_KG_L .'" required></td>';
 					echo '<td>'. $quantityOrderedOut .'</td>';
 					echo '<td>'. $realStockOut .'</td>';
 					echo '<td>'. $quantityDeliveryOut .'</td>';

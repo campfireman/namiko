@@ -148,7 +148,7 @@ class Cart {
 				if ($this->hasSurplus($item)) {
 					$stock = $this->db->getStock($pid);
 					$old_quantity = $item['quantity'];
-					$surplus = $stock - $old_quantityd;
+					$surplus = $stock - $old_quantity;
 
 					if ($surplus >= 0) {
 						self::delete('preorders', $pid);
