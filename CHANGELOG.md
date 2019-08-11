@@ -1,5 +1,6 @@
 # Version 1.3.8
 - Bugfix not clickable content due to jquery version, major upgrade to 3.4.1
+- style
 
 # Version 1.3.7
 - Fehlender nettopreis

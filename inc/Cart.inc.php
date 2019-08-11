@@ -229,7 +229,7 @@ class Cart {
 		if (!empty($orders)) {
 			$html .= '
 			<div>
-				<h2>Deine Bestellung</h2>
+				<h2 class="green">Deine Bestellung</h2>
 				<br>'. 
 				$this->toHTML($orders, 'orders', $functions). '
 			</div>';
@@ -238,7 +238,7 @@ class Cart {
 		if (!empty($preorders)) {
 			$html .= '
 			<div>
-				<h2>Deine Vorbestellung</h2>
+				<h2 class="blue">Deine Vorbestellung</h2>
 				<br>'. 
 				$this->toHTML($preorders, 'preorders', $functions) . '
 			</div>';
