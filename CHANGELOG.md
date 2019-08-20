@@ -1,3 +1,8 @@
+# Version 1.4
+- PDF Erstellung fuer Bestellungen
+- TCPDF Update
+- Bugfixes
+
 # Version 1.3.8
 - Bugfix not clickable content due to jquery version, major upgrade to 3.4.1
 - style
