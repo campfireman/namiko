@@ -54,6 +54,130 @@ if (isset($_POST['csv'])) {
 	
 	exit();
 }
+
+if (isset($_POST['pdf'])) {
+	$tid = $_POST['tid'];
+
+	$statement = $pdo->prepare("
+		SELECT * FROM order_total 
+		LEFT JOIN order_total_items ON order_total.tid = order_total_items.tid
+		LEFT JOIN products ON order_total_items.pid = products.pid
+		WHERE order_total.tid = :tid");
+	$result = $statement->execute(array('tid' => $tid));
+
+	if ($result) {
+		$week = date('W');
+		$title = 'Bestellung KW '. $week;
+		$info = '  namiko Hannover e.V.
+					Hahnenstraße 13
+					30167 Hannover
+					bestellungen@namiko.org
+					https://namiko.org';
+
+		// create contract, split document to insert data later
+		$doc = '<div>
+		<span style="font-size: 3.3em; font-weight: bold;">'. $title .'</span><br>
+		<br>
+		<br>
+		<br><br>
+		<table cellpadding="5" cellspacing="0" style="width: 100%; font-size: 1.3em;">
+		 <tr>
+		 <td>
+
+		 </td>
+		 
+		 <td style="text-align: right">
+			'.nl2br(trim($info)).'
+		 </td>
+		 </tr>
+		 </table>
+		 <br>
+		 <br>
+		 <br>
+		<table  border="1" frame="void" rules="rows" cellpadding="5" cellspacing="0"  style="width: 100%; font-size: 1.3em;"> 
+			<tr style="text-align: left; font-weight: bold;">
+				<th>Artikelname</th>
+				<th>Größe Gebinde</th>
+				<th>Menge Gebinde</th>
+				<th>Summe</th>
+			</tr>';
+
+		// import tcpdf library
+		require_once('util/tcpdf/tcpdf.php');
+
+		##################### Create PDFs #####################
+ 
+		// Erstellung des PDF Dokuments
+		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+			 
+			
+		while ($row = $statement->fetch()) {
+			$productName = $row['productName'];
+			$container = $row['container'];
+			$unit_size = $row['unit_size'];
+			$unit_tag = $row['unit_tag'];
+			$quantityContainer = $row['quantityContainer'];
+			$container_size = $container * $unit_size;
+			$total = $container_size * $quantityContainer;
+
+
+			$doc .= '
+			<tr>
+				<td>'. $productName .'</td>
+				<td>'. $container_size .' '. $unit_tag .'</td>
+				<td>'. $quantityContainer .'</td>
+				<td>'. $total .' '. $unit_tag .'</td>
+			</tr>';
+		}
+
+		$doc .= '</table>';
+
+		// Dokumenteninformationen
+		$pdf->SetCreator(PDF_CREATOR);
+		$pdf->SetAuthor('admin');
+		$pdf->SetTitle($title);
+		$pdf->SetSubject($title);
+		 
+		 
+		// Header und Footer Informationen
+		$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+		$pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+		 
+		// Auswahl des Font
+		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+		 
+		// Auswahl der MArgins
+		$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+		$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+		 
+		// Automatisches Autobreak der Seiten
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+		 
+		// Image Scale 
+		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+		 
+		// Schriftart
+		$pdf->SetFont('helvetica', '', 10);
+		 
+		// Neue Seite
+		$pdf->AddPage();
+		 
+		// Fügt den HTML Code in das PDF Dokument ein
+		$pdf->writeHTML($doc, true, false, true, false, '');
+		 
+		//Ausgabe der PDF
+		 
+		$filename = 'KW_'. $week .'_Bestellung.pdf';
+
+		 
+		//Variante 2: PDF im Verzeichnis abspeichern:
+		ob_end_clean();
+		$pdf->Output($filename, 'I');
+	} else {
+		error(json_encode($statement->errorInfo()));
+	}
+}
 ?>
 
 <div class="sizer spacer">
@@ -90,6 +214,11 @@ if (isset($_POST['csv'])) {
 							echo '</tr>';
 							echo '</table><br>';
 							echo '<div class="right">';
+									echo '<form class="inline" method="post">';
+									echo '<input type="hidden" name="tid" value="'. $tid .'">';
+									echo '<input type="hidden" name="pdf" value="1">';
+									echo '<button type="submit" class="clean-btn red">PDF <i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>';
+									echo '</form>';
 									if ($delivered == 0) {
 										echo '<form class="delivered inline">';
 										echo '<input type="hidden" name="tid" value="'. $tid .'">';
@@ -169,6 +298,11 @@ if (isset($_POST['csv'])) {
 				echo '</tr>';
 				echo '</table><br>';
 				echo '<div class="right">';
+							echo '<form class="inline"  method="post">';
+							echo '<input type="hidden" name="tid" value="'. $tid .'">';
+							echo '<input type="hidden" name="pdf" value="1">';
+							echo '<button type="submit" class="clean-btn red">PDF <i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>';
+							echo '</form>';
 						if ($delivered == 0) {
 							echo '<form class="delivered inline">';
 							echo '<input type="hidden" name="tid" value="'. $tid .'">';

@@ -84,7 +84,8 @@ if (isset($_POST['update'])) {
 		<table class="table panel panel-default" style="min-width: 620px">
 			<thead>
 			<tr>
-				<th>Produktname</th><th>Produkt ID</th>
+				<th>Produktname</th>
+				<th>Produkt ID</th>
 				<th>Lagermenge umgerechnet</th>
 				<th class="width100">Lagermenge (E)</th>
 				<th class="width100">bestellt (E)</th>
@@ -291,7 +292,7 @@ if (isset($_POST['update'])) {
 
 	}
 
-	$orderTotalAdd .= '</optgroup';
+	$orderTotalAdd .= '</optgroup>';
 
 	// checking out order_total items
 	if (isset($_POST['checkOut'])) {
@@ -451,6 +452,10 @@ if (isset($_POST['update'])) {
 	</div>
 
 </div>
+
+<pre>
+	<?php print_r($_SESSION); ?>
+</pre>
 
 <script type="text/javascript">
 	// sending recommendations to order_total cart

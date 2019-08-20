@@ -38,7 +38,7 @@ if (isset($_POST['update-catalogue'])) {
 		$result = $statement->execute(array('productName' => $productName, 'productDesc' => $productDesc, 'category' => $category, 'netto' => $netto, 'price_KG_L' => $price_KG_L, 'unit_size' => $unit_size, 'unit_tag' => $unit_tag, 'container' => $container, 'priceContainer' => $priceContainer, 'origin' => $origin, 'producer' => $producer, 'pid' => $pid));
 
 		if ($result) {
-			$statement = $pdo->prepare("UPDATE preorder_items SET total = quantity * :price_KG_L WHERE pid = :pid");
+			$statement = $pdo->prepare("UPDATE preorder_items SET total = quantity * :price_KG_L WHERE pid = :pid AND transferred = 0");
 			$result = $statement->execute(array('price_KG_L' => $price_KG_L, 'pid' => $pid));
 
 			if ($result) {
