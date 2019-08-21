@@ -1,3 +1,6 @@
+# Version 1.4.1
+- Anzeige von Vorbestellungen, Summiert nach vollen Gebinden
+
 # Version 1.4
 - PDF Erstellung fuer Bestellungen
 - TCPDF Update

@@ -46,6 +46,58 @@ if ($user['notification'] == 1) {
 	
 	
 }
+
+function get_preorder_sum() {
+	global $pdo;
+	$statement = $pdo->prepare("
+		SELECT SUM(total) AS total, SUM(quantity) AS quantity, container, producer, price_KG_L, producerName FROM preorder_items 
+		LEFT JOIN products ON preorder_items.pid = products.pid
+		LEFT JOIN producers ON products.producer = producers.pro_id
+		WHERE preorder_items.transferred = 0 
+	    GROUP BY products.pid
+    ");
+    $result = $statement->execute();
+    $preorders = array();
+
+    while ($row = $statement->fetch()) {
+    	$quantity = $row['quantity'];
+    	$total = $row['total'];
+    	$container = $row['container'];
+    	$pro_id = $row['producer'];
+    	$unit_price = $row['price_KG_L'];
+    	$producerName = $row['producerName'];
+    	$full_containers = intdiv($quantity, $container);
+
+    	if ($full_containers > 0) {
+    		$covered_quantity = $quantity - ($quantity % $container);
+    		$covered_total = $covered_quantity * $unit_price;
+
+    		if (array_key_exists($pro_id, $preorders)) {
+				$preorders[$pro_id]['total'] += $covered_total;
+			} else {
+				$preorders[$pro_id]['total'] = $covered_total;
+				$preorders[$pro_id]['producerName'] = $producerName; 
+			}
+    	}
+    }
+
+    return $preorders;
+}
+
+function covered_preorders() {
+	global $currency;
+	$preorders = get_preorder_sum();
+	$covered_preorders = '<div>';
+
+	foreach ($preorders as $pro_id => $value) {
+		$covered_preorders .= '<p><span class="emph">'. $value['producerName'] .': </span><span class="blue">'. sprintf("%01.2f", $value['total']) . $currency .'</span></p>';
+	}
+	$covered_preorders .= '</div>';
+
+	return $covered_preorders;
+}
+
+
 /*
 $curr = date('Y-m-d H:i:s');
 $statement = $pdo->prepare("SELECT start FROM events WHERE type = 1 AND start > '$curr' ORDER BY start ASC");
@@ -98,7 +150,9 @@ include("templates/main-nav.inc.php");
 			<div class="greet">
 			<h1><span id="greeter"></span></h1>
 			<span class="subtitle">Willkommen zurück, <span class="emph"><?php echo htmlspecialchars($user['first_name']); ?></span>! Was möchtest Du bestellen?</span><br><br>
-			<?php #echo $output ?>
+			<h4 class="">Mindestbestellwert erreicht?</h4>
+			<p>Summe voller Gebinde nach Hersteller geordnet:</p>
+			<?php echo covered_preorders() ?>
 			<br>
 			</div>
 		</div>

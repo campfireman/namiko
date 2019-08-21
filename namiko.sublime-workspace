@@ -4,6 +4,18 @@
 		"selected_items":
 		[
 			[
+				"container",
+				"container_size"
+			],
+			[
+				"unit",
+				"unit_tag"
+			],
+			[
+				"order",
+				"order_total"
+			],
+			[
 				"price",
 				"price_KG_L"
 			],
@@ -14,10 +26,6 @@
 			[
 				"quantit",
 				"quantity_KG_L"
-			],
-			[
-				"order",
-				"order_total_items"
 			],
 			[
 				"_",
@@ -38,10 +46,6 @@
 			[
 				"old",
 				"old_quantity"
-			],
-			[
-				"unit",
-				"unit_tag"
 			],
 			[
 				"sta",
@@ -510,10 +514,6 @@
 			[
 				"next",
 				"nextSession"
-			],
-			[
-				"calen",
-				"calendar_handler"
 			]
 		]
 	},
@@ -538,46 +538,19 @@
 			}
 		},
 		{
-			"file": "CHANGELOG.md",
-			"settings":
-			{
-				"buffer_size": 1605,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "inc/DBOperations.inc.php",
-			"settings":
-			{
-				"buffer_size": 4598,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "pay.php",
-			"settings":
-			{
-				"buffer_size": 1722,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "templates/footer.inc.php",
-			"settings":
-			{
-				"buffer_size": 2740,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
 			"file": "admin_handler.php",
 			"settings":
 			{
 				"buffer_size": 6037,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "CHANGELOG.md",
+			"settings":
+			{
+				"buffer_size": 1681,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -613,8 +586,61 @@
 			"file": "inventory.php",
 			"settings":
 			{
-				"buffer_size": 19322,
+				"buffer_size": 19372,
 				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "order_total.php",
+			"settings":
+			{
+				"buffer_size": 12581,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "util/tcpdf/CHANGELOG.TXT",
+			"settings":
+			{
+				"buffer_size": 116701,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "member.php",
+			"settings":
+			{
+				"buffer_size": 12455,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "inc/config.inc.php",
+			"settings":
+			{
+				"buffer_size": 870,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "agree.php",
+			"settings":
+			{
+				"buffer_size": 9847,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "order_total_process.php",
+			"settings":
+			{
+				"buffer_size": 12021,
 				"line_ending": "Windows"
 			}
 		},
@@ -834,21 +860,24 @@
 		"/home/ture/projects/htdocs/namiko/inc",
 		"/home/ture/projects/htdocs/namiko/js",
 		"/home/ture/projects/htdocs/namiko/settings",
-		"/home/ture/projects/htdocs/namiko/templates"
+		"/home/ture/projects/htdocs/namiko/templates",
+		"/home/ture/projects/htdocs/namiko/util",
+		"/home/ture/projects/htdocs/namiko/util/phpmailer"
 	],
 	"file_history":
 	[
 		"/home/ture/projects/htdocs/namiko/CHANGELOG.md",
+		"/home/ture/projects/htdocs/namiko/templates/footer.inc.php",
+		"/home/ture/projects/htdocs/namiko/pay.php",
+		"/home/ture/projects/htdocs/namiko/inc/DBOperations.inc.php",
 		"/home/ture/projects/htdocs/namiko/css/style.css",
 		"/home/ture/projects/htdocs/namiko/css/bootstrap.css",
 		"/home/ture/projects/ResourceHub/pictures/RH_UI_Diagramm.xml",
-		"/home/ture/projects/htdocs/namiko/inc/DBOperations.inc.php",
 		"/home/ture/projects/htdocs/namiko/check-out.php",
 		"/home/ture/projects/htdocs/namiko/js/cart.js",
 		"/home/ture/projects/htdocs/namiko/inventory.php",
 		"/home/ture/projects/htdocs/namiko/calendar_handler.php",
 		"/home/ture/projects/htdocs/namiko/catalogue_handler.php",
-		"/home/ture/projects/htdocs/namiko/templates/footer.inc.php",
 		"/home/ture/projects/htdocs/namiko/LICENSE",
 		"/home/ture/projects/htdocs/namiko/usefulqueries.sql",
 		"/home/ture/projects/data_analysis/namiko.py",
@@ -860,7 +889,6 @@
 		"/home/ture/projects/data_analysis/fibonacci_graph.py",
 		"/home/ture/projects/htdocs/namiko/.gitignore",
 		"/home/ture/projects/mysql-backup/README.md",
-		"/home/ture/projects/htdocs/namiko/pay.php",
 		"/home/ture/projects/htdocs/namiko/my-orders.php",
 		"/home/ture/projects/htdocs/namiko/session.php",
 		"/home/ture/projects/htdocs/namiko/internal.php",
@@ -1136,7 +1164,7 @@
 	"groups":
 	[
 		{
-			"selected": 6,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -1165,7 +1193,7 @@
 						"translation.y": 5398.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 13,
 					"type": "text"
 				},
 				{
@@ -1194,126 +1222,11 @@
 						"translation.y": 2991.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "CHANGELOG.md",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1605,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1059,
-								1059
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "inc/DBOperations.inc.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4598,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1125.0,
-						"zoom_level": 1.0
-					},
 					"stack_index": 10,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "pay.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1722,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "templates/footer.inc.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2740,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2710,
-								2710
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
+					"buffer": 2,
 					"file": "admin_handler.php",
 					"semi_transient": false,
 					"settings":
@@ -1335,14 +1248,42 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 23.0,
+						"translation.y": 24.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "CHANGELOG.md",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1681,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								588,
+								588
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 7,
+					"buffer": 4,
 					"file": "js/jquery.js",
 					"semi_transient": false,
 					"settings":
@@ -1366,11 +1307,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 12,
 					"type": "text"
 				},
 				{
-					"buffer": 8,
+					"buffer": 5,
 					"file": "templates/header.inc.php",
 					"semi_transient": false,
 					"settings":
@@ -1396,11 +1337,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
-					"buffer": 9,
+					"buffer": 6,
 					"file": "session_process.php",
 					"semi_transient": false,
 					"settings":
@@ -1429,20 +1370,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 10,
+					"buffer": 7,
 					"file": "inventory.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 19322,
+						"buffer_size": 19372,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								6478,
-								6478
+								16677,
+								16677
 							]
 						],
 						"settings":
@@ -1451,14 +1392,188 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2295.0,
+						"translation.y": 3859.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "order_total.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 12581,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2844,
+								2844
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 4526.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "util/tcpdf/CHANGELOG.TXT",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 116701,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "member.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 12455,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5012,
+								5012
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1481.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "inc/config.inc.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 870,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "agree.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9847,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5615,
+								5615
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1709.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 7,
 					"type": "text"
 				},
 				{
-					"buffer": 11,
+					"buffer": 13,
+					"file": "order_total_process.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 12021,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2154,
+								2154
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 645.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 14,
 					"file": "catalogue_handler.php",
 					"semi_transient": false,
 					"settings":
@@ -1483,11 +1598,11 @@
 						"translation.y": 450.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 14,
 					"type": "text"
 				},
 				{
-					"buffer": 12,
+					"buffer": 15,
 					"file": "internal.php",
 					"semi_transient": false,
 					"settings":
@@ -1512,7 +1627,7 @@
 						"translation.y": 1755.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 12,
+					"stack_index": 15,
 					"type": "text"
 				}
 			]
