@@ -143,7 +143,7 @@ class Cart {
 	}
 
 	public function update() {
-		foreach ($_SESSION['preorders'] as $pro_id => $producer) {
+		/*foreach ($_SESSION['preorders'] as $pro_id => $producer) {
 			foreach ($producer as $pid => $item) {
 				if ($this->hasSurplus($item)) {
 					$stock = $this->db->getStock($pid);
@@ -168,7 +168,7 @@ class Cart {
 					}
 				}
 			}
-		}
+		}*/
 
 		foreach ($_SESSION['orders'] as $pro_id => $producer) {
 			foreach ($producer as $pid => $item) {
@@ -274,14 +274,14 @@ class Cart {
 			}
 		}
 
-		foreach ($_SESSION['preorders'] as $producer) {
+		/*foreach ($_SESSION['preorders'] as $producer) {
 			foreach ($producer as $item) {
 				if ($this->hasSurplus($item)) {
 					$error = true;
 					$this->itemConflicts[] = $item['productName'];
 				}
 			}
-		}
+		}*/
 		return $error;
 	}
 

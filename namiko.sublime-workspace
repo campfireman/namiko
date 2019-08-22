@@ -520,46 +520,10 @@
 	"buffers":
 	[
 		{
-			"file": "session_process.php",
+			"file": "emailcenter.php",
 			"settings":
 			{
-				"buffer_size": 2427,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "inventory.php",
-			"settings":
-			{
-				"buffer_size": 19372,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "order_total.php",
-			"settings":
-			{
-				"buffer_size": 12581,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "util/tcpdf/CHANGELOG.TXT",
-			"settings":
-			{
-				"buffer_size": 116701,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "member.php",
-			"settings":
-			{
-				"buffer_size": 12455,
+				"buffer_size": 8624,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -574,75 +538,29 @@
 			}
 		},
 		{
-			"file": "agree.php",
+			"file": "email_process.php",
 			"settings":
 			{
-				"buffer_size": 9847,
+				"buffer_size": 1716,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "order_total_process.php",
+			"file": "inc/Mail.inc.php",
 			"settings":
 			{
-				"buffer_size": 12021,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "catalogue_handler.php",
-			"settings":
-			{
-				"buffer_size": 5742,
+				"buffer_size": 2815,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "internal.php",
+			"file": "usefulqueries.sql",
 			"settings":
 			{
-				"buffer_size": 10473,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "CHANGELOG.md",
-			"settings":
-			{
-				"buffer_size": 1759,
-				"encoding": "UTF-8",
+				"buffer_size": 1271,
 				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "emailcenter.php",
-			"settings":
-			{
-				"buffer_size": 8381,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "css/style.css",
-			"settings":
-			{
-				"buffer_size": 16398,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "Searching 807 files for \"sprintf\"\n\n/home/ture/projects/htdocs/namiko/cart_process.php:\n   53                  <div class=\"box pad\">\n   54                    <form action=\"pay.php\" method=\"post\">\n   55:                   <label><input type=\"checkbox\" name=\"agree1\" required> Ich bin damit einverstanden, dass ein Betrag von '. sprintf(\"%01.2f %s\",$cart->getGrandtotal(), $currency).' von meinem Konto abgebucht wird, entsprechend der Bedingungen des vereinbarten Lastschriftmandates.</label><br>\n   56                    <br>\n   57                    <div class=\"center\"><button class=\"clean-btn green\" type=\"submit\" name=\"pay\" required>abschicken <i class=\"fa fa-paper-plane\" aria-hidden=\"true\"></i></button></div>\n   ..\n   62              <br>\n   63              <input id=\"grandtotal_val\" type=\"hidden\" name=\"grandtotal\" value=\"'. $cart->getGrandtotal() .'\">\n   64:             <div id=\"grandtotal\" class=\"emph\">ges. '.sprintf(\"%01.2f %s\", $cart->getGrandtotal(), $currency).'\n   65              </div>\n   66              <a href=\"check-out.php\" title=\"Zur Kasse gehen\">\n\n/home/ture/projects/htdocs/namiko/delivered-orders.php:\n   61  \t\techo '<tr>';\n   62  \t\techo '<td>'. $productName .'</td>';\n   63: \t\techo '<td>'. $currency. sprintf(\"%01.2f\", $price_KG_L) .'</td>';\n   64: \t\techo '<td>'. $quantity .'</td><td>'.$currency. sprintf(\"%01.2f\", $total). '</td>';\n   65  \t\techo '</tr>';\n   66  \t}\n   67  \n   68: \techo '<tr><td></td><td></td><td></td><td class=\"emph\">'. $currency.sprintf(\"%01.2f\",$grandtotal) .'</td></table>';\n   69  \techo '</div>';\n   70  \tif ($count == 2) {\n\n/home/ture/projects/htdocs/namiko/handing-out.php:\n   49  \t\t\t\t\t\t\techo '<tr><td>'. $row['pid'] .'</td>';\n   50  \t\t\t\t\t\t\techo '<td>'. $row['productName'] .'</td>';\n   51: \t\t\t\t\t\t\techo '<td>'. $currency.sprintf(\"%01.2f\",$price) .'</td>';\n   52  \t\t\t\t\t\t\techo '<td>'. $quantity .'</td>';\n   53: \t\t\t\t\t\t\techo '<td>'. $currency.sprintf(\"%01.2f\",$total) .'</td></tr>';\n   54  \t\t\t\t\t\t}\n   55  \n   56: \t\t\t\t\t\techo '<tr><td></td><td></td><td></td><td></td><td class=\"emph\">'. $currency.sprintf(\"%01.2f\",$grandtotal) .'</td></table></div>';\n   57  \n   58  \t\t\t\t\t\techo '<div id=\"signature-pad\" class=\"spacer box\">';\n\n/home/ture/projects/htdocs/namiko/internal.php:\n   92  \n   93  \tforeach ($preorders as $pro_id => $value) {\n   94: \t\t$covered_preorders .= '<p><span class=\"bold\">'. $value['producerName'] .': </span><span class=\"blue\">'. sprintf(\"0.2f\", $value['total']) . $currency .'</span></p>';\n   95  \t}\n   96  \t$covered_preorders .= '</div>';\n\n/home/ture/projects/htdocs/namiko/inventory.php:\n  289  \t\t\t}\n  290  \n  291: \t\t\t$orderTotalAdd .= '<option value=\"'. $row['pid'] .'\">'. $row['productName'] .' ('. $currency . sprintf('%01.2f', $row['priceContainer']) .' / '. $row['container'] .'KG/L)</option>';\n  292  \n  293  \t}\n  ...\n  397  \t\t\t\t\t\t\t\t\t\t\t<td>'. $productData['container'] .'</td>\n  398  \t\t\t\t\t\t\t\t\t\t\t<td><input class=\"width100\" type=\"number\" name=\"quantityContainer\" value=\"'. $quantityContainer . '\"></td>\n  399: \t\t\t\t\t\t\t\t\t\t\t<td>'. $currency.sprintf(\"%01.2f\", $priceContainer) .'</td>\n  400: \t\t\t\t\t\t\t\t\t\t\t<td>'. $currency.sprintf(\"%01.2f\", $total) .'</td>\n  401  \t\t\t\t\t\t\t\t\t\t\t</tr>';\n  402  \t\t\t\t}\n  ...\n  410  \t\t\t\t\t\t\t\t\t\t\t<td></td>\n  411  \t\t\t\t\t\t\t\t\t\t\t<td></td>\n  412: \t\t\t\t\t\t\t\t\t\t\t<td><span class=\"emph\">'.$currency.sprintf(\"%01.2f\", $grandtotal). '</span></td>\n  413  \t\t\t\t\t\t\t\t\t\t</tr>\n  414  \t\t\t\t\t\t\t\t\t\t</table>\n\n/home/ture/projects/htdocs/namiko/members.php:\n  343  \t\t\t\t\t\t\t}\n  344  \n  345: \t\t\t\t\t\t\techo $count . \" offene\". $singular .\" Darlehn über \". $currency. sprintf(\"%01.2f\", $total);\n  346  \t\t\t\t\t\t} else {\n  347  \t\t\t\t\t\t\techo \"Keine offenen Darlehen.\";\n\n/home/ture/projects/htdocs/namiko/my-preorders.php:\n   57  \t\techo '<tr>';\n   58  \t\techo '<td>'. $productName .'</td>';\n   59: \t\techo '<td>'. $currency. sprintf(\"%01.2f\", $price_KG_L) .'</td>';\n   60: \t\techo '<td>'. $quantity .'</td><td>'.$currency. sprintf(\"%01.2f\", $total). '</td>';\n   61  \t\techo '<td><button oi_id=\"'. $row2['oi_id'] .'\" oid=\"'. $oid .'\" class=\"remove-order empty red\"><i class=\"fa fa-trash\" aria-hidden=\"true\"></i></button>';\n   62  \t\techo '</tr>';\n   63  \t}\n   64  \n   65: \techo '<tr><td></td><td></td><td></td><td class=\"emph\">'. $currency.sprintf(\"%01.2f\",$grandtotal) .'</td></table>';\n   66  \techo '</div>';\n   67  \tif ($count == 2) {\n\n/home/ture/projects/htdocs/namiko/order_total.php:\n  211  \t\t\t\t\t\t\techo '<tr>';\n  212  \t\t\t\t\t\t\techo '<td></td><td></td><td></td><td></td>';\n  213: \t\t\t\t\t\t\techo '<td class=\"emph\">'. $currency.sprintf(\"%01.2f\", $grandtotal) .'</td>';\n  214  \t\t\t\t\t\t\techo '</tr>';\n  215  \t\t\t\t\t\t\techo '</table><br>';\n  ...\n  281  \t\t\t\t\techo '<tr>';\n  282  \t\t\t\t\techo '<td>'. $row2['productName'] .'</td>';\n  283: \t\t\t\t\techo '<td>'. $currency . sprintf('%01.2f', $price) .'</td>';\n  284  \t\t\t\t\techo '<td>'. $row2['container'] .'</td>';\n  285  \t\t\t\t\techo '<td>'. $quantityContainer .'</td>';\n  286: \t\t\t\t\techo '<td>'. $currency . sprintf('%01.2f', $total) . '</td>';\n  287  \t\t\t\t\tif ($row2['delivered'] == 0) {\n  288  \t\t\t\t\t\techo '<td><a href=\"#\" class=\"remove-item\" tid=\"'. $tid .'\" oti_id=\"'. $oti_id .'\"><i class=\"fa fa-trash-o\" aria-hidden=\"true\"></i></td>'; \n  ...\n  295  \t\t\t\techo '<tr>';\n  296  \t\t\t\techo '<td></td><td></td><td></td><td></td>';\n  297: \t\t\t\techo '<td class=\"emph\">'. $currency.sprintf(\"%01.2f\", $grandtotal) .'</td>';\n  298  \t\t\t\techo '</tr>';\n  299  \t\t\t\techo '</table><br>';\n\n/home/ture/projects/htdocs/namiko/order_total_process.php:\n  104                  $cart_box .=  ' <tr>\n  105                                      <td>'. $productName .'</td>\n  106:                                     <td>'. $currency . sprintf(\"%01.2f\", $priceContainer) .'</td>\n  107                                      <td>'. $quantity .'</td>\n  108:                                     <td><input type=\"hidden\" name=\"item_total\" value=\"'. $item_total .'\">'. $currency . sprintf(\"%01.2f\", $item_total). '</td>\n  109                                      <td><a href=\"#\" class=\"remove-item\" data-pid=\"'. $pid. '\" data-pro_id=\"'. $pro_id .'\"><i class=\"fa fa-trash-o\" aria-hidden=\"true\"></i></a></td>\n  110                                  </tr>';\n  ...\n  117                                  <td class=\"emph\">\n  118                                      <input type=\"hidden\" name=\"total\" value=\"'. $total .'\">'. $currency. '\n  119:                                     <span id=\"total\">'.sprintf(\"%01.2f\",$total).'</span>\n  120                                  </td>\n  121                              </tr>\n\n/home/ture/projects/htdocs/namiko/sepa.php:\n  189  \t\t\t\t\t\t}\n  190  \n  191: \t\t\t\t\t\techo $currency.sprintf(\"%01.2f\", ($total));\n  192  \t\t\t\t\t?>\n  193  \t\t\t\t</span>\n  ...\n  214  \t\t\t\t\t\t}\n  215  \n  216: \t\t\t\t\t\techo $currency.sprintf(\"%01.2f\", ($total));\n  217  \t\t\t\t\t?>\n  218  \t\t\t\t</span><br>\n  ...\n  250  \t\t\t\t\t$sum += $row['contribution']*3;\n  251  \t\t\t\t}\n  252: \t\t\t\techo sprintf(\"%01.2f\", $sum).$currency;\n  253  \t\t\t\t?>\n  254  \t\t\t\t</span>\n  ...\n  267  \t\t\t\t\t$sum += $row['loan'];\n  268  \t\t\t\t}\n  269: \t\t\t\techo sprintf(\"%01.2f\", $sum).$currency;\n  270  \t\t\t\t?>\n  271  \t\t\t\t</span>\n  ...\n  305  \t\t\techo '<td>'. $row['IBAN'] .'</td>';\n  306  \t\t\techo '<td>'. $row['BIC'] . '</td>';\n  307: \t\t\techo '<td>'. sprintf(\"%01.2f\", $row['loan']). $currency .'</td>';\n  308: \t\t\techo '<td>'. sprintf(\"%01.2f\", $row['contribution']). $currency .'</td>';\n  309  \t\t\techo \"</tr>\";\n  310  \t\t}\n\n/home/ture/projects/htdocs/namiko/inc/Cart.inc.php:\n   83  \t\t\t<tr>\n   84  \t\t\t\t<td>'. htmlspecialchars($productName) .'</td>\n   85: \t\t\t\t<td>'. sprintf(\"%01.2f %s\", $price_KG_L, $currency) . \"/\" . $unit_size. $unit_tag .'</td>\n   86  \t\t\t\t<td>'. $quantity .'</td>\n   87  \t\t\t\t<td>'. $amount . $unit_tag.'</td>\n   88: \t\t\t\t<td>'. sprintf(\"%01.2f %s\", $item_total, $currency). '</td>\n   89  \t\t\t\t'. $buttons .'\n   90  \t\t\t</tr>';\n   ..\n  101  \t\t\t\t<td class=\"total\" style=\"font-weight: 600; text-align: left;\">'\n  102  \t\t\t\t. $total_data\n  103: \t\t\t\t. sprintf(\"%01.2f %s\", $total, $currency).' </td>\n  104  \t\t\t</tr>\n  105  \t\t</table>\n\n/home/ture/projects/htdocs/namiko/inc/functions.inc.php:\n  119  \t$user = check_user();\n  120  \n  121: \t$log = sprintf(\"%s | uid:%s | msg: %s\\n\" ,$date->format(\"Y/m/d H:i:s\"), $user['uid'], $error_msg .\"\\n\");\n  122  \terror_log($log, 3, $error_log);\n  123  } \n\n/home/ture/projects/htdocs/namiko/inc/password.inc.php:\n   56                          $cost = (int) $options['cost'];\n   57                          if ($cost < 4 || $cost > 31) {\n   58:                             trigger_error(sprintf(\"password_hash(): Invalid bcrypt cost parameter specified: %d\", $cost), E_USER_WARNING);\n   59                              return null;\n   60                          }\n   ..\n   64                      // The length required in the final serialization\n   65                      $required_salt_len = 22;\n   66:                     $hash_format = sprintf(\"$2y$%02d$\", $cost);\n   67                      // The expected length of the final crypt() output\n   68                      $resultLength = 60;\n   69                      break;\n   70                  default:\n   71:                     trigger_error(sprintf(\"password_hash(): Unknown password hashing algorithm: %s\", $algo), E_USER_WARNING);\n   72                      return null;\n   73              }\n   ..\n   94                  }\n   95                  if (PasswordCompat\\binary\\_strlen($salt) < $required_salt_len) {\n   96:                     trigger_error(sprintf(\"password_hash(): Provided salt is too short: %d expecting %d\", PasswordCompat\\binary\\_strlen($salt), $required_salt_len), E_USER_WARNING);\n   97                      return null;\n   98                  } elseif (0 == preg_match('#^[a-zA-Z0-9./]+$#D', $salt)) {\n\n/home/ture/projects/htdocs/namiko/inc/SEPAprocedure.inc.php:\n  117  \t\t\t$text = '\n  118  \t\t\t<h1>Moin, '. htmlspecialchars($first_name) .'!</h1>\n  119: \t\t\t<p>Wir ziehen einen Betrag von '. sprintf(\"%01.2f\", ($this->xml->InstdAmt)) .' EUR mit der SEPA-Lastschrift zum Mandat mit der Referenznummer '. $this->xml->mid .' zu der Gläubiger-Identifikationsnummer '. $this->xml->creditorId .' von Deinem Konto IBAN '. maskString($this->xml->IBAN, 8) .' bei BIC '. $this->xml->BIC .' zum Fälligkeitstag '. $date->format('d.m.Y') .' ein.';\n  120  \n  121  \t\t\t$this->mails[$uid]['email'] = $email;\n\n/home/ture/projects/htdocs/namiko/inc/SepaXML.inc.php:\n  213  \t\t// Layer 2: GrpHdr\n  214  \t\t$this->GrpHdr->appendChild($this->doc->createElement('NbOfTxs', $this->numberTx));\n  215: \t\t$this->GrpHdr->appendChild($this->doc->createElement('CtrlSum', sprintf(\"%01.2f\", ($this->totalTx))));\n  216  \t\t$InitgPty = $this->doc->createElement('InitgPty');\n  217  \t\t$InitgPty = $this->GrpHdr->appendChild($InitgPty);\n  ...\n  221  \n  222  \t\t// Layer 2: PmtInf\n  223: \t\t$CtrlSum = $this->doc->createElement('CtrlSum', sprintf(\"%01.2f\", ($this->totalTx)));\n  224  \t\t$CtrlSum = $this->PmtInf->insertBefore($CtrlSum, $this->PmtTpInf);\n  225  \t\t$NbOfTxs = $this->doc->createElement('NbOfTxs', $this->numberTx);\n\n/home/ture/projects/htdocs/namiko/util/phpmailer/PHPMailer.php:\n  963          if (false === $pos) {\n  964              // At-sign is missing.\n  965:             $error_message = sprintf('%s (%s): %s',\n  966                  $this->lang('invalid_address'),\n  967                  $kind,\n  ...\n 1014      {\n 1015          if (!in_array($kind, ['to', 'cc', 'bcc', 'Reply-To'])) {\n 1016:             $error_message = sprintf('%s: %s',\n 1017                  $this->lang('Invalid recipient kind'),\n 1018                  $kind);\n ....\n 1026          }\n 1027          if (!static::validateAddress($address)) {\n 1028:             $error_message = sprintf('%s (%s): %s',\n 1029                  $this->lang('invalid_address'),\n 1030                  $kind,\n ....\n 1135              (!$this->has8bitChars(substr($address, ++$pos)) or !static::idnSupported()) and\n 1136              !static::validateAddress($address)) {\n 1137:             $error_message = sprintf('%s (From): %s',\n 1138                  $this->lang('invalid_address'),\n 1139                  $address);\n ....\n 1387                  $this->$address_kind = $this->punyencodeAddress($this->$address_kind);\n 1388                  if (!static::validateAddress($this->$address_kind)) {\n 1389:                     $error_message = sprintf('%s (%s): %s',\n 1390                          $this->lang('invalid_address'),\n 1391                          $address_kind,\n ....\n 1530          }\n 1531  \n 1532:         $sendmail = sprintf($sendmailFmt, escapeshellcmd($this->Sendmail), $this->Sender);\n 1533  \n 1534          if ($this->SingleTo) {\n ....\n 1648              // CVE-2016-10033, CVE-2016-10045: Don't pass -f if characters will be escaped.\n 1649              if (self::isShellSafe($this->Sender)) {\n 1650:                 $params = sprintf('-f%s', $this->Sender);\n 1651              }\n 1652          }\n ....\n 2084      {\n 2085          if ($qp_mode) {\n 2086:             $soft_break = sprintf(' =%s', static::$LE);\n 2087          } else {\n 2088              $soft_break = static::$LE;\n ....\n 2124                              $word = substr($word, $len);\n 2125                              $buf .= ' ' . $part;\n 2126:                             $message .= $buf . sprintf('=%s', static::$LE);\n 2127                          } else {\n 2128                              $message .= $buf . $soft_break;\n ....\n 2146  \n 2147                          if (strlen($word) > 0) {\n 2148:                             $message .= $part . sprintf('=%s', static::$LE);\n 2149                          } else {\n 2150                              $buf = $part;\n ....\n 2302              $this->lastMessageID = $this->MessageID;\n 2303          } else {\n 2304:             $this->lastMessageID = sprintf('<%s@%s>', $this->uniqueid, $this->serverHostname());\n 2305          }\n 2306          $result .= $this->headerLine('Message-ID', $this->lastMessageID);\n ....\n 2669          }\n 2670          $result .= $this->textLine('--' . $boundary);\n 2671:         $result .= sprintf('Content-Type: %s; charset=%s', $contentType, $charSet);\n 2672          $result .= static::$LE;\n 2673          // RFC1341 part 5 says 7bit is assumed if not specified\n ....\n 2850                  $cidUniq[$cid] = true;\n 2851  \n 2852:                 $mime[] = sprintf('--%s%s', $boundary, static::$LE);\n 2853                  //Only include a filename property if we have one\n 2854                  if (!empty($name)) {\n 2855:                     $mime[] = sprintf(\n 2856                          'Content-Type: %s; name=\"%s\"%s',\n 2857                          $type,\n ....\n 2860                      );\n 2861                  } else {\n 2862:                     $mime[] = sprintf(\n 2863                          'Content-Type: %s%s',\n 2864                          $type,\n ....\n 2868                  // RFC1341 part 5 says 7bit is assumed if not specified\n 2869                  if ('7bit' != $encoding) {\n 2870:                     $mime[] = sprintf('Content-Transfer-Encoding: %s%s', $encoding, static::$LE);\n 2871                  }\n 2872  \n 2873                  if (!empty($cid)) {\n 2874:                     $mime[] = sprintf('Content-ID: <%s>%s', $cid, static::$LE);\n 2875                  }\n 2876  \n ....\n 2882                      $encoded_name = $this->encodeHeader($this->secureHeader($name));\n 2883                      if (preg_match('/[ \\(\\)<>@,;:\\\\\"\\/\\[\\]\\?=]/', $encoded_name)) {\n 2884:                         $mime[] = sprintf(\n 2885                              'Content-Disposition: %s; filename=\"%s\"%s',\n 2886                              $disposition,\n ....\n 2890                      } else {\n 2891                          if (!empty($encoded_name)) {\n 2892:                             $mime[] = sprintf(\n 2893                                  'Content-Disposition: %s; filename=%s%s',\n 2894                                  $disposition,\n ....\n 2897                              );\n 2898                          } else {\n 2899:                             $mime[] = sprintf(\n 2900                                  'Content-Disposition: %s%s',\n 2901                                  $disposition,\n ....\n 2921          }\n 2922  \n 2923:         $mime[] = sprintf('--%s--%s', $boundary, static::$LE);\n 2924  \n 2925          return implode('', $mime);\n ....\n 3217              }\n 3218              foreach (array_unique($matches[0]) as $char) {\n 3219:                 $encoded = str_replace($char, '=' . sprintf('%02X', ord($char)), $encoded);\n 3220              }\n 3221          }\n ....\n 4122                  $line .= $txt[$i];\n 4123              } else {\n 4124:                 $line .= '=' . sprintf('%02X', $ord);\n 4125              }\n 4126          }\n\n/home/ture/projects/htdocs/namiko/util/tcpdf/tcpdf.php:\n 1923  \t\t// line width (0.2 mm)\n 1924  \t\t$this->LineWidth = 0.57 / $this->k;\n 1925: \t\t$this->linestyleWidth = sprintf('%F w', ($this->LineWidth * $this->k));\n 1926  \t\t$this->linestyleCap = '0 J';\n 1927  \t\t$this->linestyleJoin = '0 j';\n ....\n 3735  \t\t}\n 3736  \t\t$tint = (max(0, min(100, $tint)) / 100);\n 3737: \t\t$pdfcolor = sprintf('/CS%d ', $this->spot_colors[$name]['i']);\n 3738  \t\tswitch ($type) {\n 3739  \t\t\tcase 'draw': {\n 3740: \t\t\t\t$pdfcolor .= sprintf('CS %F SCN', $tint);\n 3741  \t\t\t\t$this->DrawColor = $pdfcolor;\n 3742  \t\t\t\t$this->strokecolor = $spotcolor;\n ....\n 3744  \t\t\t}\n 3745  \t\t\tcase 'fill': {\n 3746: \t\t\t\t$pdfcolor .= sprintf('cs %F scn', $tint);\n 3747  \t\t\t\t$this->FillColor = $pdfcolor;\n 3748  \t\t\t\t$this->bgcolor = $spotcolor;\n ....\n 3750  \t\t\t}\n 3751  \t\t\tcase 'text': {\n 3752: \t\t\t\t$pdfcolor .= sprintf('cs %F scn', $tint);\n 3753  \t\t\t\t$this->TextColor = $pdfcolor;\n 3754  \t\t\t\t$this->fgcolor = $spotcolor;\n ....\n 3909  \t\t\t$col1 = max(0, min(255, $col1));\n 3910  \t\t\t$intcolor = array('G' => $col1);\n 3911: \t\t\t$pdfcolor = sprintf('%F ', ($col1 / 255));\n 3912  \t\t\t$suffix = 'g';\n 3913  \t\t} elseif ($col4 == -1) {\n ....\n 3917  \t\t\t$col3 = max(0, min(255, $col3));\n 3918  \t\t\t$intcolor = array('R' => $col1, 'G' => $col2, 'B' => $col3);\n 3919: \t\t\t$pdfcolor = sprintf('%F %F %F ', ($col1 / 255), ($col2 / 255), ($col3 / 255));\n 3920  \t\t\t$suffix = 'rg';\n 3921  \t\t} else {\n ....\n 3927  \t\t\t\t// CMYK\n 3928  \t\t\t\t$intcolor = array('C' => $col1, 'M' => $col2, 'Y' => $col3, 'K' => $col4);\n 3929: \t\t\t\t$pdfcolor = sprintf('%F %F %F %F ', ($col1 / 100), ($col2 / 100), ($col3 / 100), ($col4 / 100));\n 3930  \t\t\t\t$suffix = 'k';\n 3931  \t\t\t} else {\n ....\n 4483  \t\t$this->FontDescent = ($font_descent / $this->k);\n 4484  \t\tif ($out AND ($this->page > 0) AND (isset($this->CurrentFont['i'])) AND ($this->state == 2)) {\n 4485: \t\t\t$this->_out(sprintf('BT /F%d %F Tf ET', $this->CurrentFont['i'], $this->FontSizePt));\n 4486  \t\t}\n 4487  \t}\n ....\n 5219  \t\t\t\t$xk = ($x * $k);\n 5220  \t\t\t}\n 5221: \t\t\t$s .= sprintf('%F %F %F %F re %s ', $xk, (($this->h - $y) * $k), ($w * $k), (-$h * $k), $op);\n 5222  \t\t}\n 5223  \t\t// draw borders\n ....\n 5355  \t\t\tif ($this->font_stretching != 100) {\n 5356  \t\t\t\t// apply font stretching\n 5357: \t\t\t\t$rs .= sprintf('BT %F Tz ET ', $this->font_stretching);\n 5358  \t\t\t}\n 5359  \t\t\tif ($this->font_spacing != 0) {\n 5360  \t\t\t\t// increase/decrease font spacing\n 5361: \t\t\t\t$rs .= sprintf('BT %F Tc ET ', ($this->font_spacing * $this->k));\n 5362  \t\t\t}\n 5363  \t\t\tif ($this->ColorFlag AND ($this->textrendermode < 4)) {\n ....\n 5365  \t\t\t}\n 5366  \t\t\t// rendering mode\n 5367: \t\t\t$s .= sprintf('BT %d Tr %F w ET ', $this->textrendermode, ($this->textstrokewidth * $this->k));\n 5368  \t\t\t// count number of spaces\n 5369  \t\t\t$ns = substr_count($txt, chr(32));\n ....\n 5381  \t\t\t\t\t}\n 5382  \t\t\t\t\t// set word position to be used with TJ operator\n 5383: \t\t\t\t\t$txt2 = str_replace(chr(0).chr(32), ') '.sprintf('%F', $spacewidth).' (', $txt2);\n 5384  \t\t\t\t\t$unicode_justification = true;\n 5385  \t\t\t\t} else {\n ....\n 5393  \t\t\t\t\t}\n 5394  \t\t\t\t\t// set word spacing\n 5395: \t\t\t\t\t$rs .= sprintf('BT %F Tw ET ', $spacewidth);\n 5396  \t\t\t\t}\n 5397  \t\t\t\t$width = $w - $this->cell_padding['L'] - $this->cell_padding['R'];\n ....\n 5437  \t\t\t$xdk = $xdx * $k;\n 5438  \t\t\t// print text\n 5439: \t\t\t$s .= sprintf('BT %F %F Td [(%s)] TJ ET', $xdk, (($this->h - $basefonty) * $k), $txt2);\n 5440  \t\t\tif (isset($uniblock)) {\n 5441  \t\t\t\t// print overlapping characters as separate string\n ....\n 5455  \t\t\t\t\t\t$topchr = TCPDF_FONTS::arrUTF8ToUTF16BE($uniarr, false);\n 5456  \t\t\t\t\t\t$topchr = TCPDF_STATIC::_escape($topchr);\n 5457: \t\t\t\t\t\t$s .= sprintf(' BT %F %F Td [(%s)] TJ ET', ($xdk + ($xshift * $k)), $ty, $topchr);\n 5458  \t\t\t\t\t}\n 5459  \t\t\t\t}\n ....\n 5640  \t\t\t// draw borders by case\n 5641  \t\t\tif (strlen($border) == 4) {\n 5642: \t\t\t\t$s .= sprintf('%F %F %F %F re S ', $xT, $yT, ($w * $k), (-$h * $k));\n 5643  \t\t\t} elseif (strlen($border) == 3) {\n 5644  \t\t\t\tif (strpos($border,'B') === false) { // LTR\n 5645: \t\t\t\t\t$s .= sprintf('%F %F m ', $xL, $yL);\n 5646: \t\t\t\t\t$s .= sprintf('%F %F l ', $xT, $yT);\n 5647: \t\t\t\t\t$s .= sprintf('%F %F l ', $xR, $yR);\n 5648: \t\t\t\t\t$s .= sprintf('%F %F l ', $xB, $yB);\n 5649  \t\t\t\t\t$s .= 'S ';\n 5650  \t\t\t\t} elseif (strpos($border,'L') === false) { // TRB\n 5651: \t\t\t\t\t$s .= sprintf('%F %F m ', $xT, $yT);\n 5652: \t\t\t\t\t$s .= sprintf('%F %F l ', $xR, $yR);\n 5653: \t\t\t\t\t$s .= sprintf('%F %F l ', $xB, $yB);\n 5654: \t\t\t\t\t$s .= sprintf('%F %F l ', $xL, $yL);\n 5655  \t\t\t\t\t$s .= 'S ';\n 5656  \t\t\t\t} elseif (strpos($border,'T') === false) { // RBL\n 5657: \t\t\t\t\t$s .= sprintf('%F %F m ', $xR, $yR);\n 5658: \t\t\t\t\t$s .= sprintf('%F %F l ', $xB, $yB);\n 5659: \t\t\t\t\t$s .= sprintf('%F %F l ', $xL, $yL);\n 5660: \t\t\t\t\t$s .= sprintf('%F %F l ', $xT, $yT);\n 5661  \t\t\t\t\t$s .= 'S ';\n 5662  \t\t\t\t} elseif (strpos($border,'R') === false) { // BLT\n 5663: \t\t\t\t\t$s .= sprintf('%F %F m ', $xB, $yB);\n 5664: \t\t\t\t\t$s .= sprintf('%F %F l ', $xL, $yL);\n 5665: \t\t\t\t\t$s .= sprintf('%F %F l ', $xT, $yT);\n 5666: \t\t\t\t\t$s .= sprintf('%F %F l ', $xR, $yR);\n 5667  \t\t\t\t\t$s .= 'S ';\n 5668  \t\t\t\t}\n 5669  \t\t\t} elseif (strlen($border) == 2) {\n 5670  \t\t\t\tif ((strpos($border,'L') !== false) AND (strpos($border,'T') !== false)) { // LT\n 5671: \t\t\t\t\t$s .= sprintf('%F %F m ', $xL, $yL);\n 5672: \t\t\t\t\t$s .= sprintf('%F %F l ', $xT, $yT);\n 5673: \t\t\t\t\t$s .= sprintf('%F %F l ', $xR, $yR);\n 5674  \t\t\t\t\t$s .= 'S ';\n 5675  \t\t\t\t} elseif ((strpos($border,'T') !== false) AND (strpos($border,'R') !== false)) { // TR\n 5676: \t\t\t\t\t$s .= sprintf('%F %F m ', $xT, $yT);\n 5677: \t\t\t\t\t$s .= sprintf('%F %F l ', $xR, $yR);\n 5678: \t\t\t\t\t$s .= sprintf('%F %F l ', $xB, $yB);\n 5679  \t\t\t\t\t$s .= 'S ';\n 5680  \t\t\t\t} elseif ((strpos($border,'R') !== false) AND (strpos($border,'B') !== false)) { // RB\n 5681: \t\t\t\t\t$s .= sprintf('%F %F m ', $xR, $yR);\n 5682: \t\t\t\t\t$s .= sprintf('%F %F l ', $xB, $yB);\n 5683: \t\t\t\t\t$s .= sprintf('%F %F l ', $xL, $yL);\n 5684  \t\t\t\t\t$s .= 'S ';\n 5685  \t\t\t\t} elseif ((strpos($border,'B') !== false) AND (strpos($border,'L') !== false)) { // BL\n 5686: \t\t\t\t\t$s .= sprintf('%F %F m ', $xB, $yB);\n 5687: \t\t\t\t\t$s .= sprintf('%F %F l ', $xL, $yL);\n 5688: \t\t\t\t\t$s .= sprintf('%F %F l ', $xT, $yT);\n 5689  \t\t\t\t\t$s .= 'S ';\n 5690  \t\t\t\t} elseif ((strpos($border,'L') !== false) AND (strpos($border,'R') !== false)) { // LR\n 5691: \t\t\t\t\t$s .= sprintf('%F %F m ', $xL, $yL);\n 5692: \t\t\t\t\t$s .= sprintf('%F %F l ', $xT, $yT);\n 5693  \t\t\t\t\t$s .= 'S ';\n 5694: \t\t\t\t\t$s .= sprintf('%F %F m ', $xR, $yR);\n 5695: \t\t\t\t\t$s .= sprintf('%F %F l ', $xB, $yB);\n 5696  \t\t\t\t\t$s .= 'S ';\n 5697  \t\t\t\t} elseif ((strpos($border,'T') !== false) AND (strpos($border,'B') !== false)) { // TB\n 5698: \t\t\t\t\t$s .= sprintf('%F %F m ', $xT, $yT);\n 5699: \t\t\t\t\t$s .= sprintf('%F %F l ', $xR, $yR);\n 5700  \t\t\t\t\t$s .= 'S ';\n 5701: \t\t\t\t\t$s .= sprintf('%F %F m ', $xB, $yB);\n 5702: \t\t\t\t\t$s .= sprintf('%F %F l ', $xL, $yL);\n 5703  \t\t\t\t\t$s .= 'S ';\n 5704  \t\t\t\t}\n 5705  \t\t\t} else { // strlen($border) == 1\n 5706  \t\t\t\tif (strpos($border,'L') !== false) { // L\n 5707: \t\t\t\t\t$s .= sprintf('%F %F m ', $xL, $yL);\n 5708: \t\t\t\t\t$s .= sprintf('%F %F l ', $xT, $yT);\n 5709  \t\t\t\t\t$s .= 'S ';\n 5710  \t\t\t\t} elseif (strpos($border,'T') !== false) { // T\n 5711: \t\t\t\t\t$s .= sprintf('%F %F m ', $xT, $yT);\n 5712: \t\t\t\t\t$s .= sprintf('%F %F l ', $xR, $yR);\n 5713  \t\t\t\t\t$s .= 'S ';\n 5714  \t\t\t\t} elseif (strpos($border,'R') !== false) { // R\n 5715: \t\t\t\t\t$s .= sprintf('%F %F m ', $xR, $yR);\n 5716: \t\t\t\t\t$s .= sprintf('%F %F l ', $xB, $yB);\n 5717  \t\t\t\t\t$s .= 'S ';\n 5718  \t\t\t\t} elseif (strpos($border,'B') !== false) { // B\n 5719: \t\t\t\t\t$s .= sprintf('%F %F m ', $xB, $yB);\n 5720: \t\t\t\t\t$s .= sprintf('%F %F l ', $xL, $yL);\n 5721  \t\t\t\t\t$s .= 'S ';\n 5722  \t\t\t\t}\n ....\n 7072  \t\t\t\t\t\t\t\tif (preg_match('/[\\s]+width[\\s]*=[\\s]*\"([^\"]*)\"/si', $svgtag, $tmp)) {\n 7073  \t\t\t\t\t\t\t\t\t$ow = $this->getHTMLUnitToUnits($tmp[1], 1, $this->svgunit, false);\n 7074: \t\t\t\t\t\t\t\t\t$owu = sprintf('%F', ($ow * $dpi / 72)).$this->pdfunit;\n 7075  \t\t\t\t\t\t\t\t\t$svgtag = preg_replace('/[\\s]+width[\\s]*=[\\s]*\"[^\"]*\"/si', ' width=\"'.$owu.'\"', $svgtag, 1);\n 7076  \t\t\t\t\t\t\t\t} else {\n ....\n 7080  \t\t\t\t\t\t\t\tif (preg_match('/[\\s]+height[\\s]*=[\\s]*\"([^\"]*)\"/si', $svgtag, $tmp)) {\n 7081  \t\t\t\t\t\t\t\t\t$oh = $this->getHTMLUnitToUnits($tmp[1], 1, $this->svgunit, false);\n 7082: \t\t\t\t\t\t\t\t\t$ohu = sprintf('%F', ($oh * $dpi / 72)).$this->pdfunit;\n 7083  \t\t\t\t\t\t\t\t\t$svgtag = preg_replace('/[\\s]+height[\\s]*=[\\s]*\"[^\"]*\"/si', ' height=\"'.$ohu.'\"', $svgtag, 1);\n 7084  \t\t\t\t\t\t\t\t} else {\n ....\n 7089  \t\t\t\t\t\t\t\t\t$vbw = ($ow * $this->imgscale * $this->k);\n 7090  \t\t\t\t\t\t\t\t\t$vbh = ($oh * $this->imgscale * $this->k);\n 7091: \t\t\t\t\t\t\t\t\t$vbox = sprintf(' viewBox=\"0 0 %F %F\" ', $vbw, $vbh);\n 7092  \t\t\t\t\t\t\t\t\t$svgtag = $vbox.$svgtag;\n 7093  \t\t\t\t\t\t\t\t}\n ....\n 7166  \t\tif (!$alt) {\n 7167  \t\t\t// only non-alternative immages will be set\n 7168: \t\t\t$this->_out(sprintf('q %F 0 0 %F %F %F cm /I%u Do Q', ($w * $this->k), ($h * $this->k), $xkimg, (($this->h - ($y + $h)) * $this->k), $info['i']));\n 7169  \t\t}\n 7170  \t\tif (!empty($border)) {\n ....\n 7578  \t\t\t$pdfdoc = substr($pdfdoc, 0, $byte_range[1]).substr($pdfdoc, $byte_range[2]);\n 7579  \t\t\t// replace the ByteRange\n 7580: \t\t\t$byterange = sprintf('/ByteRange[0 %u %u %u]', $byte_range[1], $byte_range[2], $byte_range[3]);\n 7581  \t\t\t$byterange .= str_repeat(' ', ($byterange_string_len - strlen($byterange)));\n 7582  \t\t\t$pdfdoc = str_replace(TCPDF_STATIC::$byterange_string, $byterange, $pdfdoc);\n ....\n 7790  \t\t}\n 7791  \t\t//Check for decimal separator\n 7792: \t\tif (sprintf('%.1F', 1.0) != '1.0') {\n 7793  \t\t\tsetlocale(LC_NUMERIC, 'C');\n 7794  \t\t}\n ....\n 7953  \t\t\tforeach ($this->page_boxes as $box) {\n 7954  \t\t\t\t$out .= ' /'.$box;\n 7955: \t\t\t\t$out .= sprintf(' [%F %F %F %F]', $this->pagedim[$n][$box]['llx'], $this->pagedim[$n][$box]['lly'], $this->pagedim[$n][$box]['urx'], $this->pagedim[$n][$box]['ury']);\n 7956  \t\t\t}\n 7957  \t\t\tif (isset($this->pagedim[$n]['BoxColorInfo']) AND !empty($this->pagedim[$n]['BoxColorInfo'])) {\n ....\n 7963  \t\t\t\t\t\t\t$color = $this->pagedim[$n]['BoxColorInfo'][$box]['C'];\n 7964  \t\t\t\t\t\t\t$out .= ' /C [';\n 7965: \t\t\t\t\t\t\t$out .= sprintf(' %F %F %F', ($color[0] / 255), ($color[1] / 255), ($color[2] / 255));\n 7966  \t\t\t\t\t\t\t$out .= ' ]';\n 7967  \t\t\t\t\t\t}\n ....\n 7976  \t\t\t\t\t\t\t$out .= ' /D [';\n 7977  \t\t\t\t\t\t\tforeach ($dashes as $dash) {\n 7978: \t\t\t\t\t\t\t\t$out .= sprintf(' %F', ($dash * $this->k));\n 7979  \t\t\t\t\t\t\t}\n 7980  \t\t\t\t\t\t\t$out .= ' ]';\n ....\n 8147  \t\t\t\t\t$c = $pl['w'] * $this->k;\n 8148  \t\t\t\t\t$d = $pl['h'] * $this->k;\n 8149: \t\t\t\t\t$rect = sprintf('%F %F %F %F', $a, $b, $a+$c, $b+$d);\n 8150  \t\t\t\t\t// create new annotation object\n 8151  \t\t\t\t\t$annots = '<</Type /Annot';\n ....\n 8161  \t\t\t\t\t}\n 8162  \t\t\t\t\t$annots .= ' /P '.$this->page_obj_id[$n].' 0 R';\n 8163: \t\t\t\t\t$annots .= ' /NM '.$this->_datastring(sprintf('%04u-%04u', $n, $key), $annot_obj_id);\n 8164  \t\t\t\t\t$annots .= ' /M '.$this->_datestring($annot_obj_id, $this->doc_modification_timestamp);\n 8165  \t\t\t\t\tif (isset($pl['opt']['f'])) {\n ....\n 8298  \t\t\t\t\t\t}\n 8299  \t\t\t\t\t\tif (isset($pl['opt']['be']['i']) AND ($pl['opt']['be']['i'] >= 0) AND ($pl['opt']['be']['i'] <= 2)) {\n 8300: \t\t\t\t\t\t\t$annots .= ' /I '.sprintf(' %F', $pl['opt']['be']['i']);\n 8301  \t\t\t\t\t\t}\n 8302  \t\t\t\t\t\t$annots .= '>>';\n ....\n 8315  \t\t\t\t\t\t//$annots .= ' /Popup ';\n 8316  \t\t\t\t\t\tif (isset($pl['opt']['ca'])) {\n 8317: \t\t\t\t\t\t\t$annots .= ' /CA '.sprintf('%F', floatval($pl['opt']['ca']));\n 8318  \t\t\t\t\t\t}\n 8319  \t\t\t\t\t\tif (isset($pl['opt']['rc'])) {\n ....\n 8399  \t\t\t\t\t\t\t\t$l = $this->links[$pl['txt']];\n 8400  \t\t\t\t\t\t\t\tif (isset($this->page_obj_id[($l['p'])])) {\n 8401: \t\t\t\t\t\t\t\t\t$annots .= sprintf(' /Dest [%u 0 R /XYZ 0 %F null]', $this->page_obj_id[($l['p'])], ($this->pagedim[$l['p']]['h'] - ($l['y'] * $this->k)));\n 8402  \t\t\t\t\t\t\t\t}\n 8403  \t\t\t\t\t\t\t}\n ....\n 8428  \t\t\t\t\t\t\t\t$annots .= ' /CL [';\n 8429  \t\t\t\t\t\t\t\tforeach ($pl['opt']['cl'] as $cl) {\n 8430: \t\t\t\t\t\t\t\t\t$annots .= sprintf('%F ', $cl * $this->k);\n 8431  \t\t\t\t\t\t\t\t}\n 8432  \t\t\t\t\t\t\t\t$annots .= ']';\n ....\n 8441  \t\t\t\t\t\t\t\t$t = $pl['opt']['rd'][2] * $this->k;\n 8442  \t\t\t\t\t\t\t\t$b = $pl['opt']['rd'][3] * $this->k;\n 8443: \t\t\t\t\t\t\t\t$annots .= ' /RD ['.sprintf('%F %F %F %F', $l, $r, $t, $b).']';\n 8444  \t\t\t\t\t\t\t}\n 8445  \t\t\t\t\t\t\tif (isset($pl['opt']['le']) AND in_array($pl['opt']['le'], $lineendings)) {\n ....\n 8584  \t\t\t\t\t\t\t\t\t}\n 8585  \t\t\t\t\t\t\t\t\tif (isset($pl['opt']['mk']['if']['a']) AND (is_array($pl['opt']['mk']['if']['a'])) AND !empty($pl['opt']['mk']['if']['a'])) {\n 8586: \t\t\t\t\t\t\t\t\t\t$annots .= sprintf(' /A [%F %F]', $pl['opt']['mk']['if']['a'][0], $pl['opt']['mk']['if']['a'][1]);\n 8587  \t\t\t\t\t\t\t\t\t}\n 8588  \t\t\t\t\t\t\t\t\tif (isset($pl['opt']['mk']['if']['fb']) AND ($pl['opt']['mk']['if']['fb'])) {\n ....\n 8630  \t\t\t\t\t\t\t\t\tforeach ($pl['opt']['v'] AS $optval) {\n 8631  \t\t\t\t\t\t\t\t\t\tif (is_float($optval)) {\n 8632: \t\t\t\t\t\t\t\t\t\t\t$optval = sprintf('%F', $optval);\n 8633  \t\t\t\t\t\t\t\t\t\t}\n 8634  \t\t\t\t\t\t\t\t\t\t$annots .= ' '.$optval;\n ....\n 8643  \t\t\t\t\t\t\t\t\tforeach ($pl['opt']['dv'] AS $optval) {\n 8644  \t\t\t\t\t\t\t\t\t\tif (is_float($optval)) {\n 8645: \t\t\t\t\t\t\t\t\t\t\t$optval = sprintf('%F', $optval);\n 8646  \t\t\t\t\t\t\t\t\t\t}\n 8647  \t\t\t\t\t\t\t\t\t\t$annots .= ' '.$optval;\n ....\n 8656  \t\t\t\t\t\t\t\t\tforeach ($pl['opt']['rv'] AS $optval) {\n 8657  \t\t\t\t\t\t\t\t\t\tif (is_float($optval)) {\n 8658: \t\t\t\t\t\t\t\t\t\t\t$optval = sprintf('%F', $optval);\n 8659  \t\t\t\t\t\t\t\t\t\t}\n 8660  \t\t\t\t\t\t\t\t\t\t$annots .= ' '.$optval;\n ....\n 8751  \t\t\t$out .= ' /Filter /FlateDecode';\n 8752  \t\t}\n 8753: \t\t$rect = sprintf('%F %F', $w, $h);\n 8754  \t\t$out .= ' /BBox [0 0 '.$rect.']';\n 8755  \t\t$out .= ' /Matrix [1 0 0 1 0 0]';\n ....\n 8892  \t\t\t\tforeach ($font['desc'] as $fdk => $fdv) {\n 8893  \t\t\t\t\tif (is_float($fdv)) {\n 8894: \t\t\t\t\t\t$fdv = sprintf('%F', $fdv);\n 8895  \t\t\t\t\t}\n 8896  \t\t\t\t\t$s .= ' /'.$fdk.' '.$fdv.'';\n ....\n 8925  \t\tif ($font['subset']) {\n 8926  \t\t\t// change name for font subsetting\n 8927: \t\t\t$subtag = sprintf('%06u', $font['i']);\n 8928  \t\t\t$subtag = strtr($subtag, '0123456789', 'ABCDEFGHIJ');\n 8929  \t\t\t$fontname .= $subtag.'+';\n ....\n 8978  \t\tforeach ($font['desc'] as $key => $value) {\n 8979  \t\t\tif (is_float($value)) {\n 8980: \t\t\t\t$value = sprintf('%F', $value);\n 8981  \t\t\t}\n 8982  \t\t\t$out .= ' /'.$key.' '.$value;\n ....\n 9081  \t\t\tif ($k != 'Style') {\n 9082  \t\t\t\tif (is_float($v)) {\n 9083: \t\t\t\t\t$v = sprintf('%F', $v);\n 9084  \t\t\t\t}\n 9085  \t\t\t\t$s .= ' /'.$k.' '.$v.'';\n ....\n 9237  \t\t\t\t\t$out .= ' /Filter /FlateDecode';\n 9238  \t\t\t\t}\n 9239: \t\t\t\t$out .= sprintf(' /BBox [%F %F %F %F]', ($data['x'] * $this->k), (-$data['y'] * $this->k), (($data['w'] + $data['x']) * $this->k), (($data['h'] - $data['y']) * $this->k));\n 9240  \t\t\t\t$out .= ' /Matrix [1 0 0 1 0 0]';\n 9241  \t\t\t\t$out .= ' /Resources <<';\n ....\n 9334  \t\t\t$out .= ' /DeviceCMYK <<';\n 9335  \t\t\t$out .= ' /Range [0 1 0 1 0 1 0 1] /C0 [0 0 0 0]';\n 9336: \t\t\t$out .= ' '.sprintf('/C1 [%F %F %F %F] ', ($color['C'] / 100), ($color['M'] / 100), ($color['Y'] / 100), ($color['K'] / 100));\n 9337  \t\t\t$out .= ' /FunctionType 2 /Domain [0 1] /N 1>>]';\n 9338  \t\t\t$out .= \"\\n\".'endobj';\n ....\n 9701  \t\t\t$out .= ' /OpenAction ['.$this->page_obj_id[1].' 0 R /XYZ null null 1]';\n 9702  \t\t} elseif (!is_string($this->ZoomMode)) {\n 9703: \t\t\t$out .= sprintf(' /OpenAction ['.$this->page_obj_id[1].' 0 R /XYZ null null %F]', ($this->ZoomMode / 100));\n 9704  \t\t}\n 9705  \t\t//$out .= ' /AA <<>>';\n ....\n 9933  \t\t\t\t$out .= ' /F 4';\n 9934  \t\t\t\t$out .= ' /FT /Sig';\n 9935: \t\t\t\t$signame = $esa['name'].sprintf(' [%03d]', ($key + 1));\n 9936  \t\t\t\t$out .= ' /T '.$this->_textstring($signame, $esa['objid']);\n 9937  \t\t\t\t$out .= ' /Ff 0';\n ....\n 9973  \t\tfor ($i=1; $i <= $this->n; ++$i) {\n 9974  \t\t\tif (!isset($this->offsets[$i]) AND ($i > 1)) {\n 9975: \t\t\t\t$this->_out(sprintf('0000000000 %05d f ', $freegen));\n 9976  \t\t\t\t++$freegen;\n 9977  \t\t\t} else {\n 9978: \t\t\t\t$this->_out(sprintf('%010d 00000 n ', $this->offsets[$i]));\n 9979  \t\t\t}\n 9980  \t\t}\n ....\n 10101  \tprotected function _dounderlinew($x, $y, $w) {\n 10102  \t\t$linew = - $this->CurrentFont['ut'] / 1000 * $this->FontSizePt;\n 10103: \t\treturn sprintf('%F %F %F %F re f', $x * $this->k, ((($this->h - $y) * $this->k) + $linew), $w * $this->k, $linew);\n 10104  \t}\n 10105  \n .....\n 10126  \tprotected function _dolinethroughw($x, $y, $w) {\n 10127  \t\t$linew = - $this->CurrentFont['ut'] / 1000 * $this->FontSizePt;\n 10128: \t\treturn sprintf('%F %F %F %F re f', $x * $this->k, ((($this->h - $y) * $this->k) + $linew + ($this->FontSizePt / 3)), $w * $this->k, $linew);\n 10129  \t}\n 10130  \n .....\n 10152  \tprotected function _dooverlinew($x, $y, $w) {\n 10153  \t\t$linew = - $this->CurrentFont['ut'] / 1000 * $this->FontSizePt;\n 10154: \t\treturn sprintf('%F %F %F %F re f', $x * $this->k, (($this->h - $y + $this->FontAscent) * $this->k) - $linew, $w * $this->k, $linew);\n 10155  \n 10156  \t}\n .....\n 11246  \t\t\treturn;\n 11247  \t\t}\n 11248: \t\t$this->_out(sprintf('%F %F %F %F %F %F cm', $tm[0], $tm[1], $tm[2], $tm[3], $tm[4], $tm[5]));\n 11249  \t\t// add tranformation matrix\n 11250  \t\t$this->transfmatrix[$this->transfmatrix_key][] = array('a' => $tm[0], 'b' => $tm[1], 'c' => $tm[2], 'd' => $tm[3], 'e' => $tm[4], 'f' => $tm[5]);\n .....\n 11277  \t\t//Set line width\n 11278  \t\t$this->LineWidth = $width;\n 11279: \t\t$this->linestyleWidth = sprintf('%F w', ($width * $this->k));\n 11280  \t\tif ($this->state == 2) {\n 11281  \t\t\t$this->_out($this->linestyleWidth);\n .....\n 11324  \t\tif (isset($style['width'])) {\n 11325  \t\t\t$this->LineWidth = $style['width'];\n 11326: \t\t\t$this->linestyleWidth = sprintf('%F w', ($style['width'] * $this->k));\n 11327  \t\t\t$s .= $this->linestyleWidth.' ';\n 11328  \t\t}\n .....\n 11354  \t\t\t\t\t\t$dash_string .= ' ';\n 11355  \t\t\t\t\t}\n 11356: \t\t\t\t\t$dash_string .= sprintf('%F', $v);\n 11357  \t\t\t\t}\n 11358  \t\t\t}\n .....\n 11360  \t\t\t\t$style['phase'] = 0;\n 11361  \t\t\t}\n 11362: \t\t\t$this->linestyleDash = sprintf('[%s] %F d', $dash_string, $style['phase']);\n 11363  \t\t\t$s .= $this->linestyleDash.' ';\n 11364  \t\t}\n .....\n 11381  \tprotected function _outPoint($x, $y) {\n 11382  \t\tif ($this->state == 2) {\n 11383: \t\t\t$this->_out(sprintf('%F %F m', ($x * $this->k), (($this->h - $y) * $this->k)));\n 11384  \t\t}\n 11385  \t}\n .....\n 11395  \tprotected function _outLine($x, $y) {\n 11396  \t\tif ($this->state == 2) {\n 11397: \t\t\t$this->_out(sprintf('%F %F l', ($x * $this->k), (($this->h - $y) * $this->k)));\n 11398  \t\t}\n 11399  \t}\n .....\n 11411  \tprotected function _outRect($x, $y, $w, $h, $op) {\n 11412  \t\tif ($this->state == 2) {\n 11413: \t\t\t$this->_out(sprintf('%F %F %F %F re %s', ($x * $this->k), (($this->h - $y) * $this->k), ($w * $this->k), (-$h * $this->k), $op));\n 11414  \t\t}\n 11415  \t}\n .....\n 11429  \tprotected function _outCurve($x1, $y1, $x2, $y2, $x3, $y3) {\n 11430  \t\tif ($this->state == 2) {\n 11431: \t\t\t$this->_out(sprintf('%F %F %F %F %F %F c', ($x1 * $this->k), (($this->h - $y1) * $this->k), ($x2 * $this->k), (($this->h - $y2) * $this->k), ($x3 * $this->k), (($this->h - $y3) * $this->k)));\n 11432  \t\t}\n 11433  \t}\n .....\n 11445  \tprotected function _outCurveV($x2, $y2, $x3, $y3) {\n 11446  \t\tif ($this->state == 2) {\n 11447: \t\t\t$this->_out(sprintf('%F %F %F %F v', ($x2 * $this->k), (($this->h - $y2) * $this->k), ($x3 * $this->k), (($this->h - $y3) * $this->k)));\n 11448  \t\t}\n 11449  \t}\n .....\n 11461  \tprotected function _outCurveY($x1, $y1, $x3, $y3) {\n 11462  \t\tif ($this->state == 2) {\n 11463: \t\t\t$this->_out(sprintf('%F %F %F %F y', ($x1 * $this->k), (($this->h - $y1) * $this->k), ($x3 * $this->k), (($this->h - $y3) * $this->k)));\n 11464  \t\t}\n 11465  \t}\n .....\n 12261  \t\t$out = ' <<';\n 12262  \t\tforeach($this->dests as $name => $o) {\n 12263: \t\t\t$out .= ' /'.$name.' '.sprintf('[%u 0 R /XYZ %F %F null]', $this->page_obj_id[($o['p'])], ($o['x'] * $this->k), ($this->pagedim[$o['p']]['h'] - ($o['y'] * $this->k)));\n 12264  \t\t}\n 12265  \t\t$out .= ' >>';\n .....\n 12441  \t\t\t\t\t$l = $this->links[$o['u']];\n 12442  \t\t\t\t\tif (isset($this->page_obj_id[($l['p'])])) {\n 12443: \t\t\t\t\t\t$out .= sprintf(' /Dest [%u 0 R /XYZ 0 %F null]', $this->page_obj_id[($l['p'])], ($this->pagedim[$l['p']]['h'] - ($l['y'] * $this->k)));\n 12444  \t\t\t\t\t}\n 12445  \t\t\t\t}\n 12446  \t\t\t} elseif (isset($this->page_obj_id[($o['p'])])) {\n 12447  \t\t\t\t// link to a page\n 12448: \t\t\t\t$out .= ' '.sprintf('/Dest [%u 0 R /XYZ %F %F null]', $this->page_obj_id[($o['p'])], ($o['x'] * $this->k), ($this->pagedim[$o['p']]['h'] - ($o['y'] * $this->k)));\n 12449  \t\t\t}\n 12450  \t\t\t// set font style\n .....\n 12460  \t\t\t\t}\n 12461  \t\t\t}\n 12462: \t\t\t$out .= sprintf(' /F %d', $style);\n 12463  \t\t\t// set bookmark color\n 12464  \t\t\tif (isset($o['c']) AND is_array($o['c']) AND (count($o['c']) == 3)) {\n 12465  \t\t\t\t$color = array_values($o['c']);\n 12466: \t\t\t\t$out .= sprintf(' /C [%F %F %F]', ($color[0] / 255), ($color[1] / 255), ($color[2] / 255));\n 12467  \t\t\t} else {\n 12468  \t\t\t\t// black\n .....\n 12527  \t\t\t// the following two lines are used to avoid form fields duplication after saving\n 12528  \t\t\t// The addField method only works when releasing user rights (UR3)\n 12529: \t\t\t$jsa = sprintf(\"ftcpdfdocsaved=this.addField('%s','%s',%d,[%F,%F,%F,%F]);\", 'tcpdfdocsaved', 'text', 0, 0, 1, 0, 1);\n 12530  \t\t\t$jsb = \"getField('tcpdfdocsaved').value='saved';\";\n 12531  \t\t\t$this->javascript = $jsa.\"\\n\".$this->javascript.\"\\n\".$jsb;\n .....\n 12582  \t\t$this->javascript .= \"if (getField('tcpdfdocsaved').value != 'saved') {\";\n 12583  \t\t$k = $this->k;\n 12584: \t\t$this->javascript .= sprintf(\"f\".$name.\"=this.addField('%s','%s',%u,[%F,%F,%F,%F]);\", $name, $type, $this->PageNo()-1, $x*$k, ($this->h-$y)*$k+1, ($x+$w)*$k, ($this->h-$y-$h)*$k+1).\"\\n\";\n 12585  \t\t$this->javascript .= 'f'.$name.'.textSize='.$this->FontSizePt.\";\\n\";\n 12586  \t\tforeach($prop as $key => $val) {\n .....\n 12659  \t\t// set default appearance stream\n 12660  \t\t$this->annotation_fonts[$this->CurrentFont['fontkey']] = $this->CurrentFont['i'];\n 12661: \t\t$fontstyle = sprintf('/F%d %F Tf %s', $this->CurrentFont['i'], $this->FontSizePt, $this->TextColor);\n 12662  \t\t$popt['da'] = $fontstyle;\n 12663  \t\t// build appearance stream\n .....\n 12812  \t\t// set additional default options\n 12813  \t\t$this->annotation_fonts[$tmpfont['fontkey']] = $tmpfont['i'];\n 12814: \t\t$fontstyle = sprintf('/F%d %F Tf %s', $tmpfont['i'], $this->FontSizePt, $this->TextColor);\n 12815  \t\t$popt['da'] = $fontstyle;\n 12816  \t\t// build appearance stream\n .....\n 12819  \t\t$fx = ((($w - $this->getAbsFontMeasure($tmpfont['cw'][108])) / 2) * $this->k);\n 12820  \t\t$fy = (($w - ((($tmpfont['desc']['Ascent'] - $tmpfont['desc']['Descent']) * $this->FontSizePt / 1000) / $this->k)) * $this->k);\n 12821: \t\t$popt['ap']['n'][$onvalue] = sprintf('q %s BT /F%d %F Tf %F %F Td ('.chr(108).') Tj ET Q', $this->TextColor, $tmpfont['i'], $this->FontSizePt, $fx, $fy);\n 12822: \t\t$popt['ap']['n']['Off'] = sprintf('q %s BT /F%d %F Tf %F %F Td ('.chr(109).') Tj ET Q', $this->TextColor, $tmpfont['i'], $this->FontSizePt, $fx, $fy);\n 12823  \t\tif (!isset($popt['mk'])) {\n 12824  \t\t\t$popt['mk'] = array();\n .....\n 12892  \t\t// set additional default values\n 12893  \t\t$this->annotation_fonts[$this->CurrentFont['fontkey']] = $this->CurrentFont['i'];\n 12894: \t\t$fontstyle = sprintf('/F%d %F Tf %s', $this->CurrentFont['i'], $this->FontSizePt, $this->TextColor);\n 12895  \t\t$popt['da'] = $fontstyle;\n 12896  \t\t// build appearance stream\n .....\n 12979  \t\t// set additional default options\n 12980  \t\t$this->annotation_fonts[$this->CurrentFont['fontkey']] = $this->CurrentFont['i'];\n 12981: \t\t$fontstyle = sprintf('/F%d %F Tf %s', $this->CurrentFont['i'], $this->FontSizePt, $this->TextColor);\n 12982  \t\t$popt['da'] = $fontstyle;\n 12983  \t\t// build appearance stream\n .....\n 13067  \t\t$tmpfont = $this->getFontBuffer($font);\n 13068  \t\t$this->annotation_fonts[$tmpfont['fontkey']] = $tmpfont['i'];\n 13069: \t\t$fontstyle = sprintf('/F%d %F Tf %s', $tmpfont['i'], $this->FontSizePt, $this->TextColor);\n 13070  \t\t$popt['da'] = $fontstyle;\n 13071  \t\t// build appearance stream\n .....\n 13074  \t\t$fx = ((($w - $this->getAbsFontMeasure($tmpfont['cw'][110])) / 2) * $this->k);\n 13075  \t\t$fy = (($w - ((($tmpfont['desc']['Ascent'] - $tmpfont['desc']['Descent']) * $this->FontSizePt / 1000) / $this->k)) * $this->k);\n 13076: \t\t$popt['ap']['n']['Yes'] = sprintf('q %s BT /F%d %F Tf %F %F Td ('.chr(110).') Tj ET Q', $this->TextColor, $tmpfont['i'], $this->FontSizePt, $fx, $fy);\n 13077: \t\t$popt['ap']['n']['Off'] = sprintf('q %s BT /F%d %F Tf %F %F Td ('.chr(111).') Tj ET Q', $this->TextColor, $tmpfont['i'], $this->FontSizePt, $fx, $fy);\n 13078  \t\t// merge options\n 13079  \t\t$opt = array_merge($popt, $opt);\n .....\n 13142  \t\t$popt = TCPDF_STATIC::getAnnotOptFromJSProp($prop, $this->spot_colors, $this->rtl);\n 13143  \t\t$this->annotation_fonts[$this->CurrentFont['fontkey']] = $this->CurrentFont['i'];\n 13144: \t\t$fontstyle = sprintf('/F%d %F Tf %s', $this->CurrentFont['i'], $this->FontSizePt, $this->TextColor);\n 13145  \t\t$popt['da'] = $fontstyle;\n 13146  \t\t// build appearance stream\n .....\n 13496  \t\t$c = $w * $this->k;\n 13497  \t\t$d = $h * $this->k;\n 13498: \t\t$sigapp['rect'] = sprintf('%F %F %F %F', $a, $b, ($a + $c), ($b + $d));\n 13499  \t\treturn $sigapp;\n 13500  \t}\n .....\n 13589  \t\t\t$wdiff = 1;\n 13590  \t\t}\n 13591: \t\t$sdiff = sprintf('%F', $wdiff);\n 13592  \t\t$alias = TCPDF_STATIC::$alias_right_shift.$sdiff.'}';\n 13593  \t\tif ($this->isUnicodeFont()) {\n .....\n 13724  \t\t\treturn;\n 13725  \t\t}\n 13726: \t\t$layer = sprintf('LYR%03d', (count($this->pdflayers) + 1));\n 13727  \t\tif (empty($name)) {\n 13728  \t\t\t$name = $layer;\n .....\n 13828  \t\t\treturn;\n 13829  \t\t}\n 13830: \t\t$this->_out(sprintf('/GS%d gs', $gs));\n 13831  \t}\n 13832  \n .....\n 13842  \t\t\tforeach ($ext['parms'] as $k => $v) {\n 13843  \t\t\t\tif (is_float($v)) {\n 13844: \t\t\t\t\t$v = sprintf('%F', $v);\n 13845  \t\t\t\t} elseif ($v === true) {\n 13846  \t\t\t\t\t$v = 'true';\n .....\n 14448  \t\t$s = 'q';\n 14449  \t\t//set clipping area\n 14450: \t\t$s .= sprintf(' %F %F %F %F re W n', $x*$this->k, ($this->h-$y)*$this->k, $w*$this->k, -$h*$this->k);\n 14451  \t\t//set up transformation matrix for gradient\n 14452: \t\t$s .= sprintf(' %F 0 0 %F %F %F cm', $w*$this->k, $h*$this->k, $x*$this->k, ($this->h-($y+$h))*$this->k);\n 14453  \t\t$this->_out($s);\n 14454  \t}\n .....\n 14484  \t\t\t\t$this->gradients[$n]['colspace'] = 'DeviceCMYK';\n 14485  \t\t\t\tif (!empty($background)) {\n 14486: \t\t\t\t\t$this->gradients[$n]['background'] = sprintf('%F %F %F %F', $bcolor[0]/100, $bcolor[1]/100, $bcolor[2]/100, $bcolor[3]/100);\n 14487  \t\t\t\t}\n 14488  \t\t\t\tbreak;\n .....\n 14491  \t\t\t\t$this->gradients[$n]['colspace'] = 'DeviceRGB';\n 14492  \t\t\t\tif (!empty($background)) {\n 14493: \t\t\t\t\t$this->gradients[$n]['background'] = sprintf('%F %F %F', $bcolor[0]/255, $bcolor[1]/255, $bcolor[2]/255);\n 14494  \t\t\t\t}\n 14495  \t\t\t\tbreak;\n .....\n 14498  \t\t\t\t$this->gradients[$n]['colspace'] = 'DeviceGray';\n 14499  \t\t\t\tif (!empty($background)) {\n 14500: \t\t\t\t\t$this->gradients[$n]['background'] = sprintf('%F', $bcolor[0]/255);\n 14501  \t\t\t\t}\n 14502  \t\t\t\tbreak;\n .....\n 14539  \t\t\t\tcase 5:   // SPOT\n 14540  \t\t\t\tcase 4: { // CMYK\n 14541: \t\t\t\t\t$this->gradients[$n]['colors'][$key]['color'] = sprintf('%F %F %F %F', $color[0]/100, $color[1]/100, $color[2]/100, $color[3]/100);\n 14542  \t\t\t\t\tbreak;\n 14543  \t\t\t\t}\n 14544  \t\t\t\tcase 3: { // RGB\n 14545: \t\t\t\t\t$this->gradients[$n]['colors'][$key]['color'] = sprintf('%F %F %F', $color[0]/255, $color[1]/255, $color[2]/255);\n 14546  \t\t\t\t\tbreak;\n 14547  \t\t\t\t}\n 14548  \t\t\t\tcase 1: { // GRAY SCALE\n 14549: \t\t\t\t\t$this->gradients[$n]['colors'][$key]['color'] = sprintf('%F', $color[0]/255);\n 14550  \t\t\t\t\tbreak;\n 14551  \t\t\t\t}\n .....\n 14592  \t\t\t\t\t$functions .= ($fc + $i).' 0 R ';\n 14593  \t\t\t\t\tif ($i < $lastcols) {\n 14594: \t\t\t\t\t\t$bounds .= sprintf('%F ', $grad['colors'][$i]['offset']);\n 14595  \t\t\t\t\t}\n 14596  \t\t\t\t\t$encode .= '0 1 ';\n .....\n 14661  \t\t\t}\n 14662  \t\t\tif ($grad['type'] == 2) {\n 14663: \t\t\t\t$out .= ' '.sprintf('/Coords [%F %F %F %F]', $grad['coords'][0], $grad['coords'][1], $grad['coords'][2], $grad['coords'][3]);\n 14664  \t\t\t\t$out .= ' /Domain [0 1]';\n 14665  \t\t\t\t$out .= ' /Function '.$fc.' 0 R';\n .....\n 14669  \t\t\t\t//x0, y0, r0, x1, y1, r1\n 14670  \t\t\t\t//at this this time radius of inner circle is 0\n 14671: \t\t\t\t$out .= ' '.sprintf('/Coords [%F %F 0 %F %F %F]', $grad['coords'][0], $grad['coords'][1], $grad['coords'][2], $grad['coords'][3], $grad['coords'][4]);\n 14672  \t\t\t\t$out .= ' /Domain [0 1]';\n 14673  \t\t\t\t$out .= ' /Function '.$fc.' 0 R';\n .....\n 14725  \t\t\t\t$out = '<< /Type /XObject /Subtype /Form /FormType 1'.$filter;\n 14726  \t\t\t\t$out .= ' /Length '.strlen($stream);\n 14727: \t\t\t\t$rect = sprintf('%F %F', $this->wPt, $this->hPt);\n 14728  \t\t\t\t$out .= ' /BBox [0 0 '.$rect.']';\n 14729  \t\t\t\t$out .= ' /Group << /Type /Group /S /Transparency /CS /DeviceGray >>';\n .....\n 14948  \t\t$this->_out('q'.$this->epsmarker);\n 14949  \t\t// translate\n 14950: \t\t$this->_out(sprintf('%F %F %F %F %F %F cm', 1, 0, 0, 1, $dx, $dy + ($this->hPt - (2 * $y * $k) - ($y2 - $y1))));\n 14951  \t\t// scale\n 14952  \t\tif (isset($scale_x)) {\n 14953: \t\t\t$this->_out(sprintf('%F %F %F %F %F %F cm', $scale_x, 0, 0, $scale_y, $x1 * (1 - $scale_x), $y2 * (1 - $scale_y)));\n 14954  \t\t}\n 14955  \t\t// handle pc/unix/mac line endings\n .....\n 15036  \t\t\t\t\t\tlist($col_c, $col_m, $col_y, $col_k, $col_t) = $chunks;\n 15037  \t\t\t\t\t\t$this->AddSpotColor($color_name, ($col_c * 100), ($col_m * 100), ($col_y * 100), ($col_k * 100));\n 15038: \t\t\t\t\t\t$color_cmd = sprintf('/CS%d cs %F scn', $this->spot_colors[$color_name]['i'], (1 - $col_t));\n 15039  \t\t\t\t\t\t$this->_out($color_cmd);\n 15040  \t\t\t\t\t}\n .....\n 15050  \t\t\t\t\t\tlist($col_c, $col_m, $col_y, $col_k, $col_t) = $chunks;\n 15051  \t\t\t\t\t\t$this->AddSpotColor($color_name, ($col_c * 100), ($col_m * 100), ($col_y * 100), ($col_k * 100));\n 15052: \t\t\t\t\t\t$color_cmd = sprintf('/CS%d CS %F SCN', $this->spot_colors[$color_name]['i'], (1 - $col_t));\n 15053  \t\t\t\t\t\t$this->_out($color_cmd);\n 15054  \t\t\t\t\t}\n .....\n 17392  \t\t\t\t\t\t\t\t$yshift += ($curfontsize / $this->k);\n 17393  \t\t\t\t\t\t\t}\n 17394: \t\t\t\t\t\t\t$try = sprintf('1 0 0 1 0 %F cm', ($yshift * $this->k));\n 17395  \t\t\t\t\t\t\t$this->setPageBuffer($this->page, $tstart.\"\\nq\\n\".$try.\"\\n\".$linebeg.\"\\nQ\\n\".$tend);\n 17396  \t\t\t\t\t\t\t// shift the annotations and links\n .....\n 17457  \t\t\t\t\t\t\t\t// add line start to current page\n 17458  \t\t\t\t\t\t\t\t$yshift = ($minstartliney - $this->y);\n 17459: \t\t\t\t\t\t\t\t$try = sprintf('1 0 0 1 0 %F cm', ($yshift * $this->k));\n 17460  \t\t\t\t\t\t\t\t$this->setPageBuffer($this->page, $tstart.\"\\nq\\n\".$try.\"\\n\".$linebeg.\"\\nQ\\n\".$tend);\n 17461  \t\t\t\t\t\t\t\t// shift the annotations and links\n .....\n 17741  \t\t\t\t\t\t\t\t\t\tif (($epsposbeg > 0) AND ($epsposend > 0) AND ($offset > $epsposbeg) AND ($offset < $epsposend)) {\n 17742  \t\t\t\t\t\t\t\t\t\t\t// shift EPS images\n 17743: \t\t\t\t\t\t\t\t\t\t\t$trx = sprintf('1 0 0 1 %F 0 cm', $spacew);\n 17744  \t\t\t\t\t\t\t\t\t\t\t$pmid_b = substr($pmid, 0, $epsposbeg);\n 17745  \t\t\t\t\t\t\t\t\t\t\t$pmid_m = substr($pmid, $epsposbeg, ($epsposend - $epsposbeg));\n .....\n 17773  \t\t\t\t\t\t\t\t\t\t\t// justify block\n 17774  \t\t\t\t\t\t\t\t\t\t\tif (preg_match('/([0-9\\.\\+\\-]*)[\\s]('.$strpiece[1][0].')[\\s]('.$strpiece[2][0].')([\\s]*)/x', $pmid, $pmatch) == 1) {\n 17775: \t\t\t\t\t\t\t\t\t\t\t\t$newpmid = sprintf('%F',(floatval($pmatch[1]) + $spacew)).' '.$pmatch[2].' x*#!#*x'.$pmatch[3].$pmatch[4];\n 17776  \t\t\t\t\t\t\t\t\t\t\t\t$pmid = str_replace($pmatch[0], $newpmid, $pmid);\n 17777  \t\t\t\t\t\t\t\t\t\t\t\tunset($pmatch, $newpmid);\n .....\n 17818  \t\t\t\t\t\t\t\t\t\t\t}\n 17819  \t\t\t\t\t\t\t\t\t\t\tif (preg_match('/('.$xmatches[1].')[\\s]('.$xmatches[2].')[\\s]('.$xmatches[3].')[\\s]('.$strpiece[1][0].')[\\s](re)([\\s]*)/x', $pmid, $pmatch) == 1) {\n 17820: \t\t\t\t\t\t\t\t\t\t\t\t$newx = sprintf('%F',(floatval($pmatch[1]) + $x_diff));\n 17821: \t\t\t\t\t\t\t\t\t\t\t\t$neww = sprintf('%F',(floatval($pmatch[3]) + $w_diff));\n 17822  \t\t\t\t\t\t\t\t\t\t\t\t$newpmid = $newx.' '.$pmatch[2].' '.$neww.' '.$pmatch[4].' x*#!#*x'.$pmatch[5].$pmatch[6];\n 17823  \t\t\t\t\t\t\t\t\t\t\t\t$pmid = str_replace($pmatch[0], $newpmid, $pmid);\n .....\n 17835  \t\t\t\t\t\t\t\t\t\t\t// justify block\n 17836  \t\t\t\t\t\t\t\t\t\t\tif (preg_match('/('.$xmatches[1].')[\\s]('.$xmatches[2].')[\\s]('.$xmatches[3].')[\\s]('.$xmatches[4].')[\\s]('.$xmatches[5].')[\\s]('.$strpiece[1][0].')[\\s](c)([\\s]*)/x', $pmid, $pmatch) == 1) {\n 17837: \t\t\t\t\t\t\t\t\t\t\t\t$newx1 = sprintf('%F',(floatval($pmatch[1]) + $spacew));\n 17838: \t\t\t\t\t\t\t\t\t\t\t\t$newx2 = sprintf('%F',(floatval($pmatch[3]) + $spacew));\n 17839: \t\t\t\t\t\t\t\t\t\t\t\t$newx3 = sprintf('%F',(floatval($pmatch[5]) + $spacew));\n 17840  \t\t\t\t\t\t\t\t\t\t\t\t$newpmid = $newx1.' '.$pmatch[2].' '.$newx2.' '.$pmatch[4].' '.$newx3.' '.$pmatch[6].' x*#!#*x'.$pmatch[7].$pmatch[8];\n 17841  \t\t\t\t\t\t\t\t\t\t\t\t$pmid = str_replace($pmatch[0], $newpmid, $pmid);\n .....\n 17893  \t\t\t\t\t\t\t\t\t\t\t$replace = str_replace('#!#OP#!#', '(', $replace);\n 17894  \t\t\t\t\t\t\t\t\t\t\t$replace = str_replace('#!#CP#!#', ')', $replace);\n 17895: \t\t\t\t\t\t\t\t\t\t\t$newpmid = '[('.str_replace(chr(0).chr(32), ') '.sprintf('%F', $spacew).' (', $replace).')]';\n 17896  \t\t\t\t\t\t\t\t\t\t\t$pos = strpos($pmid, $pmatch, $pos);\n 17897  \t\t\t\t\t\t\t\t\t\t\tif ($pos !== FALSE) {\n .....\n 17915  \t\t\t\t\t\t\t\t\t\t$spacewidth /= ($this->font_stretching / 100);\n 17916  \t\t\t\t\t\t\t\t\t}\n 17917: \t\t\t\t\t\t\t\t\t$rs = sprintf('%F Tw', $spacewidth);\n 17918  \t\t\t\t\t\t\t\t\t$pmid = preg_replace(\"/\\[\\(/x\", $rs.' [(', $pmid);\n 17919  \t\t\t\t\t\t\t\t\tif ($this->inxobj) {\n .....\n 17930  \t\t\t\t\tif (($t_x != 0) OR ($yshift < 0)) {\n 17931  \t\t\t\t\t\t// shift the line\n 17932: \t\t\t\t\t\t$trx = sprintf('1 0 0 1 %F %F cm', ($t_x * $this->k), ($yshift * $this->k));\n 17933  \t\t\t\t\t\t$pstart .= \"\\nq\\n\".$trx.\"\\n\".$pmid.\"\\nQ\\n\";\n 17934  \t\t\t\t\t\t$endlinepos = strlen($pstart);\n .....\n 18614  \t\t\tif (($t_x != 0) OR ($yshift < 0)) {\n 18615  \t\t\t\t// shift the line\n 18616: \t\t\t\t$trx = sprintf('1 0 0 1 %F %F cm', ($t_x * $this->k), ($yshift * $this->k));\n 18617  \t\t\t\t$pstart .= \"\\nq\\n\".$trx.\"\\n\".$pmid.\"\\nQ\\n\";\n 18618  \t\t\t\t$endlinepos = strlen($pstart);\n .....\n 20456  \t\t\t}\n 20457  \t\t\tcase 'decimal-leading-zero': {\n 20458: \t\t\t\t$textitem = sprintf('%02d', $this->listcount[$this->listnum]);\n 20459  \t\t\t\tbreak;\n 20460  \t\t\t}\n .....\n 22925  \t\t$e = $ox * $this->k * (1 - $svgscale_x);\n 22926  \t\t$f = ($this->h - $oy) * $this->k * (1 - $svgscale_y);\n 22927: \t\t$this->_out(sprintf('%F %F %F %F %F %F cm', $svgscale_x, 0, 0, $svgscale_y, ($e + $svgoffset_x), ($f + $svgoffset_y)));\n 22928  \t\t// creates a new XML parser to be used by the other XML functions\n 22929  \t\t$this->parser = xml_parser_create('UTF-8');\n .....\n 22938  \t\t// start parsing an XML document\n 22939  \t\tif (!xml_parse($this->parser, $svgdata)) {\n 22940: \t\t\t$error_message = sprintf('SVG Error: %s at line %d', xml_error_string(xml_get_error_code($this->parser)), xml_get_current_line_number($this->parser));\n 22941  \t\t\t$this->Error($error_message);\n 22942  \t\t}\n .....\n 23197  \t\t\t\t$cy -= $h;\n 23198  \t\t\t}\n 23199: \t\t\t$this->_out(sprintf('%F 0 0 %F %F %F cm', ($w * $this->k), ($h * $this->k), ($x * $this->k), ($cy * $this->k)));\n 23200  \t\t\tif (count($gradient['stops']) > 1) {\n 23201  \t\t\t\t$this->Gradient($gradient['type'], $gradient['coords'], $gradient['stops'], array(), false);\n\n/home/ture/projects/htdocs/namiko/util/tcpdf/tcpdf_barcodes_1d.php:\n 2103  \t\t$fcs = $this->imb_crc11fcs($binary_code_arr);\n 2104  \t\t// exclude first 2 bits from first byte\n 2105: \t\t$first_byte = sprintf('%2s', dechex((hexdec($binary_code_arr[0]) << 2) >> 2));\n 2106  \t\t$binary_code_102bit = $first_byte.substr($binary_code, 2);\n 2107  \t\t// convert binary data to codewords\n\n/home/ture/projects/htdocs/namiko/util/tcpdf/examples/example_004.php:\n  102  \t\t$pdf->setFontSpacing($spacing);\n  103  \n  104: \t\t$pdf->Cell(0, 0, 'Stretching '.$stretching.'%, Spacing '.sprintf('%+.3F', $spacing).'mm, no stretch', 1, 1, 'C', 0, '', 0);\n  105: \t\t$pdf->Cell(0, 0, 'Stretching '.$stretching.'%, Spacing '.sprintf('%+.3F', $spacing).'mm, scaling', 1, 1, 'C', 0, '', 1);\n  106: \t\t$pdf->Cell(0, 0, 'Stretching '.$stretching.'%, Spacing '.sprintf('%+.3F', $spacing).'mm, force scaling', 1, 1, 'C', 0, '', 2);\n  107: \t\t$pdf->Cell(0, 0, 'Stretching '.$stretching.'%, Spacing '.sprintf('%+.3F', $spacing).'mm, spacing', 1, 1, 'C', 0, '', 3);\n  108: \t\t$pdf->Cell(0, 0, 'Stretching '.$stretching.'%, Spacing '.sprintf('%+.3F', $spacing).'mm, force spacing', 1, 1, 'C', 0, '', 4);\n  109  \n  110  \t\t$pdf->Ln(2);\n\n/home/ture/projects/htdocs/namiko/util/tcpdf/examples/example_063.php:\n   90  \t\t\t\t$pdf->setFontStretching($stretching);\n   91  \t\t\t\t$pdf->setFontSpacing($spacing);\n   92: \t\t\t\t$txt = $align_name.' | Stretching = '.$stretching.'% | Spacing = '.sprintf('%+.3F', $spacing).'mm';\n   93  \t\t\t\t$pdf->Cell(0, 0, $txt, 1, 1, $align_mode);\n   94  \t\t\t}\n   ..\n  105  \t\tfor ($stretching = 90; $stretching <= 110; $stretching += 10) {\n  106  \t\t\tfor ($spacing = -0.254; $spacing <= 0.254; $spacing += 0.254) {\n  107: \t\t\t\t$html = '<span style=\"font-stretch:'.$stretching.'%;letter-spacing:'.$spacing.'mm;\"><span style=\"color:red;\">'.$align_name.'</span> | <span style=\"color:green;\">Stretching = '.$stretching.'%</span> | <span style=\"color:blue;\">Spacing = '.sprintf('%+.3F', $spacing).'mm</span><br />Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sed imperdiet lectus. Phasellus quis velit velit, non condimentum quam. Sed neque urna, ultrices ac volutpat vel, laoreet vitae augue. Sed vel velit erat. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</span>';\n  108  \t\t\t\t$pdf->writeHTMLCell(0, 0, '', '', $html, 1, 1, false, true, $align_mode, false);\n  109  \t\t\t}\n\n/home/ture/projects/htdocs/namiko/util/tcpdf/include/tcpdf_colors.php:\n  419  \t\t\tcase 4: {\n  420  \t\t\t\t// CMYK\n  421: \t\t\t\t$color .= sprintf('%F %F %F %F', (max(0, min(100, floatval($c[0]))) / 100), (max(0, min(100, floatval($c[1]))) / 100), (max(0, min(100, floatval($c[2]))) / 100), (max(0, min(100, floatval($c[3]))) / 100));\n  422  \t\t\t\tbreak;\n  423  \t\t\t}\n  424  \t\t\tcase 3: {\n  425  \t\t\t\t// RGB\n  426: \t\t\t\t$color .= sprintf('%F %F %F', (max(0, min(255, floatval($c[0]))) / 255), (max(0, min(255, floatval($c[1]))) / 255), (max(0, min(255, floatval($c[2]))) / 255));\n  427  \t\t\t\tbreak;\n  428  \t\t\t}\n  429  \t\t\tcase 1: {\n  430  \t\t\t\t// grayscale\n  431: \t\t\t\t$color .= sprintf('%F', (max(0, min(255, floatval($c[0]))) / 255));\n  432  \t\t\t\tbreak;\n  433  \t\t\t}\n  ...\n  446  \tpublic static function _JScolor($color) {\n  447  \t\tif (substr($color, 0, 1) == '#') {\n  448: \t\t\treturn sprintf(\"['RGB',%F,%F,%F]\", (hexdec(substr($color, 1, 2)) / 255), (hexdec(substr($color, 3, 2)) / 255), (hexdec(substr($color, 5, 2)) / 255));\n  449  \t\t}\n  450  \t\tif (!in_array($color, self::$jscolor)) {\n\n/home/ture/projects/htdocs/namiko/util/tcpdf/include/tcpdf_filters.php:\n  280  \t\t$bitstring = '';\n  281  \t\tfor ($i = 0; $i < $data_length; ++$i) {\n  282: \t\t\t$bitstring .= sprintf('%08b', ord($data{$i}));\n  283  \t\t}\n  284  \t\t// get the number of bits\n\n/home/ture/projects/htdocs/namiko/util/tcpdf/include/tcpdf_static.php:\n  597  \t\t$chars = preg_split('//', $s, -1, PREG_SPLIT_NO_EMPTY);\n  598  \t\tforeach ($chars as $c) {\n  599: \t\t\t$bs .= sprintf('%02s', dechex(ord($c)));\n  600  \t\t}\n  601  \t\treturn $bs;\n  ...\n  611  \t */\n  612  \tpublic static function getEncPermissionsString($protection) {\n  613: \t\t$binprot = sprintf('%032b', $protection);\n  614  \t\t$str = chr(bindec(substr($binprot, 24, 8)));\n  615  \t\t$str .= chr(bindec(substr($binprot, 16, 8)));\n  ...\n  635  \t\t\t\t$escname .= $chr;\n  636  \t\t\t} else {\n  637: \t\t\t\t$escname .= sprintf('#%02X', ord($chr));\n  638  \t\t\t}\n  639  \t\t}\n  ...\n 1393  \t\t$cssordered = array();\n 1394  \t\tforeach ($cssarray as $key => $val) {\n 1395: \t\t\t$skey = sprintf('%04d', $key);\n 1396  \t\t\t$cssordered[$val['s'].'_'.$skey] = $val;\n 1397  \t\t}\n\n/home/ture/projects/htdocs/namiko/util/tcpdf/include/barcodes/pdf417.php:\n  558  \t\t\t$macrocw[] = 928;\n  559  \t\t\t// segment index\n  560: \t\t\t$cw = $this->getCompaction(902, sprintf('%05d', $macro['segment_index']), false);\n  561  \t\t\t$macrocw = array_merge($macrocw, $cw);\n  562  \t\t\t// file ID\n  ...\n  571  \t\t\t\t\t$macrocw[] = $k;\n  572  \t\t\t\t\tif ($optsize[$k] == 2) {\n  573: \t\t\t\t\t\t$macro['option_'.$k] = sprintf('%05d', $macro['option_'.$k]);\n  574  \t\t\t\t\t} elseif ($optsize[$k] == 4) {\n  575: \t\t\t\t\t\t$macro['option_'.$k] = sprintf('%010d', $macro['option_'.$k]);\n  576  \t\t\t\t\t}\n  577  \t\t\t\t\t$cw = $this->getCompaction($omode, $macro['option_'.$k], false);\n  ...\n  680  \t\t\t}\n  681  \t\t\t// left row indicator\n  682: \t\t\t$row .= sprintf('%17b', $this->clusters[$cid][$L]);\n  683  \t\t\t// for each column\n  684  \t\t\tfor ($c = 0; $c < $cols; ++$c) {\n  685: \t\t\t\t$row .= sprintf('%17b', $this->clusters[$cid][$codewords[$k]]);\n  686  \t\t\t\t++$k;\n  687  \t\t\t}\n  ...\n  701  \t\t\t}\n  702  \t\t\t// right row indicator\n  703: \t\t\t$row .= sprintf('%17b', $this->clusters[$cid][$L]);\n  704  \t\t\t// row stop code\n  705  \t\t\t$row .= $pstop;\n\n249 matches across 24 files\n",
-			"settings":
-			{
-				"buffer_size": 56709,
-				"line_ending": "Unix",
-				"name": "Find Results",
-				"scratch": true
 			}
 		}
 	],
@@ -844,36 +762,40 @@
 		"/home/ture/projects/htdocs/namiko/js",
 		"/home/ture/projects/htdocs/namiko/settings",
 		"/home/ture/projects/htdocs/namiko/templates",
-		"/home/ture/projects/htdocs/namiko/util",
-		"/home/ture/projects/htdocs/namiko/util/phpmailer"
+		"/home/ture/projects/htdocs/namiko/util"
 	],
 	"file_history":
 	[
+		"/home/ture/projects/htdocs/namiko/CHANGELOG.md",
+		"/home/ture/projects/htdocs/namiko/session_process.php",
+		"/home/ture/projects/htdocs/namiko/email_process.php",
+		"/home/ture/projects/htdocs/namiko/inc/Mail.inc.php",
+		"/home/ture/projects/htdocs/namiko/inventory.php",
+		"/home/ture/projects/htdocs/namiko/order_total.php",
+		"/home/ture/projects/htdocs/namiko/util/tcpdf/CHANGELOG.TXT",
+		"/home/ture/projects/htdocs/namiko/member.php",
+		"/home/ture/projects/htdocs/namiko/agree.php",
+		"/home/ture/projects/htdocs/namiko/css/style.css",
 		"/home/ture/projects/htdocs/namiko/internal.php",
+		"/home/ture/projects/htdocs/namiko/catalogue_handler.php",
+		"/home/ture/projects/htdocs/namiko/order_total_process.php",
 		"/home/ture/projects/htdocs/namiko/admin.php",
 		"/home/ture/projects/htdocs/namiko/templates/header.inc.php",
 		"/home/ture/projects/htdocs/namiko/js/jquery.js",
-		"/home/ture/projects/htdocs/namiko/CHANGELOG.md",
 		"/home/ture/projects/htdocs/namiko/admin_handler.php",
 		"/home/ture/projects/htdocs/namiko/inc/Cart.inc.php",
 		"/home/ture/projects/htdocs/namiko/templates/footer.inc.php",
 		"/home/ture/projects/htdocs/namiko/pay.php",
 		"/home/ture/projects/htdocs/namiko/inc/DBOperations.inc.php",
-		"/home/ture/projects/htdocs/namiko/css/style.css",
 		"/home/ture/projects/htdocs/namiko/css/bootstrap.css",
 		"/home/ture/projects/ResourceHub/pictures/RH_UI_Diagramm.xml",
 		"/home/ture/projects/htdocs/namiko/check-out.php",
 		"/home/ture/projects/htdocs/namiko/js/cart.js",
-		"/home/ture/projects/htdocs/namiko/inventory.php",
 		"/home/ture/projects/htdocs/namiko/calendar_handler.php",
-		"/home/ture/projects/htdocs/namiko/catalogue_handler.php",
 		"/home/ture/projects/htdocs/namiko/LICENSE",
 		"/home/ture/projects/htdocs/namiko/usefulqueries.sql",
 		"/home/ture/projects/data_analysis/namiko.py",
 		"/home/ture/projects/data_analysis/data/order_hours.csv",
-		"/home/ture/projects/htdocs/namiko/order_total.php",
-		"/home/ture/projects/htdocs/namiko/order_total_process.php",
-		"/home/ture/projects/htdocs/namiko/session_process.php",
 		"/home/ture/projects/data_analysis/fibonacci_graph.py",
 		"/home/ture/projects/htdocs/namiko/.gitignore",
 		"/home/ture/projects/mysql-backup/README.md",
@@ -896,7 +818,6 @@
 		"/home/ture/Backup/namiko/sepa.php",
 		"/home/ture/projects/htdocs/namiko/templates/sidebar.inc.php",
 		"/home/ture/projects/CapitalUnion/CapitalUnion.aux",
-		"/home/ture/projects/htdocs/namiko/inc/Mail.inc.php",
 		"/home/ture/config.inc.php",
 		"/home/ture/projects/htdocs/namiko/inc/config.inc.php",
 		"/home/ture/projects/htdocs/namiko/register.php",
@@ -907,7 +828,6 @@
 		"/home/ture/Backup/namiko/order_total.php",
 		"/home/ture/Downloads/bills.sql",
 		"/home/ture/projects/htdocs/namiko/inc/SEPAprocedure.inc.php",
-		"/home/ture/projects/htdocs/namiko/agree.php",
 		"/home/ture/projects/htdocs/namiko/templates/nav.inc.php",
 		"/home/ture/projects/htdocs/namiko/templates/admin-nav.inc.php",
 		"/tmp/mozilla_ture0/SID103D20190429T120732.xml",
@@ -963,7 +883,6 @@
 		"/tmp/mozilla_ture0/Loc.java",
 		"/home/ture/Studium/18-19Ss",
 		"/home/ture/Studium/18-19SS/Programmieren2/ScanMan.java",
-		"/home/ture/projects/htdocs/namiko/member.php",
 		"/C/Workspace/test.csv",
 		"/C/Workspace/Studium/18-19SS/DatenstrukturenUndAlgorithmen/TestAlgorithm.java",
 		"/C/Workspace/Studium/18-19WS/PR1/übungen/Pascal.java",
@@ -974,9 +893,7 @@
 		"/C/MAMP/htdocs/wmh/emailcenter.php",
 		"/C/MAMP/htdocs/wmh/templates/admin-nav.inc.php",
 		"/C/MAMP/htdocs/namiko/templates/main-nav.inc.php",
-		"/C/MAMP/htdocs/namiko/inc/DOMValidator.inc.php",
-		"/C/MAMP/htdocs/namiko/sepa.php",
-		"/C/MAMP/htdocs/namiko/inc/SepaXML.inc.php"
+		"/C/MAMP/htdocs/namiko/inc/DOMValidator.inc.php"
 	],
 	"find":
 	{
@@ -998,6 +915,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"closer",
 			"font-weight",
 			"font",
 			"bold",
@@ -1124,8 +1042,7 @@
 			"collectionDT",
 			"$collectionDate",
 			"collect",
-			"transaction",
-			"there"
+			"transaction"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1147,24 +1064,24 @@
 	"groups":
 	[
 		{
-			"selected": 11,
+			"selected": 4,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "session_process.php",
+					"file": "emailcenter.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2427,
+						"buffer_size": 8624,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1978,
-								1978
+								8105,
+								8105
 							]
 						],
 						"settings":
@@ -1173,130 +1090,14 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 3420.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 12,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "inventory.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 19372,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								16677,
-								16677
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 3859.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 10,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "order_total.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 12581,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2844,
-								2844
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 4526.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "util/tcpdf/CHANGELOG.TXT",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 116701,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "member.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 12455,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5012,
-								5012
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 116.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
 					"file": "inc/config.inc.php",
 					"semi_transient": false,
 					"settings":
@@ -1320,24 +1121,24 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
-					"file": "agree.php",
+					"buffer": 2,
+					"file": "email_process.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9847,
+						"buffer_size": 1716,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								5615,
-								5615
+								1329,
+								1329
 							]
 						],
 						"settings":
@@ -1346,120 +1147,33 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1709.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "order_total_process.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 12021,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2154,
-								2154
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 645.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 13,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "catalogue_handler.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5742,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2040,
-								2040
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 765.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "internal.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 10473,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5902,
-								5902
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1710.0,
+						"translation.y": 180.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 10,
-					"file": "CHANGELOG.md",
+					"buffer": 3,
+					"file": "inc/Mail.inc.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1759,
+						"buffer_size": 2815,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								152,
-								152
+								447,
+								447
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1469,1099 +1183,32 @@
 					"type": "text"
 				},
 				{
-					"buffer": 11,
-					"file": "emailcenter.php",
+					"buffer": 4,
+					"file": "usefulqueries.sql",
 					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 8381,
+						"buffer_size": 1271,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								1271,
+								1271
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"syntax": "Packages/SQL/SQL.sublime-syntax",
 							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 450.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 12,
-					"file": "css/style.css",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 16398,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1729,
-								1729
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1264.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 13,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 56709,
-						"regions":
-						{
-							"match":
-							{
-								"flags": 112,
-								"regions":
-								[
-									[
-										326,
-										333
-									],
-									[
-										921,
-										928
-									],
-									[
-										1230,
-										1237
-									],
-									[
-										1327,
-										1334
-									],
-									[
-										1479,
-										1486
-									],
-									[
-										1776,
-										1783
-									],
-									[
-										1895,
-										1902
-									],
-									[
-										2047,
-										2054
-									],
-									[
-										2396,
-										2403
-									],
-									[
-										2682,
-										2689
-									],
-									[
-										3012,
-										3019
-									],
-									[
-										3090,
-										3097
-									],
-									[
-										3278,
-										3285
-									],
-									[
-										3524,
-										3531
-									],
-									[
-										3772,
-										3779
-									],
-									[
-										3869,
-										3876
-									],
-									[
-										4183,
-										4190
-									],
-									[
-										4469,
-										4476
-									],
-									[
-										4697,
-										4704
-									],
-									[
-										4878,
-										4885
-									],
-									[
-										5243,
-										5250
-									],
-									[
-										5578,
-										5585
-									],
-									[
-										5816,
-										5823
-									],
-									[
-										6328,
-										6335
-									],
-									[
-										6544,
-										6551
-									],
-									[
-										6664,
-										6671
-									],
-									[
-										6810,
-										6817
-									],
-									[
-										6947,
-										6954
-									],
-									[
-										7136,
-										7143
-									],
-									[
-										7212,
-										7219
-									],
-									[
-										7451,
-										7458
-									],
-									[
-										7633,
-										7640
-									],
-									[
-										7849,
-										7856
-									],
-									[
-										8042,
-										8049
-									],
-									[
-										8421,
-										8428
-									],
-									[
-										8776,
-										8783
-									],
-									[
-										9037,
-										9044
-									],
-									[
-										9350,
-										9357
-									],
-									[
-										9808,
-										9815
-									],
-									[
-										10456,
-										10463
-									],
-									[
-										10714,
-										10721
-									],
-									[
-										11083,
-										11090
-									],
-									[
-										11318,
-										11325
-									],
-									[
-										11545,
-										11552
-									],
-									[
-										11851,
-										11858
-									],
-									[
-										12186,
-										12193
-									],
-									[
-										12376,
-										12383
-									],
-									[
-										12690,
-										12697
-									],
-									[
-										12843,
-										12850
-									],
-									[
-										13123,
-										13130
-									],
-									[
-										13384,
-										13391
-									],
-									[
-										13634,
-										13641
-									],
-									[
-										13904,
-										13911
-									],
-									[
-										14172,
-										14179
-									],
-									[
-										14369,
-										14376
-									],
-									[
-										14585,
-										14592
-									],
-									[
-										14857,
-										14864
-									],
-									[
-										15038,
-										15045
-									],
-									[
-										15351,
-										15358
-									],
-									[
-										15635,
-										15642
-									],
-									[
-										15907,
-										15914
-									],
-									[
-										16093,
-										16100
-									],
-									[
-										16340,
-										16347
-									],
-									[
-										16532,
-										16539
-									],
-									[
-										16760,
-										16767
-									],
-									[
-										16973,
-										16980
-									],
-									[
-										17099,
-										17106
-									],
-									[
-										17280,
-										17287
-									],
-									[
-										17457,
-										17464
-									],
-									[
-										17681,
-										17688
-									],
-									[
-										17913,
-										17920
-									],
-									[
-										18158,
-										18165
-									],
-									[
-										18478,
-										18485
-									],
-									[
-										18635,
-										18642
-									],
-									[
-										18866,
-										18873
-									],
-									[
-										19032,
-										19039
-									],
-									[
-										19231,
-										19238
-									],
-									[
-										19536,
-										19543
-									],
-									[
-										19711,
-										19718
-									],
-									[
-										19914,
-										19921
-									],
-									[
-										20242,
-										20249
-									],
-									[
-										20441,
-										20448
-									],
-									[
-										20621,
-										20628
-									],
-									[
-										20670,
-										20677
-									],
-									[
-										20719,
-										20726
-									],
-									[
-										20768,
-										20775
-									],
-									[
-										20902,
-										20909
-									],
-									[
-										20951,
-										20958
-									],
-									[
-										21000,
-										21007
-									],
-									[
-										21049,
-										21056
-									],
-									[
-										21183,
-										21190
-									],
-									[
-										21232,
-										21239
-									],
-									[
-										21281,
-										21288
-									],
-									[
-										21330,
-										21337
-									],
-									[
-										21464,
-										21471
-									],
-									[
-										21513,
-										21520
-									],
-									[
-										21562,
-										21569
-									],
-									[
-										21611,
-										21618
-									],
-									[
-										21833,
-										21840
-									],
-									[
-										21882,
-										21889
-									],
-									[
-										21931,
-										21938
-									],
-									[
-										22102,
-										22109
-									],
-									[
-										22151,
-										22158
-									],
-									[
-										22200,
-										22207
-									],
-									[
-										22371,
-										22378
-									],
-									[
-										22420,
-										22427
-									],
-									[
-										22469,
-										22476
-									],
-									[
-										22640,
-										22647
-									],
-									[
-										22689,
-										22696
-									],
-									[
-										22738,
-										22745
-									],
-									[
-										22909,
-										22916
-									],
-									[
-										22958,
-										22965
-									],
-									[
-										23031,
-										23038
-									],
-									[
-										23080,
-										23087
-									],
-									[
-										23251,
-										23258
-									],
-									[
-										23300,
-										23307
-									],
-									[
-										23373,
-										23380
-									],
-									[
-										23422,
-										23429
-									],
-									[
-										23604,
-										23611
-									],
-									[
-										23653,
-										23660
-									],
-									[
-										23785,
-										23792
-									],
-									[
-										23834,
-										23841
-									],
-									[
-										23966,
-										23973
-									],
-									[
-										24015,
-										24022
-									],
-									[
-										24147,
-										24154
-									],
-									[
-										24196,
-										24203
-									],
-									[
-										24463,
-										24470
-									],
-									[
-										24845,
-										24852
-									],
-									[
-										25177,
-										25184
-									],
-									[
-										25385,
-										25392
-									],
-									[
-										25715,
-										25722
-									],
-									[
-										26041,
-										26048
-									],
-									[
-										26226,
-										26233
-									],
-									[
-										26632,
-										26639
-									],
-									[
-										26857,
-										26864
-									],
-									[
-										27039,
-										27046
-									],
-									[
-										27300,
-										27307
-									],
-									[
-										27658,
-										27665
-									],
-									[
-										27863,
-										27870
-									],
-									[
-										28103,
-										28110
-									],
-									[
-										28385,
-										28392
-									],
-									[
-										28610,
-										28617
-									],
-									[
-										28954,
-										28961
-									],
-									[
-										29285,
-										29292
-									],
-									[
-										29501,
-										29508
-									],
-									[
-										29717,
-										29724
-									],
-									[
-										29878,
-										29885
-									],
-									[
-										30103,
-										30110
-									],
-									[
-										30282,
-										30289
-									],
-									[
-										30524,
-										30531
-									],
-									[
-										30684,
-										30691
-									],
-									[
-										30835,
-										30842
-									],
-									[
-										31207,
-										31214
-									],
-									[
-										31572,
-										31579
-									],
-									[
-										31816,
-										31823
-									],
-									[
-										32078,
-										32085
-									],
-									[
-										32185,
-										32192
-									],
-									[
-										32409,
-										32416
-									],
-									[
-										32693,
-										32700
-									],
-									[
-										33000,
-										33007
-									],
-									[
-										33206,
-										33213
-									],
-									[
-										33587,
-										33594
-									],
-									[
-										33836,
-										33843
-									],
-									[
-										34025,
-										34032
-									],
-									[
-										34158,
-										34165
-									],
-									[
-										34379,
-										34386
-									],
-									[
-										34582,
-										34589
-									],
-									[
-										34798,
-										34805
-									],
-									[
-										35074,
-										35081
-									],
-									[
-										35403,
-										35410
-									],
-									[
-										35677,
-										35684
-									],
-									[
-										35939,
-										35946
-									],
-									[
-										36248,
-										36255
-									],
-									[
-										36521,
-										36528
-									],
-									[
-										36767,
-										36774
-									],
-									[
-										36972,
-										36979
-									],
-									[
-										37293,
-										37300
-									],
-									[
-										37682,
-										37689
-									],
-									[
-										38135,
-										38142
-									],
-									[
-										38442,
-										38449
-									],
-									[
-										38866,
-										38873
-									],
-									[
-										39027,
-										39034
-									],
-									[
-										39388,
-										39395
-									],
-									[
-										39715,
-										39722
-									],
-									[
-										40028,
-										40035
-									],
-									[
-										40449,
-										40456
-									],
-									[
-										40610,
-										40617
-									],
-									[
-										41021,
-										41028
-									],
-									[
-										41277,
-										41284
-									],
-									[
-										41429,
-										41436
-									],
-									[
-										41613,
-										41620
-									],
-									[
-										41781,
-										41788
-									],
-									[
-										41934,
-										41941
-									],
-									[
-										42089,
-										42096
-									],
-									[
-										42255,
-										42262
-									],
-									[
-										42550,
-										42557
-									],
-									[
-										42827,
-										42834
-									],
-									[
-										43086,
-										43093
-									],
-									[
-										43278,
-										43285
-									],
-									[
-										43486,
-										43493
-									],
-									[
-										43683,
-										43690
-									],
-									[
-										43861,
-										43868
-									],
-									[
-										44036,
-										44043
-									],
-									[
-										44362,
-										44369
-									],
-									[
-										44736,
-										44743
-									],
-									[
-										45004,
-										45011
-									],
-									[
-										45180,
-										45187
-									],
-									[
-										45557,
-										45564
-									],
-									[
-										45907,
-										45914
-									],
-									[
-										46141,
-										46148
-									],
-									[
-										46476,
-										46483
-									],
-									[
-										46867,
-										46874
-									],
-									[
-										47256,
-										47263
-									],
-									[
-										47691,
-										47698
-									],
-									[
-										47767,
-										47774
-									],
-									[
-										48278,
-										48285
-									],
-									[
-										48355,
-										48362
-									],
-									[
-										48432,
-										48439
-									],
-									[
-										48904,
-										48911
-									],
-									[
-										49160,
-										49167
-									],
-									[
-										49406,
-										49413
-									],
-									[
-										49682,
-										49689
-									],
-									[
-										49937,
-										49944
-									],
-									[
-										50164,
-										50171
-									],
-									[
-										50533,
-										50540
-									],
-									[
-										50786,
-										50793
-									],
-									[
-										51236,
-										51243
-									],
-									[
-										51601,
-										51608
-									],
-									[
-										51734,
-										51741
-									],
-									[
-										51864,
-										51871
-									],
-									[
-										52000,
-										52007
-									],
-									[
-										52130,
-										52137
-									],
-									[
-										52472,
-										52479
-									],
-									[
-										52973,
-										52980
-									],
-									[
-										53568,
-										53575
-									],
-									[
-										53853,
-										53860
-									],
-									[
-										54098,
-										54105
-									],
-									[
-										54303,
-										54310
-									],
-									[
-										54679,
-										54686
-									],
-									[
-										54946,
-										54953
-									],
-									[
-										55120,
-										55127
-									],
-									[
-										55337,
-										55344
-									],
-									[
-										55492,
-										55499
-									],
-									[
-										55749,
-										55756
-									],
-									[
-										55977,
-										55984
-									],
-									[
-										56095,
-										56102
-									],
-									[
-										56294,
-										56301
-									],
-									[
-										56429,
-										56436
-									],
-									[
-										56583,
-										56590
-									]
-								],
-								"scope": ""
-							}
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"detect_indentation": false,
-							"line_numbers": false,
-							"output_tag": 1,
-							"result_base_dir": "",
-							"result_file_regex": "^([^ \t].*):$",
-							"result_line_regex": "^ +([0-9]+):",
-							"scroll_past_end": true,
-							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 0,
 					"type": "text"
 				}
 			]

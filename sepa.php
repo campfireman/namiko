@@ -14,17 +14,16 @@ include("templates/nav.inc.php");
 include("templates/admin-nav.inc.php");
 
 
-if (isset($_POST['toggleTimeframe'])) {
-	$_SESSION['timeframe'] = $_POST['timeframe'];
+if (isset($_GET['toggleTimeframe'])) {
+	$_SESSION['timeframe'] = $_GET['timeframe'];
 
-	if ($_SESSION['timeframe'] == 0) {
+	if (!isset($_SESSION['timeframe'])) {
 		$_SESSION['timeToggle'] = '';
 	} else {
 		$_SESSION['timeToggle'] = " AND (orders.created_at < '". $_SESSION['timeframe'] ."')";
 	}
-} else {
-	$_SESSION['timeToggle'] = "";
 }
+
 /*
 $curr = date('Y-m-d H:i:s');
 $statement = $pdo->prepare("SELECT start FROM events WHERE type = 1 AND start > '$curr' ORDER BY start ASC");
@@ -67,25 +66,29 @@ if (isset($_POST['memberPay'])) {
 			(SELECT MAX(created_at) FROM contributions WHERE uid = users.uid LIMIT 1) ) >= 87))");
 		$result = $statement->execute();
 
-		while ($row = $statement->fetch()) {
-			$uid = $row['uid'];
-			$transactions[$uid]['first_name'] = $row['first_name'];
-			$transactions[$uid]['last_name'] = $row['last_name'];
-			$transactions[$uid]['email'] = $row['email'];
-			$transactions[$uid]['account_holder'] = $row['account_holder'];
-			$transactions[$uid]['IBAN'] = $row['IBAN'];
-			$transactions[$uid]['BIC'] = $row['BIC'];
-			$transactions[$uid]['mid'] = $row['mid'];
-			$transactions[$uid]['signed'] = substr($row['cd'], 0, 10);
-			$transactions[$uid]['instdAmt'] = (3 * $row['contribution']);
-			$transactions[$uid]['rmtInf'] = 'Mitgliedsbeitrag für 3 Monate';
-		}
+		if ($statement->rowCount() > 0) {
+			while ($row = $statement->fetch()) {
+				$uid = $row['uid'];
+				$transactions[$uid]['first_name'] = $row['first_name'];
+				$transactions[$uid]['last_name'] = $row['last_name'];
+				$transactions[$uid]['email'] = $row['email'];
+				$transactions[$uid]['account_holder'] = $row['account_holder'];
+				$transactions[$uid]['IBAN'] = $row['IBAN'];
+				$transactions[$uid]['BIC'] = $row['BIC'];
+				$transactions[$uid]['mid'] = $row['mid'];
+				$transactions[$uid]['signed'] = substr($row['cd'], 0, 10);
+				$transactions[$uid]['instdAmt'] = (3 * $row['contribution']);
+				$transactions[$uid]['rmtInf'] = 'Mitgliedsbeitrag für 3 Monate';
+			}
 
-		$sepa->insertTx($transactions, "contributions");
-		$sepa->create();
-		$sepa->notify($smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity);
-		$pdo->commit();
-		$sepa->startDownload();
+			$sepa->insertTx($transactions, "contributions");
+			$sepa->create();
+			$sepa->notify($smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity);
+			$pdo->commit();
+			$sepa->startDownload();
+		} else {
+			notify("Keine offenen Zahlungen gefunden.");
+		}
 	} catch (Exception $e) {
 		$pdo->rollBack();
 		error($e->getMessage());
@@ -106,7 +109,8 @@ if(isset($_POST['orderPay'])) {
 		$pdo->beginTransaction();
 		$sepa = new SEPAprocedure($pdo, $creator, $collectionDt, $myEntity, $myIBAN, $myBIC, $creditorId, $user['first_name']. ' ' .$user['last_name']);
 
-		$statement = $pdo->prepare("
+		$query = 
+		"
 			SELECT orders.oid, users.*, mandates.mid, mandates.created_at AS cd, SUM(order_items.total) AS total
 			FROM orders 
 			LEFT JOIN users ON orders.uid = users.uid 
@@ -114,7 +118,8 @@ if(isset($_POST['orderPay'])) {
 			LEFT JOIN mandates ON users.uid = mandates.uid
 			WHERE (orders.paid = 0) ". $_SESSION['timeToggle'] ."
 			GROUP BY orders.oid
-			ORDER BY users.uid, orders.oid ASC");
+			ORDER BY users.uid, orders.oid ASC";
+		$statement = $pdo->prepare($query);
 		$result = $statement->execute();
 
 		if (!$result) {
@@ -153,21 +158,20 @@ if(isset($_POST['orderPay'])) {
 					
 				}
 			}
+
+			$sepa->insertTx($transactions);
+			$sepa->create();
+			$sepa->notify($smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity);
+			$pdo->commit();
+			$sepa->startDownload();
 		} else {
 			notify("Keine offenen Zahlungen gefunden.");
 		}
-
-		$sepa->insertTx($transactions);
-		$sepa->create();
-		$sepa->notify($smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity);
-		$pdo->commit();
-		$sepa->startDownload();
 	} catch (Exception $e) {
 		$pdo->rollBack();
 		error($e->getMessage());
 	}
 }
-
 ?>
 
 <div class="sizer">
@@ -219,7 +223,7 @@ if(isset($_POST['orderPay'])) {
 			</p><br><br>
 			<span><i class="fa fa-info-circle" aria-hidden="true"></i> Bei Erstellung des Dokuments wird automatisch an alle Mitglieder eine Email verschickt, die über den Einzug des Geldes informiert. Abhängig von der Internetverbindung kann dies etwas dauern, also den Tab offen lassen, nicht neu laden, bis der Download des Dokuments erscheint.<br>Es muss wie folgt berechnet werden: Aktueller Tag + 2 Bankarbeitstage (TARGET2)!</span><br><br>
 
-			<form class="form" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">
+			<form class="form" method="get" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">
 				<!--<select name="timeframe">
 					<option value="0">Alle</option>
 					<optgroup label="Zeitpunkte">

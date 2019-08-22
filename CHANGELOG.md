@@ -1,5 +1,6 @@
 # Version 1.4.2
 - EmailCenter Update
+- SEPA timeframe update
 
 # Version 1.4.1
 - Anzeige von Vorbestellungen, Summiert nach vollen Gebinden
