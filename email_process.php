@@ -2,6 +2,7 @@
 session_start(); //start session
 //ini_set('display_errors', 1);
 require_once("inc/config.inc.php"); //include config file
+require_once("inc/functions.inc.php");
 require_once("inc/Mail.inc.php");
 
 if(isset($_POST["subject"])) {
@@ -35,14 +36,15 @@ if(isset($_POST["subject"])) {
 		$batch[$count]['recipient'] = $row['first_name'];
 		$batch[$count]['subject'] = $subject;
 		$batch[$count]['text'] = '<h3>Moin, '. htmlspecialchars($row['first_name']) .'!</h3>'. $text;
+		$count++;
 	}
 
 	$mail = new Mail($smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity);
-	
+
 	if ($mail->sendBatch($batch)) {
-		die('Mails erfolgreich verschickt.');
+		res(1, $mail->getMailErrors());
 	} else {
-		die($mail->getMailErrors());
+		res(0, 'Mails erfolgreich verschickt.');
 	}
 
 }

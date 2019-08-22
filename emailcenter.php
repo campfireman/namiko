@@ -124,7 +124,7 @@ if (isset($_POST['remove-recipient'])) {
 				<div><input id="subject" type="text" name="subject" placeholder="Betreff" required></div><br>
 				<div><label for="text">Moin, (Vorname)!</label><br><input type="hidden" name="text"><div id="mailtext" class="summernote"></div><br></div>
 				<label><input type="checkbox" name="members" value="members" style="min-width: 20px" checked>Mitglieder</label><br>
-				<label><input type="checkbox" name="supporters" value="others" style="min-width: 20px">Newsletter Empfänger</label><br><br>
+				<label><input type="checkbox" name="others" value="others" style="min-width: 20px">Newsletter Empfänger</label><br><br>
 				<button type="submit" id="send-mail" name="send-mail" class="clean-btn green">E-Mails senden <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
 			</form>
 		</div>
@@ -204,6 +204,16 @@ include("templates/footer.inc.php");
   	})
 </script>
 <script type="text/javascript">
+	function closeLoader (text, error) {
+		$('#closer').html('<a id="close2" href="javascript:void(0)" title="Close" class="closebtn" onclick="closeNotification(2)">&times;</a>');
+		if (error == 1) {
+			var icon = '<span class="red" style="font-size: 50px"><i class="fa fa-times" aria-hidden="true"></i></span>';
+		} else {
+			var icon = '<span class="green" style="font-size: 50px"><i class="fa fa-check" aria-hidden="true"></i></span>';
+		}
+		$('#loadScreen').removeClass('loader').html(icon +'<br><span>'+ text +'</span>');
+	}
+	
 	$('.paste-template').submit(function(e){
 		var temp_id = $(this).serialize();
 		$.ajax({
@@ -231,10 +241,9 @@ include("templates/footer.inc.php");
 			dataType: 'json',
 			data: mail_data
 			}).done(function(data){
-					$('#closer').html('<a id="close2" href="javascript:void(0)" title="Close" class="closebtn" onclick="closeNotification(2)">&times;</a>');
-					$('#loadScreen').removeClass('loader').html('<span class="green" style="font-size: 50px"><i class="fa fa-check" aria-hidden="true"></i></span><br><span>'+ data +'</span>');
-					$('#subject').val('');
-					$('#text').val('');
+				closeLoader(data.text, data.error);
+				$('#subject').val('');
+				$('#text').val('');
 			})
 		e.preventDefault();
 	});
