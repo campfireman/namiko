@@ -1,3 +1,6 @@
+# Version 1.4.2
+- EmailCenter Update
+
 # Version 1.4.1
 - Anzeige von Vorbestellungen, Summiert nach vollen Gebinden
 
