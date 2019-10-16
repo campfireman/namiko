@@ -22,36 +22,66 @@ function echo_select ($array, $exclusion) {
 
 if (isset($_POST['update-catalogue'])) {
 	foreach ($_POST['values'] as $pid => $product) {
-		$productName = $product['productName'];
-		$productDesc = $product['productDesc'];
-		$category = $product['category'];
-		$price_KG_L = $product['price_KG_L'];
-		$unit_size = $product['unit_size'];
-		$unit_tag = $product['unit_tag'];
-		$container = $product['container'];
-		$priceContainer = $product['priceContainer'];
-		$origin = $product['origin'];
-		$producer = $product['producer'];
-		$netto = $product['netto'];
+		try {
+			$pdo->beginTransaction();
+			$productName = $product['productName'];
+			$productDesc = $product['productDesc'];
+			$category = $product['category'];
+			$price_KG_L = $product['price_KG_L'];
+			$unit_size = $product['unit_size'];
+			$unit_tag = $product['unit_tag'];
+			$container = $product['container'];
+			$priceContainer = $product['priceContainer'];
+			$origin = $product['origin'];
+			$producer = $product['producer'];
+			$netto = $product['netto'];
+			$is_storage_item = $product['is_storage_item'];
 
-		$statement = $pdo->prepare("UPDATE products SET productName = :productName, productDesc = :productDesc, category=:category, netto = :netto, price_KG_L = :price_KG_L, unit_size=:unit_size, unit_tag = :unit_tag, container = :container, priceContainer = :priceContainer, origin = :origin, producer = :producer  WHERE pid = :pid");
-		$result = $statement->execute(array('productName' => $productName, 'productDesc' => $productDesc, 'category' => $category, 'netto' => $netto, 'price_KG_L' => $price_KG_L, 'unit_size' => $unit_size, 'unit_tag' => $unit_tag, 'container' => $container, 'priceContainer' => $priceContainer, 'origin' => $origin, 'producer' => $producer, 'pid' => $pid));
+			$statement = $pdo->prepare("SELECT unit_size FROM products WHERE pid = :pid");
+			$result = $statement->execute(array('pid' => $pid));
+			$old_unit_size = $statement->fetch();
+			$old_unit_size = $old_unit_size['unit_size'];
 
-		if ($result) {
+			if ($old_unit_size != $unit_size) {
+				$ratio = $unit_size / $old_unit_size;
+				$statement = $pdo->prepare("UPDATE order_items SET quantity = quantity / :ratio WHERE pid = :pid");
+				$statement->bindValue('ratio', $ratio);
+				$statement->bindParam('pid', $pid);
+				$result = $statement->execute();
+
+				if (!$result) {
+					throw new Exception(json_encode($statement->errorInfo()));
+				}
+
+				$statement = $pdo->prepare("UPDATE preorder_items SET quantity = quantity / :ratio WHERE pid = :pid");
+				$statement->bindValue('ratio', $ratio);
+				$statement->bindParam('pid', $pid);
+				$result = $statement->execute();
+
+				if (!$result) {
+					throw new Exception(json_encode($statement->errorInfo()));
+				}
+			}
+
+			$statement = $pdo->prepare("UPDATE products SET productName = :productName, productDesc = :productDesc, category=:category, netto = :netto, price_KG_L = :price_KG_L, unit_size=:unit_size, unit_tag = :unit_tag, container = :container, priceContainer = :priceContainer, origin = :origin, producer = :producer, is_storage_item = :is_storage_item WHERE pid = :pid");
+			$result = $statement->execute(array('productName' => $productName, 'productDesc' => $productDesc, 'category' => $category, 'netto' => $netto, 'price_KG_L' => $price_KG_L, 'unit_size' => $unit_size, 'unit_tag' => $unit_tag, 'container' => $container, 'priceContainer' => $priceContainer, 'origin' => $origin, 'producer' => $producer, 'pid' => $pid, 'is_storage_item' => $is_storage_item));
+
+			if (!$result) {
+				throw new Exeption(json_encode($statement->errorInfo()));
+			}
+
 			$statement = $pdo->prepare("UPDATE preorder_items SET total = quantity * :price_KG_L WHERE pid = :pid AND transferred = 0");
 			$result = $statement->execute(array('price_KG_L' => $price_KG_L, 'pid' => $pid));
 
-			if ($result) {
-				continue;
-			} else {
-				res(1, json_encode($statement->errorInfo()));
-			}
-		} else {
-			res(1, json_encode($statement->errorInfo()));
+			if (!$result) {
+				throw new Exeption(json_encode($statement->errorInfo()));
+			} 
+			$pdo->commit();
+		} catch (Exception $e) {
+			$pdo->rollBack();
+			res(1, $e->getMessage());
 		}
-		
 	}
-
 	res(0, "Success");
 }
 
@@ -140,12 +170,19 @@ if (isset($_POST['category']) && isset($_POST['producer'])) {
 				<th>Gebinde (Einheiten)</th>
 				<th>Bruttop. Geb.</th>
 				<th>Herkunft</th>
-				<th>Hersteller</th>
+				<th>Lieferant</th>
+				<th>Lagerware</th>
 				<th></th>
 			</tr>
 		</thead>';
 
 	while($row = $statement->fetch()) {
+		if ($row['is_storage_item'] == 1) {
+			$is_storage_item = 'checked';
+		} else {
+			$is_storage_item = '';
+		}
+
 		$table .= '
 		<tr class="product update"><form action="'. htmlspecialchars($_SERVER['PHP_SELF']) .'" method="post">
 			<td>'. $row['pid']. '<input value="'. $row['pid'] .'" type="hidden" name="pid"></td>
@@ -164,6 +201,7 @@ if (isset($_POST['category']) && isset($_POST['producer'])) {
 			<td><input class="empty" type="number" name="priceContainer" step="0.01" value="'. $row['priceContainer'] .'"></td>
 			<td><input class="empty" type="text" name="origin" value="'. $row['origin'] .'"></td>
 			<td><select type="text" name="producer"><option value="'. $row['pro_id'] .'">'. $row['producerName'] .'</option>'. $select .'</select></td>
+			<td><input type="checkbox" name="is_storage_item" value="1"'. $is_storage_item .'></td>
 			</tr>
 		</form></tr>';
 	}

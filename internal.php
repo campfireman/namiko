@@ -151,7 +151,7 @@ include("templates/main-nav.inc.php");
 			<h1><span id="greeter"></span></h1>
 			<span class="subtitle">Willkommen zurück, <span class="emph"><?php echo htmlspecialchars($user['first_name']); ?></span>! Was möchtest Du bestellen?</span><br><br>
 			<h4 class="">Mindestbestellwert erreicht?</h4>
-			<p>Summe voller Gebinde nach Hersteller geordnet:</p>
+			<p>Summe voller Gebinde nach Lieferant geordnet:</p>
 			<?php echo covered_preorders() ?>
 			<br>
 			</div>

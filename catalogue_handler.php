@@ -15,20 +15,28 @@ function createItem($row) {
 	$unit_size = $row['unit_size'] * 1;
 	$unit_tag = $row['unit_tag'];
 	$units_in_stock = $stock * $unit_size;
-	$preorders = '<span class="blue">'. $db->getPreorders($pid) .'</span>';
+	$preorders = '<span class="blue">'. $db->getPreorders($pid)*1 .' E</span>';
 
 	// colored output based on amount
 	if ($stock < 0) {
 		$stockOut = '<span class="red">'. $units_in_stock . $unit_tag .'</span>';
 	} else if ($stock > 0) {
-		$stockOut = '<span class="green">'. $units_in_stock  . $unit_tag .'</span>';
+		$stockOut = '<span class="green">'. $units_in_stock  . $unit_tag .' ('. $stock .' E)</span>';
 	} else {
 		$stockOut = '<span>'. $stock .'</span>';
 	}
+
+	if ($row['is_storage_item'] == 1) {
+		$is_storage_item = '| <span class="yellow">Lagerware</span>';
+	} else {
+		$is_storage_item = '';
+	}
+	
 	$result .= '<div class="col-sm-3 item">
 		<form class="order-item">
 			<span class="data">'. htmlspecialchars($row['origin']) .' | 
 				<a class="producer_info" data-code="'. $row['pro_id'] .'">'. htmlspecialchars($row['producerName']) .'</a>
+				'. $is_storage_item .'
 			</span>
 			<h2 class="name">'. htmlspecialchars($row['productName']) .'</h2>
 			<div>'. $row['productDesc'] .'<br>
@@ -39,7 +47,7 @@ function createItem($row) {
 			<div>
 			<span class="italic">vorbestellt: </span>'. $preorders .'</div>
 			<div>
-			<span class="italic">Gebindegröße: </span>' .$row['container']*$row['unit_size'] . $unit_tag .' ('. $row['container']*1 .' Einheiten)</div>';
+			<span class="italic">Gebindegröße: </span>' .$row['container']*$row['unit_size'] . $unit_tag .' ('. $row['container']*1 .' E)</div>';
 
 	if ($user['rights'] > 1) {
 		$result .= '

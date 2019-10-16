@@ -42,7 +42,7 @@ while ($row = $statement->fetch()) {
 	echo '<div class="subtitle2"><span>Bestellung #'. $oid .'</span></div>';
 	echo '<div class="inline">'. $first_name . ' ' . $last_name . '</div>';
 	echo '<div class="subtitle3 inline" style="float: right"><span>'. $date->format("d.m.Y H:i:s") .'</span></div><br><br>';
-	echo '<table class="max"><tr style="text-align: left;"><th>Artikel</th><th>Preis KG/L</th><th>Menge</th><th>&#931;</th></tr>';
+	echo '<table class="max"><tr style="text-align: left;"><th>Artikel</th><th>Preis E</th><th>Menge</th><th>&#931;</th></tr>';
 	
 	$grandtotal = 0;
 

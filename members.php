@@ -161,6 +161,7 @@ if (isset($_POST['loanRecieved'])) {
 				$text = '
 				<h1>Moin, '. htmlspecialchars($first_name) .'!</h1>
 				<p>Dein Mitgliedsdarlehn ist eingetroffen. Du bist nun für Bestellungen freigeschaltet.</p>
+				<p>Schick uns deine Hanynummer per Email an kontakt@namiko.org, damit wir Dich in unsere Telegram Gruppe hinzufuegen koennen.</p>
 				<br><br><span style="font-style: italic">Dein namiko Hannover e.V. Team</span><br><br><br><br><br><br>
 				Bei Rückfragen einfach an kontakt@namiko.org schreiben.</p>';
 				$mail->send($email, $first_name . ' ' . $last_name, $subject, $text, true);

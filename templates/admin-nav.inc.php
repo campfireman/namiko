@@ -3,7 +3,7 @@ $admin = "";
 if ($user['rights'] == 4) {
 	$admin = '
 	<li id="admin"><a href="admin.php">Katalog</a></li>
-	<li id="producers"><a href="producers.php">Hersteller</a></li>
+	<li id="producers"><a href="producers.php">Lieferant</a></li>
 	<li id="members"><a href="members.php">Mitglieder</a></li>
 	<li id="sepa"><a href="sepa.php">SEPA</a></li>
 	<li id="emailcenter"><a href="emailcenter.php">EmailCenter</a></li>';

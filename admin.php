@@ -31,7 +31,7 @@ if(isset($_POST['product'])) {
 	$origin = $_POST['origin'];
 	$producer = $_POST['producer'];
 	
-	if(empty($productName) || empty($productDesc) || empty($price_KG_L) || empty($category) || empty($container) || empty($origin) || empty($producer)) {
+	if(empty($productName) || empty($price_KG_L) || empty($category) || empty($container) || empty($origin) || empty($producer)) {
 		notify('Bitte alle Felder ausfüllen.');
 	}
 
@@ -39,8 +39,14 @@ if(isset($_POST['product'])) {
 		notify('Bitte eine Auswahl treffen.');
 	}
 
-	$statement = $pdo->prepare("INSERT INTO products (productName, productDesc, price_KG_L, netto, tax, unit_size, unit_tag, category, container, priceContainer, origin, producer) VALUES (:productName, :productDesc, :price_KG_L, :netto, :tax, :unit_size, :unit_tag, :category, :container, :priceContainer, :origin, :producer)");
-	$result = $statement->execute(array('productName' => $productName, 'productDesc' => $productDesc, 'price_KG_L' => $price_KG_L, 'netto' => $netto, 'tax' => $tax, 'unit_size' => $unit_size, 'unit_tag' => $unit_tag, 'category' => $category, 'container' => $container, 'priceContainer' => $priceContainer, 'origin' => $origin, 'producer' => $producer));
+	if (isset($_POST['is_storage_item'])) {
+		$is_storage_item = 1;
+	} else {
+		$is_storage_item = 0;
+	}
+
+	$statement = $pdo->prepare("INSERT INTO products (productName, productDesc, price_KG_L, netto, tax, unit_size, unit_tag, category, container, priceContainer, origin, producer, is_storage_item) VALUES (:productName, :productDesc, :price_KG_L, :netto, :tax, :unit_size, :unit_tag, :category, :container, :priceContainer, :origin, :producer, :is_storage_item)");
+	$result = $statement->execute(array('productName' => $productName, 'productDesc' => $productDesc, 'price_KG_L' => $price_KG_L, 'netto' => $netto, 'tax' => $tax, 'unit_size' => $unit_size, 'unit_tag' => $unit_tag, 'category' => $category, 'container' => $container, 'priceContainer' => $priceContainer, 'origin' => $origin, 'producer' => $producer, 'is_storage_item' => $is_storage_item));
 	
 	if($result) {
 		$pid = $pdo->lastInsertId();
@@ -156,7 +162,7 @@ if(isset($_POST["upload"])) {
 				
 				<div>
 					<label for="productDesc">Produktbeschreibung</label><br>
-					<textarea class="scroll" placeholder="Produktbeschreibung" type="text" id="productDesc" rows="3" maxlength="2000" name="productDesc" required></textarea>
+					<textarea class="scroll" placeholder="Produktbeschreibung" type="text" id="productDesc" rows="3" maxlength="2000" name="productDesc"></textarea>
 				</div>
 				
 				<div>
@@ -180,9 +186,9 @@ if(isset($_POST["upload"])) {
 				</div>
 
 				<div>
-					<label for="producer">Hersteller</label><br>
+					<label for="producer">Lieferant</label><br>
 					<select type="number" min="1" maxlength="10" name="producer" required>
-						<option value="0">- Hersteller wälen -</option>
+						<option value="0">- Lieferant wälen -</option>
 					    <?php
 					    $statement = $pdo->prepare("SELECT * FROM producers ORDER BY pro_id");
 					    $result = $statement->execute();
@@ -229,6 +235,11 @@ if(isset($_POST["upload"])) {
 					<label for="priceContainer">Bruttopreis pro Gebinde</label><br>
 					<input placeholder="Preis Gebinde" type="number" step="0.01" class="priceContainer" min="0" name="priceContainer">
 				</div>
+
+				<div>
+					<label for="priceContainer">Lagerware?</label><br>
+					<input  type="checkbox" name="is_storage_item" value="1">
+				</div><br>
 
 				
 			
@@ -290,7 +301,7 @@ if(isset($_POST["upload"])) {
 					</div>
 				</div>
 				<div class="indent spacer2 col-sm-6">
-					<span class="subtitle">Hersteller</span>
+					<span class="subtitle">Lieferant</span>
 					<div><label><input id="allprod" class="producer" type="checkbox" name="producer[]" value="0" id="all" checked> alle</label></div>
 					<hr class="separator">
 					<?php
@@ -405,6 +416,12 @@ $(document).ready(function() {
 				var origin = row.find('input[name="origin"]').val();
 				var producer = row.find('select[name="producer"]').val();
 
+				if(row.find('input[name="is_storage_item"]').is(':checked')) {
+					var is_storage_item = 1;
+				} else {
+					var is_storage_item = 0;
+				}
+
 				var values = {
 					productName: productName, 
 					productDesc: productDesc, 
@@ -416,8 +433,10 @@ $(document).ready(function() {
 					container: container, 
 					priceContainer: priceContainer, 
 					origin: origin, 
-					producer: producer};
-				console.log(values);
+					producer: producer,
+					is_storage_item: is_storage_item
+				};
+
 				//save updated values to object
 				if (updates.hasOwnProperty(pid)) {
 					updates[pid] = values;

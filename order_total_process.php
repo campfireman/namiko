@@ -26,35 +26,36 @@ function insertOrder($item) {
 
 ############# add products to session #########################
 if(isset($_POST["pid"])) {
-    foreach($_POST as $key => $value){
-        $new_total[$key] = filter_var($value, FILTER_SANITIZE_STRING); //create a new product array 
-    }
-    
-    $selector = $new_total['pid'];
-    $statement = $pdo->prepare("SELECT productName, container, priceContainer, producer FROM products WHERE pid='$selector'");
-    $statement->execute();
+    foreach ($_POST['pid'] as $pos => $pid) {
+        $pid =  filter_var($pid, FILTER_SANITIZE_STRING);
+        $new_total['pid'] = $pid;
 
-    while($row = $statement->fetch()){ 
-        $new_total["productName"] = $row['productName']; //fetch product name from database
-        $new_total["priceContainer"] = $row['priceContainer']; 
-        $pro_id = $row['producer'];
-        $new_total["container"] = $row['container']; //fetch product price from database
-        
-        if(isset($_SESSION["total"])){  //if session var already exist
-            if(isset($_SESSION["total"][$pro_id][$new_total['pid']])) //check item exist in products array
-            {
-                unset($_SESSION["total"][$pro_id][$new_total['pid']]); //unset old item
-            }           
+        $statement = $pdo->prepare("SELECT productName, container, priceContainer, producer, is_storage_item FROM products WHERE pid=:pid");
+        $result = $statement->execute(array('pid' => $pid));
+
+        if (!$result) {
+            res(1, json_encode($statement->errorInfo()));
         }
-        
-        $_SESSION["total"][$pro_id][$new_total['pid']] = $new_total; //update products with new item array   
+
+        while($row = $statement->fetch()){ 
+            $new_total["productName"] = $row['productName']; //fetch product name from database
+            $new_total["priceContainer"] = $row['priceContainer']; 
+            $pro_id = $row['producer'];
+            $new_total["container"] = $row['container']; //fetch product price from database
+            $new_total["quantityContainer"] = $_POST['quantityContainer'][$pos];
+            $new_total['is_storage_item'] = $row['is_storage_item'];
+            
+            if(isset($_SESSION["total"])){  //if session var already exist
+                if(isset($_SESSION["total"][$pro_id][$pid])) //check item exist in products array
+                {
+                    unset($_SESSION["total"][$pro_id][$pid]); //unset old item
+                }           
+            }
+            
+            $_SESSION["total"][$pro_id][$pid] = $new_total; //update products with new item array   
+        }
     }
-    
-    $total_items = count($_SESSION["total"]); //count total items
-    die(json_encode(1)); //output json 
-
-
-
+    res(0, "Success"); //output json 
 }
 
 ################## list products in cart ###################
@@ -96,6 +97,7 @@ if(isset($_POST["load_cart"]) && $_POST["load_cart"] == 1) {
                 
                 //set variables to use them in HTML content below
                 $productName = $product["productName"]; 
+                $is_storage_item = $product['is_storage_item'];
                 $priceContainer = $product["priceContainer"];
                 $pid = $product["pid"];
                 $quantity = $product["quantityContainer"];

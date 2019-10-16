@@ -44,7 +44,7 @@ if (isset($_POST['csv'])) {
 	$output = fopen('php://output', 'w');
 
 	// output the column headings
-	fputcsv($output, array('Artikel', 'PreisGebinde', utf8_decode('GrößeKG/L'), 'Menge', 'Summe'));
+	fputcsv($output, array('Artikel', 'PreisGebinde', utf8_decode('GrößeE'), 'Menge', 'Summe'));
 
 	foreach ($csv as $row) {
 		fputcsv($output, $row);
@@ -265,7 +265,7 @@ if (isset($_POST['pdf'])) {
 								<tr style="text-align: left;">
 									<th>Artikel</th>
 									<th>Preis Gebinde</th>
-									<th>Größe KG/L</th>
+									<th>Größe E</th>
 									<th>Menge</th>
 									<th>&#931;</th>
 								</tr>';

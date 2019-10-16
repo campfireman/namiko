@@ -1,3 +1,9 @@
+# Version 1.5
+- Einfuehrung von Lagerware als Flag
+- Bugfix von Bestellempfehlungen
+- Bestellempfehlungen basiered auf Lagerware j/n
+- update von Einheitengroesse aktualisiert bestellungen automatisch
+
 # Version 1.4.2
 - EmailCenter Update
 - SEPA timeframe update

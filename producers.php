@@ -24,14 +24,14 @@ if (isset($_POST['addProducer'])) {
 
 	if (!$result) {
 		$_SESSION['notification'] = true;
-		$_SESSION['notificationmsg'] = 'Der Herstellername ist bereits vergeben.';
+		$_SESSION['notificationmsg'] = 'Der Lieferantname ist bereits vergeben.';
 	} else {
 		$statement = $pdo->prepare("INSERT INTO producers (producerName, description) VALUES (:producerName, :description)");
 		$result = $statement->execute(array('producerName' => $producerName, 'description' => $description));
 
 		if ($result) {
 			$_SESSION['notification'] = true;
-			$_SESSION['notificationmsg'] = 'Hersteller bzw. Lieferant wurde erfolgreich gespeichert.';
+			$_SESSION['notificationmsg'] = 'Lieferant bzw. Lieferant wurde erfolgreich gespeichert.';
 			header("Location: " . $_SERVER['REQUEST_URI']);
 		} else {
 			$_SESSION['notification'] = true;
@@ -50,7 +50,7 @@ if ($result) {
 			<table class="table panel panel-default">
 			<tr>
 				<th>#</th>
-				<th>Herstellername</th>
+				<th>Lieferantname</th>
 				<th></th>
 			</tr>';
 		while ($row = $statement->fetch()) {
@@ -78,12 +78,12 @@ if ($result) {
 
 <div class="sizer spacer">
 	<div>
-		<div class="spacer2"><span class="subtitle2">Hersteller/Lieferant hinzufügen</span></div>
+		<div class="spacer2"><span class="subtitle2">Lieferant/Lieferant hinzufügen</span></div>
 		<form class="form" action="<?php htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
 			<input type="text" name="producerName" placeholder="Name des Lieferanten" required><br><br>
 			<div id="description">
 				<input type="hidden" name="description">
-				<label>Herstellerinfos</label>
+				<label>Lieferantinfos</label>
 				<div id="summernote"></div>
 			</div><br>
 			<button id="add_producer" type="submit" name="addProducer" class="clean-btn green">Hinzufügen <i class="fa fa-plus" aria-hidden="true"></i></button>
@@ -91,7 +91,7 @@ if ($result) {
 	</div><br><br>
 	<div class="row">
 		<div class="col-sm-6">
-			<div class="spacer2"><span class="subtitle2">Hersteller/Lieferant bearbeiten</span></div><br>
+			<div class="spacer2"><span class="subtitle2">Lieferant/Lieferant bearbeiten</span></div><br>
 			<?php
 			echo $table;
 			?>

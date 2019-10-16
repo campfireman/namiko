@@ -36,7 +36,7 @@ class Cart {
 		<table class="cartTable">
 			<tr style="text-align: left;">
 				<th>Artikel</th>
-				<th>Preis/Einheit</th>
+				<th>Preis/E</th>
 				<th>Einheiten</th>
 				<th>Menge</th>
 				<th>&#931;</th>'.
@@ -47,7 +47,7 @@ class Cart {
 			$buttons = '';
 			$price_KG_L = $product["price_KG_L"];
 			$pid = $product["pid"];
-			$quantity = $product["quantity"];
+			$quantity = $product["quantity"] * 1;
 			$productName = $product['productName'];
 			$unit_size = $product['unit_size']*1;
 			$unit_tag = $product['unit_tag'];

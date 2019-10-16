@@ -37,7 +37,7 @@ include("templates/header.inc.php");
 						//print_r($arr = $statement2->errorInfo());
 							echo '<div class="center">';
 							echo '<table class="output table panel panel-default">';
-							echo '<tr><th>Artikel ID</th><th>Artikelname</th><th>Preis pro KG/L</th><th>Bestellmenge</th><th>&#931;</th></tr>';
+							echo '<tr><th>Artikel ID</th><th>Artikelname</th><th>Preis pro E</th><th>Bestellmenge</th><th>&#931;</th></tr>';
 
 						while ($row = $statement2->fetch()) {
 							$total = $row['total'];

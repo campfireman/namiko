@@ -30,7 +30,7 @@
 				</div>
 			</div>
 			<div class="indent spacer2">
-				<span class="subtitle">Hersteller</span>
+				<span class="subtitle">Lieferant</span>
 				<div><label><input id="allprod" class="producer" type="checkbox" name="producer[]" value="0" id="all" checked> alle</label></div>
 				<hr class="separator">
 				<?php

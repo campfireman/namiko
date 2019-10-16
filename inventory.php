@@ -86,6 +86,7 @@ if (isset($_POST['update'])) {
 			<tr>
 				<th>Produktname</th>
 				<th>Produkt ID</th>
+				<th>Lagerware</th>
 				<th>Lagermenge umgerechnet</th>
 				<th class="width100">Lagermenge (E)</th>
 				<th class="width100">bestellt (E)</th>
@@ -116,6 +117,8 @@ if (isset($_POST['update'])) {
 				$unit_tag = $row['unit_tag'];
 				$unit_size = $row['unit_size'];
 				$producer = $row['producer'];
+				$is_storage_item = $row['is_storage_item'];
+				$container = $row['container'];
 				$quantityOrdered = $db->getTotalOrders($pid);
 				$quantityDelivery = 0;
 				$intventory_in_unit = $quantity_KG_L * $unit_size;
@@ -165,7 +168,14 @@ if (isset($_POST['update'])) {
 				$sum = ($realStock + $quantityDelivery - $preorders);
 
 				if ($sum < 0) {
-					$recommendations[$producer][] = array('pid' => $pid, 'deficit' => $sum);
+					if ($is_storage_item == 1) {
+						$recommendations[$producer][] = array('pid' => $pid, 'deficit' => $sum);
+ 					} else {
+ 						$div = intdiv(abs($sum), $container);
+						if ($div > 0) {
+							$recommendations[$producer][] = array('pid' => $pid, 'deficit' => $sum);
+						}
+ 					}
  					$sumOut = '<span class="red">'. $sum .'</span>';
 				} else if ($sum > 0) {
 					$sumOut = '<span class="green">'. $sum .'</span>';
@@ -180,12 +190,19 @@ if (isset($_POST['update'])) {
 					$warn = '';
 				}
 
+				if ($is_storage_item) {
+					$is_storage_item_out = '<span> <i class="fa fa-database" aria-hidden="true"></i></span>';
+				} else {
+					$is_storage_item_out = '';
+				}
+
 				// add product to table if it is in the inventory or has been ordered
 				if ($quantity_KG_L || $quantityOrdered > 0) {
 					echo '<tr><form action="'. htmlspecialchars($_SERVER['PHP_SELF']) .'" method="post">';
 					echo '<input type="hidden" name="ii_id" value="'. $row['ii_id'] .'" required>';
 					echo '<td>'. $row['productName'] . $warn .'</td>';
 					echo '<td>'. $pid .'</td>';
+					echo '<td>'. $is_storage_item_out .'</td>';
 					echo '<td>'. $intventory_in_unit . $unit_tag .'</td>';
 					echo '<td><input class="stock" type="number" name="quantity_KG_L" step="1" value="'. $quantity_KG_L .'" required></td>';
 					echo '<td>'. $quantityOrderedOut .'</td>';
@@ -211,7 +228,7 @@ if (isset($_POST['update'])) {
 			while ($row = $statement->fetch()) {
 				$pid = $row['pid'];
 				if (!in_array($pid, $checker)) {
-					$optionList .= '<option value="'. $pid .'">'. $row['productName'] .' ('. $row['container'] .' KG/L Gebinde)</option>';
+					$optionList .= '<option value="'. $pid .'">'. $row['productName'] .' ('. $row['container'] .' E Gebinde)</option>';
 				}
 			}
 			?>
@@ -288,7 +305,7 @@ if (isset($_POST['update'])) {
 				$orderTotalAdd .= '<optgroup label="'. $row['producerName'] .'">';
 			}
 
-			$orderTotalAdd .= '<option value="'. $row['pid'] .'">'. $row['productName'] .' ('. $currency . sprintf('%01.2f', $row['priceContainer']) .' / '. $row['container'] .'KG/L)</option>';
+			$orderTotalAdd .= '<option value="'. $row['pid'] .'">'. $row['productName'] .' ('. $currency . sprintf('%01.2f', $row['priceContainer']) .' / '. $row['container']*1 .'E)</option>';
 
 	}
 
@@ -368,6 +385,7 @@ if (isset($_POST['update'])) {
 												<tr>
 												<th>Produktname</th>
 												<th>Produkt ID</th>
+												<th>Lagerware</th>
 												<th>Defizit Einheiten</th>
 												<th>Gebinde Einheiten</th>
 												<th>empf. Menge</th>
@@ -378,24 +396,42 @@ if (isset($_POST['update'])) {
 				// iterating the recommendations array for this specific producer
 				foreach ($category as $product) {
 					$pid = $product['pid'];
-					$deficit = ($product['deficit']);
-					$statement2 = $pdo->prepare("SELECT productName, container, priceContainer FROM products WHERE pid = '$pid'");
+					$deficit = abs($product['deficit']);
+					$statement2 = $pdo->prepare("SELECT * FROM products WHERE pid = '$pid'");
 					$result2 = $statement2->execute();
 					$productData = $statement2->fetch();
 
+					$is_storage_item = $productData['is_storage_item'];
 					$priceContainer = $productData['priceContainer'];
-					$quantityContainer = ceil(($deficit / $productData['container'])) * (-1);
-					if ($quantityContainer == 0) { $quantityContainer = 1; }
+					$container = $productData['container'];
+
+					if ($is_storage_item == 1) {
+						$quantityContainer = ceil($deficit / $container);
+					} else {
+						$div = intdiv($deficit, $container);
+						if ($div > 0) {
+							$quantityContainer = $div;
+						} else {
+							continue;
+						}
+					}
+
 					$total = ($priceContainer * $quantityContainer); // calculating price
 					$grandtotal += $total; // calculating total price
 
+					if ($is_storage_item == 1) {
+						$is_storage_item_out = '<span> <i class="fa fa-database" aria-hidden="true"></i></span>';
+					} else {
+						$is_storage_item_out = '';
+					}
 					// adding item to table
 					$recommendationsOut .= '<tr>
 											<td>'. $productData['productName'] .'</td>
-											<td><input type="hidden" name="pid" value="'. $pid .'">'. $pid .'</td>
+											<td><input type="hidden" name="pid[]" value="'. $pid .'">'. $pid .'</td>
+											<td>'. $is_storage_item_out .'</td>
 											<td>'. $product['deficit'] .'</td>
 											<td>'. $productData['container'] .'</td>
-											<td><input class="width100" type="number" name="quantityContainer" value="'. $quantityContainer . '"></td>
+											<td><input class="width100" type="number" name="quantityContainer[]" value="'. $quantityContainer . '"></td>
 											<td>'. $currency.sprintf("%01.2f", $priceContainer) .'</td>
 											<td>'. $currency.sprintf("%01.2f", $total) .'</td>
 											</tr>';
@@ -403,6 +439,7 @@ if (isset($_POST['update'])) {
 
 				// closing table
 				$recommendationsOut .= '<tr>
+											<td></td>
 											<td></td>
 											<td></td>
 											<td></td>
@@ -423,7 +460,7 @@ if (isset($_POST['update'])) {
 		<select class="smallForm" name="pid" required>
 		<?php echo $optionList ?>
 		</select>
-		<input type="number" name="quantity_KG_L" placeholder="Menge in KG/L" class="smallForm" required>
+		<input type="number" name="quantity_KG_L" placeholder="Menge in E" class="smallForm" required>
 		<button type="submit" name="addItem" class="clean-btn blue">Hinzufügen <i class="fa fa-plus" aria-hidden="true"></i></button>
 	</form>
 
@@ -453,49 +490,28 @@ if (isset($_POST['update'])) {
 
 </div>
 
-<pre>
-	<?php print_r($_SESSION); ?>
-</pre>
-
 <script type="text/javascript">
 	// sending recommendations to order_total cart
 	$('.order-total').submit(function (e) {
 		var form_data = $(this).serialize();
 		var button_content = $(this).find('button[type=submit]');
 		button_content.html('...'); 
-		var arr = [];
-		var rest = form_data;
-
-		// if multiple items -> divide into single ajax calls
-		for (var i = 1; i <= form_data.length; i+=5) {
-		var checker = rest.indexOf('&pid', i);
-
-		
-			if (checker !== -1) {
-				var send = rest.slice(0, checker); // slice string to next item
-				rest = rest.slice(checker); // slice item off from string
-				arr.push(send); // save item
-				
+		e.preventDefault();
+		console.log(form_data);
+		$.ajax({
+			url: 'order_total_process.php',
+			type: 'POST',
+			dataType: 'json',
+			data: form_data
+		}).done(function(data) {
+			if (data.error == 1) {
+				alert(data.text);
 			} else {
-				arr.push(rest);
-
-				arr.forEach(function(element) { // make ajax call for each item 
-					 $.ajax({
-						url: 'order_total_process.php',
-						type: 'POST',
-						dataType: 'json',
-						data: element
-					}).done(function(data) {
-						
-					})
-				 }); 
-				
 				button_content.removeClass('blue').addClass('green').html('<span>Hinzugefügt <i class="fa fa-check" aria-hidden="true"></span>');
 				$("#order-total-results").html('').load( "order_total_process.php", {"load_cart":"1"});
-				break;
 			}
-		}
-		e.preventDefault();
+			
+		}); 
 	});
 
 	$('.order-total-add').submit(function(e) {

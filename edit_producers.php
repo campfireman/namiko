@@ -22,11 +22,11 @@ if (isset($_POST['updateDoc'])) {
 
   if ($result) {
     $_SESSION['notification'] = true;
-    $_SESSION['notificationmsg'] = 'Herstellerinformationen erfolgreich aktualisiert.';
+    $_SESSION['notificationmsg'] = 'Lieferantinformationen erfolgreich aktualisiert.';
     header("Location: producers.php");
   } else {
     $_SESSION['notification'] = true;
-    $_SESSION['notificationmsg'] = 'Herstellerinformationen konnte nicht aktualisiert werden.';
+    $_SESSION['notificationmsg'] = 'Lieferantinformationen konnte nicht aktualisiert werden.';
     header("Location: producers.php");
   }
 }
@@ -47,7 +47,7 @@ if (isset($_POST['edit_producer'])) {
     <form method="post" action="'. htmlspecialchars($_SERVER['REQUEST_URI']) .'">
     <input type="hidden" name="description">
     <input type="hidden" name="pro_id" value="'. $pro_id .'">
-    <label>Herstellerinformationen aktualisieren</label>
+    <label>Lieferantinformationen aktualisieren</label>
     <div id="summernote"></div><br>
     <button id="updateDoc" type="submit" name="updateDoc" class="clean-btn green">Speichern <i class="fa fa-floppy-o" aria-hidden="true"></i></button>
     </form>

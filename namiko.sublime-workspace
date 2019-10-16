@@ -4,6 +4,54 @@
 		"selected_items":
 		[
 			[
+				"con",
+				"container"
+			],
+			[
+				"_",
+				"_POST"
+			],
+			[
+				"qu",
+				"quantityContainer"
+			],
+			[
+				"quan",
+				"quantityContainer"
+			],
+			[
+				"new",
+				"new_total"
+			],
+			[
+				"pro",
+				"product"
+			],
+			[
+				"is",
+				"is_storage_item"
+			],
+			[
+				"stat",
+				"statement"
+			],
+			[
+				"or",
+				"orders"
+			],
+			[
+				"order",
+				"order_items"
+			],
+			[
+				"uni",
+				"unit_tag"
+			],
+			[
+				"unit",
+				"unit_size"
+			],
+			[
 				"curr",
 				"currency"
 			],
@@ -24,20 +72,8 @@
 				"producers"
 			],
 			[
-				"pro",
-				"products"
-			],
-			[
 				"container",
 				"container_size"
-			],
-			[
-				"unit",
-				"unit_tag"
-			],
-			[
-				"order",
-				"order_total"
 			],
 			[
 				"price",
@@ -52,19 +88,7 @@
 				"quantity_KG_L"
 			],
 			[
-				"_",
-				"_SESSION"
-			],
-			[
-				"qu",
-				"quantity_to_order"
-			],
-			[
 				"qun",
-				"quantity_to_order"
-			],
-			[
-				"quan",
 				"quantity_to_order"
 			],
 			[
@@ -92,20 +116,12 @@
 				"max-width\tproperty"
 			],
 			[
-				"uni",
-				"unit_size"
-			],
-			[
 				"update",
 				"updateContainer"
 			],
 			[
 				"pri",
 				"price_KG_L"
-			],
-			[
-				"stat",
-				"statement2"
 			],
 			[
 				"func",
@@ -194,10 +210,6 @@
 			[
 				"qua",
 				"quantity"
-			],
-			[
-				"new",
-				"new_item"
 			],
 			[
 				"fucn",
@@ -502,65 +514,82 @@
 			[
 				"newsletter",
 				"newsletter_recipients"
-			],
-			[
-				"newsl",
-				"newsletter_recipients"
-			],
-			[
-				"email",
-				"emailForm"
-			],
-			[
-				"time",
-				"timeToggle"
 			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "emailcenter.php",
+			"file": "admin.php",
 			"settings":
 			{
-				"buffer_size": 8624,
+				"buffer_size": 18029,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "inc/config.inc.php",
+			"file": "inventory.php",
 			"settings":
 			{
-				"buffer_size": 870,
+				"buffer_size": 19423,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "email_process.php",
+			"file": "order_total_process.php",
 			"settings":
 			{
-				"buffer_size": 1716,
+				"buffer_size": 12130,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "inc/Mail.inc.php",
+			"file": "inc/functions.inc.php",
 			"settings":
 			{
-				"buffer_size": 2815,
+				"buffer_size": 4666,
 				"encoding": "UTF-8",
-				"line_ending": "Unix"
+				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "usefulqueries.sql",
+			"contents": "Searching 813 files for \"KG/L\"\n\n/home/ture/projects/htdocs/namiko/delivered-orders.php:\n   43  \techo '<div class=\"inline\">'. $first_name . ' ' . $last_name . '</div>';\n   44  \techo '<div class=\"subtitle3 inline\" style=\"float: right\"><span>'. $date->format(\"d.m.Y H:i:s\") .'</span></div><br><br>';\n   45: \techo '<table class=\"max\"><tr style=\"text-align: left;\"><th>Artikel</th><th>Preis KG/L</th><th>Menge</th><th>&#931;</th></tr>';\n   46  \t\n   47  \t$grandtotal = 0;\n\n/home/ture/projects/htdocs/namiko/handing-out.php:\n   38  \t\t\t\t\t\t\techo '<div class=\"center\">';\n   39  \t\t\t\t\t\t\techo '<table class=\"output table panel panel-default\">';\n   40: \t\t\t\t\t\t\techo '<tr><th>Artikel ID</th><th>Artikelname</th><th>Preis pro KG/L</th><th>Bestellmenge</th><th>&#931;</th></tr>';\n   41  \n   42  \t\t\t\t\t\twhile ($row = $statement2->fetch()) {\n\n/home/ture/projects/htdocs/namiko/inventory.php:\n  212  \t\t\t\t$pid = $row['pid'];\n  213  \t\t\t\tif (!in_array($pid, $checker)) {\n  214: \t\t\t\t\t$optionList .= '<option value=\"'. $pid .'\">'. $row['productName'] .' ('. $row['container'] .' KG/L Gebinde)</option>';\n  215  \t\t\t\t}\n  216  \t\t\t}\n  ...\n  289  \t\t\t}\n  290  \n  291: \t\t\t$orderTotalAdd .= '<option value=\"'. $row['pid'] .'\">'. $row['productName'] .' ('. $currency . sprintf('%01.2f', $row['priceContainer']) .' / '. $row['container'] .'KG/L)</option>';\n  292  \n  293  \t}\n  ...\n  424  \t\t<?php echo $optionList ?>\n  425  \t\t</select>\n  426: \t\t<input type=\"number\" name=\"quantity_KG_L\" placeholder=\"Menge in KG/L\" class=\"smallForm\" required>\n  427  \t\t<button type=\"submit\" name=\"addItem\" class=\"clean-btn blue\">Hinzufügen <i class=\"fa fa-plus\" aria-hidden=\"true\"></i></button>\n  428  \t</form>\n\n/home/ture/projects/htdocs/namiko/my-preorders.php:\n   39  \techo '<div class=\"subtitle2 inline\"><span>Vorbestellung #'. $oid .'</span></div>';\n   40  \techo '<div class=\"subtitle3 inline\" style=\"float: right\"><span>'. $date->format(\"d.m.Y H:i:s\") .'</span></div><br><br>';\n   41: \techo '<table class=\"max\"><tr style=\"text-align: left;\"><th>Artikel</th><th>Preis KG/L</th><th>Menge</th><th>&#931;</th></tr>';\n   42  \t\n   43  \t$grandtotal = 0;\n\n/home/ture/projects/htdocs/namiko/order_total.php:\n   45  \n   46  \t// output the column headings\n   47: \tfputcsv($output, array('Artikel', 'PreisGebinde', utf8_decode('GrößeKG/L'), 'Menge', 'Summe'));\n   48  \n   49  \tforeach ($csv as $row) {\n   ..\n  266  \t\t\t\t\t\t\t\t\t<th>Artikel</th>\n  267  \t\t\t\t\t\t\t\t\t<th>Preis Gebinde</th>\n  268: \t\t\t\t\t\t\t\t\t<th>Größe KG/L</th>\n  269  \t\t\t\t\t\t\t\t\t<th>Menge</th>\n  270  \t\t\t\t\t\t\t\t\t<th>&#931;</th>\n\n8 matches across 5 files\n\n\nSearching 813 files for \"res(\"\n\n/home/ture/projects/htdocs/namiko/admin_handler.php:\n   46  \t\t\t\tcontinue;\n   47  \t\t\t} else {\n   48: \t\t\t\tres(1, json_encode($statement->errorInfo()));\n   49  \t\t\t}\n   50  \t\t} else {\n   51: \t\t\tres(1, json_encode($statement->errorInfo()));\n   52  \t\t}\n   53  \t\t\n   54  \t}\n   55  \n   56: \tres(0, \"Success\");\n   57  }\n   58  \n   ..\n  180  \t$table .= '</table>';\n  181  \n  182: \tres(0, $table);\n  183  }\n  184  \n  185: res(0, \"Keine Daten wurden uebermittelt\");\n  186  ?>\n\n/home/ture/projects/htdocs/namiko/email_process.php:\n   43  \n   44  \tif ($mail->sendBatch($batch)) {\n   45: \t\tres(1, $mail->getMailErrors());\n   46  \t} else {\n   47: \t\tres(0, 'Mails erfolgreich verschickt.');\n   48  \t}\n   49  \n\n/home/ture/projects/htdocs/namiko/order_total_process.php:\n   36  \n   37          if (!$result) {\n   38:             res(11)\n   39          }\n   40  \n   ..\n   58      \n   59      $total_items = count($_SESSION[\"total\"]); //count total items\n   60:     res(0, \"Success\") //output json \n   61  \n   62  \n   ..\n  187  \n  188          if ($result['delivered'] == 1) {\n  189:             res(1, \"Bereits, als bezahl markiert\");\n  190          }\n  191  \n  ...\n  262          $pdo->commit();\n  263          $db->unlock();\n  264:         res(0, \"Erfolgreich\");\n  265  \n  266      } catch (Exception $e) {\n  267          $pdo->rollBack();\n  268          logErr($e->getMessage());\n  269:         res(1, $e->getMessage());\n  270      }\n  271  }\n  ...\n  284  \n  285          if ($result) {\n  286:             res(0, \"Erfolgreich.\");\n  287          } else {\n  288:             res(1, \"Fehler\");\n  289          }\n  290      } else {\n  291:         res(1, \"Bereits als bezahlt markiert.\");\n  292      }\n  293  }\n  ...\n  318              if ($result) {\n  319                  $pdo->commit();\n  320:                 res(0, \"Erfolgreich\");\n  321              } else {\n  322                  throw new Exception(json_encode($statement->errorInfo()));\n  ...\n  327      } catch (Execption $e) {\n  328          $pdo->rollBack();\n  329:         res(1, $e->getMessage());\n  330      }\n  331  }\n\n/home/ture/projects/htdocs/namiko/session_process.php:\n   27  \t\t\tif ($result) {\n   28  \t\t\t\t$pdo->commit();\n   29: \t\t\t\tres(0, \"Erfolgreich\");\n   30  \t\t\t} else {\n   31  \t\t\t\tthrow new Exception($statement->errorInfo());\n   ..\n   36  \t} catch (Execption $e) {\n   37  \t\t$pdo->rollBack();\n   38: \t\tres(1, $e->getMessage());\n   39  \t}\n   40  }\n   ..\n   52  \t\t\t$row = $statement->fetch();\n   53  \t\t\tif ($row['delivered'] == 1) {\n   54: \t\t\t\tres(1, \"Bereits markiert.\");\n   55  \t\t\t}\n   56  \t\t}\n   ..\n   78  \t\t\t}\n   79  \t\t\t$pdo->commit();\n   80: \t\t\tres(0, \"Erfolgreich.\");\n   81  \t\t} else {\n   82  \t\t\tthrow new Exception($statement->errorInfo());\n   ..\n   84  \t} catch (Exception $e) {\n   85  \t\t$pdo->rollBack();\n   86: \t\tres(1, $e->getMessage());\n   87  \t}\n   88  }\n   89: res(1, \"Keine Daten übermittelt\");\n   90  ?>\n\n/home/ture/projects/htdocs/namiko/inc/functions.inc.php:\n  136  }\n  137  \n  138: function res($code, $text) {\n  139  \tdie(json_encode(array('error' => $code, 'text' => $text)));\n  140  }\n\n/home/ture/projects/htdocs/namiko/util/fullcalendar/fullcalendar.js:\n 10415              }\n 10416          }\n 10417:         function computeRes() {\n 10418              start = date.clone().startOf(alignment);\n 10419              end = start.clone().add(duration);\n 10420              res = new UnzonedRange_1.default(start, end);\n 10421          }\n 10422:         computeRes();\n 10423          // if range is completely enveloped by hidden days, go past the hidden days\n 10424          if (!this.trimHiddenDays(res)) {\n 10425              date = this._view.skipHiddenDays(date, direction);\n 10426:             computeRes();\n 10427          }\n 10428          return res;\n .....\n 13863          if ((level0 = levels[0])) {\n 13864              for (i = 0; i < level0.length; i++) {\n 13865:                 computeSlotSegPressures(level0[i]);\n 13866              }\n 13867              for (i = 0; i < level0.length; i++) {\n .....\n 14006  // Figure out which path forward (via seg.forwardSegs) results in the longest path until\n 14007  // the furthest edge is reached. The number of segments in this path will be seg.forwardPressure\n 14008: function computeSlotSegPressures(seg) {\n 14009      var forwardSegs = seg.forwardSegs;\n 14010      var forwardPressure = 0;\n .....\n 14015              forwardSeg = forwardSegs[i];\n 14016              // figure out the child's maximum forward path\n 14017:             computeSlotSegPressures(forwardSeg);\n 14018              // either use the existing maximum, or use the child's forward pressure\n 14019              // plus one (for the forwardSeg itself)\n\n30 matches across 6 files\n\n\nSearching 813 files for \"is_storage\"\n\n/home/ture/projects/htdocs/namiko/admin.php:\n   40  \t}\n   41  \n   42: \tif (isset($_POST['is_storage_item'])) {\n   43: \t\t$is_storage_item = 1;\n   44  \t} else {\n   45: \t\t$is_storage_item = 0;\n   46  \t}\n   47  \n   48: \t$statement = $pdo->prepare(\"INSERT INTO products (productName, productDesc, price_KG_L, netto, tax, unit_size, unit_tag, category, container, priceContainer, origin, producer, is_storage_item) VALUES (:productName, :productDesc, :price_KG_L, :netto, :tax, :unit_size, :unit_tag, :category, :container, :priceContainer, :origin, :producer, :is_storage_item)\");\n   49: \t$result = $statement->execute(array('productName' => $productName, 'productDesc' => $productDesc, 'price_KG_L' => $price_KG_L, 'netto' => $netto, 'tax' => $tax, 'unit_size' => $unit_size, 'unit_tag' => $unit_tag, 'category' => $category, 'container' => $container, 'priceContainer' => $priceContainer, 'origin' => $origin, 'producer' => $producer, 'is_storage_item' => $is_storage_item));\n   50  \t\n   51  \tif($result) {\n   ..\n  239  \t\t\t\t<div>\n  240  \t\t\t\t\t<label for=\"priceContainer\">Lagerware?</label><br>\n  241: \t\t\t\t\t<input  type=\"checkbox\" name=\"is_storage_item\" value=\"1\">\n  242  \t\t\t\t</div><br>\n  243  \n  ...\n  417  \t\t\t\tvar producer = row.find('select[name=\"producer\"]').val();\n  418  \n  419: \t\t\t\tif(row.find('input[name=\"is_storage_item\"]').is(':checked')) {\n  420: \t\t\t\t\tvar is_storage_item = 1;\n  421  \t\t\t\t} else {\n  422: \t\t\t\t\tvar is_storage_item = 0;\n  423  \t\t\t\t}\n  424  \n  ...\n  435  \t\t\t\t\torigin: origin, \n  436  \t\t\t\t\tproducer: producer,\n  437: \t\t\t\t\tis_storage_item: is_storage_item\n  438  \t\t\t\t};\n  439  \n\n/home/ture/projects/htdocs/namiko/admin_handler.php:\n   34  \t\t$producer = $product['producer'];\n   35  \t\t$netto = $product['netto'];\n   36: \t\t$is_storage_item = $product['is_storage_item'];\n   37  \n   38: \t\t$statement = $pdo->prepare(\"UPDATE products SET productName = :productName, productDesc = :productDesc, category=:category, netto = :netto, price_KG_L = :price_KG_L, unit_size=:unit_size, unit_tag = :unit_tag, container = :container, priceContainer = :priceContainer, origin = :origin, producer = :producer, is_storage_item = :is_storage_item WHERE pid = :pid\");\n   39: \t\t$result = $statement->execute(array('productName' => $productName, 'productDesc' => $productDesc, 'category' => $category, 'netto' => $netto, 'price_KG_L' => $price_KG_L, 'unit_size' => $unit_size, 'unit_tag' => $unit_tag, 'container' => $container, 'priceContainer' => $priceContainer, 'origin' => $origin, 'producer' => $producer, 'pid' => $pid, 'is_storage_item' => $is_storage_item));\n   40  \n   41  \t\tif ($result) {\n   ..\n  149  \n  150  \twhile($row = $statement->fetch()) {\n  151: \t\tif ($row['is_storage_item'] == 1) {\n  152: \t\t\t$is_storage_item = 'checked';\n  153  \t\t} else {\n  154: \t\t\t$is_storage_item = '';\n  155  \t\t}\n  156  \n  ...\n  173  \t\t\t<td><input class=\"empty\" type=\"text\" name=\"origin\" value=\"'. $row['origin'] .'\"></td>\n  174  \t\t\t<td><select type=\"text\" name=\"producer\"><option value=\"'. $row['pro_id'] .'\">'. $row['producerName'] .'</option>'. $select .'</select></td>\n  175: \t\t\t<td><input type=\"checkbox\" name=\"is_storage_item\" value=\"1\"'. $is_storage_item .'></td>\n  176  \t\t\t</tr>\n  177  \t\t</form></tr>';\n\n/home/ture/projects/htdocs/namiko/catalogue_handler.php:\n   27  \t}\n   28  \n   29: \tif ($row['is_storage_item'] == 1) {\n   30: \t\t$is_storage_item = '| <span class=\"yellow\">Lagerware</span>';\n   31  \t} else {\n   32: \t\t$is_storage_item = '';\n   33  \t}\n   34  \t\n   ..\n   37  \t\t\t<span class=\"data\">'. htmlspecialchars($row['origin']) .' | \n   38  \t\t\t\t<a class=\"producer_info\" data-code=\"'. $row['pro_id'] .'\">'. htmlspecialchars($row['producerName']) .'</a>\n   39: \t\t\t\t'. $is_storage_item .'\n   40  \t\t\t</span>\n   41  \t\t\t<h2 class=\"name\">'. htmlspecialchars($row['productName']) .'</h2>\n\n/home/ture/projects/htdocs/namiko/sql.sql:\n   49  \n   50  ALTER TABLE `namiko`.`products` \n   51: ADD COLUMN `is_storage_item` TINYINT(4) NULL DEFAULT 0 AFTER `created_at`,\n   52  CHANGE COLUMN `updated_at` `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `price_KG_L`,\n   53  CHANGE COLUMN `productDesc` `productDesc` TEXT CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NULL DEFAULT NULL ,\n\n29 matches across 4 files\n",
 			"settings":
 			{
-				"buffer_size": 1271,
-				"line_ending": "Unix"
+				"buffer_size": 11542,
+				"line_ending": "Unix",
+				"name": "Find Results",
+				"scratch": true
+			}
+		},
+		{
+			"file": "delivered-orders.php",
+			"settings":
+			{
+				"buffer_size": 2622,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "handing-out.php",
+			"settings":
+			{
+				"buffer_size": 6573,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "sql.sql",
+			"settings":
+			{
+				"buffer_size": 2352,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -575,6 +604,10 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"git add",
+				"Git: Add All"
+			],
 			[
 				"git push",
 				"Git: Push"
@@ -606,10 +639,6 @@
 			[
 				"git co",
 				"Git: Commit"
-			],
-			[
-				"git add",
-				"Git: Add All"
 			],
 			[
 				"git:p",
@@ -759,32 +788,57 @@
 		"/home/ture/projects/htdocs/namiko",
 		"/home/ture/projects/htdocs/namiko/css",
 		"/home/ture/projects/htdocs/namiko/inc",
-		"/home/ture/projects/htdocs/namiko/js",
-		"/home/ture/projects/htdocs/namiko/settings",
 		"/home/ture/projects/htdocs/namiko/templates",
 		"/home/ture/projects/htdocs/namiko/util"
 	],
 	"file_history":
 	[
-		"/home/ture/projects/htdocs/namiko/CHANGELOG.md",
-		"/home/ture/projects/htdocs/namiko/session_process.php",
-		"/home/ture/projects/htdocs/namiko/email_process.php",
-		"/home/ture/projects/htdocs/namiko/inc/Mail.inc.php",
+		"/home/ture/projects/htdocs/namiko/css/style.css",
+		"/home/ture/projects/htdocs/namiko/catalogue_handler.php",
+		"/home/ture/projects/htdocs/namiko/admin_handler.php",
 		"/home/ture/projects/htdocs/namiko/inventory.php",
+		"/home/ture/projects/htdocs/namiko/my-preorders.php",
 		"/home/ture/projects/htdocs/namiko/order_total.php",
+		"/home/ture/projects/htdocs/namiko/edit_producers.php",
+		"/home/ture/projects/htdocs/namiko/order_total_process.php",
+		"/home/ture/projects/htdocs/namiko/templates/sidebar.inc.php",
+		"/home/ture/projects/htdocs/namiko/inc/functions.inc.php",
+		"/home/ture/eclipse-workspace/JDBC_CONNECT-TEST/classes/connect.properties",
+		"/home/ture/projects/htdocs/namiko/emailcenter.php",
+		"/home/ture/projects/htdocs/namiko/inc/Mail.inc.php",
+		"/home/ture/projects/htdocs/namiko/my-orders.php",
+		"/home/ture/projects/htdocs/namiko/templates/footer.inc.php",
+		"/home/ture/projects/htdocs/namiko/members.php",
+		"/home/ture/Desktop/.htaccess",
+		"/home/ture/Desktop/.htpasswd",
+		"/home/ture/projects/SQL/wmh.sql",
+		"/home/ture/projects/htdocs/namiko/sql.sql",
+		"/home/ture/projects/htdocs/namiko/inc/config.inc.php",
+		"/home/ture/projects/htdocs/namiko/sepa.php",
+		"/home/ture/projects/htdocs/namiko/internal.php",
+		"/home/ture/projects/htdocs/namiko/producer_info.php",
+		"/home/ture/projects/htdocs/namiko/producers.php",
+		"/home/ture/projects/htdocs/namiko/templates/admin-nav.inc.php",
+		"/tmp/fz3temp-2/.htaccess",
+		"/home/ture/Desktop/untitled.php",
+		"/tmp/moz/wmh_posts.csv",
+		"/tmp/moz/wmh_posts(1).csv",
+		"/tmp/moz/wmh_posts(2).csv",
+		"/tmp/fz3temp-2/config.inc.php",
+		"/home/ture/projects/htdocs/namiko/email_process.php",
+		"/home/ture/projects/ResourceHub/pictures/colors.txt",
+		"/home/ture/projects/htdocs/namiko/inc/Cart.inc.php",
+		"/home/ture/projects/htdocs/namiko/CHANGELOG.md",
+		"/tmp/mozilla_ture0/SID118D20190822T194125.xml",
+		"/tmp/mozilla_ture0/SID113D20190822T193754.xml",
+		"/tmp/mozilla_ture0/SID104D20190822T191103.xml",
+		"/home/ture/projects/htdocs/namiko/session_process.php",
 		"/home/ture/projects/htdocs/namiko/util/tcpdf/CHANGELOG.TXT",
 		"/home/ture/projects/htdocs/namiko/member.php",
 		"/home/ture/projects/htdocs/namiko/agree.php",
-		"/home/ture/projects/htdocs/namiko/css/style.css",
-		"/home/ture/projects/htdocs/namiko/internal.php",
-		"/home/ture/projects/htdocs/namiko/catalogue_handler.php",
-		"/home/ture/projects/htdocs/namiko/order_total_process.php",
 		"/home/ture/projects/htdocs/namiko/admin.php",
 		"/home/ture/projects/htdocs/namiko/templates/header.inc.php",
 		"/home/ture/projects/htdocs/namiko/js/jquery.js",
-		"/home/ture/projects/htdocs/namiko/admin_handler.php",
-		"/home/ture/projects/htdocs/namiko/inc/Cart.inc.php",
-		"/home/ture/projects/htdocs/namiko/templates/footer.inc.php",
 		"/home/ture/projects/htdocs/namiko/pay.php",
 		"/home/ture/projects/htdocs/namiko/inc/DBOperations.inc.php",
 		"/home/ture/projects/htdocs/namiko/css/bootstrap.css",
@@ -799,15 +853,8 @@
 		"/home/ture/projects/data_analysis/fibonacci_graph.py",
 		"/home/ture/projects/htdocs/namiko/.gitignore",
 		"/home/ture/projects/mysql-backup/README.md",
-		"/home/ture/projects/htdocs/namiko/my-orders.php",
 		"/home/ture/projects/htdocs/namiko/session.php",
-		"/home/ture/projects/htdocs/namiko/producer_info.php",
-		"/home/ture/projects/htdocs/namiko/members.php",
 		"/home/ture/projects/htdocs/namiko/dev.sql",
-		"/home/ture/projects/htdocs/namiko/producers.php",
-		"/home/ture/projects/htdocs/namiko/edit_producers.php",
-		"/home/ture/projects/htdocs/namiko/emailcenter.php",
-		"/home/ture/projects/htdocs/namiko/sepa.php",
 		"/home/ture/projects/htdocs/namiko/calendar.php",
 		"/home/ture/projects/htdocs/namiko/delivered-orders.php",
 		"/home/ture/projects/htdocs/namiko/handing-out.php",
@@ -816,10 +863,8 @@
 		"/home/ture/projects/htdocs/namiko/cart_process.php",
 		"/home/ture/projects/htdocs/namiko/templates/back-up-button.php",
 		"/home/ture/Backup/namiko/sepa.php",
-		"/home/ture/projects/htdocs/namiko/templates/sidebar.inc.php",
 		"/home/ture/projects/CapitalUnion/CapitalUnion.aux",
 		"/home/ture/config.inc.php",
-		"/home/ture/projects/htdocs/namiko/inc/config.inc.php",
 		"/home/ture/projects/htdocs/namiko/register.php",
 		"/home/ture/Studium/18-19SS/Datenbanksysteme1/ue07.sql",
 		"/home/ture/projects/htdocs/wordpress/wp-config.php",
@@ -829,7 +874,6 @@
 		"/home/ture/Downloads/bills.sql",
 		"/home/ture/projects/htdocs/namiko/inc/SEPAprocedure.inc.php",
 		"/home/ture/projects/htdocs/namiko/templates/nav.inc.php",
-		"/home/ture/projects/htdocs/namiko/templates/admin-nav.inc.php",
 		"/tmp/mozilla_ture0/SID103D20190429T120732.xml",
 		"/home/ture/projects/htdocs/namiko/sepa/SID91D20190429T112459.xml",
 		"/home/ture/Downloads/SID97D20190429T115618.xml",
@@ -837,7 +881,6 @@
 		"/home/ture/Downloads/SID99D20190429T120052.xml",
 		"/home/ture/Downloads/SID100D20190429T120158.xml",
 		"/tmp/mozilla_ture0/SID101D20190429T120238.xml",
-		"/home/ture/projects/htdocs/namiko/inc/functions.inc.php",
 		"/home/ture/SID18D20190428T133319.xml",
 		"/home/ture/SID17D20190428T133301.xml",
 		"/home/ture/Downloads/usr_web289_1.sql",
@@ -845,7 +888,6 @@
 		"/home/ture/projects/htdocs/namiko/test.php",
 		"/home/ture/projects/htdocs/namiko/inc/IntegrityException.inc.php",
 		"/home/ture/projects/htdocs/namiko/templates/orders-nav.inc.php",
-		"/home/ture/projects/htdocs/namiko/my-preorders.php",
 		"/home/ture/projects/htdocs/namiko/templates/settings-nav.inc.php",
 		"/home/ture/projects/htdocs/namiko/js/nav.js",
 		"/home/ture/projects/htdocs/namiko/templates/main-nav.inc.php",
@@ -878,26 +920,11 @@
 		"/home/ture/Studium/18-19SS/Datenbanksysteme1/ue01.txt",
 		"/home/ture/.config/i3blocks/battery.py",
 		"/home/ture/.config/i3blocks/config",
-		"/tmp/mozilla_ture0/Loc-1.java",
-		"/home/ture/Studium/18-19SS/Programmieren2/Datum.java",
-		"/tmp/mozilla_ture0/Loc.java",
-		"/home/ture/Studium/18-19Ss",
-		"/home/ture/Studium/18-19SS/Programmieren2/ScanMan.java",
-		"/C/Workspace/test.csv",
-		"/C/Workspace/Studium/18-19SS/DatenstrukturenUndAlgorithmen/TestAlgorithm.java",
-		"/C/Workspace/Studium/18-19WS/PR1/übungen/Pascal.java",
-		"/C/MAMP/htdocs/namiko/my-orders.php",
-		"/C/MAMP/htdocs/namiko/internal.php",
-		"/C/MAMP/htdocs/namiko/pay.php",
-		"/C/MAMP/htdocs/namiko/cart_process.php",
-		"/C/MAMP/htdocs/wmh/emailcenter.php",
-		"/C/MAMP/htdocs/wmh/templates/admin-nav.inc.php",
-		"/C/MAMP/htdocs/namiko/templates/main-nav.inc.php",
-		"/C/MAMP/htdocs/namiko/inc/DOMValidator.inc.php"
+		"/tmp/mozilla_ture0/Loc-1.java"
 	],
 	"find":
 	{
-		"height": 39.0
+		"height": 26.0
 	},
 	"find_in_files":
 	{
@@ -915,6 +942,18 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"is_storage",
+			"res(",
+			"res",
+			"insert",
+			"table",
+			"KG/L",
+			"Hersteller",
+			"<i>",
+			"class=\"up",
+			"\".up\"",
+			".up",
+			"arrow",
 			"closer",
 			"font-weight",
 			"font",
@@ -1030,19 +1069,7 @@
 			"$_SESSION['products']",
 			"mailsubject",
 			"$pdo",
-			"$user",
-			"$_SESSION[\"products\"]",
-			"$product",
-			"$payments",
-			"standardDeviation",
-			"uid",
-			"pdo",
-			"$this->pdo",
-			"collectionDt",
-			"collectionDT",
-			"$collectionDate",
-			"collect",
-			"transaction"
+			"$user"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1050,6 +1077,8 @@
 		"regex": false,
 		"replace_history":
 		[
+			"E",
+			"Lieferant",
 			"Cart()",
 			"Cart($user)",
 			"$_SESSION['orders']",
@@ -1064,24 +1093,24 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 1,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "emailcenter.php",
+					"file": "admin.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 8624,
+						"buffer_size": 18029,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								8105,
-								8105
+								16430,
+								16430
 							]
 						],
 						"settings":
@@ -1090,7 +1119,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3420.0,
+						"translation.y": 517.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
@@ -1098,11 +1127,438 @@
 				},
 				{
 					"buffer": 1,
-					"file": "inc/config.inc.php",
+					"file": "inventory.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 870,
+						"buffer_size": 19423,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5710,
+								5710
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2508.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "order_total_process.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 12130,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1701,
+								1701
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 327.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "inc/functions.inc.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4666,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3855,
+								3855
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1871.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 11542,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										386,
+										390
+									],
+									[
+										709,
+										713
+									],
+									[
+										1052,
+										1056
+									],
+									[
+										1303,
+										1307
+									],
+									[
+										1471,
+										1475
+									],
+									[
+										2018,
+										2022
+									],
+									[
+										2272,
+										2276
+									],
+									[
+										2445,
+										2449
+									],
+									[
+										2682,
+										2686
+									],
+									[
+										2768,
+										2772
+									],
+									[
+										2861,
+										2865
+									],
+									[
+										2949,
+										2953
+									],
+									[
+										2989,
+										2993
+									],
+									[
+										3153,
+										3157
+									],
+									[
+										3211,
+										3215
+									],
+									[
+										3388,
+										3392
+									],
+									[
+										3523,
+										3527
+									],
+									[
+										3653,
+										3657
+									],
+									[
+										3800,
+										3804
+									],
+									[
+										3956,
+										3960
+									],
+									[
+										4067,
+										4071
+									],
+									[
+										4134,
+										4138
+									],
+									[
+										4204,
+										4208
+									],
+									[
+										4369,
+										4373
+									],
+									[
+										4592,
+										4596
+									],
+									[
+										4759,
+										4763
+									],
+									[
+										4933,
+										4937
+									],
+									[
+										5073,
+										5077
+									],
+									[
+										5179,
+										5183
+									],
+									[
+										5352,
+										5356
+									],
+									[
+										5404,
+										5408
+									],
+									[
+										5540,
+										5544
+									],
+									[
+										5779,
+										5783
+									],
+									[
+										6010,
+										6014
+									],
+									[
+										6256,
+										6260
+									],
+									[
+										6462,
+										6466
+									],
+									[
+										6804,
+										6808
+									],
+									[
+										7062,
+										7066
+									],
+									[
+										7387,
+										7397
+									],
+									[
+										7419,
+										7429
+									],
+									[
+										7467,
+										7477
+									],
+									[
+										7690,
+										7700
+									],
+									[
+										7854,
+										7864
+									],
+									[
+										8231,
+										8241
+									],
+									[
+										8252,
+										8262
+									],
+									[
+										8430,
+										8440
+									],
+									[
+										8607,
+										8617
+									],
+									[
+										8661,
+										8671
+									],
+									[
+										8718,
+										8728
+									],
+									[
+										8839,
+										8849
+									],
+									[
+										8856,
+										8866
+									],
+									[
+										9038,
+										9048
+									],
+									[
+										9066,
+										9076
+									],
+									[
+										9410,
+										9420
+									],
+									[
+										9429,
+										9439
+									],
+									[
+										9823,
+										9833
+									],
+									[
+										9844,
+										9854
+									],
+									[
+										9972,
+										9982
+									],
+									[
+										10009,
+										10019
+									],
+									[
+										10067,
+										10077
+									],
+									[
+										10403,
+										10413
+									],
+									[
+										10433,
+										10443
+									],
+									[
+										10592,
+										10602
+									],
+									[
+										10628,
+										10638
+									],
+									[
+										10716,
+										10726
+									],
+									[
+										10967,
+										10977
+									],
+									[
+										11191,
+										11201
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								7260,
+								7260
+							]
+						],
+						"settings":
+						{
+							"detect_indentation": false,
+							"line_numbers": false,
+							"output_tag": 3,
+							"result_base_dir": "",
+							"result_file_regex": "^([^ \t].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 3792.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "delivered-orders.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2622,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "handing-out.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 6573,
 						"regions":
 						{
 						},
@@ -1121,94 +1577,37 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "email_process.php",
+					"buffer": 7,
+					"file": "sql.sql",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1716,
+						"buffer_size": 2352,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1329,
-								1329
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 180.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "inc/Mail.inc.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2815,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								447,
-								447
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "usefulqueries.sql",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 1271,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1271,
-								1271
+								2352,
+								2352
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/SQL/SQL.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 302.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
@@ -1216,7 +1615,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 24.0
+		"height": 26.0
 	},
 	"input":
 	{
@@ -1261,7 +1660,7 @@
 	"project": "namiko.sublime-project",
 	"replace":
 	{
-		"height": 44.0
+		"height": 48.0
 	},
 	"save_all_on_build": true,
 	"select_file":

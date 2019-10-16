@@ -20,7 +20,7 @@ if (isset($_GET["pro_id"])) {
     					</div>';
     		}
     	} else {
-    		$json = 'Kein Hersteller gefunden.';
+    		$json = 'Kein Lieferant gefunden.';
     	}
     } else {
     	$json = 'Query nicht erfolgreich.';

@@ -55,6 +55,10 @@ a:hover {
 	left: -2.5px;
 }
 
+.col-md-6 {
+	margin-top: 50px;
+}
+
 /*
  *  Reusables
  */
@@ -246,6 +250,10 @@ a:hover {
 
 .orange {
 	color: #ff5e16;
+}
+
+.yellow {
+	color: #C7C700;
 }
 
 .right {
@@ -1103,7 +1111,7 @@ a:hover.title {
 	width: 100%;
 }
 
-.table tr:hover {
+.table tbody tr:hover {
       background-color: #ffff99;
 }
 
