@@ -22,57 +22,63 @@ include("templates/orders-nav.inc.php");
 $uid = $user['uid'];
 $count = 0;
 
-$statement = $pdo->prepare("SELECT * FROM preorders WHERE uid = '$uid' ORDER BY oid DESC");
+$statement = $pdo->prepare("SELECT preorders.* FROM preorders WHERE uid = 2 AND oid IN (
+							SELECT oid FROM preorder_items WHERE transferred = 0 GROUP BY oid)
+							ORDER BY oid DESC");
 $result = $statement->execute();
 
 
-while ($row = $statement->fetch()) {
-	$count++;
-	$oid = $row['oid'];
-	$date = new DateTime($row['created_at']);
+if ($statement->rowCount() > 0) {
+	while ($row = $statement->fetch()) {
+		$count++;
+		$oid = $row['oid'];
+		$date = new DateTime($row['created_at']);
 
-	if ($count == 1) {
-			echo '<div class="row spacer3">';
-	}
+		if ($count == 1) {
+				echo '<div class="row spacer3">';
+		}
 
-	echo '<div class="col-md-6">';
-	echo '<div class="subtitle2 inline"><span>Vorbestellung #'. $oid .'</span></div>';
-	echo '<div class="subtitle3 inline" style="float: right"><span>'. $date->format("d.m.Y H:i:s") .'</span></div><br><br>';
-	echo '<table class="max"><tr style="text-align: left;"><th>Artikel</th><th>Preis E</th><th>Menge</th><th>&#931;</th></tr>';
-	
-	$grandtotal = 0;
-
-	$statement2 = $pdo->prepare("SELECT preorder_items.*, products.productName,  products.price_KG_L FROM preorder_items LEFT JOIN products ON preorder_items.pid = products.pid WHERE preorder_items.oid = '$oid' AND preorder_items.transferred = 0");
-	$result2 = $statement2->execute();
-
-	while ($row2 = $statement2->fetch()) {
-		$pid = $row2['pid'];
-		$productName = $row2['productName'];
-		$price_KG_L = $row2['price_KG_L'];
-		$quantity = $row2['quantity'];
-		$total = $row2['total'];
-		$total = ($quantity * $price_KG_L);
-		$grandtotal += $total;
-
-		echo '<tr>';
-		echo '<td>'. $productName .'</td>';
-		echo '<td>'. $currency. sprintf("%01.2f", $price_KG_L) .'</td>';
-		echo '<td>'. $quantity .'</td><td>'.$currency. sprintf("%01.2f", $total). '</td>';
-		echo '<td><button oi_id="'. $row2['oi_id'] .'" oid="'. $oid .'" class="remove-order empty red"><i class="fa fa-trash" aria-hidden="true"></i></button>';
-		echo '</tr>';
-	}
-
-	echo '<tr><td></td><td></td><td></td><td class="emph">'. $currency.sprintf("%01.2f",$grandtotal) .'</td></table>';
-	echo '</div>';
-	if ($count == 2) {
-		echo '</div>';
-		$count = 0;
-	}
+		echo '<div class="col-md-6">';
+		echo '<div class="subtitle2 inline"><span>Vorbestellung #'. $oid .'</span></div>';
+		echo '<div class="subtitle3 inline" style="float: right"><span>'. $date->format("d.m.Y H:i:s") .'</span></div><br><br>';
+		echo '<table class="max"><tr style="text-align: left;"><th>Artikel</th><th>Preis E</th><th>Menge</th><th>&#931;</th></tr>';
 		
-}	
+		$grandtotal = 0;
 
-if ($count == 1) { //closes .row if number of preorders is uneven
+		$statement2 = $pdo->prepare("SELECT preorder_items.*, products.productName,  products.price_KG_L FROM preorder_items LEFT JOIN products ON preorder_items.pid = products.pid WHERE preorder_items.oid = '$oid' AND preorder_items.transferred = 0");
+		$result2 = $statement2->execute();
+
+		while ($row2 = $statement2->fetch()) {
+			$pid = $row2['pid'];
+			$productName = $row2['productName'];
+			$price_KG_L = $row2['price_KG_L'];
+			$quantity = $row2['quantity'];
+			$total = $row2['total'];
+			$total = ($quantity * $price_KG_L);
+			$grandtotal += $total;
+
+			echo '<tr>';
+			echo '<td>'. $productName .'</td>';
+			echo '<td>'. $currency. sprintf("%01.2f", $price_KG_L) .'</td>';
+			echo '<td>'. $quantity .'</td><td>'.$currency. sprintf("%01.2f", $total). '</td>';
+			echo '<td><button oi_id="'. $row2['oi_id'] .'" oid="'. $oid .'" class="remove-order empty red"><i class="fa fa-trash" aria-hidden="true"></i></button>';
+			echo '</tr>';
+		}
+
+		echo '<tr><td></td><td></td><td></td><td class="emph">'. $currency.sprintf("%01.2f",$grandtotal) .'</td></table>';
 		echo '</div>';
+		if ($count == 2) {
+			echo '</div>';
+			$count = 0;
+		}
+			
+	}	
+
+	if ($count == 1) { //closes .row if number of preorders is uneven
+			echo '</div>';
+	}
+} else {
+	echo "Keine offenen Vorbestellungen";
 }
 ?>
 </div>

@@ -28,7 +28,7 @@ if (isset($_POST['bill'])) {
 	$bill = new Bill(
 		$oid,
 		$row['date'],
-		'',
+		$row['organization'],
 		$row['first_name'],
 		$row['last_name'],
 		$row['street'],

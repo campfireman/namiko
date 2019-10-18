@@ -167,10 +167,12 @@ if (isset($_POST['update'])) {
 				// colored output based on amount
 				$sum = ($realStock + $quantityDelivery - $preorders);
 
+				if ($is_storage_item == 1) {
+					$recommendations[$producer][] = array('pid' => $pid, 'deficit' => $sum);
+				}
+
 				if ($sum < 0) {
-					if ($is_storage_item == 1) {
-						$recommendations[$producer][] = array('pid' => $pid, 'deficit' => $sum);
- 					} else {
+					if ($is_storage_item == 0) {
  						$div = intdiv(abs($sum), $container);
 						if ($div > 0) {
 							$recommendations[$producer][] = array('pid' => $pid, 'deficit' => $sum);
@@ -284,7 +286,7 @@ if (isset($_POST['update'])) {
 	}
 
 	// adding any product to order_total
-	$statement = $pdo->prepare("SELECT producers.pro_id, producers.producerName, products.pid, products.productName, products.container, products.priceContainer FROM producers LEFT JOIN products ON producers.pro_id = products.producer ORDER BY producers.producerName");
+	$statement = $pdo->prepare("SELECT producers.pro_id, producers.producerName, products.pid, products.productName, products.container, products.priceContainer FROM producers LEFT JOIN products ON producers.pro_id = products.producer ORDER BY producers.producerName, products.productName");
 	$result = $statement->execute();
 	$pro_id = '';
 	$orderTotalAdd = '';
@@ -391,6 +393,7 @@ if (isset($_POST['update'])) {
 												<th>empf. Menge</th>
 												<th>Preis Gebinde</th>
 												<th>&#931;</th>
+												<th></th>
 												</tr>
 											</thead>';
 				// iterating the recommendations array for this specific producer
@@ -406,7 +409,11 @@ if (isset($_POST['update'])) {
 					$container = $productData['container'];
 
 					if ($is_storage_item == 1) {
-						$quantityContainer = ceil($deficit / $container);
+						if ($product['deficit'] < 0) {
+							$quantityContainer = ceil($deficit / $container);
+						} else {
+							$quantityContainer = 1;
+						}
 					} else {
 						$div = intdiv($deficit, $container);
 						if ($div > 0) {
@@ -434,6 +441,7 @@ if (isset($_POST['update'])) {
 											<td><input class="width100" type="number" name="quantityContainer[]" value="'. $quantityContainer . '"></td>
 											<td>'. $currency.sprintf("%01.2f", $priceContainer) .'</td>
 											<td>'. $currency.sprintf("%01.2f", $total) .'</td>
+											<td><button class="rm-recommendation remove-item empty"><i class="fa fa-trash-o" aria-hidden="true"></i></button></td>
 											</tr>';
 				}
 
@@ -447,6 +455,7 @@ if (isset($_POST['update'])) {
 											<td></td>
 											<td></td>
 											<td><span class="emph">'.$currency.sprintf("%01.2f", $grandtotal). '</span></td>
+											<td></td>
 										</tr>
 										</table>
 										<button type="submit" name="orderRecommendation" class="left clean-btn blue">Hinzufügen <i class="fa fa-plus" aria-hidden="true"></i></button><br>
@@ -542,6 +551,13 @@ if (isset($_POST['update'])) {
 	        total.closest('tr').find('#total').html('').html(total_val.toFixed(2)); // delete old total & insert new total
 	    });
 	});
+
+	$('.rm-recommendation').on('click', function(e) {
+		e.preventDefault();
+		$(this).closest('tr').fadeOut();
+		$(this).closest('tr').empty();
+
+	})
 </script>
 
 <script type="text/javascript">

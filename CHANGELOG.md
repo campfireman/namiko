@@ -1,3 +1,9 @@
+# Version 1.5.1
+- Leere Vorbestellungen werden nicht mehr angezeigt
+- Anpassung der Regel fuer die Empfehlung von Bestellungen
+- Anzeige der Organisation auf Rechnungen
+- Loeschen von Empfehlungen
+
 # Version 1.5
 - Einfuehrung von Lagerware als Flag
 - Bugfix von Bestellempfehlungen
