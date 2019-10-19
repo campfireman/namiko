@@ -1,3 +1,7 @@
+# Version 1.5.2
+- Logging von Preisaenderungen
+- Anzeige von letzter Preisaenderung
+
 # Version 1.5.1
 - Leere Vorbestellungen werden nicht mehr angezeigt
 - Anpassung der Regel fuer die Empfehlung von Bestellungen

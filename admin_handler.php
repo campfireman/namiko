@@ -37,8 +37,39 @@ if (isset($_POST['update-catalogue'])) {
 			$netto = $product['netto'];
 			$is_storage_item = $product['is_storage_item'];
 
+			$statement = $pdo->prepare("SELECT price_KG_L FROM products WHERE pid = :pid");
+			$result = $statement->execute(array('pid' => $pid));
+
+			if (!$result) {
+				throw new Exception(json_encode($statement->erroInfo()));
+			}
+
+			$old_price_KG_L = $statement->fetch();
+			$old_price_KG_L = $old_price_KG_L['price_KG_L'];
+
+			if ($price_KG_L != $old_price_KG_L) {
+				$statement = $pdo->prepare("INSERT INTO product_price_log (pid, price_per_unit_brutto) VALUES (:pid, :price_per_unit_brutto)");
+				$result = $statement->execute(array('pid' => $pid, 'price_per_unit_brutto' => $price_KG_L));
+
+				if (!$result) {
+					throw new Exception(json_encode($statement->errorInfo()));
+				}
+
+				$statement = $pdo->prepare("UPDATE products SET last_price = :old_price_KG_L WHERE pid = :pid");
+				$result = $statement->execute(array('old_price_KG_L' => $old_price_KG_L, 'pid' => $pid));
+
+				if (!$result) {
+					throw new Exception(json_encode($statement->errorInfo()));
+				}
+			}
+
 			$statement = $pdo->prepare("SELECT unit_size FROM products WHERE pid = :pid");
 			$result = $statement->execute(array('pid' => $pid));
+
+			if (!$result) {
+				throw new Exeption(json_encode($statement->errorInfo()));
+			}
+
 			$old_unit_size = $statement->fetch();
 			$old_unit_size = $old_unit_size['unit_size'];
 
@@ -55,6 +86,24 @@ if (isset($_POST['update-catalogue'])) {
 
 				$statement = $pdo->prepare("UPDATE preorder_items SET quantity = quantity / :ratio WHERE pid = :pid");
 				$statement->bindValue('ratio', $ratio);
+				$statement->bindParam('pid', $pid);
+				$result = $statement->execute();
+
+				if (!$result) {
+					throw new Exception(json_encode($statement->errorInfo()));
+				}
+
+				$statement = $pdo->prepare("UPDATE product_price_log SET price_per_unit_brutto = price_per_unit_brutto * :ratio WHERE pid = :pid");
+				$statement->bindValue('ratio', $ratio);
+				$statement->bindParam('pid', $pid);
+				$result = $statement->execute();
+
+				if (!$result) {
+					throw new Exception(json_encode($statement->errorInfo()));
+				}
+
+				$statement = $pdo->prepare("UPDATE products SET last_price = :price_KG_L WHERE pid = :pid");
+				$statement->bindValue('price_KG_L', $price_KG_L);
 				$statement->bindParam('pid', $pid);
 				$result = $statement->execute();
 

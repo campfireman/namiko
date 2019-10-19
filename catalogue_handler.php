@@ -9,12 +9,16 @@ $user = check_user();
 function createItem($row) {
 	global $db;
 	global $user;
+	global $currency;
 	$result = "";
 	$pid = $row['pid'];
 	$stock = $db->getStock($pid);
 	$unit_size = $row['unit_size'] * 1;
 	$unit_tag = $row['unit_tag'];
 	$units_in_stock = $stock * $unit_size;
+	$last_price = $row['last_price'];
+	$price_KG_L = $row['price_KG_L'];
+	$price_difference = $price_KG_L - $last_price;
 	$preorders = '<span class="blue">'. $db->getPreorders($pid)*1 .' E</span>';
 
 	// colored output based on amount
@@ -31,6 +35,14 @@ function createItem($row) {
 	} else {
 		$is_storage_item = '';
 	}
+
+	if ($price_difference > 0) {
+		$price_development = '<span class="red"> <i class="fa fa-arrow-circle-up" aria-hidden="true"></i> <small>(+'. $price_difference . $currency .')</small></span>';
+	} else if ($price_difference < 0) {
+		$price_development = '<span class="green"> <i class="fa fa-arrow-circle-down" aria-hidden="true"></i> <small>('. $price_difference . $currency .')</small></span>';
+	} else {
+		$price_development = '';
+	}
 	
 	$result .= '<div class="col-sm-3 item">
 		<form class="order-item">
@@ -40,7 +52,7 @@ function createItem($row) {
 			</span>
 			<h2 class="name">'. htmlspecialchars($row['productName']) .'</h2>
 			<div>'. $row['productDesc'] .'<br>
-			<span class="emph">Preis: '. $row['price_KG_L'] .'€/'. $unit_size . $unit_tag. '</span>
+			<span class="emph">Preis: '. $row['price_KG_L'] .'€/'. $unit_size . $unit_tag. '</span>'. $price_development .'
 			</div>
 			<div>
 			<span class="italic">auf Lager: </span>'. $stockOut .'</div>
