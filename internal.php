@@ -50,10 +50,10 @@ if ($user['notification'] == 1) {
 function get_preorder_sum() {
 	global $pdo;
 	$statement = $pdo->prepare("
-		SELECT SUM(total) AS total, SUM(quantity) AS quantity, container, producer, price_KG_L, producerName FROM preorder_items 
+		SELECT SUM(total) AS total, SUM(quantity) AS quantity, container, producer, price_KG_L, producerName, is_storage_item FROM preorder_items 
 		LEFT JOIN products ON preorder_items.pid = products.pid
 		LEFT JOIN producers ON products.producer = producers.pro_id
-		WHERE preorder_items.transferred = 0 
+		WHERE preorder_items.transferred = 0 AND products.category > 1
 	    GROUP BY products.pid
     ");
     $result = $statement->execute();
@@ -66,10 +66,16 @@ function get_preorder_sum() {
     	$pro_id = $row['producer'];
     	$unit_price = $row['price_KG_L'];
     	$producerName = $row['producerName'];
+    	$is_storage_item = $row['is_storage_item'];
     	$full_containers = intdiv($quantity, $container);
 
-    	if ($full_containers > 0) {
-    		$covered_quantity = $quantity - ($quantity % $container);
+    	if ($quantity > 0 && ($full_containers > 0 || $is_storage_item == 1)) {
+    		if ($is_storage_item == 1) {
+    			$covered_quantity = ceil($quantity / $container) * $container;
+    		} else {
+	    		$covered_quantity = $quantity - ($quantity % $container);
+    		}
+
     		$covered_total = $covered_quantity * $unit_price;
 
     		if (array_key_exists($pro_id, $preorders)) {

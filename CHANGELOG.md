@@ -1,3 +1,8 @@
+# Version 1.5.3
+- Anpassung der Anzeige von Vorbestellungswertes (Lagerware wird nun beruecksichtigt)
+- Bugfix Vorbestellungen
+- Bugfix loeschen aus dem internen Lagerwarenkorb
+
 # Version 1.5.2
 - Logging von Preisaenderungen
 - Anzeige von letzter Preisaenderung

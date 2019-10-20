@@ -538,6 +538,7 @@ if (isset($_POST['update'])) {
 	});
 
 	$("#order-total-results").on('click', 'a.remove-item', function(e) {
+		$(this).prop("disabled", true);
 	    e.preventDefault(); 
 	    var pid = $(this).attr("data-pid"); //get product code
 	    var pro_id = $(this).attr("data-pro_id");

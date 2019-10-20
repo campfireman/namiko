@@ -22,10 +22,10 @@ include("templates/orders-nav.inc.php");
 $uid = $user['uid'];
 $count = 0;
 
-$statement = $pdo->prepare("SELECT preorders.* FROM preorders WHERE uid = 2 AND oid IN (
+$statement = $pdo->prepare("SELECT preorders.* FROM preorders WHERE uid = :uid AND oid IN (
 							SELECT oid FROM preorder_items WHERE transferred = 0 GROUP BY oid)
 							ORDER BY oid DESC");
-$result = $statement->execute();
+$result = $statement->execute(array('uid' => $uid));
 
 
 if ($statement->rowCount() > 0) {
