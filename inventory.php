@@ -482,7 +482,7 @@ if (isset($_POST['update'])) {
 	<div class="spacer">
 		<span class="subtitle">Artikel hinzufügen</span>
 		<form class="form order-total-add">
-			<select name="pid" class="smallForm" required>
+			<select name="pid[]" class="smallForm" required>
 			<option value="-1">- Produkt wählen -</option>
 			<?php print_r($orderTotalAdd) ?>
 			</select>
@@ -525,6 +525,7 @@ if (isset($_POST['update'])) {
 
 	$('.order-total-add').submit(function(e) {
 		var form_data = $(this).serialize();
+		console.log(form_data);
 		$.ajax({
 						url: 'order_total_process.php',
 						type: 'POST',

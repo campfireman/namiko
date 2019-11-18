@@ -55,6 +55,7 @@ function get_preorder_sum() {
 		LEFT JOIN producers ON products.producer = producers.pro_id
 		WHERE preorder_items.transferred = 0 AND products.category > 1
 	    GROUP BY products.pid
+	    ORDER BY producerName
     ");
     $result = $statement->execute();
     $preorders = array();

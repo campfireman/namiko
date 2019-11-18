@@ -1,3 +1,6 @@
+# Version 1.5.4
+- Bugfix interner Warenkorb
+
 # Version 1.5.3
 - Anpassung der Anzeige von Vorbestellungswertes (Lagerware wird nun beruecksichtigt)
 - Bugfix Vorbestellungen
