@@ -118,6 +118,7 @@ if (isset($_POST['update'])) {
 				$unit_size = $row['unit_size'];
 				$producer = $row['producer'];
 				$is_storage_item = $row['is_storage_item'];
+				$is_in_catalogue = $row['category'] > 1 ? true : false; 
 				$container = $row['container'];
 				$quantityOrdered = $db->getTotalOrders($pid);
 				$quantityDelivery = 0;
@@ -167,12 +168,12 @@ if (isset($_POST['update'])) {
 				// colored output based on amount
 				$sum = ($realStock + $quantityDelivery - $preorders);
 
-				if ($is_storage_item == 1) {
+				if ($is_storage_item == 1 && $is_in_catalogue) {
 					$recommendations[$producer][] = array('pid' => $pid, 'deficit' => $sum);
 				}
 
 				if ($sum < 0) {
-					if ($is_storage_item == 0) {
+					if ($is_storage_item == 0 && $is_in_catalogue) {
  						$div = intdiv(abs($sum), $container);
 						if ($div > 0) {
 							$recommendations[$producer][] = array('pid' => $pid, 'deficit' => $sum);

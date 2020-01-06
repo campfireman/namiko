@@ -520,42 +520,6 @@
 	"buffers":
 	[
 		{
-			"file": "admin_handler.php",
-			"settings":
-			{
-				"buffer_size": 9213,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "CHANGELOG.md",
-			"settings":
-			{
-				"buffer_size": 2484,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "templates/footer.inc.php",
-			"settings":
-			{
-				"buffer_size": 2831,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "catalogue_handler.php",
-			"settings":
-			{
-				"buffer_size": 6522,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"contents": "<?php\nrequire_once('inc/DBOperations.inc.php');\n\n$currency = '&#8364;'; //currency symbol\n$db_host = 'localhost';\n$db_name = 'namiko';\n$db_user = 'root';\n$db_password = 'root';\n$pdo = new PDO(\"mysql:host=$db_host;charset=utf8;dbname=$db_name\", $db_user, $db_password);\n$db = new DBOperations($pdo);\n\n$smtp_host = 'webspace40.do.de';\n$smtp_username = 'web130p9';\n$smtp_password = 'Lh2T9Zvr';\n\n$place = 'Hannover';\n\n$myEmail = 'kontakt@namiko.org';\n$myEntity = 'namiko Hannover e.V.';\n$myStreet = 'Hahnenstr. 13';\n$myRegion = '30167 Hannover';\n$myWebsite = 'https://namiko.org/';\n$tax_number = '';\n\n$myIBAN = 'DE29430609674127508600';\n$myBIC = 'GENODEM1GLS';\n$creditorId = 'DE60NAM00002147342';\n$tax_rate = 0;\n \n$lastPossibleOrder = '4 days';\n\n$debug = true;\n$error_log = dirname(__FILE__).\"/errors.inc.txt\";\n\n// reusables\n$mail_footer = '\n<br><br><br>\n<p style=\"font-style: italic\">Dein namiko Hannover e.V. Team</p>\n<p><strong>Bei Rückfragen einfach an kontakt@namiko.org schreiben</strong></p>';\n?>",
 			"file": "inc/config.inc.php",
 			"file_size": 1038,
@@ -567,19 +531,20 @@
 			}
 		},
 		{
-			"file": "inventory.php",
+			"file": "dev.sql",
 			"settings":
 			{
-				"buffer_size": 20372,
+				"buffer_size": 1580,
 				"encoding": "UTF-8",
-				"line_ending": "Windows"
+				"line_ending": "Unix"
 			}
 		},
 		{
+			"file": "order_total_process.php",
 			"settings":
 			{
-				"buffer_size": 0,
-				"line_ending": "Unix"
+				"buffer_size": 12280,
+				"line_ending": "Windows"
 			}
 		},
 		{
@@ -610,29 +575,12 @@
 			}
 		},
 		{
-			"file": "/home/ture/wmh/SEPALohnüberweisung 2019-09-10.xml",
+			"contents": "# create\ncurl -X PUT --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'Authorization: Bearer d80fe795cc9cd1135e0c99f6caa8ab3afd8a6528197a66959d5e8ee1893f919ad6621a9c61fed6ad' -d '{ \"name\": \"TEST2\", \"type\": 13, \"code\": 222222 }' 'https://api.nuki.io/smartlock/478943260/auth'\n\n# get pin id\ncurl -X GET --header 'Accept: application/json' --header 'Authorization: Bearer d80fe795cc9cd1135e0c99f6caa8ab3afd8a6528197a66959d5e8ee1893f919ad6621a9c61fed6ad' 'https://api.nuki.io/smartlock/478943260/auth'\n\n\n# delete\ncurl -X DELETE --header 'Accept: application/json' --header 'Authorization: Bearer d80fe795cc9cd1135e0c99f6caa8ab3afd8a6528197a66959d5e8ee1893f919ad6621a9c61fed6ad' 'https://api.nuki.io/smartlock/478943260/auth/5dd82b1f8519f276a9b81001'\n",
 			"settings":
 			{
-				"buffer_size": 4984,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "inc/Bill.inc.php",
-			"settings":
-			{
-				"buffer_size": 2813,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "sql.sql",
-			"settings":
-			{
-				"buffer_size": 3693,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
+				"buffer_size": 784,
+				"line_ending": "Unix",
+				"name": "# create"
 			}
 		},
 		{
@@ -661,15 +609,6 @@
 				"buffer_size": 110,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "order_total.php",
-			"settings":
-			{
-				"buffer_size": 12575,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
 			}
 		},
 		{
@@ -710,6 +649,10 @@
 				"Git: Quick Commit (repo)"
 			],
 			[
+				"git add",
+				"Git: Add All"
+			],
+			[
 				"git push",
 				"Git: Push"
 			],
@@ -724,10 +667,6 @@
 			[
 				"git q",
 				"Git: Quick Commit (repo)"
-			],
-			[
-				"git add",
-				"Git: Add All"
 			],
 			[
 				"git pus",
@@ -906,6 +845,16 @@
 	],
 	"file_history":
 	[
+		"/home/ture/projects/htdocs/namiko/inventory.php",
+		"/home/ture/projects/htdocs/namiko/catalogue_handler.php",
+		"/home/ture/projects/htdocs/namiko/templates/footer.inc.php",
+		"/home/ture/projects/htdocs/namiko/CHANGELOG.md",
+		"/home/ture/projects/htdocs/namiko/admin_handler.php",
+		"/home/ture/projects/data_analysis/namiko/queries.sql",
+		"/home/ture/projects/htdocs/namiko/sql.sql",
+		"/home/ture/projects/htdocs/namiko/inc/Bill.inc.php",
+		"/home/ture/wmh/SEPALohnüberweisung 2019-09-10.xml",
+		"/tmp/zugferd-invoice.QCTEPc.xml",
 		"/home/ture/Desktop/trigger.sql",
 		"/home/ture/Desktop/protokoll_plenum.txt",
 		"/tmp/mozilla_ture0/users.sql",
@@ -915,18 +864,14 @@
 		"/tmp/mozilla_ture0/mystrcat_test-1.c",
 		"/tmp/mozilla_ture0/mystrcat_test.c",
 		"/tmp/mozilla_ture0/mystrcat_test-2.c",
-		"/home/ture/projects/htdocs/namiko/sql.sql",
 		"/home/ture/projects/htdocs/namiko/handing-out.php",
 		"/home/ture/projects/htdocs/namiko/delivered-orders.php",
 		"/home/ture/projects/htdocs/namiko/inc/functions.inc.php",
 		"/home/ture/projects/htdocs/namiko/admin.php",
-		"/home/ture/projects/htdocs/namiko/inventory.php",
 		"/home/ture/projects/htdocs/namiko/inc/DBOperations.inc.php",
 		"/home/ture/projects/htdocs/namiko/order_total_process.php",
 		"/tmp/mozilla_ture0/SEPALohnüberweisung 2019-09-10.xml",
 		"/home/ture/projects/htdocs/namiko/css/style.css",
-		"/home/ture/projects/htdocs/namiko/catalogue_handler.php",
-		"/home/ture/projects/htdocs/namiko/admin_handler.php",
 		"/home/ture/projects/htdocs/namiko/my-preorders.php",
 		"/home/ture/projects/htdocs/namiko/order_total.php",
 		"/home/ture/projects/htdocs/namiko/edit_producers.php",
@@ -935,7 +880,6 @@
 		"/home/ture/projects/htdocs/namiko/emailcenter.php",
 		"/home/ture/projects/htdocs/namiko/inc/Mail.inc.php",
 		"/home/ture/projects/htdocs/namiko/my-orders.php",
-		"/home/ture/projects/htdocs/namiko/templates/footer.inc.php",
 		"/home/ture/projects/htdocs/namiko/members.php",
 		"/home/ture/Desktop/.htaccess",
 		"/home/ture/Desktop/.htpasswd",
@@ -955,7 +899,6 @@
 		"/home/ture/projects/htdocs/namiko/email_process.php",
 		"/home/ture/projects/ResourceHub/pictures/colors.txt",
 		"/home/ture/projects/htdocs/namiko/inc/Cart.inc.php",
-		"/home/ture/projects/htdocs/namiko/CHANGELOG.md",
 		"/tmp/mozilla_ture0/SID118D20190822T194125.xml",
 		"/tmp/mozilla_ture0/SID113D20190822T193754.xml",
 		"/tmp/mozilla_ture0/SID104D20190822T191103.xml",
@@ -1029,11 +972,7 @@
 		"/home/ture/projects/htdocs/namiko/sepa/SID50D20190402T183432.xml",
 		"/home/ture/projects/htdocs/namiko/sepa/SID47D20190402T172942.xml",
 		"/home/ture/projects/htdocs/namiko/sepa/SID49D20190402T173509.xml",
-		"/home/ture/projects/htdocs/namiko/sepa/SID44D20190401T142551.xml",
-		"/home/ture/projects/htdocs/namiko/sepa/SID42D20190401T142219.xml",
-		"/home/ture/projects/htdocs/namiko/sepa/SID35D20190401T135102.xml",
-		"/home/ture/projects/htdocs/namiko/sepa/SID41D20190401T141908.xml",
-		"/home/ture/projects/htdocs/namiko/sepa/SID29D20190401T134257.xml"
+		"/home/ture/projects/htdocs/namiko/sepa/SID44D20190401T142551.xml"
 	],
 	"find":
 	{
@@ -1055,6 +994,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"order_total",
+			"select",
 			"CHAR",
 			"`namiko`",
 			"PARAM_DOUBLE",
@@ -1180,9 +1121,7 @@
 			"Tschern",
 			"tschern",
 			"throw new Exception",
-			"throw new",
-			"throw",
-			"$user"
+			"throw new"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1206,126 +1145,11 @@
 	"groups":
 	[
 		{
-			"selected": 6,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "admin_handler.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 9213,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3787,
-								3787
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1226.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 16,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "CHANGELOG.md",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2484,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								176,
-								176
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 12,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "templates/footer.inc.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2831,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1005,
-								1005
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "catalogue_handler.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 6522,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1404,
-								1404
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 3017.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 14,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
 					"file": "inc/config.inc.php",
 					"semi_transient": false,
 					"settings":
@@ -1349,44 +1173,44 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "inventory.php",
+					"buffer": 1,
+					"file": "dev.sql",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 20372,
+						"buffer_size": 1580,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								19149,
-								19149
+								1580,
+								1580
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/SQL/SQL.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 6262.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 2,
+					"file": "order_total_process.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 0,
+						"buffer_size": 12280,
 						"regions":
 						{
 						},
@@ -1399,17 +1223,19 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 149.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
-					"buffer": 7,
+					"buffer": 3,
 					"file": "my-orders.php",
 					"semi_transient": false,
 					"settings":
@@ -1434,11 +1260,11 @@
 						"translation.y": 3108.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 13,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
-					"buffer": 8,
+					"buffer": 4,
 					"file": "my-preorders.php",
 					"semi_transient": false,
 					"settings":
@@ -1463,11 +1289,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 15,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
-					"buffer": 9,
+					"buffer": 5,
 					"file": "internal.php",
 					"semi_transient": false,
 					"settings":
@@ -1489,103 +1315,42 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 639.0,
+						"translation.y": 4398.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 10,
-					"file": "/home/ture/wmh/SEPALohnüberweisung 2019-09-10.xml",
+					"buffer": 6,
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4984,
+						"buffer_size": 784,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								950,
-								950
+								784,
+								784
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/XML/XML.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
+							"auto_name": "# create",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 8,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 11,
-					"file": "inc/Bill.inc.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2813,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 17,
-					"type": "text"
-				},
-				{
-					"buffer": 12,
-					"file": "sql.sql",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3693,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2250,
-								2249
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SQL/SQL.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 764.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 13,
+					"buffer": 7,
 					"file": "/home/ture/Desktop/procedure.sql",
 					"semi_transient": false,
 					"settings":
@@ -1609,11 +1374,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
-					"buffer": 14,
+					"buffer": 8,
 					"file": "/tmp/mozilla_ture0/MovieManager.java",
 					"semi_transient": false,
 					"settings":
@@ -1638,11 +1403,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 15,
+					"buffer": 9,
 					"file": "/home/ture/studium/19-20WS/BSN1/a6/umlauts.sh",
 					"semi_transient": false,
 					"settings":
@@ -1666,40 +1431,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 5,
 					"type": "text"
 				},
 				{
-					"buffer": 16,
-					"file": "order_total.php",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 12575,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 825.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 17,
+					"buffer": 10,
 					"file": "/home/ture/Desktop/movie_db.sql",
 					"semi_transient": false,
 					"settings":
@@ -1726,11 +1462,11 @@
 						"translation.y": 549.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
-					"buffer": 18,
+					"buffer": 11,
 					"file": "pay.php",
 					"semi_transient": false,
 					"settings":
@@ -1755,7 +1491,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 18,
+					"stack_index": 11,
 					"type": "text"
 				}
 			]

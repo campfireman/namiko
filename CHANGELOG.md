@@ -1,3 +1,6 @@
+# Version 1.5.5
+- nicht angezeigte waren werden nicht mehr empfohlen
+
 # Version 1.5.4
 - Bugfix interner Warenkorb
 
