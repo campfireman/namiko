@@ -181,12 +181,17 @@ if ($count == 1) { //closes .row if number of orders is uneven
 	$orders .= '</div>';
 }
 
+$report_url = 'https://namiko.org/report?your-name='. urlencode($user['first_name']) .'&your-email='. urlencode($user['email']);
+
 ?>
 <h3 class="header">Nicht abgeholte Bestellungen</h3>
 <div class="sizer spacer">
 	<?php
 	echo $not_picked_up;
 	?>
+<span class="subtitle2 center">
+	<a href="<?php echo $report_url ?>" target="_blank">Artikel fehlt? Hier clicken und melden</a>
+</span>
 </div>
 
 <h3 class="header">Bestellungen</h3>

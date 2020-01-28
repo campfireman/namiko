@@ -72,12 +72,37 @@ if (isset($_POST['save'])) {
 
 if (isset($_POST['delete'])) {
 	$uid = $_POST['uid'];
+	$statement = $pdo->prepare("SELECT email, first_name, last_name FROM users WHERE uid = :uid");
+	$result = $statement->execute(array('uid' => $uid));
+
+	if (!$result) {
+		error('User not found');
+	}
+
+	$user = $statement->fetch();
+	$email = $user['email'];
+	$first_name = $user['first_name'];
+	$last_name = $user['last_name'];
+
+	try {
+		$mail = new Mail($smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity);
+
+		$subject = 'Loeschung Deines Accounts';
+		$text = '
+		<h1>Moin, '. htmlspecialchars($first_name) .'!</h1>
+		<p>Dein Account wurde erfolgreich geloescht. Damit ist auch dein Lastschrift Mandat und deine Mitgliedschaft gekuendigt.</p>';
+		$mail->send($email, $first_name . ' ' . $last_name, $subject, $text, true);
+
+	} catch (Exception $e) {
+	    error($e->getMessage());
+	}
+
 	$statement = $pdo->prepare("DELETE FROM security_tokes WHERE security_tokens.user_id = '$uid'");
 	$result = $statement->execute();
 	$statement = $pdo->prepare("DELETE FROM mandates WHERE mandates.uid = '$uid'");
 	$result = $statement->execute();
-	$statement = $pdo->prepare("DELETE FROM users WHERE users.uid = '$uid'");
-	$result = $statement->execute();
+	$statement = $pdo->prepare("UPDATE users SET password = 'deleted', rights = -1, organization = null, first_name = 'deleted', last_name='deleted', postal_code = 1, region = 'deleted', street = 'deleted', street_number=1, account_holder = 'deleted', iban = 'deleted', bic = 'deleted', contribution = 0, loan =0, newsletter = 0 WHERE uid=:uid");
+	$result = $statement->execute(array('uid'=>$uid));
 
 	if ($result) {
 		$_SESSION['notification'] = true;
@@ -87,7 +112,7 @@ if (isset($_POST['delete'])) {
 
 	if (!$result) {
 		$_SESSION['notification'] = true;
-		$_SESSION['notificationmsg'] = 'Es gab einen Fehler';
+		$_SESSION['notificationmsg'] = json_encode($statement->errorInfo());
 		header("Location: " . $_SERVER['PHP_SELF']);
 	}
 }
@@ -225,7 +250,7 @@ if (isset($_POST['loanRecieved'])) {
 			</thead>
 			<?php 
 			$count = 1;
-			$statement = $pdo->prepare("SELECT * FROM users ORDER BY uid");
+			$statement = $pdo->prepare("SELECT * FROM users WHERE rights > -1 ORDER BY uid");
 			$result = $statement->execute();
 			
 			
@@ -285,7 +310,7 @@ if (isset($_POST['loanRecieved'])) {
 				echo '<td>'. htmlspecialchars($row['street']) .' '. $row['street_number'] .'</td>';
 				echo '<td>';
 				if ($row['rights'] < 4) {
-				echo 	'<form style="position: relative; left: -5px;" action="'. htmlspecialchars($_SERVER['PHP_SELF']) .'" method="post">';
+				echo 	'<form style="position: relative; left: -5px;" action="'. htmlspecialchars($_SERVER['PHP_SELF']) .'" method="post"  onsubmit="return confirm_delete()">';
 				echo 		'<input type="hidden" name="uid" value="'. $row['uid'] .'">';
 				echo 		'<button class="empty red" type="submit" name="delete"><i class="fa fa-trash" aria-hidden="true"></i></button>';
 				echo 	'</form>';
@@ -361,6 +386,11 @@ if (isset($_POST['loanRecieved'])) {
 	</div>
 </div>
 
+<script type="text/javascript">
+	function confirm_delete() {
+		return confirm("Soll der user wirklich gelöscht werden?");
+	}
+</script>
 <?php 
 include("templates/footer.inc.php")
 ?>

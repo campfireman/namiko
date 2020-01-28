@@ -1,3 +1,7 @@
+# Version 1.5.6
+- User loeschen, Benachrichtigungs per Email
+- Link zu Reporting tool
+
 # Version 1.5.5
 - nicht angezeigte waren werden nicht mehr empfohlen
 
