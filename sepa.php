@@ -264,7 +264,7 @@ if(isset($_POST['orderPay'])) {
 				<span class="green emph">
 				<?php
 				$sum = 0;
-				$statement = $pdo->prepare("SELECT users.loan FROM users LEFT JOIN loans ON users.uid = loans.uid WHERE loans.recieved = 1");
+				$statement = $pdo->prepare("SELECT u.loan FROM users AS u WHERE u.rights >=2");
 				$result = $statement->execute();
 
 				while ($row = $statement->fetch()) {
@@ -293,7 +293,7 @@ if(isset($_POST['orderPay'])) {
 		</thead>
 		<?php 
 		$count = 1;
-		$statement = $pdo->prepare("SELECT * FROM users ORDER BY uid");
+		$statement = $pdo->prepare("SELECT * FROM users WHERE rights > 0 ORDER BY uid");
 		$result = $statement->execute();
 		
 		

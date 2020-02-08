@@ -14,6 +14,64 @@ include("templates/header.inc.php");
 include("templates/nav.inc.php");
 include("templates/admin-nav.inc.php");
 
+if (isset($_POST['create-protocol'])) {
+
+		//The name of the CSV file that will be downloaded by the user.
+		$fileName = date("c"). '_inventur_protokoll.csv';
+		 
+		$statement = $pdo->prepare("
+			SELECT producers.producerName, p.pid, p.productName, p.price_KG_L, p.unit_size, p.unit_tag, i.quantity_KG_L AS maximum, IFNULL((i.quantity_KG_L - orders.sum), 0) AS minimum  FROM products AS p
+			LEFT JOIN inventory_items AS i ON i.pid = p.pid
+			LEFT JOIN producers ON p.producer = producers.pro_id
+			LEFT JOIN (
+					SELECT oi.pid, SUM(oi.quantity) AS sum
+					FROM order_items AS oi
+					WHERE delivered = 0
+					GROUP BY oi.pid
+				) AS orders ON orders.pid = p.pid
+			WHERE i.quantity_KG_L > 0
+			ORDER BY p.producer, p.productName
+		");
+		$result = $statement->execute();
+
+		//Set the Content-Type and Content-Disposition headers.
+		header('Content-Type: application/excel; charset=utf-8');
+		header('Content-Disposition: attachment; filename="' . $fileName . '"');
+		header('Accept-Language: en-US');
+
+		while(ob_get_level()) {
+			ob_end_clean();
+		}
+		 
+		//Open up a PHP output stream using the function fopen.
+		$fp = fopen('php://output', 'w');
+
+		$header = ["Hersteller", "ID", "Produktname", "Preis", "Einheitsgroesse", "Einheit", "Soll-bestand", "Minimalbestand", "Ist-Bestand in Einheiten", "Differenz Soll-Ist", "Differenz Minimun-Ist", "Wert in EUR"];
+		fputcsv($fp, $header);
+		$count = 2;
+		 
+		//Loop through the array containing our CSV data.
+		while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+		    //fputcsv formats the array into a CSV format.
+		    //It then writes the result to our output stream.
+		    array_push($row, 0, "=(G". $count ." - I". $count .")", "=(H". $count ." - I". $count .")", "=(D". $count . " * I". $count .")");
+		    fputcsv($fp, $row);
+		    $count++;
+		}
+		$end_line = [];
+
+		for ($i = 1; $i < sizeof($header); $i++) {
+			array_push($end_line, "");
+		}
+		$sum = "=SUM(L2:L". ($count -1) .")";
+		array_push($end_line, $sum);
+		fputcsv($fp, $end_line);
+		 
+		//Close the file handle.
+		fclose($fp);
+		exit();
+	}
+
 // Get all Session dates and calculate last ordering time point
 $curr = date('Y-m-d H:i:s');
 $statement = $pdo->prepare("SELECT start FROM events WHERE type = 1 AND start > '$curr' ORDER BY start ASC");
@@ -70,6 +128,9 @@ if (isset($_POST['update'])) {
 ?>
 
 <div class="sizer spacer">
+	<form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">
+		<button class="clean-btn blue" name="create-protocol" type="submit">Inventurliste erstellen</button>
+	</form><br><br>
 	<span class="subtitle2">Inventar</span><br><br>
 	<form class="form" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">
 		<select name="timeframe">
