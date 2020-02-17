@@ -20,7 +20,7 @@ if (isset($_POST['create-protocol'])) {
 		$fileName = date("c"). '_inventur_protokoll.csv';
 		 
 		$statement = $pdo->prepare("
-			SELECT producers.producerName, p.pid, p.productName, p.price_KG_L, p.unit_size, p.unit_tag, i.quantity_KG_L AS maximum, IFNULL((i.quantity_KG_L - orders.sum), 0) AS minimum  FROM products AS p
+			SELECT producers.producerName, p.pid, p.productName, p.price_KG_L, p.unit_size, p.unit_tag, i.quantity_KG_L AS maximum  FROM products AS p
 			LEFT JOIN inventory_items AS i ON i.pid = p.pid
 			LEFT JOIN producers ON p.producer = producers.pro_id
 			LEFT JOIN (
@@ -46,7 +46,7 @@ if (isset($_POST['create-protocol'])) {
 		//Open up a PHP output stream using the function fopen.
 		$fp = fopen('php://output', 'w');
 
-		$header = ["Hersteller", "ID", "Produktname", "Preis", "Einheitsgroesse", "Einheit", "Soll-bestand", "Minimalbestand", "Ist-Bestand in Einheiten", "Differenz Soll-Ist", "Differenz Minimun-Ist", "Wert in EUR"];
+		$header = ["Hersteller", "ID", "Produktname", "Preis", "Einheitsgroesse", "Einheit", "Soll-bestand (E)", "Ist-Bestand (E)", "Differenz Soll-Ist", "Wert in EUR"];
 		fputcsv($fp, $header);
 		$count = 2;
 		 
@@ -54,7 +54,7 @@ if (isset($_POST['create-protocol'])) {
 		while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
 		    //fputcsv formats the array into a CSV format.
 		    //It then writes the result to our output stream.
-		    array_push($row, 0, "=(G". $count ." - I". $count .")", "=(H". $count ." - I". $count .")", "=(D". $count . " * I". $count .")");
+		    array_push($row, 0, "=(G". $count ." - H". $count .")", "=(D". $count . " * H". $count .")");
 		    fputcsv($fp, $row);
 		    $count++;
 		}
@@ -125,42 +125,7 @@ if (isset($_POST['update'])) {
 	}
 }
 
-?>
-
-<div class="sizer spacer">
-	<form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">
-		<button class="clean-btn blue" name="create-protocol" type="submit">Inventurliste erstellen</button>
-	</form><br><br>
-	<span class="subtitle2">Inventar</span><br><br>
-	<form class="form" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">
-		<select name="timeframe">
-			<option value="0">Alle</option>
-			<optgroup label="Zeitpunkte">
-			<?php echo $timeframeOut; ?>
-			</optgroup>
-		</select>
-		<button type="submit" class="clean-btn blue" name="toggleTimeframe">Aktualisieren <i class="fa fa-refresh" aria-hidden="true"></i></button>
-	</form><br>
-	<div class="full">
-		<table class="table panel panel-default" style="min-width: 620px">
-			<thead>
-			<tr>
-				<th>Produktname</th>
-				<th>Produkt ID</th>
-				<th>Lagerware</th>
-				<th>Lagermenge umgerechnet</th>
-				<th class="width100">Lagermenge (E)</th>
-				<th class="width100">bestellt (E)</th>
-				<th class="width100">&#916;</th>
-				<th class="width100">Nachschub</th>
-				<th>vorbest.</th>
-				<th class="width100">&#931;</th>
-				<th>zuletzt editiert</th>
-				<th></th>
-			</tr>
-			</thead>
-			<?php
-			// Fill Inventory table with inventory db with join to product data
+// Fill Inventory table with inventory db with join to product data
 			$statement = $pdo->prepare("
 				SELECT inventory_items.*, products.*, users.first_name, users.last_name 
 				FROM inventory_items LEFT JOIN products ON inventory_items.pid = products.pid 
@@ -185,26 +150,9 @@ if (isset($_POST['update'])) {
 				$quantityDelivery = 0;
 				$intventory_in_unit = $quantity_KG_L * $unit_size;
 				
-
-				// colored output based on amount
-				if ($quantityOrdered > 0) {
-					$quantityOrderedOut = '<span class="red">-'. $quantityOrdered .'</span>';
-				} else {
-					$quantityOrderedOut = $quantityOrdered;
-				}
-				
 				// calculate deficit
 				$realStock = ($quantity_KG_L - $quantityOrdered);
 
-				// colored output based on amount
-				if ($realStock < 0) {
-					$realStockOut = '<span class="red">'. $realStock .'</span>';
-				} else if ($realStock > 0) {
-					$realStockOut = '<span class="green">'. $realStock .'</span>';
-				} else {
-					$realStockOut = '<span>'. $realStock .'</span>';
-				}
-				
 				// check for undelivered stock refills 
 				$statement3 = $pdo->prepare("SELECT order_total_items.quantityContainer, order_total_items.container, order_total.delivered FROM order_total_items LEFT JOIN order_total ON order_total_items.tid = order_total.tid WHERE order_total_items.pid = '$pid' AND order_total.delivered = 0");
 				$result3 = $statement3->execute();
@@ -214,16 +162,8 @@ if (isset($_POST['update'])) {
 					$quantityDelivery = ($row3['quantityContainer'] * $row3['container']);
 				}
 				
-				// colored output based on amount
-				if ($quantityDelivery > 0) {
-					$quantityDeliveryOut = '<span class="green">+'. $quantityDelivery .'</span>';
-				} else {
-					$quantityDeliveryOut = $quantityDelivery;
-				}
-
 				// preorders
 				$preorders = $db->getPreorders($pid);
-				$preordersOut = '<span class="inline emph blue">'. $preorders .' / '. $row['container'] .'</span>';
 
 				// calculate actual deficit with pending stock refills and saving items with negative deficit
 				// colored output based on amount
@@ -240,44 +180,11 @@ if (isset($_POST['update'])) {
 							$recommendations[$producer][] = array('pid' => $pid, 'deficit' => $sum);
 						}
  					}
- 					$sumOut = '<span class="red">'. $sum .'</span>';
-				} else if ($sum > 0) {
-					$sumOut = '<span class="green">'. $sum .'</span>';
-				} else {
-					$sumOut = '<span>'. $sum .'</span>';
 				}
-
-				// warn if current stock is negative
-				if ($quantity_KG_L < 0) {
-					$warn = ' <span class="inline emph red"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></span>';
-				} else {
-					$warn = '';
-				}
-
-				if ($is_storage_item) {
-					$is_storage_item_out = '<span> <i class="fa fa-database" aria-hidden="true"></i></span>';
-				} else {
-					$is_storage_item_out = '';
-				}
+				
 
 				// add product to table if it is in the inventory or has been ordered
 				if ($quantity_KG_L || $quantityOrdered > 0) {
-					echo '<tr><form action="'. htmlspecialchars($_SERVER['PHP_SELF']) .'" method="post">';
-					echo '<input type="hidden" name="ii_id" value="'. $row['ii_id'] .'" required>';
-					echo '<td>'. $row['productName'] . $warn .'</td>';
-					echo '<td>'. $pid .'</td>';
-					echo '<td>'. $is_storage_item_out .'</td>';
-					echo '<td>'. $intventory_in_unit . $unit_tag .'</td>';
-					echo '<td><input class="stock" type="number" name="quantity_KG_L" step="1" value="'. $quantity_KG_L .'" required></td>';
-					echo '<td>'. $quantityOrderedOut .'</td>';
-					echo '<td>'. $realStockOut .'</td>';
-					echo '<td>'. $quantityDeliveryOut .'</td>';
-					echo '<td>'. $preordersOut . '</td>';
-					echo '<td class="emph">'. $sumOut .'</td>';
-					echo '<td>'. $row['first_name'] .' '. $row['last_name'] . '</td>';
-					echo '<td><button type="submit" name="update" class="empty"><i class="fa fa-refresh" aria-hidden="true"></i></button></td>';
-					echo '</form></tr>';
-
 					// save item
 					array_push($checker, $pid);
 				}
@@ -295,9 +202,71 @@ if (isset($_POST['update'])) {
 					$optionList .= '<option value="'. $pid .'">'. $row['productName'] .' ('. $row['container'] .' E Gebinde)</option>';
 				}
 			}
-			?>
-		</table>
-	</div>
+
+?>
+
+<div class="sizer spacer">
+	<form method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">
+		<button class="clean-btn blue" name="create-protocol" type="submit">Inventurliste erstellen</button>
+	</form><br><br>
+	<span class="subtitle2">Inventar</span><br><br>
+	<form class="form" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">
+		<select name="timeframe">
+			<option value="0">Alle</option>
+			<optgroup label="Zeitpunkte">
+			<?php echo $timeframeOut; ?>
+			</optgroup>
+		</select>
+		<button type="submit" class="clean-btn blue" name="toggleTimeframe">Aktualisieren <i class="fa fa-refresh" aria-hidden="true"></i></button>
+	</form><br>
+			<h4 class="white">Filter <i class="fa fa-filter" aria-hidden="true"></i></h4>
+		<div class="indent row">
+			<form class="spacer2 filter">
+				<div class="indent spacer2 col-sm-6">
+					<span class="subtitle">Kategorien</span>
+					<div><label><input id="all" class="category" type="checkbox" name="category[]" value="0" id="all" checked> alle</label></div>
+					<hr class="separator">
+					<div>
+						<?php
+						$statement = $pdo->prepare("SELECT * FROM categories ORDER BY cid");
+						$result = $statement->execute();
+
+						if ($statement->rowCount() > 0) {
+							while ($row = $statement->fetch()) {
+								echo '<div><label><input type="checkbox" name="category[]" class="category other" value="'. $row['cid'] .'"> '. $row['category_name'] .'</label></div>';
+							}
+						} else {
+							echo 'Keine Kategorien gefunden.';
+						}
+						?>
+					</div>
+				</div>
+				<div class="indent spacer2 col-sm-6">
+					<span class="subtitle">Lieferant</span>
+					<div><label><input id="allprod" class="producer" type="checkbox" name="producer[]" value="0" id="all" checked> alle</label></div>
+					<hr class="separator">
+					<?php
+					$statement = $pdo->prepare("SELECT * FROM producers ORDER BY pro_id");
+					$result = $statement->execute();
+
+					if ($statement->rowCount() > 0) {
+						while ($row = $statement->fetch()) {
+							echo '<div><label><input type="checkbox" name="producer[]" class="otherprod" value="'. $row['pro_id'] .'" unchecked> '. $row['producerName'] .'</label></div>';
+						}
+					} else {
+						echo 'Keine Orte gefunden.';
+					}
+					?>
+				</div>
+				<br><button type="submit" name="filterSubmit" class="empty blue">Aktualisieren <i class="fa fa-repeat" aria-hidden="true"></i></button>
+			</form>
+		</div>
+	<div class="center-vertical">
+				<div class="center">
+				<div id="loadScreen" class="loader"></div>
+				</div>
+			</div>
+	<div id="inventory-table"></div>
 	
 	<?php
 	// function for adding items to the inventory
@@ -558,10 +527,124 @@ if (isset($_POST['update'])) {
 		
 		<?php echo $recommendationsOut ?>
 	</div>
+<div>
+<button id="save-btn" class="no-display green empty">
+	<i class="fa fa-floppy-o" aria-hidden="true"></i>
+</button>
+</div>
 
 </div>
 
 <script type="text/javascript">
+var updates ={};
+
+function loader (tag) {
+		$(tag).addClass('loader');
+	}
+
+	function removeLoader (tag) {
+		$(tag).removeClass('loader');
+	}
+	
+function loadCatalogue(form) {
+	var data = $(form).serialize();
+	$('inventory-table').html('');
+	$.ajax({
+		url: 'inventory_handler.php',
+		type: 'POST',
+		dataType: 'json',
+		data: data
+	}).done(function(data) {
+		$('#inventory-table').html(data.text);
+		$(".inventory-t").fixMe();
+		removeLoader('#loadScreen');
+		
+
+		$('.product').on('input', function(e) {
+			e.preventDefault();
+			//get select row and table
+			var row = $(this);
+
+			//get data from hidden input fields
+			var ii_id = parseFloat(row.find('input[name="ii_id"]').val());
+			var quantity_KG_L = row.find('input[name="quantity_KG_L"]').val();
+
+			var values = {
+				quantity_KG_L: quantity_KG_L
+			};
+
+			//save updated values to object
+			if (updates.hasOwnProperty(ii_id)) {
+				updates[ii_id] = values;
+			} else {
+				updates = Object.assign({[ii_id]: values}, updates)
+			}
+
+			//display save button
+			if ($('#save-btn').hasClass('no-display')) {
+				$('#save-btn').removeClass('no-display');
+			}
+
+		});
+
+		$('#save-btn').on('click', function(e) {
+				e.preventDefault();
+				$.ajax({
+					url: "inventory_handler.php",
+					type: "POST",
+					dataType: "JSON",
+					data: {"update-inventory": 1, values: updates}
+				}).done(function(data) {
+					if (data.error == 1) {
+						alert(data.text);
+					} else {
+						submit = true;
+						location.reload();
+					}
+				})
+			});
+
+	});
+}
+
+$(document).ready(function() {
+	loadCatalogue('.filter');
+
+	$('.filter').submit(function(e) {
+		loader('#loadScreen');
+		loadCatalogue('.filter');
+		e.preventDefault();
+	});
+
+	$('#search-items').submit(function(e) {
+		loader('#loadScreen');
+		loadCatalogue('.filter');
+		e.preventDefault();
+	});
+
+	$('#all').click(function() {
+		if($('#all').prop('checked')) {
+			$('.other').prop("checked", false);
+
+		}
+	});
+	$('.other').click(function() {
+		if(this.checked) {
+			$('#all').prop('checked', false);
+		}
+	});
+
+	$('#allprod').click(function() {
+		if($('#allprod').prop('checked')) {
+			$('.otherprod').prop("checked", false);
+
+		}
+	});
+	$('.otherprod').click(function() {
+		if(this.checked) {
+			$('#allprod').prop('checked', false);
+		}
+	});
 	// sending recommendations to order_total cart
 	$('.order-total').submit(function (e) {
 		var form_data = $(this).serialize();
@@ -621,7 +704,25 @@ if (isset($_POST['update'])) {
 		$(this).closest('tr').fadeOut();
 		$(this).closest('tr').empty();
 
-	})
+	});
+
+	$('#save-btn').on('click', function(e) {
+		e.preventDefault();
+		$.ajax({
+			url: "inventory_handler.php",
+			type: "POST",
+			dataType: "JSON",
+			data: {"update-catalogue": 1, values: updates}
+		}).done(function(data) {
+			if (data.error == 1) {
+				alert(data.text);
+			} else {
+				submit = true;
+				location.reload();
+			}
+		})
+	});
+})
 </script>
 
 <script type="text/javascript">

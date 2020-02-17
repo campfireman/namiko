@@ -1,2 +1,13 @@
 inc/errors.inc.txt
 usefulqueries.sql
+applications/*
+inc/config.inc.php
+mandates/*
+sepa/*
+favicon.ico
+namiko.mwb.bak
+qr_handle.php
+sql.sql
+test.php
+tester.php
+dev.sql
