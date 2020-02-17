@@ -1,3 +1,7 @@
+# Version 1.5.7
+- Inventurprotkoll angepasst
+- dynamische inventurtabelle
+
 # Version 1.5.6
 - User loeschen, Benachrichtigungs per Email
 - Link zu Reporting tool
