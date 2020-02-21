@@ -46,7 +46,7 @@
 				}
 				?>
 			</div>
-			<br><button type="submit" name="filterSubmit" class="empty blue">Aktualisieren <i class="fa fa-repeat" aria-hidden="true"></i></button>
+			<button type="submit" name="filterSubmit" class="empty blue">Aktualisieren <i class="fa fa-repeat" aria-hidden="true"></i></button>
 		</form>
 	</div>
 </div>
