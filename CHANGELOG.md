@@ -1,3 +1,6 @@
+# Version 1.6
+- Garantierte Vorbestellerpreise
+
 # Version 1.5.7
 - Inventurprotkoll angepasst
 - dynamische inventurtabelle

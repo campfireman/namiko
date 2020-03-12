@@ -116,7 +116,7 @@ $uid = $user['uid'];
 $count = 0;
 $orders = '';
 
-$statement = $pdo->prepare("SELECT order_items.*, products.*, orders.* 
+$statement = $pdo->prepare("SELECT order_items.quantity, order_items.pid, order_items.total, order_items.delivered, order_items.oi_id, (order_items.total / order_items.quantity) AS price_KG_L, products.productName, products.unit_size, products.unit_tag
 	FROM order_items 
 	LEFT JOIN products ON order_items.pid = products.pid 
 	LEFT JOIN orders ON orders.oid = order_items.oid
@@ -143,7 +143,7 @@ while ($row = $statement->fetch()) {
 	$date = new DateTime($row['created_at']);
 
 	if ($count == 1) {
-			$orders .= '<div class="row spacer3">';
+		$orders .= '<div class="row spacer3">';
 	}
 
 	$orders .= '<div class="col-md-6">';
@@ -151,7 +151,7 @@ while ($row = $statement->fetch()) {
 	$orders .= '<div class="subtitle3 inline" style="float: right"><span>'. $date->format("d.m.Y H:i:s") .'</span></div><br><br>';
 	
 	$grandtotal = 0;
-	$statement2 = $pdo->prepare("SELECT order_items.*, products.* FROM order_items LEFT JOIN products ON order_items.pid = products.pid WHERE order_items.oid = '$oid'");
+	$statement2 = $pdo->prepare("SELECT order_items.quantity, order_items.pid, order_items.total, order_items.delivered, order_items.oi_id, (order_items.total / order_items.quantity) AS price_KG_L, products.productName, products.unit_size, products.unit_tag FROM order_items LEFT JOIN products ON order_items.pid = products.pid WHERE order_items.oid = '$oid'");
 	$statement2->execute();
 	
 	$table = Cart::createTable($statement2->fetchAll(), $currency, true, 'my-orders');
@@ -174,7 +174,6 @@ while ($row = $statement->fetch()) {
 		$orders .= '</div>';
 		$count = 0;
 	}
-		
 }	
 
 if ($count == 1) { //closes .row if number of orders is uneven

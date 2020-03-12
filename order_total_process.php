@@ -207,14 +207,14 @@ if (isset($_POST['delivered'])) {
             $sum = 0;
 
             $statement2 = $pdo->prepare("
-                SELECT preorder_items.*, preorders.uid, products.*
-                FROM preorder_items 
+                SELECT p.quantity, p.pid, p.total, p.oi_id, (p.total / p.quantity) AS price_KG_L, products.productName, products.unit_size, products.unit_tag, preorders.uid, products.producer 
+                FROM preorder_items AS p
                 LEFT JOIN preorders 
-                ON preorders.oid = preorder_items.oid 
+                ON preorders.oid = p.oid 
                 LEFT JOIN products
-                ON preorder_items.pid = products.pid
-                WHERE preorder_items.transferred = 0 
-                AND preorder_items.pid = '$pid'
+                ON p.pid = products.pid
+                WHERE p.transferred = 0 
+                AND p.pid = '$pid'
                 ORDER BY preorders.created_at ASC");
 
             $result2 = $statement2->execute();

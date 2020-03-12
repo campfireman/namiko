@@ -51,10 +51,9 @@ if ($statement->rowCount() > 0) {
 		while ($row2 = $statement2->fetch()) {
 			$pid = $row2['pid'];
 			$productName = $row2['productName'];
-			$price_KG_L = $row2['price_KG_L'];
+			$price_KG_L = $row2['total'] / $row2['quantity'];
 			$quantity = $row2['quantity'];
 			$total = $row2['total'];
-			$total = ($quantity * $price_KG_L);
 			$grandtotal += $total;
 
 			echo '<tr>';

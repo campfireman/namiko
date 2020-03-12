@@ -119,12 +119,13 @@ if (isset($_POST['update-catalogue'])) {
 				throw new Exeption(json_encode($statement->errorInfo()));
 			}
 
-			$statement = $pdo->prepare("UPDATE preorder_items SET total = quantity * :price_KG_L WHERE pid = :pid AND transferred = 0");
-			$result = $statement->execute(array('price_KG_L' => $price_KG_L, 'pid' => $pid));
+			// deactivate update of preorders
+			// $statement = $pdo->prepare("UPDATE preorder_items SET total = quantity * :price_KG_L WHERE pid = :pid AND transferred = 0");
+			// $result = $statement->execute(array('price_KG_L' => $price_KG_L, 'pid' => $pid));
 
-			if (!$result) {
-				throw new Exeption(json_encode($statement->errorInfo()));
-			} 
+			// if (!$result) {
+			// 	throw new Exeption(json_encode($statement->errorInfo()));
+			// } 
 			$pdo->commit();
 		} catch (Exception $e) {
 			$pdo->rollBack();
