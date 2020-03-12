@@ -192,7 +192,7 @@ if (isset($_POST['category']) && isset($_POST['producer'])) {
 					 <td>'. $pid .'</td>
 					 <td>'. $is_storage_item_out .'</td>
 					 <td>'. $intventory_in_unit . $unit_tag .'</td>
-					 <td><input class="stock" type="number" name="quantity_KG_L" step="1" value="'. $quantity_KG_L .'" required></td>
+					 <td><input class="stock" type="number" name="quantity_KG_L" value="'. $quantity_KG_L .'" required></td>
 					 <td>'. $quantityOrderedOut .'</td>
 					 <td>'. $realStockOut .'</td>
 					 <td>'. $quantityDeliveryOut .'</td>

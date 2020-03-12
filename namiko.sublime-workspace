@@ -543,7 +543,7 @@
 			"file": "inventory_handler.php",
 			"settings":
 			{
-				"buffer_size": 6283,
+				"buffer_size": 6274,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -562,6 +562,15 @@
 			"settings":
 			{
 				"buffer_size": 12575,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "css/style.css",
+			"settings":
+			{
+				"buffer_size": 16487,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -602,6 +611,25 @@
 			}
 		},
 		{
+			"contents": "Searching 1079 files for \"insertOrder\"\n\n/home/ture/projects/htdocs/namiko/order_total_process.php:\n    8  \n    9  $orders = [];\n   10: function insertOrder($item) {\n   11      global $orders;\n   12      $uid = $item['uid'];\n   ..\n  234                  if ($curSum <= $totalQuantity) {\n  235                      $sum += $quantity;\n  236:                     insertOrder($preorder);\n  237                      $db->markTransferred($oi_id);\n  238  \n  ...\n  243                      $preorder['quantity'] = $totalQuantity - $sum;\n  244                      $db->updatePreorderItem($oi_id, $curSum - $totalQuantity);\n  245:                     insertOrder($preorder);\n  246                      break;\n  247                  }\n\n/home/ture/projects/htdocs/namiko/inc/DBOperations.inc.php:\n   84  \t}\n   85  \n   86: \tpublic function insertOrder($uid) {\n   87  \t\treturn $this->insert('order', $uid);\n   88  \t}\n\n4 matches across 2 files\n\n\nSearching 1079 files for \"new Mail\"\n\n/home/ture/projects/htdocs/namiko/email_process.php:\n   40  \t}\n   41  \n   42: \t$mail = new Mail($smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity);\n   43  \n   44  \tif ($mail->sendBatch($batch)) {\n\n/home/ture/projects/htdocs/namiko/members.php:\n   86  \n   87  \ttry {\n   88: \t\t$mail = new Mail($smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity);\n   89  \n   90  \t\t$subject = 'Loeschung Deines Accounts';\n   ..\n  181  \t\t\t\n  182  \t\t\ttry {\n  183: \t\t\t\t$mail = new Mail($smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity);\n  184  \n  185  \t\t\t\t$subject = 'Freischaltung Deines Accounts';\n\n/home/ture/projects/htdocs/namiko/inc/Cart.inc.php:\n  328  \n  329  \t\t// send mail\n  330: \t\t$mail = new Mail($smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity);\n  331  \t\t$mail->send($email, $first_name. \" \" .$last_name, $subject, $text, true);\n  332  \n\n/home/ture/projects/htdocs/namiko/inc/SEPAprocedure.inc.php:\n  155  \t */\n  156  \tpublic function notify($smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity) {\n  157: \t\t$mail = new Mail($smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity);\n  158  \n  159  \t\tif ($mail->sendBatch($this->mails)) {\n\n5 matches across 4 files\n",
+			"settings":
+			{
+				"buffer_size": 2198,
+				"line_ending": "Unix",
+				"name": "Find Results",
+				"scratch": true
+			}
+		},
+		{
+			"file": "templates/admin-nav.inc.php",
+			"settings":
+			{
+				"buffer_size": 865,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
 			"file": "my-orders.php",
 			"settings":
 			{
@@ -637,15 +665,6 @@
 			}
 		},
 		{
-			"file": "/home/ture/Documents/test.csv",
-			"settings":
-			{
-				"buffer_size": 1,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "my-preorders.php",
 			"settings":
 			{
@@ -664,20 +683,83 @@
 			}
 		},
 		{
+			"file": "js/cart.js",
+			"settings":
+			{
+				"buffer_size": 1432,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "templates/sidebar.inc.php",
+			"settings":
+			{
+				"buffer_size": 2058,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "inc/Cart.inc.php",
+			"settings":
+			{
+				"buffer_size": 9245,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/tmp/fz3temp-2/Mail.inc.php",
+			"settings":
+			{
+				"buffer_size": 2815,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/ture/wmh/SEPALohnueberw_2020-01.xml",
+			"settings":
+			{
+				"buffer_size": 3076,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"post_ID\"\n\n16501\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"_wpnonce\"\n\ncbeb554907\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"_wp_http_referer\"\n\n/events/community/hinzufuegen\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"post_title\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"tcepostcontent\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"EventStartDate\"\n\n27.02.2020\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"EventStartTime\"\n\n08:00\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"EventEndTime\"\n\n17:00\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"EventEndDate\"\n\n27.02.2020\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"is_recurring[]\"\n\nfalse\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"recurrence[rules][0][type]\"\n\nWeekly\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"recurrence[rules][0][custom][interval]\"\n\n1\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"recurrence[rules][0][custom][week][day][]\"\n\n1\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"recurrence[rules][0][custom][same-time]\"\n\nyes\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"recurrence[rules][0][end-type]\"\n\nOn\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"recurrence[rules][0][end]\"\n\n31.03.2020\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"recurrence[rules][0][custom][type-text]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"recurrence[rules][0][occurrence-count-text]\"\n\nVeranstaltung\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"recurrence[description]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"detach_thumbnail\"\n\nfalse\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"event_image\"; filename=\"\"\nContent-Type: application/octet-stream\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"tax_input[tribe_events_cat]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"tax_input[post_tag]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"venue[VenueID][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"venue[Venue][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"venue[Address][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"venue[City][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"venue[Country][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"venue[Province][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"venue[State]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"venue[Zip][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"venue[Phone][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"venue[URL][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"organizer[OrganizerID][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"organizer[Organizer][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"organizer[Phone][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"organizer[Website][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"organizer[Email][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"EventURL\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"_ecp_custom_16\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"_ecp_custom_22\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"_ecp_custom_28\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"EventCost\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"community-event\"\n\nVeranstaltung übermitteln\n-----------------------------14925883631955096550997750280--\n",
+			"settings":
+			{
+				"buffer_size": 5518,
+				"line_ending": "Unix",
+				"name": "-----------------------------149258836319550965509"
+			}
+		},
+		{
+			"contents": "Successfully built accesscontrol acquisition chameleon coverage django-classy-tags django-countries django-ipware django-sekizai extensionclass django-datetimepicker django-summernote persistence pilkit pillow psycopg2-binary pycountry python-gettext twisted zodbpickle zope.component zope.container zope.globalrequest zope.hookable zope.i18n zope.i18nmessageid zope.proxy zope.publisher zope.security\nInstalling collected packages: extensionclass, zope.interface, acquisition, six, authencoding, pycparser, cffi, persistent, btrees, pytz, datetime, persistence, restrictedpython, transaction, zope.proxy, zope.deferredimport, zope.deprecation, zope.event, zope.hookable, zope.component, zope.i18nmessageid, zope.schema, zope.location, zope.security, zope.browser, zope.configuration, zope.contenttype, zope.exceptions, python-gettext, zope.i18n, zope.publisher, zexceptions, zope.testing, accesscontrol, asgiref, attrs, txaio, cryptography, autobahn, automat, soupsieve, beautifulsoup4, webencodings, bleach, certifi, chameleon, chardet, click, constantly, coverage, python-dateutil, croniter, incremental, idna, hyperlink, pyhamcrest, pyopenssl, pyasn1, pyasn1-modules, service-identity, twisted, daphne, sqlparse, django, django-appconf, django-classy-tags, django-countries, django-extensions, pilkit, django-imagekit, django-ipware, django-model-utils, django-recurrence, redis, django-redis, rq, django-rq, django-sekizai, django-tables2, djangorestframework, zope.sequencesort, zope.structuredtext, roman, documenttemplate, django-datetimepicker, django-summernote, iso3166, multimapping, pastedeploy, pillow, psycopg2-binary, pycountry, pyparsing, pydot, urllib3, requests, rq-scheduler, schwifty, waitress, webob, webtest, wsgiproxy2, zope.tales, zope.contentprovider, zope.traversing, z3c.pt, zc.lockfile, zconfig, zodbpickle, zodb, zope.annotation, zope.tal, zope.pagetemplate, zope.browsermenu, zope.browserpage, zope.browserresource, zope.cachedescriptors, zope.dottedname, zope.filerepresentation, zope.lifecycleevent, zope.size, zope.container, zope.globalrequest, zope.processlifetime, zope.ptresource, zope.site, zope.testbrowser, zope.viewlet, zope\nSuccessfully installed accesscontrol-4.1 acquisition-4.6 asgiref-3.2.3 attrs-19.3.0 authencoding-4.1 autobahn-20.2.2 automat-20.2.0 beautifulsoup4-4.8.2 bleach-3.1.1 btrees-4.6.1 certifi-2019.11.28 cffi-1.14.0 chameleon-3.6.2 chardet-3.0.4 click-7.0 constantly-15.1.0 coverage-5.0.3 croniter-0.3.31 cryptography-2.8 daphne-2.4.1 datetime-4.3 django-3.0.3 django-appconf-1.0.3 django-classy-tags-1.0.0 django-countries-6.0 django-datetimepicker-3.0 django-extensions-2.2.8 django-imagekit-4.0.2 django-ipware-2.1.0 django-model-utils-4.0.0 django-recurrence-1.10.2 django-redis-4.11.0 django-rq-2.3.0 django-sekizai-1.1.0 django-summernote-0.8.11.4 django-tables2-2.2.1 djangorestframework-3.11.0 documenttemplate-3.2.2 extensionclass-4.4 hyperlink-19.0.0 idna-2.8 incremental-17.5.0 iso3166-1.0.1 multimapping-4.1 pastedeploy-2.1.0 persistence-3.0 persistent-4.5.1 pilkit-2.0 pillow-7.0.0 psycopg2-binary-2.8.4 pyasn1-0.4.8 pyasn1-modules-0.2.8 pycountry-19.8.18 pycparser-2.19 pydot-1.4.1 pyhamcrest-2.0.1 pyopenssl-19.1.0 pyparsing-2.4.6 python-dateutil-2.8.1 python-gettext-4.0 pytz-2019.3 redis-3.4.1 requests-2.22.0 restrictedpython-5.0 roman-3.2 rq-1.2.2 rq-scheduler-0.9.1 schwifty-2020.2.2 service-identity-18.1.0 six-1.14.0 soupsieve-2.0 sqlparse-0.3.0 transaction-3.0.0 twisted-19.10.0 txaio-20.1.1 urllib3-1.25.8 waitress-1.4.3 webencodings-0.5.1 webob-1.8.6 webtest-2.0.34 wsgiproxy2-0.4.6 z3c.pt-3.2.0 zc.lockfile-2.0 zconfig-3.5.0 zexceptions-4.1 zodb-5.5.1 zodbpickle-2.0.0 zope-4.3 zope.annotation-4.7.0 zope.browser-2.3 zope.browsermenu-4.4 zope.browserpage-4.4.0 zope.browserresource-4.4 zope.cachedescriptors-4.3.1 zope.component-4.6 zope.configuration-4.3.1 zope.container-4.3.0 zope.contentprovider-4.2.1 zope.contenttype-4.5.0 zope.deferredimport-4.3.1 zope.deprecation-4.4.0 zope.dottedname-4.3 zope.event-4.4 zope.exceptions-4.3 zope.filerepresentation-4.2.0 zope.globalrequest-1.5 zope.hookable-5.0.0 zope.i18n-4.7.0 zope.i18nmessageid-5.0.0 zope.interface-4.7.1 zope.lifecycleevent-4.3 zope.location-4.2 zope.pagetemplate-4.5.0 zope.processlifetime-2.3.0 zope.proxy-4.3.3 zope.ptresource-4.2.0 zope.publisher-5.1.1 zope.schema-4.9.3 zope.security-5.1.0 zope.sequencesort-4.1.2 zope.site-4.2.2 zope.size-4.3 zope.structuredtext-4.3 zope.tal-4.4 zope.tales-5.0.1 zope.testbrowser-5.5.1 zope.testing-4.7 zope.traversing-4.3.1 zope.viewlet-4.2.1",
+			"settings":
+			{
+				"buffer_size": 4534,
+				"line_ending": "Unix",
+				"name": "Successfully built accesscontrol acquisition chame"
+			}
+		},
+		{
+			"file": "/home/ture/wmh/SEPALohnueberw_2020-02.xml",
+			"settings":
+			{
+				"buffer_size": 3959,
+				"line_ending": "Unix"
+			}
+		},
+		{
 			"contents": "# create\ncurl -X PUT --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'Authorization: Bearer d80fe795cc9cd1135e0c99f6caa8ab3afd8a6528197a66959d5e8ee1893f919ad6621a9c61fed6ad' -d '{ \"name\": \"TEST2\", \"type\": 13, \"code\": 222222 }' 'https://api.nuki.io/smartlock/478943260/auth'\n\n# get pin id\ncurl -X GET --header 'Accept: application/json' --header 'Authorization: Bearer d80fe795cc9cd1135e0c99f6caa8ab3afd8a6528197a66959d5e8ee1893f919ad6621a9c61fed6ad' 'https://api.nuki.io/smartlock/478943260/auth'\n\n\n# delete\ncurl -X DELETE --header 'Accept: application/json' --header 'Authorization: Bearer d80fe795cc9cd1135e0c99f6caa8ab3afd8a6528197a66959d5e8ee1893f919ad6621a9c61fed6ad' 'https://api.nuki.io/smartlock/478943260/auth/5dd82b1f8519f276a9b81001'\n",
 			"settings":
 			{
 				"buffer_size": 784,
 				"line_ending": "Unix",
 				"name": "# create"
-			}
-		},
-		{
-			"file": "/home/ture/Desktop/procedure.sql",
-			"settings":
-			{
-				"buffer_size": 182,
-				"line_ending": "Unix"
 			}
 		},
 		{
@@ -734,6 +816,14 @@
 		"selected_items":
 		[
 			[
+				"git pu",
+				"Git: Push"
+			],
+			[
+				"qui",
+				"Git: Quick Commit (repo)"
+			],
+			[
 				"git push",
 				"Git: Push"
 			],
@@ -768,10 +858,6 @@
 			[
 				"git ad",
 				"Git: Add All"
-			],
-			[
-				"git pu",
-				"Git: Push"
 			],
 			[
 				"git pull",
@@ -929,19 +1015,40 @@
 		"/home/ture/projects/htdocs/namiko",
 		"/home/ture/projects/htdocs/namiko/css",
 		"/home/ture/projects/htdocs/namiko/inc",
+		"/home/ture/projects/htdocs/namiko/js",
 		"/home/ture/projects/htdocs/namiko/templates"
 	],
 	"file_history":
 	[
-		"/home/ture/projects/htdocs/namiko/CHANGELOG.md",
+		"/tmp/fz3temp-2/config.inc.php",
+		"/tmp/fz3temp-2/.htaccess",
+		"/tmp/mozilla_ture0/the-events-calendar-demo-0f058943209.ics",
+		"/tmp/xa-DXJVG0/3f.txt",
+		"/tmp/xa-RK5EG0/03.txt",
+		"/home/ture/projects/htdocs/namiko/sepa/SID105D20190822T191231.xml",
+		"/home/ture/wmh/SEPALohnueberw_2020-02.xml",
 		"/home/ture/wmh/lohn2020-01.xml",
+		"/home/ture/wmh/SEPALohnueberw_2020-03.xml",
+		"/home/ture/wmh/SEPA wmH 201912.xml",
+		"/home/ture/projects/htdocs/namiko/inc/SepaXML.inc.php",
+		"/home/ture/projects/result.txt",
+		"/home/ture/projects/demofile.txt",
+		"/home/ture/projects/SQL/wmh.sql",
+		"/home/ture/Desktop/procedure.sql",
+		"/home/ture/dead.letter",
+		"/home/ture/Documents/test.csv",
+		"/home/ture/microsoft.gpg",
+		"/home/ture/tutor",
+		"/home/ture/list.txt",
+		"/tmp/mozilla_ture0/calendar-Papier.ics",
+		"/tmp/moz/calendar-Leichtverpackungen(1).ics",
+		"/home/ture/projects/htdocs/namiko/CHANGELOG.md",
 		"/home/ture/wmh/SEPALohnüberweisung 2019-12-27.xml",
 		"/home/ture/wmh/SEPALohnüberweisung 2019-09-10.xml",
 		"/home/ture/wmh/SEPALohnüberweisung 2019-11-13.xml",
 		"/home/ture/Namiko/2020-02-03T03_19_37+01_00_inventur_protokoll.csv",
 		"/home/ture/projects/htdocs/namiko/catalogue.php",
 		"/tmp/moz/SID53D20200211T185904.xml",
-		"/tmp/fz3temp-2/.htaccess",
 		"/tmp/moz/20200202-101147282-umsatz.CSV",
 		"/home/ture/projects/htdocs/namiko/inventory.php",
 		"/tmp/mozilla_ture0/2020-02-03T02_47_23+01_00_inventur_protokoll.xls",
@@ -987,7 +1094,6 @@
 		"/home/ture/projects/htdocs/namiko/members.php",
 		"/home/ture/Desktop/.htaccess",
 		"/home/ture/Desktop/.htpasswd",
-		"/home/ture/projects/SQL/wmh.sql",
 		"/home/ture/projects/htdocs/namiko/inc/config.inc.php",
 		"/home/ture/projects/htdocs/namiko/sepa.php",
 		"/home/ture/projects/htdocs/namiko/internal.php",
@@ -998,7 +1104,6 @@
 		"/tmp/moz/wmh_posts.csv",
 		"/tmp/moz/wmh_posts(1).csv",
 		"/tmp/moz/wmh_posts(2).csv",
-		"/tmp/fz3temp-2/config.inc.php",
 		"/home/ture/projects/htdocs/namiko/email_process.php",
 		"/home/ture/projects/ResourceHub/pictures/colors.txt",
 		"/home/ture/projects/htdocs/namiko/inc/Cart.inc.php",
@@ -1042,25 +1147,7 @@
 		"/home/ture/Backup/namiko/order_total.php",
 		"/home/ture/Downloads/bills.sql",
 		"/home/ture/projects/htdocs/namiko/inc/SEPAprocedure.inc.php",
-		"/home/ture/projects/htdocs/namiko/templates/nav.inc.php",
-		"/tmp/mozilla_ture0/SID103D20190429T120732.xml",
-		"/home/ture/projects/htdocs/namiko/sepa/SID91D20190429T112459.xml",
-		"/home/ture/Downloads/SID97D20190429T115618.xml",
-		"/home/ture/Downloads/SID98D20190429T115725.xml",
-		"/home/ture/Downloads/SID99D20190429T120052.xml",
-		"/home/ture/Downloads/SID100D20190429T120158.xml",
-		"/tmp/mozilla_ture0/SID101D20190429T120238.xml",
-		"/home/ture/SID18D20190428T133319.xml",
-		"/home/ture/SID17D20190428T133301.xml",
-		"/home/ture/Downloads/usr_web289_1.sql",
-		"/home/ture/Backup/wmh/2019-04-29/usr_web289_1.sql",
-		"/home/ture/projects/htdocs/namiko/test.php",
-		"/home/ture/projects/htdocs/namiko/inc/IntegrityException.inc.php",
-		"/home/ture/projects/htdocs/namiko/templates/orders-nav.inc.php",
-		"/home/ture/projects/htdocs/namiko/templates/settings-nav.inc.php",
-		"/home/ture/projects/htdocs/namiko/js/nav.js",
-		"/home/ture/projects/htdocs/namiko/templates/main-nav.inc.php",
-		"/home/ture/projects/htdocs/namiko/inc/errors.inc.txt"
+		"/home/ture/projects/htdocs/namiko/templates/nav.inc.php"
 	],
 	"find":
 	{
@@ -1082,6 +1169,11 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"new Mail",
+			"step",
+			"insertOrder",
+			"04-10",
+			"03-10",
 			"select",
 			"';",
 			">'",
@@ -1204,11 +1296,6 @@
 			"$_SESSION[\"products\"]",
 			"$_SESSION['products']",
 			"$_SESSION[\"products\"]",
-			"Deine Bestellung",
-			"box",
-			"Deine Bestellung",
-			"Deine ",
-			"cartContent",
 			"Deine Bestellung"
 		],
 		"highlight": true,
@@ -1233,7 +1320,7 @@
 	"groups":
 	[
 		{
-			"selected": 4,
+			"selected": 21,
 			"sheets":
 			[
 				{
@@ -1261,7 +1348,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 20,
 					"type": "text"
 				},
 				{
@@ -1277,8 +1364,8 @@
 						"selection":
 						[
 							[
-								19724,
-								19724
+								1519,
+								1519
 							]
 						],
 						"settings":
@@ -1287,10 +1374,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 9685.0,
+						"translation.y": 4697.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 7,
 					"type": "text"
 				},
 				{
@@ -1299,15 +1386,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 6283,
+						"buffer_size": 6274,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1764,
-								1764
+								5895,
+								5895
 							]
 						],
 						"settings":
@@ -1316,10 +1403,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 985.0,
+						"translation.y": 3070.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
@@ -1347,7 +1434,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 19,
 					"type": "text"
 				},
 				{
@@ -1376,11 +1463,40 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 17,
 					"type": "text"
 				},
 				{
 					"buffer": 5,
+					"file": "css/style.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 16487,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								9593,
+								9593
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 12664.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 16,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
 					"file": "templates/footer.inc.php",
 					"semi_transient": false,
 					"settings":
@@ -1405,11 +1521,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 18,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
+					"buffer": 7,
 					"file": "admin.php",
 					"semi_transient": false,
 					"settings":
@@ -1434,11 +1550,11 @@
 						"translation.y": 7817.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 6,
+					"stack_index": 21,
 					"type": "text"
 				},
 				{
-					"buffer": 7,
+					"buffer": 8,
 					"file": "dev.sql",
 					"semi_transient": false,
 					"settings":
@@ -1462,11 +1578,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 14,
+					"stack_index": 25,
 					"type": "text"
 				},
 				{
-					"buffer": 8,
+					"buffer": 9,
 					"file": "order_total_process.php",
 					"semi_transient": false,
 					"settings":
@@ -1489,14 +1605,121 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 473.0,
+						"translation.y": 3788.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 12,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
-					"buffer": 9,
+					"buffer": 10,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2198,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										144,
+										155
+									],
+									[
+										359,
+										370
+									],
+									[
+										641,
+										652
+									],
+									[
+										827,
+										838
+									],
+									[
+										1055,
+										1063
+									],
+									[
+										1265,
+										1273
+									],
+									[
+										1449,
+										1457
+									],
+									[
+										1687,
+										1695
+									],
+									[
+										2042,
+										2050
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								931,
+								931
+							]
+						],
+						"settings":
+						{
+							"detect_indentation": false,
+							"line_numbers": false,
+							"output_tag": 2,
+							"result_base_dir": "",
+							"result_file_regex": "^([^ \t].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "templates/admin-nav.inc.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 865,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								747,
+								747
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 12,
 					"file": "my-orders.php",
 					"semi_transient": false,
 					"settings":
@@ -1518,14 +1741,14 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2479.0,
+						"translation.y": 1857.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 11,
+					"stack_index": 10,
 					"type": "text"
 				},
 				{
-					"buffer": 10,
+					"buffer": 13,
 					"file": "members.php",
 					"semi_transient": false,
 					"settings":
@@ -1550,11 +1773,11 @@
 						"translation.y": 1216.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 9,
+					"stack_index": 22,
 					"type": "text"
 				},
 				{
-					"buffer": 11,
+					"buffer": 14,
 					"file": "inc/Mail.inc.php",
 					"semi_transient": false,
 					"settings":
@@ -1576,14 +1799,14 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 717.0,
+						"translation.y": 645.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 23,
 					"type": "text"
 				},
 				{
-					"buffer": 12,
+					"buffer": 15,
 					"file": "sepa.php",
 					"semi_transient": false,
 					"settings":
@@ -1605,42 +1828,14 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1242.0,
+						"translation.y": 1982.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 7,
+					"stack_index": 9,
 					"type": "text"
 				},
 				{
-					"buffer": 13,
-					"file": "/home/ture/Documents/test.csv",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 8,
-					"type": "text"
-				},
-				{
-					"buffer": 14,
+					"buffer": 16,
 					"file": "my-preorders.php",
 					"semi_transient": false,
 					"settings":
@@ -1665,11 +1860,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 21,
+					"stack_index": 30,
 					"type": "text"
 				},
 				{
-					"buffer": 15,
+					"buffer": 17,
 					"file": "internal.php",
 					"semi_transient": false,
 					"settings":
@@ -1691,14 +1886,245 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 4398.0,
+						"translation.y": 5123.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 16,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 16,
+					"buffer": 18,
+					"file": "js/cart.js",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 1432,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 19,
+					"file": "templates/sidebar.inc.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2058,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1902,
+								1902
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 100.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 15,
+					"type": "text"
+				},
+				{
+					"buffer": 20,
+					"file": "inc/Cart.inc.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9245,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								9083,
+								9083
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 4912.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 21,
+					"file": "/tmp/fz3temp-2/Mail.inc.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2815,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1405,
+								1405
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 359.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 22,
+					"file": "/home/ture/wmh/SEPALohnueberw_2020-01.xml",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3076,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1983,
+								1983
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/XML/XML.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 922.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 13,
+					"type": "text"
+				},
+				{
+					"buffer": 23,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 5518,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5518,
+								5518
+							]
+						],
+						"settings":
+						{
+							"auto_name": "-----------------------------149258836319550965509",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 457.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 12,
+					"type": "text"
+				},
+				{
+					"buffer": 24,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4534,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4326,
+								4326
+							]
+						],
+						"settings":
+						{
+							"auto_name": "Successfully built accesscontrol acquisition chame",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
+					"type": "text"
+				},
+				{
+					"buffer": 25,
+					"file": "/home/ture/wmh/SEPALohnueberw_2020-02.xml",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3959,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/XML/XML.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 14,
+					"type": "text"
+				},
+				{
+					"buffer": 26,
 					"semi_transient": false,
 					"settings":
 					{
@@ -1722,39 +2148,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 15,
+					"stack_index": 26,
 					"type": "text"
 				},
 				{
-					"buffer": 17,
-					"file": "/home/ture/Desktop/procedure.sql",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 182,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								181,
-								181
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SQL/SQL.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 19,
-					"type": "text"
-				},
-				{
-					"buffer": 18,
+					"buffer": 27,
 					"file": "/tmp/mozilla_ture0/MovieManager.java",
 					"semi_transient": false,
 					"settings":
@@ -1779,11 +2177,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 18,
+					"stack_index": 28,
 					"type": "text"
 				},
 				{
-					"buffer": 19,
+					"buffer": 28,
 					"file": "/home/ture/studium/19-20WS/BSN1/a6/umlauts.sh",
 					"semi_transient": false,
 					"settings":
@@ -1807,11 +2205,11 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 17,
+					"stack_index": 27,
 					"type": "text"
 				},
 				{
-					"buffer": 20,
+					"buffer": 29,
 					"file": "/home/ture/Desktop/movie_db.sql",
 					"semi_transient": false,
 					"settings":
@@ -1838,11 +2236,11 @@
 						"translation.y": 549.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 20,
+					"stack_index": 29,
 					"type": "text"
 				},
 				{
-					"buffer": 21,
+					"buffer": 30,
 					"file": "pay.php",
 					"semi_transient": false,
 					"settings":
@@ -1867,7 +2265,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 13,
+					"stack_index": 24,
 					"type": "text"
 				}
 			]
@@ -1929,6 +2327,18 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"side",
+				"templates/sidebar.inc.php"
+			],
+			[
+				"intern",
+				"internal.php"
+			],
+			[
+				"style",
+				"css/style.css"
+			],
 			[
 				"order",
 				"order_total.php"

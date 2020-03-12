@@ -289,7 +289,7 @@ if(isset($_POST['submit'])) {
 			
 			<div class="info">
 				<span>
-				<i class="fa fa-info-circle" aria-hidden="true"></i> Wir erheben einen Mitgliedsbeitrag in Höhe von 5€, um unsere Fixkosten zu decken. Gerne kannst du Deinen Beitrag auch höher festlegen. Wir arbeiten nicht aus wirtschaftlichem Interesse, Überschüsse werden bei Vereinsauflösung gespendet.
+				<i class="fa fa-info-circle" aria-hidden="true"></i> Wir erheben einen Mitgliedsbeitrag in Höhe von mindestens 5€, um unsere Fixkosten zu decken. Falls du für mehrere Personen mitbestellst bitten wir dich den Beitrag entsprechend anzupassen, da die Kosten mitskalieren. 
 				<br>
 				</span>
 			</div>

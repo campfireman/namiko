@@ -18,7 +18,7 @@ if ($user['rights'] == 4) {
 		<li id="delivered-orders"><a href="delivered-orders.php">ausgegeben</a></li>
 		<?php echo $admin ?>
 		<li id="calendar"><a href="calendar.php">Kalender</a></li>
-		<li id="session"><a href="session.php">Ausgabe</a></li>
+		<li id="session"><a href="session.php">offene Bestellungen</a></li>
   	</ul>
   	</div>
 </div>
