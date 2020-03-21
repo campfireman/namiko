@@ -4,8 +4,12 @@
 		"selected_items":
 		[
 			[
+				"preo",
+				"preorder"
+			],
+			[
 				"qu",
-				"quantity_KG_L"
+				"quantity"
 			],
 			[
 				"create",
@@ -182,10 +186,6 @@
 			[
 				"inve",
 				"inventory_items"
-			],
-			[
-				"preo",
-				"preorder"
 			],
 			[
 				"total",
@@ -520,57 +520,37 @@
 	"buffers":
 	[
 		{
-			"contents": "<?php\nrequire_once('inc/DBOperations.inc.php');\n\n$currency = '&#8364;'; //currency symbol\n$db_host = 'localhost';\n$db_name = 'namiko';\n$db_user = 'root';\n$db_password = 'root';\n$pdo = new PDO(\"mysql:host=$db_host;charset=utf8;dbname=$db_name\", $db_user, $db_password);\n$db = new DBOperations($pdo);\n\n$smtp_host = 'webspace40.do.de';\n$smtp_username = 'web130p9';\n$smtp_password = 'Lh2T9Zvr';\n\n$place = 'Hannover';\n\n$myEmail = 'kontakt@namiko.org';\n$myEntity = 'namiko Hannover e.V.';\n$myStreet = 'Hahnenstr. 13';\n$myRegion = '30167 Hannover';\n$myWebsite = 'https://namiko.org/';\n$tax_number = '';\n\n$myIBAN = 'DE29430609674127508600';\n$myBIC = 'GENODEM1GLS';\n$creditorId = 'DE60NAM00002147342';\n$tax_rate = 0;\n \n$lastPossibleOrder = '4 days';\n\n$debug = true;\n$error_log = dirname(__FILE__).\"/errors.inc.txt\";\n\n// reusables\n$mail_footer = '\n<br><br><br>\n<p style=\"font-style: italic\">Dein namiko Hannover e.V. Team</p>\n<p><strong>Bei Rückfragen einfach an kontakt@namiko.org schreiben</strong></p>';\n?>",
-			"file": "inc/config.inc.php",
-			"file_size": 1038,
-			"file_write_time": 132159892011644908,
+			"file": "order_total_process.php",
 			"settings":
 			{
-				"buffer_size": 999,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "inventory.php",
-			"settings":
-			{
-				"buffer_size": 24310,
+				"buffer_size": 12358,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "inventory_handler.php",
+			"file": "catalogue_handler.php",
 			"settings":
 			{
-				"buffer_size": 6274,
+				"buffer_size": 6522,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": ".gitignore",
+			"file": "admin_handler.php",
 			"settings":
 			{
-				"buffer_size": 165,
+				"buffer_size": 9265,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "order_total.php",
+			"file": "my-orders.php",
 			"settings":
 			{
-				"buffer_size": 12575,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "css/style.css",
-			"settings":
-			{
-				"buffer_size": 16487,
+				"buffer_size": 6841,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -579,228 +559,62 @@
 			"file": "templates/footer.inc.php",
 			"settings":
 			{
-				"buffer_size": 2831,
+				"buffer_size": 2829,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "admin.php",
+			"file": "CHANGELOG.md",
 			"settings":
 			{
-				"buffer_size": 18029,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "dev.sql",
-			"settings":
-			{
-				"buffer_size": 1580,
+				"buffer_size": 2809,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "order_total_process.php",
+			"file": "/tmp/moz/commaonly.txt",
 			"settings":
 			{
-				"buffer_size": 12280,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"contents": "Searching 1079 files for \"insertOrder\"\n\n/home/ture/projects/htdocs/namiko/order_total_process.php:\n    8  \n    9  $orders = [];\n   10: function insertOrder($item) {\n   11      global $orders;\n   12      $uid = $item['uid'];\n   ..\n  234                  if ($curSum <= $totalQuantity) {\n  235                      $sum += $quantity;\n  236:                     insertOrder($preorder);\n  237                      $db->markTransferred($oi_id);\n  238  \n  ...\n  243                      $preorder['quantity'] = $totalQuantity - $sum;\n  244                      $db->updatePreorderItem($oi_id, $curSum - $totalQuantity);\n  245:                     insertOrder($preorder);\n  246                      break;\n  247                  }\n\n/home/ture/projects/htdocs/namiko/inc/DBOperations.inc.php:\n   84  \t}\n   85  \n   86: \tpublic function insertOrder($uid) {\n   87  \t\treturn $this->insert('order', $uid);\n   88  \t}\n\n4 matches across 2 files\n\n\nSearching 1079 files for \"new Mail\"\n\n/home/ture/projects/htdocs/namiko/email_process.php:\n   40  \t}\n   41  \n   42: \t$mail = new Mail($smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity);\n   43  \n   44  \tif ($mail->sendBatch($batch)) {\n\n/home/ture/projects/htdocs/namiko/members.php:\n   86  \n   87  \ttry {\n   88: \t\t$mail = new Mail($smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity);\n   89  \n   90  \t\t$subject = 'Loeschung Deines Accounts';\n   ..\n  181  \t\t\t\n  182  \t\t\ttry {\n  183: \t\t\t\t$mail = new Mail($smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity);\n  184  \n  185  \t\t\t\t$subject = 'Freischaltung Deines Accounts';\n\n/home/ture/projects/htdocs/namiko/inc/Cart.inc.php:\n  328  \n  329  \t\t// send mail\n  330: \t\t$mail = new Mail($smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity);\n  331  \t\t$mail->send($email, $first_name. \" \" .$last_name, $subject, $text, true);\n  332  \n\n/home/ture/projects/htdocs/namiko/inc/SEPAprocedure.inc.php:\n  155  \t */\n  156  \tpublic function notify($smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity) {\n  157: \t\t$mail = new Mail($smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity);\n  158  \n  159  \t\tif ($mail->sendBatch($this->mails)) {\n\n5 matches across 4 files\n",
-			"settings":
-			{
-				"buffer_size": 2198,
-				"line_ending": "Unix",
-				"name": "Find Results",
-				"scratch": true
-			}
-		},
-		{
-			"file": "templates/admin-nav.inc.php",
-			"settings":
-			{
-				"buffer_size": 865,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "my-orders.php",
-			"settings":
-			{
-				"buffer_size": 6472,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "members.php",
-			"settings":
-			{
-				"buffer_size": 14531,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "inc/Mail.inc.php",
-			"settings":
-			{
-				"buffer_size": 2815,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "sepa.php",
-			"settings":
-			{
-				"buffer_size": 11435,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "my-preorders.php",
-			"settings":
-			{
-				"buffer_size": 3148,
+				"buffer_size": 1031,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "internal.php",
+			"contents": "mirjabroecker@web.de, Stefan-Zwosta@t-online.de, keykai@gmx.de, bahar.uelgen@aol.de, abdullahmasoud2002@yahoo.de, fundraisingkenia@web.de, nino.tsibadze@yahoo.de, miriam.mache@gmx.de, mail@meditation-hannover.org, freya_meyer@web.de, hannover@extinctionrebellion.de, suchbeautymuchlove@gmail.com, roman.fenske@web.de, glueckssaat@gmx.de, yoga@juliabosse.de, susanne.altrogge@t-online.de, r.kienast@gmx.de, hallo@wanderzirkus.net, hallo@frei-im-format.com, contact@magdalenakowalski.de, wort-gewandt@gmx.de, spam@zirr.it, valeskakastler@hotmail.com, alena.varchmin@gmail.com, th.nguyen86@yahoo.com, r.woebbeking@gmx.de, holger@walk-tall.de, eckermann@pestel-institut.de, susanne.schulze@krh.eu, kontakt@janinehoefer.de, daniel.jeschke@googlemail.com, info@openspace-hannover.de, tom.hansing@anstiftung.de, bartovamartina@seznam.cz, felix.haub@gmail.com, redjen@web.de, wolf.hannover@icloud.com, slavina.kitova@gmail.com, lehrke-paula@t-online.de, hg.ziegler@gmx.de, eckloff@ash-berlin.eu, tl@gesellschaftplus.de, pb@gesellschaftplus.de, paul.depping@gmail.com, deinehejmat@gmail.com, carolina.guillot@gmx.de, hannover@weitblicker.org, lars.loop@web.de, nc.schneider@web.de, kontakt@jasminmittag.de, info@niedersachsen.aidshilfe.de",
+			"file": "/tmp/moz/all_thunderbird_ready.csv",
+			"file_size": 1229,
+			"file_write_time": 132288528995902191,
 			"settings":
 			{
-				"buffer_size": 10764,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
+				"buffer_size": 1229,
+				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "js/cart.js",
 			"settings":
 			{
-				"buffer_size": 1432,
+				"buffer_size": 0,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "usefulqueries.sql",
+			"settings":
+			{
+				"buffer_size": 1473,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "templates/sidebar.inc.php",
+			"file": "/tmp/moz/wmh_users.csv",
 			"settings":
 			{
-				"buffer_size": 2058,
-				"encoding": "UTF-8",
+				"buffer_size": 1282,
 				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "inc/Cart.inc.php",
-			"settings":
-			{
-				"buffer_size": 9245,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/tmp/fz3temp-2/Mail.inc.php",
-			"settings":
-			{
-				"buffer_size": 2815,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/home/ture/wmh/SEPALohnueberw_2020-01.xml",
-			"settings":
-			{
-				"buffer_size": 3076,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"post_ID\"\n\n16501\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"_wpnonce\"\n\ncbeb554907\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"_wp_http_referer\"\n\n/events/community/hinzufuegen\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"post_title\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"tcepostcontent\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"EventStartDate\"\n\n27.02.2020\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"EventStartTime\"\n\n08:00\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"EventEndTime\"\n\n17:00\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"EventEndDate\"\n\n27.02.2020\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"is_recurring[]\"\n\nfalse\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"recurrence[rules][0][type]\"\n\nWeekly\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"recurrence[rules][0][custom][interval]\"\n\n1\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"recurrence[rules][0][custom][week][day][]\"\n\n1\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"recurrence[rules][0][custom][same-time]\"\n\nyes\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"recurrence[rules][0][end-type]\"\n\nOn\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"recurrence[rules][0][end]\"\n\n31.03.2020\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"recurrence[rules][0][custom][type-text]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"recurrence[rules][0][occurrence-count-text]\"\n\nVeranstaltung\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"recurrence[description]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"detach_thumbnail\"\n\nfalse\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"event_image\"; filename=\"\"\nContent-Type: application/octet-stream\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"tax_input[tribe_events_cat]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"tax_input[post_tag]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"venue[VenueID][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"venue[Venue][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"venue[Address][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"venue[City][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"venue[Country][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"venue[Province][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"venue[State]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"venue[Zip][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"venue[Phone][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"venue[URL][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"organizer[OrganizerID][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"organizer[Organizer][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"organizer[Phone][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"organizer[Website][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"organizer[Email][]\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"EventURL\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"_ecp_custom_16\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"_ecp_custom_22\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"_ecp_custom_28\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"EventCost\"\n\n\n-----------------------------14925883631955096550997750280\nContent-Disposition: form-data; name=\"community-event\"\n\nVeranstaltung übermitteln\n-----------------------------14925883631955096550997750280--\n",
-			"settings":
-			{
-				"buffer_size": 5518,
-				"line_ending": "Unix",
-				"name": "-----------------------------149258836319550965509"
-			}
-		},
-		{
-			"contents": "Successfully built accesscontrol acquisition chameleon coverage django-classy-tags django-countries django-ipware django-sekizai extensionclass django-datetimepicker django-summernote persistence pilkit pillow psycopg2-binary pycountry python-gettext twisted zodbpickle zope.component zope.container zope.globalrequest zope.hookable zope.i18n zope.i18nmessageid zope.proxy zope.publisher zope.security\nInstalling collected packages: extensionclass, zope.interface, acquisition, six, authencoding, pycparser, cffi, persistent, btrees, pytz, datetime, persistence, restrictedpython, transaction, zope.proxy, zope.deferredimport, zope.deprecation, zope.event, zope.hookable, zope.component, zope.i18nmessageid, zope.schema, zope.location, zope.security, zope.browser, zope.configuration, zope.contenttype, zope.exceptions, python-gettext, zope.i18n, zope.publisher, zexceptions, zope.testing, accesscontrol, asgiref, attrs, txaio, cryptography, autobahn, automat, soupsieve, beautifulsoup4, webencodings, bleach, certifi, chameleon, chardet, click, constantly, coverage, python-dateutil, croniter, incremental, idna, hyperlink, pyhamcrest, pyopenssl, pyasn1, pyasn1-modules, service-identity, twisted, daphne, sqlparse, django, django-appconf, django-classy-tags, django-countries, django-extensions, pilkit, django-imagekit, django-ipware, django-model-utils, django-recurrence, redis, django-redis, rq, django-rq, django-sekizai, django-tables2, djangorestframework, zope.sequencesort, zope.structuredtext, roman, documenttemplate, django-datetimepicker, django-summernote, iso3166, multimapping, pastedeploy, pillow, psycopg2-binary, pycountry, pyparsing, pydot, urllib3, requests, rq-scheduler, schwifty, waitress, webob, webtest, wsgiproxy2, zope.tales, zope.contentprovider, zope.traversing, z3c.pt, zc.lockfile, zconfig, zodbpickle, zodb, zope.annotation, zope.tal, zope.pagetemplate, zope.browsermenu, zope.browserpage, zope.browserresource, zope.cachedescriptors, zope.dottedname, zope.filerepresentation, zope.lifecycleevent, zope.size, zope.container, zope.globalrequest, zope.processlifetime, zope.ptresource, zope.site, zope.testbrowser, zope.viewlet, zope\nSuccessfully installed accesscontrol-4.1 acquisition-4.6 asgiref-3.2.3 attrs-19.3.0 authencoding-4.1 autobahn-20.2.2 automat-20.2.0 beautifulsoup4-4.8.2 bleach-3.1.1 btrees-4.6.1 certifi-2019.11.28 cffi-1.14.0 chameleon-3.6.2 chardet-3.0.4 click-7.0 constantly-15.1.0 coverage-5.0.3 croniter-0.3.31 cryptography-2.8 daphne-2.4.1 datetime-4.3 django-3.0.3 django-appconf-1.0.3 django-classy-tags-1.0.0 django-countries-6.0 django-datetimepicker-3.0 django-extensions-2.2.8 django-imagekit-4.0.2 django-ipware-2.1.0 django-model-utils-4.0.0 django-recurrence-1.10.2 django-redis-4.11.0 django-rq-2.3.0 django-sekizai-1.1.0 django-summernote-0.8.11.4 django-tables2-2.2.1 djangorestframework-3.11.0 documenttemplate-3.2.2 extensionclass-4.4 hyperlink-19.0.0 idna-2.8 incremental-17.5.0 iso3166-1.0.1 multimapping-4.1 pastedeploy-2.1.0 persistence-3.0 persistent-4.5.1 pilkit-2.0 pillow-7.0.0 psycopg2-binary-2.8.4 pyasn1-0.4.8 pyasn1-modules-0.2.8 pycountry-19.8.18 pycparser-2.19 pydot-1.4.1 pyhamcrest-2.0.1 pyopenssl-19.1.0 pyparsing-2.4.6 python-dateutil-2.8.1 python-gettext-4.0 pytz-2019.3 redis-3.4.1 requests-2.22.0 restrictedpython-5.0 roman-3.2 rq-1.2.2 rq-scheduler-0.9.1 schwifty-2020.2.2 service-identity-18.1.0 six-1.14.0 soupsieve-2.0 sqlparse-0.3.0 transaction-3.0.0 twisted-19.10.0 txaio-20.1.1 urllib3-1.25.8 waitress-1.4.3 webencodings-0.5.1 webob-1.8.6 webtest-2.0.34 wsgiproxy2-0.4.6 z3c.pt-3.2.0 zc.lockfile-2.0 zconfig-3.5.0 zexceptions-4.1 zodb-5.5.1 zodbpickle-2.0.0 zope-4.3 zope.annotation-4.7.0 zope.browser-2.3 zope.browsermenu-4.4 zope.browserpage-4.4.0 zope.browserresource-4.4 zope.cachedescriptors-4.3.1 zope.component-4.6 zope.configuration-4.3.1 zope.container-4.3.0 zope.contentprovider-4.2.1 zope.contenttype-4.5.0 zope.deferredimport-4.3.1 zope.deprecation-4.4.0 zope.dottedname-4.3 zope.event-4.4 zope.exceptions-4.3 zope.filerepresentation-4.2.0 zope.globalrequest-1.5 zope.hookable-5.0.0 zope.i18n-4.7.0 zope.i18nmessageid-5.0.0 zope.interface-4.7.1 zope.lifecycleevent-4.3 zope.location-4.2 zope.pagetemplate-4.5.0 zope.processlifetime-2.3.0 zope.proxy-4.3.3 zope.ptresource-4.2.0 zope.publisher-5.1.1 zope.schema-4.9.3 zope.security-5.1.0 zope.sequencesort-4.1.2 zope.site-4.2.2 zope.size-4.3 zope.structuredtext-4.3 zope.tal-4.4 zope.tales-5.0.1 zope.testbrowser-5.5.1 zope.testing-4.7 zope.traversing-4.3.1 zope.viewlet-4.2.1",
-			"settings":
-			{
-				"buffer_size": 4534,
-				"line_ending": "Unix",
-				"name": "Successfully built accesscontrol acquisition chame"
-			}
-		},
-		{
-			"file": "/home/ture/wmh/SEPALohnueberw_2020-02.xml",
-			"settings":
-			{
-				"buffer_size": 3959,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "# create\ncurl -X PUT --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'Authorization: Bearer d80fe795cc9cd1135e0c99f6caa8ab3afd8a6528197a66959d5e8ee1893f919ad6621a9c61fed6ad' -d '{ \"name\": \"TEST2\", \"type\": 13, \"code\": 222222 }' 'https://api.nuki.io/smartlock/478943260/auth'\n\n# get pin id\ncurl -X GET --header 'Accept: application/json' --header 'Authorization: Bearer d80fe795cc9cd1135e0c99f6caa8ab3afd8a6528197a66959d5e8ee1893f919ad6621a9c61fed6ad' 'https://api.nuki.io/smartlock/478943260/auth'\n\n\n# delete\ncurl -X DELETE --header 'Accept: application/json' --header 'Authorization: Bearer d80fe795cc9cd1135e0c99f6caa8ab3afd8a6528197a66959d5e8ee1893f919ad6621a9c61fed6ad' 'https://api.nuki.io/smartlock/478943260/auth/5dd82b1f8519f276a9b81001'\n",
-			"settings":
-			{
-				"buffer_size": 784,
-				"line_ending": "Unix",
-				"name": "# create"
-			}
-		},
-		{
-			"contents": "package de.hsh.dbs2.imdb.logic;\n\nimport java.sql.PreparedStatement;\nimport java.sql.ResultSet;\nimport java.util.ArrayList;\nimport java.util.List;\nimport java.util.Set;\n\nimport de.hsh.dbs2.imdb.logic.dto.CharacterDTO;\nimport de.hsh.dbs2.imdb.logic.dto.MovieDTO;\nimport de.hsh.dbs2.imdb.util.DBConnection;\n\npublic class MovieManager {\n\n\t/**\n\t * Ermittelt alle Filme, deren Filmtitel den Suchstring enthaelt.\n\t * Wenn der String leer ist, sollen alle Filme zurueckgegeben werden.\n\t * Der Suchstring soll ohne Ruecksicht auf Gross/Kleinschreibung verarbeitet werden.\n\t * @param search Suchstring. \n\t * @return Liste aller passenden Filme als MovieDTO\n\t * @throws Exception\n\t */\n\tpublic List<MovieDTO> getMovieList(String search) throws Exception {\n\t\t// TODO\n\t\treturn new ArrayList<>();\n\t}\n\n\t/**\n\t * Speichert die uebergebene Version des Films neu in der Datenbank oder aktualisiert den\n\t * existierenden Film.\n\t * Dazu werden die Daten des Films selbst (Titel, Jahr, Typ) beruecksichtigt,\n\t * aber auch alle Genres, die dem Film zugeordnet sind und die Liste der Charaktere\n\t * auf den neuen Stand gebracht.\n\t * @param movie Film-Objekt mit Genres und Charakteren.\n\t * @throws Exception\n\t */\n\tpublic void insertUpdateMovie(MovieDTO movieDTO) throws Exception {\n\t\t// TODO\n\t\t\n\t\ttry{\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t\t\n\t\t} catch (Exception e) {\n            System.out.println(e);\n        } \n\t\t\n\t\t\n\t}\n\n\t/**\n\t * Loescht einen Film aus der Datenbank. Es werden auch alle abhaengigen Objekte geloescht,\n\t * d.h. alle Charaktere und alle Genre-Zuordnungen.\n\t * @param movie\n\t * @throws Exception\n\t */\n\tpublic void deleteMovie(long movieId) throws Exception {\n\t\t// TODO Auto-generated method stub\n\t}\n\n\tpublic MovieDTO getMovie(long movieId) throws Exception {\n\t\t// TODO Auto-generated method stub\n\t\treturn null;\n\t}\n\n}\n",
-			"file": "/tmp/mozilla_ture0/MovieManager.java",
-			"file_size": 6521,
-			"file_write_time": 132176342470625243,
-			"settings":
-			{
-				"buffer_size": 1786,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/home/ture/studium/19-20WS/BSN1/a6/umlauts.sh",
-			"settings":
-			{
-				"buffer_size": 110,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "CREATE TABLE movie (\n    movieID NUMBER NOT NULL,\n    title VARCHAR(255) NOT NULL,\n    year NUMBER,\n    type VARCHAR(5),\n    CONSTRAINT pk_movieID PRIMARY KEY (movieID)\n    \n    \n);\n\nCREATE sequence movie_seq;\n\nCREATE TABLE genre (\n    genreID NUMBER NOT NULL,\n    genre VARCHAR(255),\n    CONSTRAINT pk_genreID PRIMARY KEY (genreID),\n    CONSTRAINT uk_genre UNIQUE (genre)\n);\n\nCREATE sequence genre_seq;\n\nCREATE TABLE movie_to_genre (\n    movieID NUMBER NOT NULL,\n    genreID NUMBER NOT NULL,\n    CONSTRAINT uk_movieID_genreID UNIQUE (movieID, genreID),\n    CONSTRAINT fk_movieID FOREIGN KEY (movieID) REFERENCES movie (movieID),\n    CONSTRAINT fk_genreID FOREIGN KEY (genreID) REFERENCES genre (genreID)\n);\n\nCREATE sequence movie_to_genre_seq;\n\nCREATE TABLE person (\n    personID NUMBER NOT NULL,\n    name VARCHAR(255),\n    sex CHAR(1),\n    CONSTRAINT pk_personID PRIMARY KEY (personID),\n    CONSTRAINT uk_person_name UNIQUE (name)\n);\n\nCREATE sequence person_seq;\n\nCREATE TABLE movie_character (\n    mov_char_id NUMBER NOT NULL,\n    movieID NUMBER NOT NULL,\n    personID NUMBER NOT NULL,\n    character VARCHAR(255),\n    alias VARCHAR(255),\n    position NUMBER,\n    CONSTRAINT pk_mov_char_id PRIMARY KEY (mov_char_id),\n    CONSTRAINT fk_movie FOREIGN KEY (movieID) REFERENCES movie (movieID),\n    CONSTRAINT fk_personID FOREIGN KEY (personID) REFERENCES person (personID)\n);\n\nCREATE sequence movie_character_seq;\n\nINSERT ALL \nINTO movie (movieID, title, year, type) VALUES (1, 'Star Wars', 1990, 'sci')\nINTO movie (movieID, title, year, type) VALUES (2, 'Alle Moerder sind schon da', 1970, 'hor')\nINTO movie (movieID, title, year, type) VALUES (3, 'Cocktail fuer eine Leiche', 1950, 'a')\nSELECT 1 FROM dual;\n\nINSERT ALL \nINTO genre (genreID, genre) VALUES (1, 'Horror')\nINTO genre (genreID, genre) VALUES (2, 'SciFi')\nINTO genre (genreID, genre) VALUES (3, 'Drama')\nSELECT 1 FROM dual;\n\nINSERT ALL \nINTO movie_to_genre (movieID, genreID) VALUES (1, 2)\nINTO movie_to_genre (movieID, genreID) VALUES (2, 1)\nINTO movie_to_genre (movieID, genreID) VALUES (3, 3)\nSELECT 1 FROM dual;\n\nINSERT ALL \nINTO person (personID, name, sex) VALUES (1, 'Peter Popper', 'm')\nINTO person (personID, name, sex) VALUES (2, 'John Doe', 'm')\nINTO person (personID, name, sex) VALUES (3, 'Judy Joe', 'f')\nSELECT 1 FROM dual;\n\nINSERT ALL \nINTO movie_character (mov_char_ID, movieID, personID, character, alias, position) VALUES (1, 1, 1, 'Darth Vader', 'darth', 1)\nINTO movie_character (mov_char_ID, movieID, personID, character, alias, position) VALUES (2, 2, 2, 'Hintergrundperson 1', 'back', 1)\nINTO movie_character (mov_char_ID, movieID, personID, character, alias, position) VALUES (3, 3, 3, 'Cocktailglas', 'glass', 1)\nSELECT 1 FROM dual;\n\nDROP TABLE movie_to_genre;\nDROP TABLE genre;\nDROP TABLE movie_character;\nDROP TABLE person;\nDROP TABLE movie;\n\nDROP SEQUENCE movie_seq;\nDROP SEQUENCE genre_seq;\nDROP SEQUENCE movie_character_seq;\nDROP SEQUENCE person_seq;\nDROP SEQUENCE movie_to_genre_seq;0",
-			"file": "/home/ture/Desktop/movie_db.sql",
-			"file_size": 2976,
-			"file_write_time": 132175982445529519,
-			"settings":
-			{
-				"buffer_size": 2977,
-				"line_ending": "Unix",
-				"name": "CREATE TABLE movie ("
-			}
-		},
-		{
-			"file": "pay.php",
-			"settings":
-			{
-				"buffer_size": 1722,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
 			}
 		}
 	],
@@ -816,19 +630,23 @@
 		"selected_items":
 		[
 			[
+				"git push",
+				"Git: Push"
+			],
+			[
+				"commit q",
+				"Git: Quick Commit (repo)"
+			],
+			[
+				"git q",
+				"Git: Quick Commit (repo)"
+			],
+			[
 				"git pu",
 				"Git: Push"
 			],
 			[
 				"qui",
-				"Git: Quick Commit (repo)"
-			],
-			[
-				"git push",
-				"Git: Push"
-			],
-			[
-				"git q",
 				"Git: Quick Commit (repo)"
 			],
 			[
@@ -1020,13 +838,51 @@
 	],
 	"file_history":
 	[
-		"/tmp/fz3temp-2/config.inc.php",
+		"/tmp/mozilla_ture0/publickey - _tu.cl@pm.me_.asc",
+		"/tmp/moz/commaonly.csv",
+		"/home/ture/projects/htdocs/namiko/inc/Cart.inc.php",
+		"/home/ture/projects/data_analysis/wmh/event_query.sql",
+		"/tmp/moz/order_items.csv",
+		"/tmp/moz/Umsatzanzeige_DE32500105175431628982_20200313.csv",
+		"/home/ture/projects/htdocs/namiko/my-preorders.php",
+		"/home/ture/projects/htdocs/namiko/inc/functions.inc.php",
+		"/home/ture/projects/htdocs/namiko/inventory.php",
 		"/tmp/fz3temp-2/.htaccess",
+		"/tmp/fz3temp-2/.htaccess 2",
+		"/home/ture/projects/htdocs/namiko/inc/DBOperations.inc.php",
+		"/tmp/fz3temp-2/.htpasswd",
+		"/tmp/fz3temp-2/.htpasswd 2",
+		"/home/ture/projects/htdocs/namiko/inc/config.inc.php",
+		"/home/ture/projects/htdocs/namiko/inventory_handler.php",
+		"/home/ture/projects/htdocs/namiko/.gitignore",
+		"/home/ture/projects/htdocs/namiko/order_total.php",
+		"/home/ture/projects/htdocs/namiko/css/style.css",
+		"/home/ture/projects/htdocs/namiko/templates/footer.inc.php",
+		"/home/ture/projects/htdocs/namiko/admin.php",
+		"/home/ture/projects/htdocs/namiko/order_total_process.php",
+		"/home/ture/projects/htdocs/namiko/templates/admin-nav.inc.php",
+		"/home/ture/projects/htdocs/namiko/my-orders.php",
+		"/home/ture/projects/htdocs/namiko/members.php",
+		"/home/ture/projects/htdocs/namiko/inc/Mail.inc.php",
+		"/home/ture/projects/htdocs/namiko/sepa.php",
+		"/home/ture/projects/htdocs/namiko/internal.php",
+		"/home/ture/projects/htdocs/namiko/templates/sidebar.inc.php",
+		"/home/ture/projects/htdocs/namiko/inc/DOMValidator.inc.php",
+		"/home/ture/projects/htdocs/namiko/register.php",
+		"/home/ture/projects/htdocs/namiko/member.php",
+		"/home/ture/wmh/SEPALohnueberw_2020-01.xml",
+		"/home/ture/wmh/SEPALohnueberw_2020-02.xml",
+		"/tmp/mozilla_ture0/MovieManager.java",
+		"/home/ture/studium/19-20WS/BSN1/a6/umlauts.sh",
+		"/home/ture/Desktop/movie_db.sql",
+		"/home/ture/projects/htdocs/namiko/pay.php",
+		"/home/ture/projects/htdocs/namiko/dev.sql",
+		"/tmp/fz3temp-2/Mail.inc.php",
+		"/tmp/fz3temp-2/config.inc.php",
 		"/tmp/mozilla_ture0/the-events-calendar-demo-0f058943209.ics",
 		"/tmp/xa-DXJVG0/3f.txt",
 		"/tmp/xa-RK5EG0/03.txt",
 		"/home/ture/projects/htdocs/namiko/sepa/SID105D20190822T191231.xml",
-		"/home/ture/wmh/SEPALohnueberw_2020-02.xml",
 		"/home/ture/wmh/lohn2020-01.xml",
 		"/home/ture/wmh/SEPALohnueberw_2020-03.xml",
 		"/home/ture/wmh/SEPA wmH 201912.xml",
@@ -1050,7 +906,6 @@
 		"/home/ture/projects/htdocs/namiko/catalogue.php",
 		"/tmp/moz/SID53D20200211T185904.xml",
 		"/tmp/moz/20200202-101147282-umsatz.CSV",
-		"/home/ture/projects/htdocs/namiko/inventory.php",
 		"/tmp/mozilla_ture0/2020-02-03T02_47_23+01_00_inventur_protokoll.xls",
 		"/tmp/mozilla_ture0/2020-02-03T02_35_12+01_00_inventur_protokoll.csv",
 		"/home/ture/Documents/2019-01_Konto.csv",
@@ -1060,7 +915,6 @@
 		"/tmp/Kontakte.vcf",
 		"/home/ture/wmh/diff.txt",
 		"/home/ture/projects/htdocs/namiko/catalogue_handler.php",
-		"/home/ture/projects/htdocs/namiko/templates/footer.inc.php",
 		"/home/ture/projects/htdocs/namiko/admin_handler.php",
 		"/home/ture/projects/data_analysis/namiko/queries.sql",
 		"/home/ture/projects/htdocs/namiko/sql.sql",
@@ -1077,46 +931,28 @@
 		"/tmp/mozilla_ture0/mystrcat_test-2.c",
 		"/home/ture/projects/htdocs/namiko/handing-out.php",
 		"/home/ture/projects/htdocs/namiko/delivered-orders.php",
-		"/home/ture/projects/htdocs/namiko/inc/functions.inc.php",
-		"/home/ture/projects/htdocs/namiko/admin.php",
-		"/home/ture/projects/htdocs/namiko/inc/DBOperations.inc.php",
-		"/home/ture/projects/htdocs/namiko/order_total_process.php",
 		"/tmp/mozilla_ture0/SEPALohnüberweisung 2019-09-10.xml",
-		"/home/ture/projects/htdocs/namiko/css/style.css",
-		"/home/ture/projects/htdocs/namiko/my-preorders.php",
-		"/home/ture/projects/htdocs/namiko/order_total.php",
 		"/home/ture/projects/htdocs/namiko/edit_producers.php",
-		"/home/ture/projects/htdocs/namiko/templates/sidebar.inc.php",
 		"/home/ture/eclipse-workspace/JDBC_CONNECT-TEST/classes/connect.properties",
 		"/home/ture/projects/htdocs/namiko/emailcenter.php",
-		"/home/ture/projects/htdocs/namiko/inc/Mail.inc.php",
-		"/home/ture/projects/htdocs/namiko/my-orders.php",
-		"/home/ture/projects/htdocs/namiko/members.php",
 		"/home/ture/Desktop/.htaccess",
 		"/home/ture/Desktop/.htpasswd",
-		"/home/ture/projects/htdocs/namiko/inc/config.inc.php",
-		"/home/ture/projects/htdocs/namiko/sepa.php",
-		"/home/ture/projects/htdocs/namiko/internal.php",
 		"/home/ture/projects/htdocs/namiko/producer_info.php",
 		"/home/ture/projects/htdocs/namiko/producers.php",
-		"/home/ture/projects/htdocs/namiko/templates/admin-nav.inc.php",
 		"/home/ture/Desktop/untitled.php",
 		"/tmp/moz/wmh_posts.csv",
 		"/tmp/moz/wmh_posts(1).csv",
 		"/tmp/moz/wmh_posts(2).csv",
 		"/home/ture/projects/htdocs/namiko/email_process.php",
 		"/home/ture/projects/ResourceHub/pictures/colors.txt",
-		"/home/ture/projects/htdocs/namiko/inc/Cart.inc.php",
 		"/tmp/mozilla_ture0/SID118D20190822T194125.xml",
 		"/tmp/mozilla_ture0/SID113D20190822T193754.xml",
 		"/tmp/mozilla_ture0/SID104D20190822T191103.xml",
 		"/home/ture/projects/htdocs/namiko/session_process.php",
 		"/home/ture/projects/htdocs/namiko/util/tcpdf/CHANGELOG.TXT",
-		"/home/ture/projects/htdocs/namiko/member.php",
 		"/home/ture/projects/htdocs/namiko/agree.php",
 		"/home/ture/projects/htdocs/namiko/templates/header.inc.php",
 		"/home/ture/projects/htdocs/namiko/js/jquery.js",
-		"/home/ture/projects/htdocs/namiko/pay.php",
 		"/home/ture/projects/htdocs/namiko/css/bootstrap.css",
 		"/home/ture/projects/ResourceHub/pictures/RH_UI_Diagramm.xml",
 		"/home/ture/projects/htdocs/namiko/check-out.php",
@@ -1127,27 +963,9 @@
 		"/home/ture/projects/data_analysis/namiko.py",
 		"/home/ture/projects/data_analysis/data/order_hours.csv",
 		"/home/ture/projects/data_analysis/fibonacci_graph.py",
-		"/home/ture/projects/htdocs/namiko/.gitignore",
 		"/home/ture/projects/mysql-backup/README.md",
 		"/home/ture/projects/htdocs/namiko/session.php",
-		"/home/ture/projects/htdocs/namiko/dev.sql",
-		"/home/ture/projects/htdocs/namiko/calendar.php",
-		"/home/ture/projects/htdocs/namiko/hand-out_process.php",
-		"/home/ture/projects/htdocs/namiko/del_event.php",
-		"/home/ture/projects/htdocs/namiko/cart_process.php",
-		"/home/ture/projects/htdocs/namiko/templates/back-up-button.php",
-		"/home/ture/Backup/namiko/sepa.php",
-		"/home/ture/projects/CapitalUnion/CapitalUnion.aux",
-		"/home/ture/config.inc.php",
-		"/home/ture/projects/htdocs/namiko/register.php",
-		"/home/ture/Studium/18-19SS/Datenbanksysteme1/ue07.sql",
-		"/home/ture/projects/htdocs/wordpress/wp-config.php",
-		"/home/ture/Downloads/SID6D20190503T101701.xml",
-		"/home/ture/Studium/18-19SS/Programmieren2/plenum.java",
-		"/home/ture/Backup/namiko/order_total.php",
-		"/home/ture/Downloads/bills.sql",
-		"/home/ture/projects/htdocs/namiko/inc/SEPAprocedure.inc.php",
-		"/home/ture/projects/htdocs/namiko/templates/nav.inc.php"
+		"/home/ture/projects/htdocs/namiko/calendar.php"
 	],
 	"find":
 	{
@@ -1169,6 +987,18 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			".com",
+			"\"",
+			"e\"",
+			"\"",
+			";",
+			",",
+			"\"",
+			"e\"",
+			"\"",
+			"preorder_items.",
+			"invalid address",
+			"insertOrder",
 			"new Mail",
 			"step",
 			"insertOrder",
@@ -1284,19 +1114,7 @@
 			"deficit",
 			"$realStock",
 			"$preorders",
-			"$realTotal",
-			"saveToSession",
-			"$new_product",
-			"$_SESSION['preorders']",
-			"error(",
-			"error",
-			"$_SESSION['orders']",
-			" $_SESSION['orders']",
-			"$_SESSION['orders']",
-			"$_SESSION[\"products\"]",
-			"$_SESSION['products']",
-			"$_SESSION[\"products\"]",
-			"Deine Bestellung"
+			"$realTotal"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1320,282 +1138,24 @@
 	"groups":
 	[
 		{
-			"selected": 21,
+			"selected": 9,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "inc/config.inc.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 999,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								654,
-								654
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 20,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "inventory.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 24310,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1519,
-								1519
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 4697.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "inventory_handler.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 6274,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5895,
-								5895
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 3070.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": ".gitignore",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 165,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								81,
-								81
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Git Formats/Git Ignore.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 19,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "order_total.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 12575,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1158,
-								1158
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 17,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "css/style.css",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 16487,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								9593,
-								9593
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 12664.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 16,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "templates/footer.inc.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2831,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								503,
-								503
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 18,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "admin.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 18029,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								17113,
-								17113
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 7817.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 21,
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "dev.sql",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1580,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1580,
-								1580
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SQL/SQL.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 25,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
 					"file": "order_total_process.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 12280,
+						"buffer_size": 12358,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								8648,
+								8648
 							]
 						],
 						"settings":
@@ -1605,105 +1165,27 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3788.0,
+						"translation.y": 2789.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 8,
 					"type": "text"
 				},
 				{
-					"buffer": 10,
+					"buffer": 1,
+					"file": "catalogue_handler.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2198,
-						"regions":
-						{
-							"match":
-							{
-								"flags": 112,
-								"regions":
-								[
-									[
-										144,
-										155
-									],
-									[
-										359,
-										370
-									],
-									[
-										641,
-										652
-									],
-									[
-										827,
-										838
-									],
-									[
-										1055,
-										1063
-									],
-									[
-										1265,
-										1273
-									],
-									[
-										1449,
-										1457
-									],
-									[
-										1687,
-										1695
-									],
-									[
-										2042,
-										2050
-									]
-								],
-								"scope": ""
-							}
-						},
-						"selection":
-						[
-							[
-								931,
-								931
-							]
-						],
-						"settings":
-						{
-							"detect_indentation": false,
-							"line_numbers": false,
-							"output_tag": 2,
-							"result_base_dir": "",
-							"result_file_regex": "^([^ \t].*):$",
-							"result_line_regex": "^ +([0-9]+):",
-							"scroll_past_end": true,
-							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 11,
-					"file": "templates/admin-nav.inc.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 865,
+						"buffer_size": 6522,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								747,
-								747
+								0,
+								0
 							]
 						],
 						"settings":
@@ -1712,56 +1194,27 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 12,
-					"file": "my-orders.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 6472,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5454,
-								5454
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1857.0,
+						"translation.y": 2310.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 10,
 					"type": "text"
 				},
 				{
-					"buffer": 13,
-					"file": "members.php",
+					"buffer": 2,
+					"file": "admin_handler.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 14531,
+						"buffer_size": 9265,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								14421,
-								14421
+								4804,
+								4804
 							]
 						],
 						"settings":
@@ -1770,89 +1223,61 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1216.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 22,
-					"type": "text"
-				},
-				{
-					"buffer": 14,
-					"file": "inc/Mail.inc.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2815,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 645.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 23,
-					"type": "text"
-				},
-				{
-					"buffer": 15,
-					"file": "sepa.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 11435,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								9972,
-								9972
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1982.0,
+						"translation.y": 541.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 9,
 					"type": "text"
 				},
 				{
-					"buffer": 16,
-					"file": "my-preorders.php",
+					"buffer": 3,
+					"file": "my-orders.php",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3148,
+						"buffer_size": 6841,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								708,
-								708
+								3193,
+								3193
 							]
 						],
 						"settings":
 						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 2015.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "templates/footer.inc.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2829,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								501,
+								501
+							]
+						],
+						"settings":
+						{
+							"spell_check": true,
 							"syntax": "Packages/PHP/PHP.sublime-syntax",
 							"translate_tabs_to_spaces": false
 						},
@@ -1860,59 +1285,57 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 30,
+					"stack_index": 6,
 					"type": "text"
 				},
 				{
-					"buffer": 17,
-					"file": "internal.php",
+					"buffer": 5,
+					"file": "CHANGELOG.md",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 10764,
+						"buffer_size": 2809,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2296,
-								2296
+								46,
+								46
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/Markdown/Markdown.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 5123.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 18,
-					"file": "js/cart.js",
-					"semi_transient": true,
+					"buffer": 6,
+					"file": "/tmp/moz/commaonly.txt",
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1432,
+						"buffer_size": 1031,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								0,
-								0
+								1031,
+								1031
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1922,184 +1345,96 @@
 					"type": "text"
 				},
 				{
-					"buffer": 19,
-					"file": "templates/sidebar.inc.php",
+					"buffer": 7,
+					"file": "/tmp/moz/all_thunderbird_ready.csv",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2058,
+						"buffer_size": 1229,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1902,
-								1902
+								566,
+								566
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 100.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 15,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 20,
-					"file": "inc/Cart.inc.php",
+					"buffer": 8,
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 9245,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								9083,
-								9083
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 4912.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,
 					"type": "text"
 				},
 				{
-					"buffer": 21,
-					"file": "/tmp/fz3temp-2/Mail.inc.php",
+					"buffer": 9,
+					"file": "usefulqueries.sql",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2815,
+						"buffer_size": 1473,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1405,
-								1405
+								1473,
+								1473
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax"
+							"syntax": "Packages/SQL/SQL.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 359.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 22,
-					"file": "/home/ture/wmh/SEPALohnueberw_2020-01.xml",
+					"buffer": 10,
+					"file": "/tmp/moz/wmh_users.csv",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3076,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1983,
-								1983
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/XML/XML.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 922.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 13,
-					"type": "text"
-				},
-				{
-					"buffer": 23,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 5518,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5518,
-								5518
-							]
-						],
-						"settings":
-						{
-							"auto_name": "-----------------------------149258836319550965509",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 457.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 12,
-					"type": "text"
-				},
-				{
-					"buffer": 24,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4534,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4326,
-								4326
-							]
-						],
-						"settings":
-						{
-							"auto_name": "Successfully built accesscontrol acquisition chame",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
-					"type": "text"
-				},
-				{
-					"buffer": 25,
-					"file": "/home/ture/wmh/SEPALohnueberw_2020-02.xml",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3959,
+						"buffer_size": 1282,
 						"regions":
 						{
 						},
@@ -2112,160 +1447,13 @@
 						],
 						"settings":
 						{
-							"syntax": "Packages/XML/XML.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 14,
-					"type": "text"
-				},
-				{
-					"buffer": 26,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 784,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								784,
-								784
-							]
-						],
-						"settings":
-						{
-							"auto_name": "# create",
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 26,
-					"type": "text"
-				},
-				{
-					"buffer": 27,
-					"file": "/tmp/mozilla_ture0/MovieManager.java",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1786,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1280,
-								1280
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Java/Java.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 28,
-					"type": "text"
-				},
-				{
-					"buffer": 28,
-					"file": "/home/ture/studium/19-20WS/BSN1/a6/umlauts.sh",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 110,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								110,
-								110
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/ShellScript/Bash.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 27,
-					"type": "text"
-				},
-				{
-					"buffer": 29,
-					"file": "/home/ture/Desktop/movie_db.sql",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2977,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2977,
-								2977
-							]
-						],
-						"settings":
-						{
-							"auto_name": "CREATE TABLE movie (",
-							"syntax": "Packages/SQL/SQL.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 549.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 29,
-					"type": "text"
-				},
-				{
-					"buffer": 30,
-					"file": "pay.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1722,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 24,
+					"stack_index": 5,
 					"type": "text"
 				}
 			]
@@ -2328,6 +1516,50 @@
 		"selected_items":
 		[
 			[
+				"fun",
+				"inc/functions.inc.php"
+			],
+			[
+				"admin",
+				"admin_handler.php"
+			],
+			[
+				"cata",
+				"catalogue_handler.php"
+			],
+			[
+				"inve",
+				"inventory.php"
+			],
+			[
+				"DBOp",
+				"inc/DBOperations.inc.php"
+			],
+			[
+				"Cart.in",
+				"inc/Cart.inc.php"
+			],
+			[
+				"order_total",
+				"order_total_process.php"
+			],
+			[
+				"db",
+				"inc/DBOperations.inc.php"
+			],
+			[
+				"func",
+				"inc/functions.inc.php"
+			],
+			[
+				"member",
+				"member.php"
+			],
+			[
+				"register",
+				"register.php"
+			],
+			[
 				"side",
 				"templates/sidebar.inc.php"
 			],
@@ -2342,10 +1574,6 @@
 			[
 				"order",
 				"order_total.php"
-			],
-			[
-				"inve",
-				"inventory.php"
 			],
 			[
 				"mail",

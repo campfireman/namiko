@@ -517,7 +517,7 @@ if (isset($_POST['update'])) {
 			<option value="-1">- Produkt wählen -</option>
 			<?php print_r($orderTotalAdd) ?>
 			</select>
-			<input type="number" name="quantityContainer" placeholder="Menge Gebinde" class="smallForm" required> 
+			<input type="number" name="quantityContainer[]" placeholder="Menge Gebinde" class="smallForm" required> 
 			<button type="submit" class="clean-btn blue">Hinzufügen <i class="fa fa-plus" aria-hidden="true"></i></button>
 		</form>
 	</div>
