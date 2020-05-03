@@ -1,12 +1,12 @@
 <?php
-include('templates/back-up-button.php');
+include 'templates/back-up-button.php';
 ?>
 
   	<footer>
-    
+
     <div class="footer">
     	<span><a href="contact.php" class="green">Kontakt <i class="fa fa-envelope" aria-hidden="true"></i></a><a href="imprint.php" class="orange leftSpacer">Impressum <i class="fa fa-file" aria-hidden="true"></i></a><a href="data.php" class="blue leftSpacer">Datenschutz <i class="fa fa-database" aria-hidden="true"></i></a></span><br><br>
-    	<div><a href="https://gitlab.com/CampFireMan/namiko">Version 1.6</a></div>
+    	<div><a href="https://gitlab.com/CampFireMan/namiko">Version 1.6.1</a></div>
     </div>
       </footer>
 		<script src="js/bootstrap.min.js"></script>
@@ -14,16 +14,16 @@ include('templates/back-up-button.php');
   	<script>
   	function deny_IE() {
   		if((navigator.userAgent.indexOf("MSIE") != -1 ) || (!!document.documentMode == true )) {
-      		alert('Internet Explorer, leider funktioniert diese Seite, mit deinem Browser nicht!'); 
-    	}  
+      		alert('Internet Explorer, leider funktioniert diese Seite, mit deinem Browser nicht!');
+    	}
   	}
     function closeNotification (value) {
 		var x = document.getElementById('notification' + value);
 		x.style.height = '0';
-		
+
 		document.body.classList.remove('noscroll');
 	}
-	
+
 	var menuState = 0;
 	function open_close () {
 		var x = document.getElementById('menuContent');
