@@ -340,7 +340,7 @@ class Cart
         }
         $reminder = empty($this->order_ids) ? '' : '
         <p>
-            Bitte hole die Artikel aus deiner Bestellung so schnell wie möglich ab. Bitte Rothenfeld bis allerspätestens Sonntag abholen
+            Bitte hole die Artikel aus Deiner Bestellung so schnell wie möglich ab. Bitte Rothenfeld bis allerspätestens Sonntag abholen.
             Denk daran, Deine Bestellung als abgeholt zu markieren unter <a href="https://m.namiko.org/my-orders.php">Meine Bestellungen</a>.
         </p>';
         $text .= '<br><br>
