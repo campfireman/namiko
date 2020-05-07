@@ -331,20 +331,22 @@ class Cart
 
         if ($standardText) {
             $text .= '
-			<p>Hiermit, bestätigen wir, dass Deine Bestellung bei uns eingangen ist. Zur Übersicht noch einmal eine Aufstellung der Artikel:';
+			<p>Hiermit, bestätigen wir, dass Deine Bestellung bei uns eingangen ist. Zur Übersicht noch einmal eine Aufstellung der Artikel:</p>';
         } else {
             $text .= '
-            <p>Dies ist nur eine Benachrichtigung, dass Deine Vorbestellung (oder Teile davon) jetzt bestellt worden ist.</p>
+            <p>Dies ist nur eine Benachrichtigung, dass Deine Vorbestellung (oder Teile davon) jetzt zu einer Bestellung umgewandelt worden ist.</p>
             <p>Beachte die Nachrichten in Telegram zu dem Liefertermin.</p>
-            <p>Du kannst jetzt keine Artikel mehr aus dieser Bestellung löschen und musst auf diese Nachricht nicht weiter reagieren:</p>';
+            <p>Du kannst jetzt keine Artikel mehr aus dieser Bestellung löschen:</p>';
         }
-        $reminder = empty($this->order_ids) ? '' : 'Bitte hole die Artikel aus deiner Bestellung so schnell wie möglich ab';
+        $reminder = empty($this->order_ids) ? '' : '
+        <p>
+            Bitte hole die Artikel aus deiner Bestellung so schnell wie möglich ab. Bitte Rothenfeld bis allerspätestens Sonntag abholen
+            Denk daran, Deine Bestellung als abgeholt zu markieren unter <a href="https://m.namiko.org/my-orders.php">Meine Bestellungen</a>.
+        </p>';
         $text .= '<br><br>
 			' . $this->table . '
 			<br><br>
-			' . $reminder . '
-			Denk daran, Deine Bestellung als abgeholt zu markieren unter <a href="https://m.namiko.org/my-orders.php">Meine Bestellungen</a>.
-			</p>';
+			' . $reminder;
 
         // send mail
         $mail = new Mail($smtp_host, $smtp_username, $smtp_password, $myEmail, $myEntity);
