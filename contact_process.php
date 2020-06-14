@@ -24,7 +24,7 @@ if(isset($_POST["subject"])) {
 		$error = true;
 	}
 
-	if(!filter_var($_SESSION['email'], FILTER_VALIDATE_EMAIL)) {
+	if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 		$error = true;
 	}
 
