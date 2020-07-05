@@ -96,7 +96,7 @@ while ($row = $statement->fetch()) {
     echo "<td>" . $row['contribution'] . "€</td>";
     echo "</tr>";
     echo "<tr>";
-    echo "<th>Mitgliedsdarlehn</th>";
+    echo "<th>Mitgliedsdarlehen</th>";
     echo "<td>" . $row['loan'] . "€</td>";
     echo "</tr>";
     echo "<tr>";

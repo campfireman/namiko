@@ -37,7 +37,7 @@ if (isset($_POST['member'])) {
 			<span>
 			<i class="fa fa-info-circle" aria-hidden="true"></i> Bei jedem Einkauf geht der Verein in Vorleistung. Außerdem bestellen wir häufig Großgebinde, deswegen benötigen wir von unseren Mitgliedern ein Darlehen, um die notwendige Liquidität zu gewährleisten. Versuche die ungefähre Summe Deiner monatlichen Bestellungen abzuschätzen.
 			<br>
-			Der Darlehen wird spätestens 3 Monate nach dem Austritt zurückgezahlt. Nach Erhalt des Darlehns ist Dein Beitritt abgeschlossen. Der Darlehen, sowie alle anderen Posten werden per Lastschrift abgebucht.
+			Der Darlehen wird spätestens 3 Monate nach dem Austritt zurückgezahlt. Nach Erhalt des Darlehens ist Dein Beitritt abgeschlossen. Der Darlehen, sowie alle anderen Posten werden per Lastschrift abgebucht.
 			</span>
 		</div>
 

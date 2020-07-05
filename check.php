@@ -12,7 +12,7 @@ if ($_SESSION['error']) {
 if (isset($_POST['loaned'])) {
 
     if (!isset($_POST['agreeLoan'])) {
-        $_SESSION['errormsg'] = 'Du musst dem Darlehn zustimmen</div></div>';
+        $_SESSION['errormsg'] = 'Du musst dem Darlehen zustimmen</div></div>';
         $_SESSION['error'] = true;
         header("location: loan.php");
     }

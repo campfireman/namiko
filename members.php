@@ -184,7 +184,7 @@ if (isset($_POST['loanRecieved'])) {
                 $subject = 'Freischaltung Deines Accounts';
                 $text = '
 				<h1>Moin, ' . htmlspecialchars($first_name) . '!</h1>
-				<p>Dein Mitgliedsdarlehn ist eingetroffen. Du bist nun für Bestellungen freigeschaltet.</p>
+				<p>Dein Mitgliedsdarlehen ist eingetroffen. Du bist nun für Bestellungen freigeschaltet.</p>
 				<p>Schick uns deine Hanynummer per Email an kontakt@namiko.org, damit wir Dich in unsere Telegram Gruppe hinzufuegen koennen.</p>
 				<br><br><span style="font-style: italic">Dein namiko Hannover e.V. Team</span><br><br><br><br><br><br>
 				Bei Rückfragen einfach an kontakt@namiko.org schreiben.</p>';
@@ -340,7 +340,7 @@ if ($statement->rowCount() > 0) {
         echo "<td>";
         echo "<form method='post' action=" . htmlspecialchars($_SERVER['PHP_SELF']) . ">";
         echo "<input type='hidden' name='uid' value='" . $row['uid'] . "'>";
-        echo "<button type='submit' name='loanRecieved' class='empty'>Darlehn erhalten <i class='fa fa-question-circle-o' aria-hidden='true'></i></button>";
+        echo "<button type='submit' name='loanRecieved' class='empty'>Darlehen erhalten <i class='fa fa-question-circle-o' aria-hidden='true'></i></button>";
         echo "</form>";
         echo "</td>";
         echo "</tr>";
@@ -352,10 +352,10 @@ if ($statement->rowCount() > 0) {
 ?>
 			</div>
 			<div class="col-sm-6">
-				<span class="subtitle3">Darlehn einziehen</span><br><br>
+				<span class="subtitle3">Darlehen einziehen</span><br><br>
 				<span class="green emph">
 					<?php
-$statement = $pdo->prepare("SELECT * FROM users WHERE rights = 1 AND NOT EXISTS (SELECT * FROM loans WHERE loans.uid = users.uid)");
+$statement = $pdo->prepare("SELECT * FROM users WHERE NOT EXISTS (SELECT * FROM loans WHERE loans.uid = users.uid)");
 $result = $statement->execute();
 $count = $statement->rowCount();
 
@@ -369,7 +369,7 @@ if ($count > 0) {
         $total += $row['loan'];
     }
 
-    echo $count . " offene" . $singular . " Darlehn über " . $currency . sprintf("%01.2f", $total);
+    echo $count . " offene" . $singular . " Darlehen über " . $currency . sprintf("%01.2f", $total);
 } else {
     echo "Keine offenen Darlehen.";
 }
