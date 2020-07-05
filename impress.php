@@ -1,15 +1,15 @@
 <?php
 session_start();
-require_once("inc/config.inc.php");
-require_once("inc/functions.inc.php");
+require_once "inc/config.inc.php";
+require_once "inc/functions.inc.php";
 //ini_set('display_errors', 1);
 
 //Überprüfe, dass der User eingeloggt ist
 //Der Aufruf von check_user() muss in alle internen Seiten eingebaut sein
 
 $user = check_user();
-include("templates/header.inc.php");
-include("templates/nav.inc.php");
+include "templates/header.inc.php";
+include "templates/nav.inc.php";
 ?>
 
 
@@ -83,6 +83,6 @@ include("templates/nav.inc.php");
 </div>
 
 
-<?php 
-include("templates/footer.inc.php")
+<?php
+include "templates/footer.inc.php"
 ?>

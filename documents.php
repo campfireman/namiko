@@ -1,26 +1,26 @@
 <?php
 session_start();
-require_once("inc/config.inc.php");
-require_once("inc/functions.inc.php");
+require_once "inc/config.inc.php";
+require_once "inc/functions.inc.php";
 //ini_set('display_errors', 1);
 
 //Überprüfe, dass der User eingeloggt ist
 //Der Aufruf von check_user() muss in alle internen Seiten eingebaut sein
 $user = check_user();
 
-include("templates/header.inc.php");
-include("templates/nav.inc.php");
-include("templates/settings-nav.inc.php");
+include "templates/header.inc.php";
+include "templates/nav.inc.php";
+include "templates/settings-nav.inc.php";
 
 if (isset($_POST['application'])) {
 
-    $memberName = $user['uid'] .'_'. $user['first_name'] .'_'. $user['last_name'] .'_'. $user['verify_code']  .'.pdf';
+    $memberName = $user['uid'] . '_' . $user['first_name'] . '_' . $user['last_name'] . '_' . $user['verify_code'] . '.pdf';
 
-    $memDir = dirname(__FILE__). '/applications/'.$memberName;
+    $memDir = dirname(__FILE__) . '/applications/' . $memberName;
 
     header('Content-type:application/pdf');
     header('Content-Transfer-Encoding: Binary');
-    header('Content-disposition: attachment; filename="'. $memberName .'"');
+    header('Content-disposition: attachment; filename="' . $memberName . '"');
     while (ob_get_level()) {
         ob_end_clean();
     }
@@ -35,13 +35,13 @@ if (isset($_POST['mandate'])) {
     $result = $statement->execute();
     $mid = $statement->fetch();
 
-    $mandateName = $mid['mid'] .'_'. $user['first_name'] .'_'. $user['last_name'] .'_'. $user['verify_code']  .'.pdf';
+    $mandateName = $mid['mid'] . '_' . $user['first_name'] . '_' . $user['last_name'] . '_' . $user['verify_code'] . '.pdf';
 
-    $sepaDir = dirname(__FILE__). '/mandates/'.$mandateName;
+    $sepaDir = dirname(__FILE__) . '/mandates/' . $mandateName;
 
     header('Content-type:application/pdf');
     header('Content-Transfer-Encoding: Binary');
-    header('Content-disposition: attachment; filename="'. $mandateName .'"');
+    header('Content-disposition: attachment; filename="' . $mandateName . '"');
     while (ob_get_level()) {
         ob_end_clean();
     }
@@ -65,6 +65,6 @@ if (isset($_POST['mandate'])) {
         </form>
     </div>
 </div>
-<?php 
-include("templates/footer.inc.php")
+<?php
+include "templates/footer.inc.php"
 ?>

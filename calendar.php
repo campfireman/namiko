@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once("inc/config.inc.php");
-require_once("inc/functions.inc.php");
+require_once "inc/config.inc.php";
+require_once "inc/functions.inc.php";
 //ini_set('display_errors', 1);
 
 //Überprüfe, dass der User eingeloggt ist
@@ -9,46 +9,46 @@ require_once("inc/functions.inc.php");
 $user = check_user();
 check_admin();
 
-include("templates/header.inc.php");
-include("templates/nav.inc.php");
-include("templates/admin-nav.inc.php");
+include "templates/header.inc.php";
+include "templates/nav.inc.php";
+include "templates/admin-nav.inc.php";
 
 if (isset($_POST['event_type'])) {
-	$name = $_POST['event_name'];
-	$color = '#'. $_POST['color'];
+    $name = $_POST['event_name'];
+    $color = '#' . $_POST['color'];
 
-	$statement = $pdo->prepare("INSERT INTO event_types (name, color) VALUES (:name, :color)");
-	$result = $statement->execute(array('name' => $name, 'color' => $color));
+    $statement = $pdo->prepare("INSERT INTO event_types (name, color) VALUES (:name, :color)");
+    $result = $statement->execute(array('name' => $name, 'color' => $color));
 
-	if ($result) {
-		notify('Die Terminart wurde erfolgreich gespeichert.');
-	} else {
-		$_SESSION['notification'] = true;
-		$_SESSION['notificationmsg'] = 'Die Terminart konnte nicht gespeichert werden.';
-		header("location:". htmlspecialchars($_SERVER['PHP_SELF']));
-	}
+    if ($result) {
+        notify('Die Terminart wurde erfolgreich gespeichert.');
+    } else {
+        $_SESSION['notification'] = true;
+        $_SESSION['notificationmsg'] = 'Die Terminart konnte nicht gespeichert werden.';
+        header("location:" . htmlspecialchars($_SERVER['PHP_SELF']));
+    }
 }
 
 if (isset($_POST['event'])) {
-	$type = $_POST['type'];
-	$start = $_POST['date-start'] .' '. $_POST['time-start'];
-	$end = $_POST['date-end'].' '.$_POST['time-end'];
-	$created_by = $user['uid'];
+    $type = $_POST['type'];
+    $start = $_POST['date-start'] . ' ' . $_POST['time-start'];
+    $end = $_POST['date-end'] . ' ' . $_POST['time-end'];
+    $created_by = $user['uid'];
 
-	$statement = $pdo->prepare("INSERT INTO events (type, start, end, created_by) VALUES (:type, :start, :end, :created_by)");
-	$result = $statement->execute(array('type' => $type, 'start' => $start, 'end' => $end, 'created_by' => $created_by));
+    $statement = $pdo->prepare("INSERT INTO events (type, start, end, created_by) VALUES (:type, :start, :end, :created_by)");
+    $result = $statement->execute(array('type' => $type, 'start' => $start, 'end' => $end, 'created_by' => $created_by));
 
-	print_r($statement->errorInfo());
+    print_r($statement->errorInfo());
 
-	if ($result) {
-		$_SESSION['notification'] = true;
-		$_SESSION['notificationmsg'] = 'Das Event wurde erfolgreich gespeichert.';
-		header("location:". htmlspecialchars($_SERVER['PHP_SELF']));
-	} else {
-		$_SESSION['notification'] = true;
-		$_SESSION['notificationmsg'] = 'Das Event konnte nicht gespeichert werden.';
-		header("location:". htmlspecialchars($_SERVER['PHP_SELF']));
-	}
+    if ($result) {
+        $_SESSION['notification'] = true;
+        $_SESSION['notificationmsg'] = 'Das Event wurde erfolgreich gespeichert.';
+        header("location:" . htmlspecialchars($_SERVER['PHP_SELF']));
+    } else {
+        $_SESSION['notification'] = true;
+        $_SESSION['notificationmsg'] = 'Das Event konnte nicht gespeichert werden.';
+        header("location:" . htmlspecialchars($_SERVER['PHP_SELF']));
+    }
 }
 ?>
 
@@ -68,13 +68,13 @@ if (isset($_POST['event'])) {
 				<select name="type" required>
 					<option value="-1">- Terminart wählen -</option>
 					<?php
-					$statement = $pdo->prepare("SELECT * FROM event_types ORDER BY tyid");
-					$result = $statement->execute();
+$statement = $pdo->prepare("SELECT * FROM event_types ORDER BY tyid");
+$result = $statement->execute();
 
-					while ($row = $statement->fetch()) {
-						echo '<option value="'. $row['tyid'] .'" style="color: '. $row['color'] .'">'. $row['name'] .'</option>';
-					}
-					?>
+while ($row = $statement->fetch()) {
+    echo '<option value="' . $row['tyid'] . '" style="color: ' . $row['color'] . '">' . $row['name'] . '</option>';
+}
+?>
 				</select><br>
 				<span class="subtitle2">Anfang</span><br>
 				<label>Datum</label>
@@ -104,30 +104,30 @@ if (isset($_POST['event'])) {
 				</tr>
 			</thead>
 			<?php
-			$statement = $pdo->prepare("SELECT events.*, event_types.name, users.first_name, users.last_name FROM events LEFT JOIN event_types ON events.type = event_types.tyid LEFT JOIN users ON events.created_by = users.uid ORDER BY events.start");
-			$result = $statement->execute();
+$statement = $pdo->prepare("SELECT events.*, event_types.name, users.first_name, users.last_name FROM events LEFT JOIN event_types ON events.type = event_types.tyid LEFT JOIN users ON events.created_by = users.uid ORDER BY events.start");
+$result = $statement->execute();
 
-			if ($result) {
-				if ($statement->rowCount() > 0) {
-					while ($row = $statement->fetch()) {
-						echo '<tr>';
-						 echo '<td>'. $row['name'] .'</td>';
-						 echo '<td>'. $row['start'] .'</td>';
-						 echo '<td>'. $row['end'] .'</td>';
-						 echo '<td>'. $row['first_name'] .' '. $row['last_name'] .'</td>';
-						 echo '<form class="delete">';
-						 echo '<input type="hidden" name="eid" value="'. $row['eid'] .'">';
-						 echo '<td><button class="red empty" type="submit">&times;</button></td>';
-						 echo '</form>';
-						echo '</tr>';
-					}
-				} else {
-					echo 'Keine Termine gefunden.';
-				}
-			} else {
-				echo 'Fehler beim Abrufen der Termine.';
-			}
-			?>
+if ($result) {
+    if ($statement->rowCount() > 0) {
+        while ($row = $statement->fetch()) {
+            echo '<tr>';
+            echo '<td>' . $row['name'] . '</td>';
+            echo '<td>' . $row['start'] . '</td>';
+            echo '<td>' . $row['end'] . '</td>';
+            echo '<td>' . $row['first_name'] . ' ' . $row['last_name'] . '</td>';
+            echo '<form class="delete">';
+            echo '<input type="hidden" name="eid" value="' . $row['eid'] . '">';
+            echo '<td><button class="red empty" type="submit">&times;</button></td>';
+            echo '</form>';
+            echo '</tr>';
+        }
+    } else {
+        echo 'Keine Termine gefunden.';
+    }
+} else {
+    echo 'Fehler beim Abrufen der Termine.';
+}
+?>
 		</table>
 	</div>
 </div>
@@ -151,6 +151,6 @@ if (isset($_POST['event'])) {
 	});
 </script>
 
-<?php 
-include("templates/footer.inc.php")
+<?php
+include "templates/footer.inc.php"
 ?>

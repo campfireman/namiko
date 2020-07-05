@@ -1,15 +1,15 @@
 <?php
 
 session_start();
-require_once("inc/config.inc.php");
-require_once("inc/functions.inc.php");
+require_once "inc/config.inc.php";
+require_once "inc/functions.inc.php";
 
 //Überprüfe, dass der User eingeloggt ist
 //Der Aufruf von check_user() muss in alle internen Seiten eingebaut sein
 $user = check_user();
 
-include("templates/header.inc.php");
-include("templates/nav.inc.php");
+include "templates/header.inc.php";
+include "templates/nav.inc.php";
 
 ?>
 <div id="cartContent" class="sizer center-text spacer3">
@@ -23,5 +23,5 @@ include("templates/nav.inc.php");
 </script>
 
 <?php
-include("templates/footer.inc.php")
+include "templates/footer.inc.php"
 ?>

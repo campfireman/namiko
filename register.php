@@ -1,13 +1,13 @@
-<?php 
+<?php
 session_start();
-require_once("inc/config.inc.php");
-require_once("inc/functions.inc.php");
+require_once "inc/config.inc.php";
+require_once "inc/functions.inc.php";
 
-include("templates/header.inc.php");
+include "templates/header.inc.php";
 
 // create error if error = true
 if ($_SESSION['error']) {
-	echo $_SESSION['errortxt'] . $_SESSION['errormsg'];
+    echo $_SESSION['errortxt'] . $_SESSION['errormsg'];
 }
 
 // create SESSION variable for displaying error messages
@@ -73,11 +73,11 @@ $BIC = isset($_SESSION['bic']) ? $_SESSION['bic'] : "";
 
 			<div class="">
 				<input placeholder="Passwort" type="password" size="40"  maxlength="250" name="password" required>
-			</div> 
+			</div>
 
 			<div class="">
 				<input placeholder="Passwort wiederholen" type="password" size="40" maxlength="250" name="password2" required>
-			</div> 
+			</div>
 
 			<button class="register-btn" name="submit" type="submit">Weiter <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></button>
 		</form>
@@ -88,12 +88,12 @@ $BIC = isset($_SESSION['bic']) ? $_SESSION['bic'] : "";
 
 <script>
 
-// function for closing errors 
+// function for closing errors
 function close_error () {
 	var x = document.getElementsByClassName('error');
 	document.body.classList.remove('noscroll');
-	
-	// closing all errors 
+
+	// closing all errors
 	for (var i = 0; i <= x.item.length; i++) {
 		if (x.item(i) != null) {
 		x.item(i).style.height = '0';
@@ -101,6 +101,6 @@ function close_error () {
 	}
 }
 </script>
-<?php 
-include("templates/footer.inc.php")
+<?php
+include "templates/footer.inc.php"
 ?>

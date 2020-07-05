@@ -1,15 +1,15 @@
 <?php
 session_start();
-require_once("inc/config.inc.php");
-require_once("inc/functions.inc.php");
+require_once "inc/config.inc.php";
+require_once "inc/functions.inc.php";
 //ini_set('display_errors', 1);
 
 if (is_checked_in()) {
-	$user = check_user();
+    $user = check_user();
 }
 
-include("templates/header.inc.php");
-include("templates/nav.inc.php");
+include "templates/header.inc.php";
+include "templates/nav.inc.php";
 ?>
 
 <div class="sizer spacer">
@@ -264,6 +264,6 @@ include("templates/nav.inc.php");
 </div>
 
 
-<?php 
-include("templates/footer.inc.php")
+<?php
+include "templates/footer.inc.php"
 ?>

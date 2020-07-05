@@ -1,13 +1,14 @@
 <?php
 session_start(); //start session
 //ini_set('display_errors', 1);
-require_once("inc/config.inc.php"); //include config file
-require_once('inc/functions.inc.php');
-require_once('inc/Cart.inc.php');
+require_once "inc/config.inc.php"; //include config file
+require_once 'inc/functions.inc.php';
+require_once 'inc/Cart.inc.php';
 ini_set('display_errors', 1);
 
 $orders = [];
-function insertOrder($item) {
+function insertOrder($item)
+{
     global $orders;
     $uid = $item['uid'];
     $pro_id = $item['producer'];
@@ -15,7 +16,7 @@ function insertOrder($item) {
 
     if (array_key_exists($uid, $orders)) {
         if (array_key_exists($pid, $orders[$uid][$pro_id])) {
-           $orders[$uid][$pro_id][$pid]['quantity'] += $item['quantity'];
+            $orders[$uid][$pro_id][$pid]['quantity'] += $item['quantity'];
         } else {
             $orders[$uid][$pro_id][$pid] = $item;
         }
@@ -25,9 +26,9 @@ function insertOrder($item) {
 }
 
 ############# add products to session #########################
-if(isset($_POST["pid"])) {
+if (isset($_POST["pid"])) {
     foreach ($_POST['pid'] as $pos => $pid) {
-        $pid =  filter_var($pid, FILTER_SANITIZE_STRING);
+        $pid = filter_var($pid, FILTER_SANITIZE_STRING);
         $new_total['pid'] = $pid;
 
         $statement = $pdo->prepare("SELECT productName, container, priceContainer, producer, is_storage_item FROM products WHERE pid=:pid");
@@ -37,33 +38,33 @@ if(isset($_POST["pid"])) {
             res(1, json_encode($statement->errorInfo()));
         }
 
-        while($row = $statement->fetch()){ 
+        while ($row = $statement->fetch()) {
             $new_total["productName"] = $row['productName']; //fetch product name from database
-            $new_total["priceContainer"] = $row['priceContainer']; 
+            $new_total["priceContainer"] = $row['priceContainer'];
             $pro_id = $row['producer'];
             $new_total["container"] = $row['container']; //fetch product price from database
             $new_total["quantityContainer"] = $_POST['quantityContainer'][$pos];
             $new_total['is_storage_item'] = $row['is_storage_item'];
-            
-            if(isset($_SESSION["total"])){  //if session var already exist
-                if(isset($_SESSION["total"][$pro_id][$pid])) //check item exist in products array
+
+            if (isset($_SESSION["total"])) { //if session var already exist
+                if (isset($_SESSION["total"][$pro_id][$pid])) //check item exist in products array
                 {
                     unset($_SESSION["total"][$pro_id][$pid]); //unset old item
-                }           
+                }
             }
-            
-            $_SESSION["total"][$pro_id][$pid] = $new_total; //update products with new item array   
+
+            $_SESSION["total"][$pro_id][$pid] = $new_total; //update products with new item array
         }
     }
-    res(0, "Success"); //output json 
+    res(0, "Success"); //output json
 }
 
 ################## list products in cart ###################
-if(isset($_POST["load_cart"]) && $_POST["load_cart"] == 1) {
+if (isset($_POST["load_cart"]) && $_POST["load_cart"] == 1) {
 
-    if(isset($_SESSION["total"]) && count($_SESSION["total"]) > 0) { //if we have session variable
-       $count = 0;
-       $cart_box = "";
+    if (isset($_SESSION["total"]) && count($_SESSION["total"]) > 0) { //if we have session variable
+        $count = 0;
+        $cart_box = "";
         foreach ($_SESSION['total'] as $pro_id => $order_item) {
 
             $statement = $pdo->prepare("SELECT producerName FROM producers WHERE pro_id = '$pro_id'");
@@ -83,9 +84,9 @@ if(isset($_POST["load_cart"]) && $_POST["load_cart"] == 1) {
                 $cart_box .= '<div class="col-md-6">';
             }
 
-            $cart_box .= '  
+            $cart_box .= '
                             <div class="spacer">
-                            <span class="subtitle3">'. $producerName['producerName'] .'</span><br><br>
+                            <span class="subtitle3">' . $producerName['producerName'] . '</span><br><br>
                             <table class="cartTable">
                                 <tr>
                                     <th>Artikel</th>
@@ -93,22 +94,22 @@ if(isset($_POST["load_cart"]) && $_POST["load_cart"] == 1) {
                                     <th>Menge</th><th>&#931;</th>
                                 </tr>';
             $total = 0;
-            foreach($order_item as $product) { //loop though items and prepare html content
-                
+            foreach ($order_item as $product) { //loop though items and prepare html content
+
                 //set variables to use them in HTML content below
-                $productName = $product["productName"]; 
+                $productName = $product["productName"];
                 $is_storage_item = $product['is_storage_item'];
                 $priceContainer = $product["priceContainer"];
                 $pid = $product["pid"];
                 $quantity = $product["quantityContainer"];
                 $item_total = ($priceContainer * $quantity);
-                
-                $cart_box .=  ' <tr>
-                                    <td>'. $productName .'</td>
-                                    <td>'. $currency . sprintf("%01.2f", $priceContainer) .'</td>
-                                    <td>'. $quantity .'</td>
-                                    <td><input type="hidden" name="item_total" value="'. $item_total .'">'. $currency . sprintf("%01.2f", $item_total). '</td>
-                                    <td><a href="#" class="remove-item" data-pid="'. $pid. '" data-pro_id="'. $pro_id .'"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+
+                $cart_box .= ' <tr>
+                                    <td>' . $productName . '</td>
+                                    <td>' . $currency . sprintf("%01.2f", $priceContainer) . '</td>
+                                    <td>' . $quantity . '</td>
+                                    <td><input type="hidden" name="item_total" value="' . $item_total . '">' . $currency . sprintf("%01.2f", $item_total) . '</td>
+                                    <td><a href="#" class="remove-item" data-pid="' . $pid . '" data-pro_id="' . $pro_id . '"><i class="fa fa-trash-o" aria-hidden="true"></i></a></td>
                                 </tr>';
 
                 $subtotal = ($priceContainer * $quantity);
@@ -117,15 +118,15 @@ if(isset($_POST["load_cart"]) && $_POST["load_cart"] == 1) {
             $cart_box .= '  <tr>
                                 <td></td><td></td><td></td>
                                 <td class="emph">
-                                    <input type="hidden" name="total" value="'. $total .'">'. $currency. '
-                                    <span id="total">'.sprintf("%01.2f",$total).'</span>
+                                    <input type="hidden" name="total" value="' . $total . '">' . $currency . '
+                                    <span id="total">' . sprintf("%01.2f", $total) . '</span>
                                 </td>
                             </tr>
                             </table>
                             </div>';
-                            if ($item_count > 1) {
-                                $cart_box .= '</div>';
-                            }
+            if ($item_count > 1) {
+                $cart_box .= '</div>';
+            }
             if ($item_count > 1) {
                 if ($count == 2) {
                     $count = 0;
@@ -133,14 +134,14 @@ if(isset($_POST["load_cart"]) && $_POST["load_cart"] == 1) {
                 }
             }
 
-        } 
+        }
 
         $cart_box .= '  <br>
                         </div>';
-    
-        $cart_box.= '   </div>
+
+        $cart_box .= '   </div>
                         <div class="right spacer">
-                            <form action="//'. $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) .'/inventory.php" method="post">
+                            <form action="//' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/inventory.php" method="post">
                                 <button type="submit" class="clean-btn green" name="checkOut">Bestellung verbuchen <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></button>
                             </form>
                         </div>
@@ -154,18 +155,18 @@ if(isset($_POST["load_cart"]) && $_POST["load_cart"] == 1) {
 }
 
 ################# remove item from shopping cart ################
-if(isset($_GET["remove_pid"]) && isset($_SESSION["total"])) {
-    $pid   = filter_var($_GET["remove_pid"], FILTER_SANITIZE_STRING); //get the product code to remove
-    $pro_id   = filter_var($_GET["pro_id"], FILTER_SANITIZE_STRING); //get the product code to remove
+if (isset($_GET["remove_pid"]) && isset($_SESSION["total"])) {
+    $pid = filter_var($_GET["remove_pid"], FILTER_SANITIZE_STRING); //get the product code to remove
+    $pro_id = filter_var($_GET["pro_id"], FILTER_SANITIZE_STRING); //get the product code to remove
 
-    if(isset($_SESSION["total"][$pro_id][$pid])) {
+    if (isset($_SESSION["total"][$pro_id][$pid])) {
         unset($_SESSION["total"][$pro_id][$pid]);
 
         if (count($_SESSION["total"][$pro_id]) == 0) {
             unset($_SESSION["total"][$pro_id]);
         }
     }
-    
+
     die(json_encode(1));
 
 }
@@ -173,7 +174,7 @@ if(isset($_GET["remove_pid"]) && isset($_SESSION["total"])) {
 if (isset($_POST['delivered'])) {
     $tid = $_POST['tid'];
     try {
-        
+
         $db->lock(["order_total", "order_total_items", "inventory_items", "preorders", "preorder_items", "orders", "order_items", "products"], "WRITE");
         $pdo->beginTransaction();
 
@@ -207,13 +208,13 @@ if (isset($_POST['delivered'])) {
             $sum = 0;
 
             $statement2 = $pdo->prepare("
-                SELECT p.quantity, p.pid, p.total, p.oi_id, (p.total / p.quantity) AS price_KG_L, products.productName, products.unit_size, products.unit_tag, preorders.uid, products.producer 
+                SELECT p.quantity, p.pid, p.total, p.oi_id, (p.total / p.quantity) AS price_KG_L, products.productName, products.unit_size, products.unit_tag, preorders.uid, products.producer
                 FROM preorder_items AS p
-                LEFT JOIN preorders 
-                ON preorders.oid = p.oid 
+                LEFT JOIN preorders
+                ON preorders.oid = p.oid
                 LEFT JOIN products
                 ON p.pid = products.pid
-                WHERE p.transferred = 0 
+                WHERE p.transferred = 0
                 AND p.pid = '$pid'
                 ORDER BY preorders.created_at ASC");
 
@@ -300,7 +301,7 @@ if (isset($_GET['remove-order-total-item'])) {
 
         if ($result) {
             $count = $statement->rowCount();
-            
+
             $statement = $pdo->prepare("DELETE FROM order_total_items WHERE oti_id = :oti_id");
             $statement->bindParam('oti_id', $oti_id);
             $result = $statement->execute();
@@ -325,4 +326,3 @@ if (isset($_GET['remove-order-total-item'])) {
         res(1, $e->getMessage());
     }
 }
-?>

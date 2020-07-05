@@ -2,142 +2,141 @@
 /* Login functionality thanks to: https://github.com/PHP-Einfach/loginscript Thank you very much Nils Reimers! */
 
 session_start();
-require_once("inc/config.inc.php");
-require_once("inc/functions.inc.php");
+require_once "inc/config.inc.php";
+require_once "inc/functions.inc.php";
 
 //Überprüfe, dass der User eingeloggt ist
 //Der Aufruf von check_user() muss in alle internen Seiten eingebaut sein
 $user = check_user();
 check_consul();
 
-include("templates/header.inc.php");
-include("templates/nav.inc.php");
-include("templates/admin-nav.inc.php");
+include "templates/header.inc.php";
+include "templates/nav.inc.php";
+include "templates/admin-nav.inc.php";
 
+if (isset($_POST['product'])) {
 
-if(isset($_POST['product'])) {
+    $error = false;
+    $productName = trim($_POST['productName']);
+    $productDesc = trim($_POST['productDesc']);
+    $price_KG_L = $_POST['price_KG_L'];
+    $netto = $_POST['netto'];
+    $tax = $_POST['tax'];
+    $unit_size = $_POST['unit_size'];
+    $unit_tag = $_POST['unit_tag'];
+    $category = $_POST['category'];
+    $container = $_POST['container'];
+    $priceContainer = $_POST['priceContainer'];
+    $origin = $_POST['origin'];
+    $producer = $_POST['producer'];
 
-	$error = false;
-	$productName = trim($_POST['productName']);
-	$productDesc = trim($_POST['productDesc']);
-	$price_KG_L = $_POST['price_KG_L'];
-	$netto = $_POST['netto'];
-	$tax = $_POST['tax'];
-	$unit_size = $_POST['unit_size'];
-	$unit_tag = $_POST['unit_tag'];
-	$category = $_POST['category'];
-	$container = $_POST['container'];
-	$priceContainer = $_POST['priceContainer'];
-	$origin = $_POST['origin'];
-	$producer = $_POST['producer'];
-	
-	if(empty($productName) || empty($price_KG_L) || empty($category) || empty($container) || empty($origin) || empty($producer)) {
-		notify('Bitte alle Felder ausfüllen.');
-	}
+    if (empty($productName) || empty($price_KG_L) || empty($category) || empty($container) || empty($origin) || empty($producer)) {
+        notify('Bitte alle Felder ausfüllen.');
+    }
 
-	if ($category == 0 || $producer == 0) {
-		notify('Bitte eine Auswahl treffen.');
-	}
+    if ($category == 0 || $producer == 0) {
+        notify('Bitte eine Auswahl treffen.');
+    }
 
-	if (isset($_POST['is_storage_item'])) {
-		$is_storage_item = 1;
-	} else {
-		$is_storage_item = 0;
-	}
+    if (isset($_POST['is_storage_item'])) {
+        $is_storage_item = 1;
+    } else {
+        $is_storage_item = 0;
+    }
 
-	$statement = $pdo->prepare("INSERT INTO products (productName, productDesc, price_KG_L, netto, tax, unit_size, unit_tag, category, container, priceContainer, origin, producer, is_storage_item) VALUES (:productName, :productDesc, :price_KG_L, :netto, :tax, :unit_size, :unit_tag, :category, :container, :priceContainer, :origin, :producer, :is_storage_item)");
-	$result = $statement->execute(array('productName' => $productName, 'productDesc' => $productDesc, 'price_KG_L' => $price_KG_L, 'netto' => $netto, 'tax' => $tax, 'unit_size' => $unit_size, 'unit_tag' => $unit_tag, 'category' => $category, 'container' => $container, 'priceContainer' => $priceContainer, 'origin' => $origin, 'producer' => $producer, 'is_storage_item' => $is_storage_item));
-	
-	if($result) {
-		$pid = $pdo->lastInsertId();
-		$statement = $pdo->prepare("INSERT INTO inventory_items (pid, quantity_KG_L, last_edited_by) VALUES (:pid, :quantity_KG_L, :last_edited_by)");
-		$result = $statement->execute(array('pid' => $pid, 'quantity_KG_L' => 0, 'last_edited_by' => $user['uid']));
+    $statement = $pdo->prepare("INSERT INTO products (productName, productDesc, price_KG_L, netto, tax, unit_size, unit_tag, category, container, priceContainer, origin, producer, is_storage_item) VALUES (:productName, :productDesc, :price_KG_L, :netto, :tax, :unit_size, :unit_tag, :category, :container, :priceContainer, :origin, :producer, :is_storage_item)");
+    $result = $statement->execute(array('productName' => $productName, 'productDesc' => $productDesc, 'price_KG_L' => $price_KG_L, 'netto' => $netto, 'tax' => $tax, 'unit_size' => $unit_size, 'unit_tag' => $unit_tag, 'category' => $category, 'container' => $container, 'priceContainer' => $priceContainer, 'origin' => $origin, 'producer' => $producer, 'is_storage_item' => $is_storage_item));
 
-		if ($result) {
-			header('Location: '. $_SERVER['PHP_SELF']);
-		} else {
-			notify('Beim Abspeichern ist leider ein Fehler aufgetreten. '. json_encode($statement->errorInfo()));
-		}
-	} else {
-		notify('Beim Abspeichern ist leider ein Fehler aufgetreten. '. json_encode($statement->errorInfo()));
-	}
+    if ($result) {
+        $pid = $pdo->lastInsertId();
+        $statement = $pdo->prepare("INSERT INTO inventory_items (pid, quantity_KG_L, last_edited_by) VALUES (:pid, :quantity_KG_L, :last_edited_by)");
+        $result = $statement->execute(array('pid' => $pid, 'quantity_KG_L' => 0, 'last_edited_by' => $user['uid']));
+
+        if ($result) {
+            header('Location: ' . $_SERVER['PHP_SELF']);
+        } else {
+            notify('Beim Abspeichern ist leider ein Fehler aufgetreten. ' . json_encode($statement->errorInfo()));
+        }
+    } else {
+        notify('Beim Abspeichern ist leider ein Fehler aufgetreten. ' . json_encode($statement->errorInfo()));
+    }
 }
 
-if(isset($_POST['addCat'])) {
-	$category_name = $_POST['category_name'];
-	$categoryIMG = $_POST['categoryIMG1'] .'|'. $_POST['categoryIMG2'] .'|'. $_POST['categoryIMG3'] .'|'. $_POST['categoryIMG4'] .'|'. $_POST['categoryIMG5'] .'|'. $_POST['categoryIMG6'] .'|';
-	$error2 = false;
+if (isset($_POST['addCat'])) {
+    $category_name = $_POST['category_name'];
+    $categoryIMG = $_POST['categoryIMG1'] . '|' . $_POST['categoryIMG2'] . '|' . $_POST['categoryIMG3'] . '|' . $_POST['categoryIMG4'] . '|' . $_POST['categoryIMG5'] . '|' . $_POST['categoryIMG6'] . '|';
+    $error2 = false;
 
-	if (empty($category_name) || empty($categoryIMG)) {
-		notify('Bitte alle Felder ausfüllen.');
-	}
+    if (empty($category_name) || empty($categoryIMG)) {
+        notify('Bitte alle Felder ausfüllen.');
+    }
 
-	$statement = $pdo->prepare("INSERT INTO categories (category_name, categoryIMG) VALUES (:category_name, :categoryIMG)");
-	$result = $statement->execute(array('category_name' => $category_name, 'categoryIMG' => $categoryIMG));
+    $statement = $pdo->prepare("INSERT INTO categories (category_name, categoryIMG) VALUES (:category_name, :categoryIMG)");
+    $result = $statement->execute(array('category_name' => $category_name, 'categoryIMG' => $categoryIMG));
 
-	if ($result) {
-		notify('Kategorie erfolgreich gespeichert.');
-	} else {
-		notify('Es gab einen Fehler.');
-	}
-	
+    if ($result) {
+        notify('Kategorie erfolgreich gespeichert.');
+    } else {
+        notify('Es gab einen Fehler.');
+    }
+
 }
 
 /* Credit for this code fully goes to W3S: https://www.w3schools.com/php/php_file_upload.asp */
 
 // Check if image file is a actual image or fake image
-if(isset($_POST["upload"])) {
+if (isset($_POST["upload"])) {
 
-		$target_dir = "media/";
-		$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-		$uploadOk = 1;
-		$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+    $target_dir = "media/";
+    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-	    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-	    if($check !== false) {
-	        //echo "File is an image - " . $check["mime"] . ".";
-	        $uploadOk = 1;
+    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+    if ($check !== false) {
+        //echo "File is an image - " . $check["mime"] . ".";
+        $uploadOk = 1;
 
-	        // Check if file already exists
-			if (file_exists($target_file)) {
-			    $_SESSION['notification'] = true;
-				$_SESSION['notificationmsg'] = 'Diese Datei existiert bereits.';
-			    $uploadOk = 0;
-			}
-			// Check file size
-			if ($_FILES["fileToUpload"]["size"] > 500000) {
-			    $_SESSION['notification'] = true;
-				$_SESSION['notificationmsg'] = 'Die Datei ist zu groß.';
-			    $uploadOk = 0;
-			}
-			// Allow certain file formats
-			if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-			&& $imageFileType != "gif" ) {
-			    $_SESSION['notification'] = true;
-				$_SESSION['notificationmsg'] = 'Nur JPG, JPEG, PNG & GIF Dateien sind zulässig.';
-			    $uploadOk = 0;
-			}
-			// Check if $uploadOk is set to 0 by an error
-			if ($uploadOk == 0) {
-			    $_SESSION['notification'] = true;
-				$_SESSION['notificationmsg'] = 'Die Datei konnte nicht hochgeladen werden.';
-				header("Location: " . $_SERVER['REQUEST_URI']);
-			// if everything is ok, try to upload file
-			} else {
-			    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-			        $_SESSION['notification'] = true;
-					$_SESSION['notificationmsg'] = "Die Datei ". basename( $_FILES["fileToUpload"]["name"]). " wurde erfolgreich hochgeladen.";
-					header("Location: " . $_SERVER['REQUEST_URI']);
-			    } else {
-			        $_SESSION['notification'] = true;
-					$_SESSION['notificationmsg'] = "Es gab einen Fehler beim Upload.";
-					header("Location: " . $_SERVER['REQUEST_URI']);
-			    }
-			}
+        // Check if file already exists
+        if (file_exists($target_file)) {
+            $_SESSION['notification'] = true;
+            $_SESSION['notificationmsg'] = 'Diese Datei existiert bereits.';
+            $uploadOk = 0;
+        }
+        // Check file size
+        if ($_FILES["fileToUpload"]["size"] > 500000) {
+            $_SESSION['notification'] = true;
+            $_SESSION['notificationmsg'] = 'Die Datei ist zu groß.';
+            $uploadOk = 0;
+        }
+        // Allow certain file formats
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+            && $imageFileType != "gif") {
+            $_SESSION['notification'] = true;
+            $_SESSION['notificationmsg'] = 'Nur JPG, JPEG, PNG & GIF Dateien sind zulässig.';
+            $uploadOk = 0;
+        }
+        // Check if $uploadOk is set to 0 by an error
+        if ($uploadOk == 0) {
+            $_SESSION['notification'] = true;
+            $_SESSION['notificationmsg'] = 'Die Datei konnte nicht hochgeladen werden.';
+            header("Location: " . $_SERVER['REQUEST_URI']);
+            // if everything is ok, try to upload file
+        } else {
+            if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+                $_SESSION['notification'] = true;
+                $_SESSION['notificationmsg'] = "Die Datei " . basename($_FILES["fileToUpload"]["name"]) . " wurde erfolgreich hochgeladen.";
+                header("Location: " . $_SERVER['REQUEST_URI']);
+            } else {
+                $_SESSION['notification'] = true;
+                $_SESSION['notificationmsg'] = "Es gab einen Fehler beim Upload.";
+                header("Location: " . $_SERVER['REQUEST_URI']);
+            }
+        }
 
     } else {
         $_SESSION['notification'] = true;
-		$_SESSION['notificationmsg'] = 'Das ist keine Bilddatei.';
+        $_SESSION['notificationmsg'] = 'Das ist keine Bilddatei.';
         $uploadOk = 0;
     }
 }
@@ -149,34 +148,34 @@ if(isset($_POST["upload"])) {
 </button>
 </div>
 
-<div class="sizer spacer">			
+<div class="sizer spacer">
 	<div class="row">
-		<form class="form" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">	
+		<form class="form" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
 		<div class="col-sm-4">
 			<div><span class="subtitle2">Produkt hinzufügen</span></div>
-			
+
 				<div>
 					<label for="productName">Produktname</label><br>
 					<input placeholder="Produktname" type="text" id="productName" maxlength="50" name="productName" required>
 				</div>
-				
+
 				<div>
 					<label for="productDesc">Produktbeschreibung</label><br>
 					<textarea class="scroll" placeholder="Produktbeschreibung" type="text" id="productDesc" rows="3" maxlength="2000" name="productDesc"></textarea>
 				</div>
-				
+
 				<div>
 					<label for="category">Kategorie</label><br>
 					<select type="number" id="category" min="1" maxlength="10" name="category" required>
 						<option value="0">- Kategorie wälen -</option>
 					    <?php
-					    $statement = $pdo->prepare("SELECT * FROM categories ORDER BY cid");
-					    $result = $statement->execute();
+$statement = $pdo->prepare("SELECT * FROM categories ORDER BY cid");
+$result = $statement->execute();
 
-					    while($row = $statement->fetch()) {
-					    	echo '<option value="'. $row['cid'] .'">'. htmlspecialchars($row['category_name']) .'</option>';
-					    }
-					    ?>
+while ($row = $statement->fetch()) {
+    echo '<option value="' . $row['cid'] . '">' . htmlspecialchars($row['category_name']) . '</option>';
+}
+?>
 					</select>
 				</div>
 
@@ -190,13 +189,13 @@ if(isset($_POST["upload"])) {
 					<select type="number" min="1" maxlength="10" name="producer" required>
 						<option value="0">- Lieferant wälen -</option>
 					    <?php
-					    $statement = $pdo->prepare("SELECT * FROM producers ORDER BY pro_id");
-					    $result = $statement->execute();
+$statement = $pdo->prepare("SELECT * FROM producers ORDER BY pro_id");
+$result = $statement->execute();
 
-					    while($row = $statement->fetch()) {
-					    	echo '<option value="'. $row['pro_id'] .'">'. htmlspecialchars($row['producerName']) .'</option>';
-					    }
-					    ?>
+while ($row = $statement->fetch()) {
+    echo '<option value="' . $row['pro_id'] . '">' . htmlspecialchars($row['producerName']) . '</option>';
+}
+?>
 					</select>
 				</div>
 		</div>
@@ -241,8 +240,8 @@ if(isset($_POST["upload"])) {
 					<input  type="checkbox" name="is_storage_item" value="1">
 				</div><br>
 
-				
-			
+
+
 				<button class="clean-btn green" name="product" type="submit">Hinzufügen <i class="fa fa-plus" aria-hidden="true"></i></button>
 			</form><br><br>
 		</div>
@@ -273,7 +272,7 @@ if(isset($_POST["upload"])) {
 				</form>
 			</div>
 		</div>
-	</div>			 
+	</div>
 
 	<div class="spacer full">
 		<span class="subtitle2">Katalog verwalten</span><br><br>
@@ -287,17 +286,17 @@ if(isset($_POST["upload"])) {
 					<hr class="separator">
 					<div>
 						<?php
-						$statement = $pdo->prepare("SELECT * FROM categories ORDER BY cid");
-						$result = $statement->execute();
+$statement = $pdo->prepare("SELECT * FROM categories ORDER BY cid");
+$result = $statement->execute();
 
-						if ($statement->rowCount() > 0) {
-							while ($row = $statement->fetch()) {
-								echo '<div><label><input type="checkbox" name="category[]" class="category other" value="'. $row['cid'] .'"> '. $row['category_name'] .'</label></div>';
-							}
-						} else {
-							echo 'Keine Kategorien gefunden.';
-						}
-						?>
+if ($statement->rowCount() > 0) {
+    while ($row = $statement->fetch()) {
+        echo '<div><label><input type="checkbox" name="category[]" class="category other" value="' . $row['cid'] . '"> ' . $row['category_name'] . '</label></div>';
+    }
+} else {
+    echo 'Keine Kategorien gefunden.';
+}
+?>
 					</div>
 				</div>
 				<div class="indent spacer2 col-sm-6">
@@ -305,17 +304,17 @@ if(isset($_POST["upload"])) {
 					<div><label><input id="allprod" class="producer" type="checkbox" name="producer[]" value="0" id="all" checked> alle</label></div>
 					<hr class="separator">
 					<?php
-					$statement = $pdo->prepare("SELECT * FROM producers ORDER BY pro_id");
-					$result = $statement->execute();
+$statement = $pdo->prepare("SELECT * FROM producers ORDER BY pro_id");
+$result = $statement->execute();
 
-					if ($statement->rowCount() > 0) {
-						while ($row = $statement->fetch()) {
-							echo '<div><label><input type="checkbox" name="producer[]" class="otherprod" value="'. $row['pro_id'] .'" unchecked> '. $row['producerName'] .'</label></div>';
-						}
-					} else {
-						echo 'Keine Orte gefunden.';
-					}
-					?>
+if ($statement->rowCount() > 0) {
+    while ($row = $statement->fetch()) {
+        echo '<div><label><input type="checkbox" name="producer[]" class="otherprod" value="' . $row['pro_id'] . '" unchecked> ' . $row['producerName'] . '</label></div>';
+    }
+} else {
+    echo 'Keine Orte gefunden.';
+}
+?>
 				</div>
 				<br><button type="submit" name="filterSubmit" class="empty blue">Aktualisieren <i class="fa fa-repeat" aria-hidden="true"></i></button>
 			</form>
@@ -328,7 +327,7 @@ if(isset($_POST["upload"])) {
 				</div>
 			</div>
 			<div id="catalogue">
-				
+
 			</div>
 		</div>
 	</div>
@@ -381,7 +380,7 @@ $(document).ready(function() {
 			$('#catalogue').html(data.text);
 			$("table").fixMe();
 			removeLoader('#loadScreen');
-			
+
 			$('.netto').on('input', function() {
 				updatePrice($(this));
 				updateContainer($(this));
@@ -423,16 +422,16 @@ $(document).ready(function() {
 				}
 
 				var values = {
-					productName: productName, 
-					productDesc: productDesc, 
-					category: category, 
+					productName: productName,
+					productDesc: productDesc,
+					category: category,
 					netto: netto,
-					price_KG_L: price_KG_L, 
-					unit_tag: unit_tag, 
-					unit_size, unit_size, 
-					container: container, 
-					priceContainer: priceContainer, 
-					origin: origin, 
+					price_KG_L: price_KG_L,
+					unit_tag: unit_tag,
+					unit_size, unit_size,
+					container: container,
+					priceContainer: priceContainer,
+					origin: origin,
 					producer: producer,
 					is_storage_item: is_storage_item
 				};
@@ -467,7 +466,7 @@ $(document).ready(function() {
 					}
 				})
 			});
-		}); 
+		});
 	};
 	loadCatalogue('.filter');
 
@@ -519,6 +518,6 @@ $(document).ready(function() {
 
 </script>
 
-<?php 
-include("templates/footer.inc.php")
+<?php
+include "templates/footer.inc.php"
 ?>

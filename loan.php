@@ -1,33 +1,30 @@
-<?php 
+<?php
 session_start();
-require_once("inc/config.inc.php");
-require_once("inc/functions.inc.php");
+require_once "inc/config.inc.php";
+require_once "inc/functions.inc.php";
 
-include("templates/header.inc.php");
+include "templates/header.inc.php";
 
 if ($_SESSION['error']) {
-	echo $_SESSION['errortxt'] . $_SESSION['errormsg'];
+    echo $_SESSION['errortxt'] . $_SESSION['errormsg'];
 }
 
 if (isset($_POST['member'])) {
 
+    if (!isset($_POST['satzungUndOrdnung'])) {
+        $_SESSION['errormsg'] = 'Du musst unserer Satzung und Ordnung zustimmen</div></div>';
+        $_SESSION['error'] = true;
+        header("location: member.php");
+    }
 
-	if (!isset($_POST['satzungUndOrdnung'])) {
-		$_SESSION['errormsg'] = 'Du musst unserer Satzung und Ordnung zustimmen</div></div>';
-		$_SESSION['error'] = true;
-		header("location: member.php");
-	}
+    if (!$_SESSION['error']) {
+        $_SESSION['contribution'] = $_POST['contribution'];
+    }
 
-	if (!$_SESSION['error']) {
-		$_SESSION['contribution'] = $_POST['contribution'];
-	}
-
-
-	
 } else {
-	$_SESSION['errormsg'] = 'Du musst erst zustimmen</div></div>';
-	$_SESSION['error'] = true;
-	header("location: member.php");
+    $_SESSION['errormsg'] = 'Du musst erst zustimmen</div></div>';
+    $_SESSION['error'] = true;
+    header("location: member.php");
 }
 ?>
 
@@ -43,7 +40,7 @@ if (isset($_POST['member'])) {
 			Der Darlehen wird spätestens 3 Monate nach dem Austritt zurückgezahlt. Nach Erhalt des Darlehns ist Dein Beitritt abgeschlossen. Der Darlehen, sowie alle anderen Posten werden per Lastschrift abgebucht.
 			</span>
 		</div>
-		
+
 		<form action="check.php" method="post">
 			<div class="loan-btn">
 				<label>
@@ -91,7 +88,7 @@ function getLoan () {
 function close_error () {
 	var x = document.getElementsByClassName('error');
 	document.body.classList.remove('noscroll');
-	
+
 	for (var i = 0; i <= x.item.length; i++) {
 		if (x.item(i) != null) {
 		x.item(i).style.height = '0';
@@ -99,6 +96,6 @@ function close_error () {
 	}
 }
 </script>
-<?php 
-include("templates/footer.inc.php")
+<?php
+include "templates/footer.inc.php"
 ?>
