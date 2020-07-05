@@ -129,7 +129,7 @@ if (isset($_POST['loanPay'])) {
 			SELECT users.*, mandates.mid, mandates.created_at AS cd
 			FROM users
 			LEFT JOIN mandates ON users.uid = mandates.uid
-			WHERE users.rights = 1
+			WHERE users.rights >= 1
 			AND NOT EXISTS (SELECT * FROM loans WHERE loans.uid = users.uid)");
         $result = $statement->execute();
 
@@ -355,7 +355,7 @@ if ($statement->rowCount() > 0) {
 				<span class="subtitle3">Darlehen einziehen</span><br><br>
 				<span class="green emph">
 					<?php
-$statement = $pdo->prepare("SELECT * FROM users WHERE NOT EXISTS (SELECT * FROM loans WHERE loans.uid = users.uid)");
+$statement = $pdo->prepare("SELECT * FROM users WHERE NOT EXISTS users.rights >= 1 AND (SELECT * FROM loans WHERE loans.uid = users.uid)");
 $result = $statement->execute();
 $count = $statement->rowCount();
 
