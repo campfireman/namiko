@@ -111,6 +111,15 @@ if (isset($_POST['update-catalogue'])) {
                 if (!$result) {
                     throw new Exception(json_encode($statement->errorInfo()));
                 }
+
+                $statement = $pdo->prepare("UPDATE inventory_items SET quantity_KG_L = quantity_KG_L / :ratio WHERE pid = :pid");
+                $statement->bindValue('ratio', $ratio);
+                $statement->bindParam('pid', $pid);
+                $result = $statement->execute();
+
+                if (!$result) {
+                    throw new Exception(json_encode($statement->errorInfo()));
+                }
             }
 
             $statement = $pdo->prepare("UPDATE products SET productName = :productName, productDesc = :productDesc, category=:category, netto = :netto, price_KG_L = :price_KG_L, unit_size=:unit_size, unit_tag = :unit_tag, container = :container, priceContainer = :priceContainer, origin = :origin, producer = :producer, is_storage_item = :is_storage_item WHERE pid = :pid");
