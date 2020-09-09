@@ -237,7 +237,7 @@ if (isset($_POST['category']) && isset($_POST['producer'])) {
 				<th>Herkunft</th>
 				<th>Lieferant</th>
 				<th>Lagerware</th>
-				<th></th>
+				<th>Statistik</th>
 			</tr>
 		</thead>';
 
@@ -249,7 +249,7 @@ if (isset($_POST['category']) && isset($_POST['producer'])) {
         }
 
         $table .= '
-		<tr class="product update"><form action="' . htmlspecialchars($_SERVER['PHP_SELF']) . '" method="post">
+		<tr class="product update">
 			<td>' . $row['pid'] . '<input value="' . $row['pid'] . '" type="hidden" name="pid"></td>
 			<td><input class="empty" type="text" name="productName" value="' . $row['productName'] . '"></td>
 			<td><input class="empty" type="text" name="productDesc" value="' . $row['productDesc'] . '"></td>
@@ -267,8 +267,14 @@ if (isset($_POST['category']) && isset($_POST['producer'])) {
 			<td><input class="empty" type="text" name="origin" value="' . $row['origin'] . '"></td>
 			<td><select type="text" name="producer"><option value="' . $row['pro_id'] . '">' . $row['producerName'] . '</option>' . $select . '</select></td>
 			<td><input type="checkbox" name="is_storage_item" value="1"' . $is_storage_item . '></td>
+            <td>
+                <form method="POST">
+                    <input type="hidden" name="pid" value="' . $row['pid'] . '">
+                    <button class="empty" type="submit" name="statistics-csv" value=""><i class="fa fa-area-chart" aria-hidden="true"></i></button>
+                </form>
+            </td>
 			</tr>
-		</form></tr>';
+		</tr>';
     }
 
     $table .= '</table>';

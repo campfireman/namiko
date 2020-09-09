@@ -14,6 +14,54 @@ include "templates/header.inc.php";
 include "templates/nav.inc.php";
 include "templates/admin-nav.inc.php";
 
+if (isset($_POST['statistics-csv'])) {
+    $pid = $_POST['pid'];
+    $csv = array();
+
+    $statement = $pdo->prepare(
+        "SELECT
+			SUM(oi.quantity) AS sum,
+			p.unit_tag,
+			YEAR(o.created_at) AS year,
+			MONTH(o.created_at) AS month
+		FROM order_items AS oi
+				LEFT JOIN orders AS o ON o.oid = oi.oid
+				LEFT JOIN products AS p on oi.pid = p.pid
+		WHERE oi.pid = :pid
+		GROUP BY YEAR(o.created_at), MONTH(o.created_at)
+		");
+    $result = $statement->execute(array('pid' => $pid));
+    if (!$result) {
+        error(json_encode($statement->errorInfo()));
+    }
+    // loop over the rows, outputting them
+    while ($row = $statement->fetch()) {
+        $line = array($row['year'], $row['month'], $row['sum'], $row['unit_tag']);
+        array_push($csv, $line);
+    }
+
+    while (ob_get_level()) {
+        ob_end_clean();
+    }
+
+    header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename=product#' . $pid . '.csv');
+
+    // create a file pointer connected to the output stream
+    $output = fopen('php://output', 'w');
+
+    // output the column headings
+    fputcsv($output, array('Jahr', 'Monat', 'Menge', 'Einheit'));
+
+    foreach ($csv as $row) {
+        fputcsv($output, $row);
+    }
+
+    fclose($output);
+
+    exit();
+}
+
 if (isset($_POST['product'])) {
 
     $error = false;
