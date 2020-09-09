@@ -20,7 +20,7 @@ if (isset($_POST['statistics-csv'])) {
 
     $statement = $pdo->prepare(
         "SELECT
-			SUM(oi.quantity) AS sum,
+			SUM(oi.quantity) * p.unit_size AS sum,
 			p.unit_tag,
 			YEAR(o.created_at) AS year,
 			MONTH(o.created_at) AS month
