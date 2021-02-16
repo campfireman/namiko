@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 1.6.2
+
+- Versand nur an verifzierte Nutzer
+  
 ## Version 1.6.1
 
 - Neue Bestellbenachrichtigungen

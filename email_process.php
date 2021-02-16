@@ -9,17 +9,18 @@ if (isset($_POST["subject"])) {
     $subject = $_POST['subject'];
     $text = $_POST['text'];
     $query = "";
+    $userQuery = "SELECT email, first_name FROM users WHERE newsletter = 1 AND rights > 1";
 
     if (isset($_POST['others'])) {
         $query .= 'SELECT email, first_name FROM newsletter_recipients WHERE verified = 1';
 
         if (isset($_POST['members'])) {
-            $query .= ' UNION SELECT email, first_name FROM users WHERE newsletter = 1';
+            $query .= ' UNION ' . $userQuery;
         }
     }
 
     if (empty($_POST['others']) && isset($_POST['members'])) {
-        $query = ' SELECT email, first_name AS first_name FROM users';
+        $query = $userQuery;
     }
 
     if (empty($_POST['members']) && empty($_POST['others'])) {
